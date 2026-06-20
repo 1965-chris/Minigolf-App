@@ -7,6 +7,41 @@
         {
           "date": "2026-06-20",
           "year": "2026",
+          "groupId": "is0ohkr6",
+          "time": "18:40",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "86r4cyrh",
+          "scores": [
+            3,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "15": true
+          }
+        },
+        {
+          "date": "2026-06-20",
+          "year": "2026",
           "groupId": "tt5xta0t",
           "time": "17:24",
           "weather": [
@@ -68278,6 +68313,41 @@
       "name": "Anette",
       "rounds": [
         {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "is0ohkr6",
+          "time": "18:40",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "g9u19d0q",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            2
+          ],
+          "stars": {
+            "9": true
+          }
+        },
+        {
           "date": "2026-06-14",
           "year": "2026",
           "groupId": "qe4zeve1",
@@ -68309,6 +68379,41 @@
       "id": "f2efl6m2",
       "name": "Matthias",
       "rounds": [
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "is0ohkr6",
+          "time": "18:40",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "1oqers3p",
+          "scores": [
+            1,
+            4,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
         {
           "date": "2026-06-14",
           "year": "2026",
