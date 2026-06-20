@@ -5,6 +5,68 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "tt5xta0t",
+          "time": "17:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "c0ypm6zq",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "y4plabut",
+          "time": "16:10",
+          "id": "dbw475sx",
+          "scores": [
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            3
+          ],
+          "stars": {
+            "8": true
+          }
+        },
+        {
           "date": "2026-06-05",
           "year": "2026",
           "groupId": "b1kn6a90",
@@ -52097,6 +52159,36 @@
       "name": "Birgit",
       "rounds": [
         {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "y4plabut",
+          "time": "16:10",
+          "id": "6vtd6ixw",
+          "scores": [
+            2,
+            6,
+            2,
+            1,
+            2,
+            2,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            1
+          ],
+          "stars": {
+            "4": true
+          }
+        },
+        {
           "date": "2026-04-04",
           "year": "2026",
           "groupId": "age4abtx",
@@ -68014,6 +68106,264 @@
       ]
     },
     {
+      "id": "bkc9viw0",
+      "name": "Sylvia",
+      "rounds": [
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "tt5xta0t",
+          "time": "17:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "ub076b0c",
+          "scores": [
+            2,
+            2,
+            3,
+            5,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            3,
+            2,
+            2,
+            4,
+            1,
+            2,
+            2
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "c1sh9rns",
+          "weather": [
+            "cloud",
+            "wind"
+          ],
+          "id": "ln3iqw7t",
+          "scores": [
+            2,
+            1,
+            2,
+            4,
+            4,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            2,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gccblctp",
+      "name": "Gerd",
+      "rounds": [
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "tt5xta0t",
+          "time": "17:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "cheb8xpl",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "c1sh9rns",
+          "weather": [
+            "cloud",
+            "wind"
+          ],
+          "id": "4mi8hmll",
+          "scores": [
+            2,
+            1,
+            2,
+            5,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "w4kxdpvq",
+          "id": "syvq5sbs",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yc6i458y",
+      "name": "Anette",
+      "rounds": [
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "qe4zeve1",
+          "id": "20l48mvx",
+          "scores": [
+            1,
+            2,
+            7,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            5,
+            3,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f2efl6m2",
+      "name": "Matthias",
+      "rounds": [
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "wxftu0am",
+          "id": "q8rgn7x4",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "qe4zeve1",
+          "id": "d3vjh2pa",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
       "id": "p4",
       "name": "Verena",
       "rounds": [
@@ -68695,199 +69045,6 @@
       ]
     },
     {
-      "id": "bkc9viw0",
-      "name": "Sylvia",
-      "rounds": [
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "c1sh9rns",
-          "weather": [
-            "cloud",
-            "wind"
-          ],
-          "id": "ln3iqw7t",
-          "scores": [
-            2,
-            1,
-            2,
-            4,
-            4,
-            2,
-            1,
-            2,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            3,
-            3,
-            2,
-            5
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gccblctp",
-      "name": "Gerd",
-      "rounds": [
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "c1sh9rns",
-          "weather": [
-            "cloud",
-            "wind"
-          ],
-          "id": "4mi8hmll",
-          "scores": [
-            2,
-            1,
-            2,
-            5,
-            1,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            1,
-            2,
-            3,
-            2,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "w4kxdpvq",
-          "id": "syvq5sbs",
-          "scores": [
-            2,
-            2,
-            1,
-            1,
-            2,
-            3,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            4,
-            2,
-            1,
-            2,
-            1,
-            1
-          ]
-        }
-      ]
-    },
-    {
-      "id": "yc6i458y",
-      "name": "Anette",
-      "rounds": [
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "qe4zeve1",
-          "id": "20l48mvx",
-          "scores": [
-            1,
-            2,
-            7,
-            3,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            5,
-            3,
-            2
-          ]
-        }
-      ]
-    },
-    {
-      "id": "f2efl6m2",
-      "name": "Matthias",
-      "rounds": [
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "wxftu0am",
-          "id": "q8rgn7x4",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "qe4zeve1",
-          "id": "d3vjh2pa",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            1,
-            2,
-            3
-          ]
-        }
-      ]
-    },
-    {
-      "id": "5y1byc20",
-      "name": "Einball Turnier",
-      "rounds": []
-    },
-    {
       "id": "qylctrgj",
       "name": "Hans Jörg",
       "rounds": [
@@ -69029,6 +69186,11 @@
           }
         }
       ]
+    },
+    {
+      "id": "5y1byc20",
+      "name": "Einball Turnier",
+      "rounds": []
     }
   ],
   "pricing": {
