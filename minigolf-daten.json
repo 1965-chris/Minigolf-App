@@ -5,32 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2020-10-14",
-          "year": "2020",
-          "id": "gk48xirm",
-          "scores": [
-            2,
-            2,
-            3,
-            3,
-            1,
-            3,
-            2,
-            6,
-            5,
-            2,
-            2,
-            1,
-            3,
-            1,
-            2,
-            1,
-            2,
-            1
-          ],
-          "groupId": "m1ufju4m"
-        },
-        {
           "date": "2026-06-29",
           "year": "2026",
           "groupId": "b711cq58",
@@ -60,38 +34,6 @@
             3,
             2,
             1
-          ]
-        },
-        {
-          "date": "2026-06-12",
-          "year": "2026",
-          "groupId": "mbtn1kvj",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "25",
-          "windSpeed": "10",
-          "precipProbability": "9",
-          "id": "cors639e",
-          "scores": [
-            3,
-            1,
-            1,
-            2,
-            1,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2
           ]
         },
         {
@@ -680,8 +622,39 @@
             2,
             1,
             1
+          ]
+        },
+        {
+          "date": "2026-06-12",
+          "year": "2026",
+          "groupId": "mbtn1kvj",
+          "weather": [
+            "cloud"
           ],
-          "groupId": "0vq3zsl9"
+          "temperature": "25",
+          "windSpeed": "10",
+          "precipProbability": "9",
+          "id": "cors639e",
+          "scores": [
+            3,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2
+          ]
         },
         {
           "id": "Christian-2026-138",
@@ -956,8 +929,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "u14wn3q7"
+          ]
         },
         {
           "id": "Christian-2026-129",
@@ -1007,8 +979,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "g12v0sy6"
+          ]
         },
         {
           "date": "2026-06-05",
@@ -1115,8 +1086,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "k1taolbr"
+          ]
         },
         {
           "id": "Christian-2026-124",
@@ -1191,8 +1161,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "fyhlii0n"
+          ]
         },
         {
           "id": "Christian-2026-123",
@@ -1217,8 +1186,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "aectsw65"
+          ]
         },
         {
           "id": "Christian-2026-120",
@@ -1343,8 +1311,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "exz73bof"
+          ]
         },
         {
           "id": "Christian-2026-119",
@@ -1394,8 +1361,7 @@
             3,
             1,
             5
-          ],
-          "groupId": "b4mqurdk"
+          ]
         },
         {
           "id": "Christian-2026-115",
@@ -1420,8 +1386,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "6qjjzzki"
+          ]
         },
         {
           "id": "Christian-2026-112",
@@ -1446,8 +1411,7 @@
             4,
             4,
             2
-          ],
-          "groupId": "thutxmu6"
+          ]
         },
         {
           "id": "Christian-2026-113",
@@ -1472,8 +1436,7 @@
             2,
             1,
             7
-          ],
-          "groupId": "4v9e301i"
+          ]
         },
         {
           "id": "Christian-2026-110",
@@ -1523,8 +1486,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "6dkkcibf"
+          ]
         },
         {
           "id": "Christian-2026-107",
@@ -1574,8 +1536,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "njux7j64"
+          ]
         },
         {
           "id": "Christian-2026-109",
@@ -1600,8 +1561,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "u9mg5bwz"
+          ]
         },
         {
           "id": "Christian-2026-106",
@@ -1626,8 +1586,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "uogos122"
+          ]
         },
         {
           "id": "Christian-2026-104",
@@ -1652,8 +1611,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "p0te3yo1"
+          ]
         },
         {
           "id": "Christian-2026-105",
@@ -1678,8 +1636,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "7h2bj4pd"
+          ]
         },
         {
           "id": "Christian-2026-99",
@@ -1779,8 +1736,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "z7ycpm11"
+          ]
         },
         {
           "id": "Christian-2026-103",
@@ -1830,8 +1786,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "jvo8z93o"
+          ]
         },
         {
           "id": "Christian-2026-98",
@@ -1906,8 +1861,7 @@
             4,
             1,
             1
-          ],
-          "groupId": "0odpizhl"
+          ]
         },
         {
           "id": "Christian-2026-92",
@@ -2132,8 +2086,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "ahrazvq7"
+          ]
         },
         {
           "id": "Christian-2026-86",
@@ -2158,8 +2111,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "goqfjpzn"
+          ]
         },
         {
           "id": "Christian-2026-79",
@@ -2684,8 +2636,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "3buw7qmk"
+          ]
         },
         {
           "id": "Christian-2026-64",
@@ -2710,8 +2661,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "wxuhobbb"
+          ]
         },
         {
           "id": "Christian-2026-62",
@@ -2736,8 +2686,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "rn69b4f6"
+          ]
         },
         {
           "date": "2026-04-04",
@@ -2819,8 +2768,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "axbq843r"
+          ]
         },
         {
           "date": "2026-04-03",
@@ -3009,8 +2957,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "gg0s5rjr"
+          ]
         },
         {
           "id": "Christian-2026-56",
@@ -3035,8 +2982,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "4rbp1rvv"
+          ]
         },
         {
           "id": "Christian-2026-53",
@@ -3061,8 +3007,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "a48pnhk0"
+          ]
         },
         {
           "id": "Christian-2026-51",
@@ -3112,8 +3057,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "gkleaogm"
+          ]
         },
         {
           "id": "Christian-2026-47",
@@ -3288,8 +3232,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "frvpfqwg"
+          ]
         },
         {
           "id": "Christian-2026-44",
@@ -3314,8 +3257,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "ze8pe7jm"
+          ]
         },
         {
           "id": "Christian-2026-39",
@@ -3440,8 +3382,7 @@
             1,
             1,
             2
-          ],
-          "groupId": "19kgpkxf"
+          ]
         },
         {
           "id": "Christian-2026-33",
@@ -3641,8 +3582,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "nmmbuush"
+          ]
         },
         {
           "id": "Christian-2026-30",
@@ -3667,8 +3607,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "zubhrqhj"
+          ]
         },
         {
           "id": "Christian-2026-27",
@@ -3718,8 +3657,7 @@
             1,
             3,
             1
-          ],
-          "groupId": "2ui1h6x5"
+          ]
         },
         {
           "id": "Christian-2026-24",
@@ -3919,8 +3857,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "4ord3oec"
+          ]
         },
         {
           "id": "Christian-2025-333",
@@ -4045,8 +3982,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "ux5rmsu7"
+          ]
         },
         {
           "id": "Christian-2025-327",
@@ -4171,8 +4107,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "mal1xrla"
+          ]
         },
         {
           "id": "Christian-2025-319",
@@ -4822,8 +4757,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "0ll0awxf"
+          ]
         },
         {
           "id": "Christian-2025-297",
@@ -5023,8 +4957,7 @@
             3,
             3,
             1
-          ],
-          "groupId": "5pi51g4q"
+          ]
         },
         {
           "id": "Christian-2025-292",
@@ -5049,8 +4982,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "z8bjoagn"
+          ]
         },
         {
           "id": "Christian-2025-287",
@@ -5150,8 +5082,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "ljm06tkl"
+          ]
         },
         {
           "id": "Christian-2025-286",
@@ -5176,8 +5107,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "abhupgkk"
+          ]
         },
         {
           "id": "Christian-2025-283",
@@ -5277,8 +5207,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "too86kxs"
+          ]
         },
         {
           "id": "Christian-2025-281",
@@ -5303,8 +5232,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "k83go4q4"
+          ]
         },
         {
           "id": "Christian-2025-282",
@@ -5329,8 +5257,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "nr2z9i0f"
+          ]
         },
         {
           "id": "Christian-2025-273",
@@ -5505,8 +5432,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "xyyv7ooo"
+          ]
         },
         {
           "id": "Christian-2025-272",
@@ -5531,8 +5457,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "kxfkrtyb"
+          ]
         },
         {
           "id": "Christian-2025-267",
@@ -5582,8 +5507,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "635xgofl"
+          ]
         },
         {
           "id": "Christian-2025-269",
@@ -5608,8 +5532,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "44a128in"
+          ]
         },
         {
           "id": "Christian-2025-270",
@@ -5634,8 +5557,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "73z5253a"
+          ]
         },
         {
           "id": "Christian-2025-264",
@@ -5735,8 +5657,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "5deowayj"
+          ]
         },
         {
           "id": "Christian-2025-263",
@@ -5761,8 +5682,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "hlwmwkn3"
+          ]
         },
         {
           "id": "Christian-2025-259",
@@ -5912,8 +5832,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3ejn5keu"
+          ]
         },
         {
           "id": "Christian-2025-258",
@@ -5938,8 +5857,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "mokb81zu"
+          ]
         },
         {
           "id": "Christian-2025-254",
@@ -6014,8 +5932,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "1atkc7qk"
+          ]
         },
         {
           "id": "Christian-2025-252",
@@ -6040,8 +5957,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "8mn826qu"
+          ]
         },
         {
           "id": "Christian-2025-253",
@@ -6066,8 +5982,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "h812cvl4"
+          ]
         },
         {
           "id": "Christian-2025-247",
@@ -6117,8 +6032,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "hd1h6tfx"
+          ]
         },
         {
           "id": "Christian-2025-249",
@@ -6143,8 +6057,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "bw25ndsg"
+          ]
         },
         {
           "id": "Christian-2025-244",
@@ -6319,8 +6232,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "9pg43g4t"
+          ]
         },
         {
           "id": "Christian-2025-236",
@@ -6420,8 +6332,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "i0zlqg5m"
+          ]
         },
         {
           "id": "Christian-2025-233",
@@ -6671,8 +6582,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "0zoolrcr"
+          ]
         },
         {
           "id": "Christian-2025-224",
@@ -6697,8 +6607,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "st7m1vkz"
+          ]
         },
         {
           "id": "Christian-2025-225",
@@ -6723,8 +6632,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "j4bkdynl"
+          ]
         },
         {
           "id": "Christian-2025-223",
@@ -6749,8 +6657,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "1vycl7z5"
+          ]
         },
         {
           "id": "Christian-2025-221",
@@ -6875,8 +6782,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "dtelui7w"
+          ]
         },
         {
           "id": "Christian-2025-215",
@@ -6926,8 +6832,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8ph6mzid"
+          ]
         },
         {
           "id": "Christian-2025-217",
@@ -6952,8 +6857,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "65bdub1v"
+          ]
         },
         {
           "id": "Christian-2025-210",
@@ -7053,8 +6957,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "r483xu07"
+          ]
         },
         {
           "id": "Christian-2025-214",
@@ -7079,8 +6982,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "e7fowzg5"
+          ]
         },
         {
           "id": "Christian-2025-206",
@@ -7255,8 +7157,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "sk3074iq"
+          ]
         },
         {
           "id": "Christian-2025-205",
@@ -7281,8 +7182,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "mb9wm2xj"
+          ]
         },
         {
           "id": "Christian-2025-197",
@@ -7557,8 +7457,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "q22kz45p"
+          ]
         },
         {
           "id": "Christian-2025-187",
@@ -7658,8 +7557,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "yejgr19p"
+          ]
         },
         {
           "id": "Christian-2025-183",
@@ -7759,8 +7657,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "o5dh2tk4"
+          ]
         },
         {
           "id": "Christian-2025-181",
@@ -7860,8 +7757,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "fqginjcc"
+          ]
         },
         {
           "id": "Christian-2025-180",
@@ -7886,8 +7782,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "95xteqav"
+          ]
         },
         {
           "id": "Christian-2025-176",
@@ -8012,8 +7907,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "pkc0lhxp"
+          ]
         },
         {
           "id": "Christian-2025-175",
@@ -8038,8 +7932,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "l5z24ypk"
+          ]
         },
         {
           "id": "Christian-2025-169",
@@ -8189,8 +8082,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8ktyrnkx"
+          ]
         },
         {
           "id": "Christian-2025-159",
@@ -8315,8 +8207,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "u6nhcmdh"
+          ]
         },
         {
           "id": "Christian-2025-164",
@@ -8616,8 +8507,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "i2bts681"
+          ]
         },
         {
           "id": "Christian-2025-149",
@@ -8642,8 +8532,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "7hzhjazw"
+          ]
         },
         {
           "id": "Christian-2025-150",
@@ -8668,8 +8557,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "e9muomry"
+          ]
         },
         {
           "id": "Christian-2025-144",
@@ -8844,8 +8732,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "9wqjw6i5"
+          ]
         },
         {
           "id": "Christian-2025-143",
@@ -8870,8 +8757,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "e5nr342z"
+          ]
         },
         {
           "id": "Christian-2025-138",
@@ -8896,8 +8782,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "4aly73kn"
+          ]
         },
         {
           "id": "Christian-2025-132",
@@ -9372,8 +9257,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "2xuvm4ud"
+          ]
         },
         {
           "id": "Christian-2025-120",
@@ -9398,8 +9282,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "0amrcjzq"
+          ]
         },
         {
           "id": "Christian-2025-116",
@@ -9449,8 +9332,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "xgfd55u3"
+          ]
         },
         {
           "id": "Christian-2025-113",
@@ -9650,8 +9532,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "pa2j8e5b"
+          ]
         },
         {
           "id": "Christian-2025-110",
@@ -9676,8 +9557,7 @@
             1,
             3,
             3
-          ],
-          "groupId": "2be19is9"
+          ]
         },
         {
           "id": "Christian-2025-106",
@@ -9702,8 +9582,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "6hrxs2uf"
+          ]
         },
         {
           "id": "Christian-2025-105",
@@ -9728,8 +9607,7 @@
             3,
             3,
             1
-          ],
-          "groupId": "2harq0cj"
+          ]
         },
         {
           "id": "Christian-2025-98",
@@ -10354,8 +10232,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "q46hq31c"
+          ]
         },
         {
           "id": "Christian-2025-75",
@@ -10505,8 +10382,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "uvafvjs2"
+          ]
         },
         {
           "id": "Christian-2025-73",
@@ -10581,8 +10457,7 @@
             5,
             2,
             1
-          ],
-          "groupId": "pwbrwdox"
+          ]
         },
         {
           "id": "Christian-2025-72",
@@ -10607,8 +10482,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "1wa28s2j"
+          ]
         },
         {
           "id": "Christian-2025-66",
@@ -10783,8 +10657,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "4nw21lga"
+          ]
         },
         {
           "id": "Christian-2025-63",
@@ -10809,8 +10682,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "ywun5bif"
+          ]
         },
         {
           "id": "Christian-2025-58",
@@ -11010,8 +10882,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "d0sdql6n"
+          ]
         },
         {
           "id": "Christian-2025-51",
@@ -11211,8 +11082,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "bry3ygi9"
+          ]
         },
         {
           "id": "Christian-2025-46",
@@ -11237,8 +11107,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "62lv6o0b"
+          ]
         },
         {
           "id": "Christian-2025-44",
@@ -11263,8 +11132,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "4o4aviaz"
+          ]
         },
         {
           "id": "Christian-2025-42",
@@ -11439,8 +11307,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "ij4afj5o"
+          ]
         },
         {
           "id": "Christian-2025-37",
@@ -11465,8 +11332,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "2ejdbyv2"
+          ]
         },
         {
           "id": "Christian-2025-34",
@@ -11716,8 +11582,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "5j9wlt6r"
+          ]
         },
         {
           "id": "Christian-2025-24",
@@ -14917,8 +14782,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "k9x328ey"
+          ]
         },
         {
           "id": "Christian-2024-188",
@@ -14943,8 +14807,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "9l2xppdy"
+          ]
         },
         {
           "id": "Christian-2024-185",
@@ -14994,8 +14857,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "6wgtow7j"
+          ]
         },
         {
           "id": "Christian-2024-182",
@@ -15170,8 +15032,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "yvo9mwpq"
+          ]
         },
         {
           "id": "Christian-2024-178",
@@ -15196,8 +15057,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "6cj7czyo"
+          ]
         },
         {
           "id": "Christian-2024-174",
@@ -15247,8 +15107,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "w14x7jai"
+          ]
         },
         {
           "id": "Christian-2024-176",
@@ -15298,8 +15157,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8yfx7sch"
+          ]
         },
         {
           "id": "Christian-2024-173",
@@ -15324,8 +15182,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "quala4va"
+          ]
         },
         {
           "id": "Christian-2024-170",
@@ -15350,8 +15207,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3x9acwt0"
+          ]
         },
         {
           "id": "Christian-2024-171",
@@ -15376,8 +15232,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "1gbdib6h"
+          ]
         },
         {
           "id": "Christian-2024-168",
@@ -15452,8 +15307,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "ehm36bbc"
+          ]
         },
         {
           "id": "Christian-2024-167",
@@ -15478,8 +15332,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "0m69cehu"
+          ]
         },
         {
           "id": "Christian-2024-164",
@@ -15579,8 +15432,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "vzcq4e8l"
+          ]
         },
         {
           "id": "Christian-2024-159",
@@ -15630,8 +15482,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "e34uzv8k"
+          ]
         },
         {
           "id": "Christian-2024-161",
@@ -15656,8 +15507,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3yccl6uw"
+          ]
         },
         {
           "id": "Christian-2024-157",
@@ -15707,8 +15557,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "89zo2ly9"
+          ]
         },
         {
           "id": "Christian-2024-154",
@@ -15758,8 +15607,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "jz1kgl3n"
+          ]
         },
         {
           "id": "Christian-2024-156",
@@ -15784,8 +15632,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "tf1q544e"
+          ]
         },
         {
           "id": "Christian-2024-151",
@@ -15935,8 +15782,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "e05u818u"
+          ]
         },
         {
           "id": "Christian-2024-146",
@@ -16086,8 +15932,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "rjm2a95w"
+          ]
         },
         {
           "id": "Christian-2024-140",
@@ -16112,8 +15957,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8m494whz"
+          ]
         },
         {
           "id": "Christian-2024-141",
@@ -16138,8 +15982,7 @@
             5,
             1,
             1
-          ],
-          "groupId": "dhikiim2"
+          ]
         },
         {
           "id": "Christian-2024-135",
@@ -16264,8 +16107,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "wurnj2hu"
+          ]
         },
         {
           "id": "Christian-2024-134",
@@ -16315,8 +16157,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "xg32k0jy"
+          ]
         },
         {
           "id": "Christian-2024-133",
@@ -16341,8 +16182,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "e6zppg8u"
+          ]
         },
         {
           "id": "Christian-2024-130",
@@ -16367,8 +16207,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "oxcmjzix"
+          ]
         },
         {
           "id": "Christian-2024-131",
@@ -16393,8 +16232,7 @@
             3,
             3,
             2
-          ],
-          "groupId": "5icimrvm"
+          ]
         },
         {
           "id": "Christian-2024-128",
@@ -16419,8 +16257,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "6sptzwk2"
+          ]
         },
         {
           "id": "Christian-2024-129",
@@ -16445,8 +16282,7 @@
             1,
             1,
             2
-          ],
-          "groupId": "or4fr9d5"
+          ]
         },
         {
           "id": "Christian-2024-126",
@@ -16471,8 +16307,7 @@
             1,
             1,
             2
-          ],
-          "groupId": "vxvqykr5"
+          ]
         },
         {
           "id": "Christian-2024-127",
@@ -16497,8 +16332,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "scoaa39i"
+          ]
         },
         {
           "id": "Christian-2024-123",
@@ -16598,8 +16432,7 @@
             2,
             2,
             5
-          ],
-          "groupId": "3z3aso5k"
+          ]
         },
         {
           "id": "Christian-2024-122",
@@ -16624,8 +16457,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "kpqy13ts"
+          ]
         },
         {
           "id": "Christian-2024-118",
@@ -16900,8 +16732,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "twmvqcgd"
+          ]
         },
         {
           "id": "Christian-2024-108",
@@ -16926,8 +16757,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "38eyqdh0"
+          ]
         },
         {
           "id": "Christian-2024-109",
@@ -16952,8 +16782,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "bb0hr7oy"
+          ]
         },
         {
           "id": "Christian-2024-107",
@@ -16978,8 +16807,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3d0dv2fh"
+          ]
         },
         {
           "id": "Christian-2024-105",
@@ -17004,8 +16832,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "zym5jkks"
+          ]
         },
         {
           "id": "Christian-2024-106",
@@ -17030,8 +16857,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "la3dhdnz"
+          ]
         },
         {
           "id": "Christian-2024-102",
@@ -17081,8 +16907,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "m56nnx7s"
+          ]
         },
         {
           "id": "Christian-2024-104",
@@ -17307,8 +17132,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "fybzsx2v"
+          ]
         },
         {
           "id": "Christian-2024-93",
@@ -17333,8 +17157,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "00vsgf9c"
+          ]
         },
         {
           "id": "Christian-2024-92",
@@ -17359,8 +17182,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "8sq5txik"
+          ]
         },
         {
           "id": "Christian-2024-91",
@@ -17485,8 +17307,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "zdu4k24v"
+          ]
         },
         {
           "id": "Christian-2024-85",
@@ -17511,8 +17332,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "v09v9jif"
+          ]
         },
         {
           "id": "Christian-2024-86",
@@ -17537,8 +17357,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "offlz8im"
+          ]
         },
         {
           "id": "Christian-2024-82",
@@ -17638,8 +17457,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "2xwr1xca"
+          ]
         },
         {
           "id": "Christian-2024-81",
@@ -17664,8 +17482,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "m7wjs9yr"
+          ]
         },
         {
           "id": "Christian-2024-78",
@@ -17790,8 +17607,7 @@
             4,
             2,
             4
-          ],
-          "groupId": "r61hdw74"
+          ]
         },
         {
           "id": "Christian-2024-73",
@@ -17816,8 +17632,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "5gsugjnq"
+          ]
         },
         {
           "id": "Christian-2024-74",
@@ -17842,8 +17657,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "40ig6igm"
+          ]
         },
         {
           "id": "Christian-2024-70",
@@ -17993,8 +17807,7 @@
             1,
             3,
             3
-          ],
-          "groupId": "e5x7haez"
+          ]
         },
         {
           "id": "Christian-2024-69",
@@ -18019,8 +17832,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "ie1w358d"
+          ]
         },
         {
           "id": "Christian-2024-64",
@@ -18045,8 +17857,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "eksh5oim"
+          ]
         },
         {
           "id": "Christian-2024-65",
@@ -18071,8 +17882,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "qdsdjsjx"
+          ]
         },
         {
           "id": "Christian-2024-62",
@@ -18122,8 +17932,7 @@
             1,
             3,
             2
-          ],
-          "groupId": "9elo5kwk"
+          ]
         },
         {
           "id": "Christian-2024-60",
@@ -18148,8 +17957,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "4ucbmdhv"
+          ]
         },
         {
           "id": "Christian-2024-61",
@@ -18174,8 +17982,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "ad4hgzu8"
+          ]
         },
         {
           "id": "Christian-2024-57",
@@ -18275,8 +18082,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "maby31xn"
+          ]
         },
         {
           "id": "Christian-2024-56",
@@ -18301,8 +18107,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "1tpzbm97"
+          ]
         },
         {
           "id": "Christian-2024-54",
@@ -18327,8 +18132,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "mltfeudd"
+          ]
         },
         {
           "id": "Christian-2024-53",
@@ -18403,8 +18207,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "33yaj9da"
+          ]
         },
         {
           "id": "Christian-2024-49",
@@ -18479,8 +18282,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "7zsfpwai"
+          ]
         },
         {
           "id": "Christian-2024-48",
@@ -18505,8 +18307,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "fn7bpr4x"
+          ]
         },
         {
           "id": "Christian-2024-44",
@@ -18631,8 +18432,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "g3ir21ov"
+          ]
         },
         {
           "id": "Christian-2024-43",
@@ -18657,8 +18457,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "jtlesedd"
+          ]
         },
         {
           "id": "Christian-2024-40",
@@ -18683,8 +18482,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "t7v44r4j"
+          ]
         },
         {
           "id": "Christian-2024-38",
@@ -18934,8 +18732,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "g28xiw84"
+          ]
         },
         {
           "id": "Christian-2024-28",
@@ -18960,8 +18757,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "plkjar2j"
+          ]
         },
         {
           "id": "Christian-2024-29",
@@ -18986,8 +18782,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "yb0r7acz"
+          ]
         },
         {
           "id": "Christian-2024-25",
@@ -19062,8 +18857,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "txjiqmtl"
+          ]
         },
         {
           "id": "Christian-2024-24",
@@ -19088,8 +18882,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "om2480j2"
+          ]
         },
         {
           "id": "Christian-2023-341",
@@ -19589,8 +19382,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "73do91lu"
+          ]
         },
         {
           "id": "Christian-2023-321",
@@ -19915,8 +19707,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "e4a6b0f5"
+          ]
         },
         {
           "id": "Christian-2023-307",
@@ -19966,8 +19757,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "ypu22l84"
+          ]
         },
         {
           "id": "Christian-2023-309",
@@ -19992,8 +19782,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "8xqrdynt"
+          ]
         },
         {
           "id": "Christian-2023-304",
@@ -20043,8 +19832,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "3su85r12"
+          ]
         },
         {
           "id": "Christian-2023-306",
@@ -20069,8 +19857,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "ru2xjg7d"
+          ]
         },
         {
           "id": "Christian-2023-303",
@@ -20195,8 +19982,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "lu88n7np"
+          ]
         },
         {
           "id": "Christian-2023-297",
@@ -20646,8 +20432,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "lj9rz8cq"
+          ]
         },
         {
           "id": "Christian-2023-281",
@@ -20672,8 +20457,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "ap73aeh2"
+          ]
         },
         {
           "id": "Christian-2023-278",
@@ -20873,8 +20657,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "vv0m2b2e"
+          ]
         },
         {
           "id": "Christian-2023-270",
@@ -20924,8 +20707,7 @@
             1,
             1,
             3
-          ],
-          "groupId": "6lo83dxz"
+          ]
         },
         {
           "id": "Christian-2023-267",
@@ -20975,8 +20757,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "t9gbxw3f"
+          ]
         },
         {
           "id": "Christian-2023-269",
@@ -21001,8 +20782,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "ceuehykz"
+          ]
         },
         {
           "id": "Christian-2023-265",
@@ -21302,8 +21082,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "i3w35lgz"
+          ]
         },
         {
           "id": "Christian-2023-257",
@@ -21328,8 +21107,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "c9ue0m1p"
+          ]
         },
         {
           "id": "Christian-2023-258",
@@ -21354,8 +21132,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "66e5dwae"
+          ]
         },
         {
           "id": "Christian-2023-252",
@@ -21405,8 +21182,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "m35ogi7l"
+          ]
         },
         {
           "id": "Christian-2023-251",
@@ -21431,8 +21207,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "qz7rwyms"
+          ]
         },
         {
           "id": "Christian-2023-245",
@@ -21732,8 +21507,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "lu3b5pqs"
+          ]
         },
         {
           "id": "Christian-2023-234",
@@ -22033,8 +21807,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "wz0vi2se"
+          ]
         },
         {
           "id": "Christian-2023-224",
@@ -22084,8 +21857,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "e4l91cos"
+          ]
         },
         {
           "id": "Christian-2023-223",
@@ -22110,8 +21882,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "afsx3yvm"
+          ]
         },
         {
           "id": "Christian-2023-222",
@@ -22136,8 +21907,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "36w6dso0"
+          ]
         },
         {
           "id": "Christian-2023-218",
@@ -22437,8 +22207,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "3fa0z9h4"
+          ]
         },
         {
           "id": "Christian-2023-208",
@@ -22463,8 +22232,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "w56zrwlu"
+          ]
         },
         {
           "id": "Christian-2023-209",
@@ -22489,8 +22257,7 @@
             2,
             3,
             7
-          ],
-          "groupId": "ns4hsjwi"
+          ]
         },
         {
           "id": "Christian-2023-210",
@@ -22515,8 +22282,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "apzmcc43"
+          ]
         },
         {
           "id": "Christian-2023-206",
@@ -22541,8 +22307,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "bfrp14k6"
+          ]
         },
         {
           "id": "Christian-2023-204",
@@ -22567,8 +22332,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "onxn92dz"
+          ]
         },
         {
           "id": "Christian-2023-205",
@@ -22593,8 +22357,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "zv80v4qv"
+          ]
         },
         {
           "id": "Christian-2023-202",
@@ -22644,8 +22407,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "trggv6p8"
+          ]
         },
         {
           "id": "Christian-2023-198",
@@ -22745,8 +22507,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "ev3bxsev"
+          ]
         },
         {
           "id": "Christian-2023-195",
@@ -22796,8 +22557,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "rfeqa3k2"
+          ]
         },
         {
           "id": "Christian-2023-197",
@@ -22822,8 +22582,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "lhu5l93i"
+          ]
         },
         {
           "id": "Christian-2023-191",
@@ -22898,8 +22657,7 @@
             1,
             1,
             7
-          ],
-          "groupId": "wklc6nyn"
+          ]
         },
         {
           "id": "Christian-2023-194",
@@ -22924,8 +22682,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "zbqq9afz"
+          ]
         },
         {
           "id": "Christian-2023-188",
@@ -23000,8 +22757,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "mdhmwigy"
+          ]
         },
         {
           "id": "Christian-2023-187",
@@ -23151,8 +22907,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "hiyjo3g3"
+          ]
         },
         {
           "id": "Christian-2023-181",
@@ -23177,8 +22932,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "is84xf4y"
+          ]
         },
         {
           "id": "Christian-2023-179",
@@ -23278,8 +23032,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "5ssn6fks"
+          ]
         },
         {
           "id": "Christian-2023-176",
@@ -23304,8 +23057,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "a6eqbla3"
+          ]
         },
         {
           "id": "Christian-2023-175",
@@ -23405,8 +23157,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "nx36zad3"
+          ]
         },
         {
           "id": "Christian-2023-169",
@@ -23581,8 +23332,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "334l6mct"
+          ]
         },
         {
           "id": "Christian-2023-162",
@@ -23707,8 +23457,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "qhr61eb5"
+          ]
         },
         {
           "id": "Christian-2023-161",
@@ -23733,8 +23482,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "ibfz9tvy"
+          ]
         },
         {
           "id": "Christian-2023-157",
@@ -23784,8 +23532,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "pabf9ado"
+          ]
         },
         {
           "id": "Christian-2023-156",
@@ -24010,8 +23757,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "lswl0jg4"
+          ]
         },
         {
           "id": "Christian-2023-150",
@@ -24036,8 +23782,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "2g74r9pr"
+          ]
         },
         {
           "id": "Christian-2023-144",
@@ -24112,8 +23857,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "f6bxa22o"
+          ]
         },
         {
           "id": "Christian-2023-142",
@@ -24563,8 +24307,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "4jcdcf54"
+          ]
         },
         {
           "id": "Christian-2023-124",
@@ -24839,8 +24582,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "r3ls9ffd"
+          ]
         },
         {
           "id": "Christian-2023-114",
@@ -24865,8 +24607,7 @@
             3,
             1,
             7
-          ],
-          "groupId": "1rp5iypz"
+          ]
         },
         {
           "id": "Christian-2023-113",
@@ -24891,8 +24632,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "qpcdbbg3"
+          ]
         },
         {
           "id": "Christian-2023-111",
@@ -24992,8 +24732,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "45ugjty4"
+          ]
         },
         {
           "id": "Christian-2023-107",
@@ -25218,8 +24957,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "yychoua9"
+          ]
         },
         {
           "id": "Christian-2023-97",
@@ -25394,8 +25132,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "7mqxbtqh"
+          ]
         },
         {
           "id": "Christian-2023-94",
@@ -25420,8 +25157,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "hw027avi"
+          ]
         },
         {
           "id": "Christian-2023-90",
@@ -25746,8 +25482,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "u0v27qri"
+          ]
         },
         {
           "id": "Christian-2023-77",
@@ -25797,8 +25532,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "7bzqv381"
+          ]
         },
         {
           "id": "Christian-2023-76",
@@ -25873,8 +25607,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "pyg3xiw0"
+          ]
         },
         {
           "id": "Christian-2023-72",
@@ -26024,8 +25757,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "309wjf20"
+          ]
         },
         {
           "id": "Christian-2023-66",
@@ -26125,8 +25857,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "8ey4t0e3"
+          ]
         },
         {
           "id": "Christian-2023-65",
@@ -26151,8 +25882,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "w8jf5661"
+          ]
         },
         {
           "id": "Christian-2023-61",
@@ -26252,8 +25982,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "txtrhxjd"
+          ]
         },
         {
           "id": "Christian-2023-58",
@@ -26278,8 +26007,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "d8qyyn3q"
+          ]
         },
         {
           "id": "Christian-2023-56",
@@ -26354,8 +26082,7 @@
             1,
             3,
             3
-          ],
-          "groupId": "hqtpqqg6"
+          ]
         },
         {
           "id": "Christian-2023-54",
@@ -26530,8 +26257,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "tl0ctg5z"
+          ]
         },
         {
           "id": "Christian-2023-47",
@@ -26556,8 +26282,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "zmmnlldr"
+          ]
         },
         {
           "id": "Christian-2023-46",
@@ -26582,8 +26307,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "iokb1qwn"
+          ]
         },
         {
           "id": "Christian-2023-44",
@@ -26658,8 +26382,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "pdi7v925"
+          ]
         },
         {
           "id": "Christian-2023-41",
@@ -26734,8 +26457,7 @@
             3,
             3,
             1
-          ],
-          "groupId": "xbjc979s"
+          ]
         },
         {
           "id": "Christian-2023-37",
@@ -26810,8 +26532,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "s4kyfj5r"
+          ]
         },
         {
           "id": "Christian-2023-36",
@@ -26836,8 +26557,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "d9rxoake"
+          ]
         },
         {
           "id": "Christian-2023-35",
@@ -27112,8 +26832,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "iq8u123p"
+          ]
         },
         {
           "id": "Christian-2023-24",
@@ -33238,8 +32957,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "qfnpjr9z"
+          ]
         },
         {
           "id": "Christian-2022-49",
@@ -33314,8 +33032,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "lpuhdl25"
+          ]
         },
         {
           "id": "Christian-2022-47",
@@ -33390,8 +33107,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "85zrta8s"
+          ]
         },
         {
           "id": "Christian-2022-46",
@@ -33416,8 +33132,7 @@
             2,
             2,
             5
-          ],
-          "groupId": "spq7hrbk"
+          ]
         },
         {
           "id": "Christian-2022-42",
@@ -33467,8 +33182,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "7wi9m6fn"
+          ]
         },
         {
           "id": "Christian-2022-40",
@@ -33493,8 +33207,7 @@
             4,
             3,
             1
-          ],
-          "groupId": "17igh8n5"
+          ]
         },
         {
           "id": "Christian-2022-41",
@@ -33519,8 +33232,7 @@
             2,
             1,
             7
-          ],
-          "groupId": "q3z6s025"
+          ]
         },
         {
           "id": "Christian-2022-39",
@@ -33820,8 +33532,7 @@
             3,
             5,
             3
-          ],
-          "groupId": "hintlbxe"
+          ]
         },
         {
           "id": "Christian-2022-26",
@@ -36946,8 +36657,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "exkt9euc"
+          ]
         },
         {
           "id": "Christian-2020-242",
@@ -36972,8 +36682,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "mup7pkal"
+          ]
         },
         {
           "id": "Christian-2020-240",
@@ -36998,8 +36707,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "sszc9o6c"
+          ]
         },
         {
           "id": "Christian-2020-237",
@@ -37327,6 +37035,58 @@
           ]
         },
         {
+          "date": "2020-10-14",
+          "year": "2020",
+          "id": "shn3p3ez",
+          "scores": [
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            2,
+            6,
+            5,
+            2,
+            2,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            1
+          ],
+          "groupId": "peg8b2mb"
+        },
+        {
+          "date": "2020-10-14",
+          "year": "2020",
+          "id": "gk48xirm",
+          "scores": [
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            2,
+            6,
+            5,
+            2,
+            2,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            1
+          ],
+          "groupId": "m1ufju4m"
+        },
+        {
           "id": "Christian-2020-225",
           "date": "2020-10-11",
           "year": "2020",
@@ -37349,8 +37109,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "6k5ksoah"
+          ]
         },
         {
           "id": "Christian-2020-226",
@@ -37375,8 +37134,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "nv90gljv"
+          ]
         },
         {
           "id": "Christian-2020-224",
@@ -37401,8 +37159,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "fasv45ty"
+          ]
         },
         {
           "id": "Christian-2020-223",
@@ -37427,8 +37184,7 @@
             4,
             1,
             2
-          ],
-          "groupId": "4ayqzu0t"
+          ]
         },
         {
           "id": "Christian-2020-219",
@@ -38178,8 +37934,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "x8lgtcib"
+          ]
         },
         {
           "id": "Christian-2020-191",
@@ -38704,8 +38459,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "xfm8geur"
+          ]
         },
         {
           "id": "Christian-2020-171",
@@ -38930,8 +38684,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "1jmcp2bo"
+          ]
         },
         {
           "id": "Christian-2020-162",
@@ -39906,8 +39659,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "7f6jupr8"
+          ]
         },
         {
           "id": "Christian-2020-121",
@@ -40007,8 +39759,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "jix55kcx"
+          ]
         },
         {
           "id": "Christian-2020-119",
@@ -40658,8 +40409,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "0u1w2c8l"
+          ]
         },
         {
           "id": "Christian-2020-91",
@@ -42559,8 +42309,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "ch3c110x"
+          ]
         },
         {
           "id": "Christian-2019-264",
@@ -42860,8 +42609,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "qtezai7s"
+          ]
         },
         {
           "id": "Christian-2019-253",
@@ -43886,8 +43634,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "atdes0m0"
+          ]
         },
         {
           "id": "Christian-2019-212",
@@ -44687,8 +44434,7 @@
             2,
             2,
             4
-          ],
-          "groupId": "1qt0i4gw"
+          ]
         },
         {
           "id": "Christian-2019-178",
@@ -45088,8 +44834,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "h5xxw9c5"
+          ]
         },
         {
           "id": "Christian-2019-163",
@@ -45589,8 +45334,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "3e18f62o"
+          ]
         },
         {
           "id": "Christian-2019-144",
@@ -45740,8 +45484,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "4gnlqg04"
+          ]
         },
         {
           "id": "Christian-2019-135",
@@ -47591,8 +47334,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "mxqbitf7"
+          ]
         },
         {
           "id": "Christian-2019-63",
@@ -47742,8 +47484,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "sptzv93t"
+          ]
         },
         {
           "id": "Christian-2019-56",
@@ -53140,8 +52881,7 @@
             1,
             1,
             3
-          ],
-          "groupId": "0vq3zsl9"
+          ]
         },
         {
           "id": "Birgit-2026-52",
@@ -53166,8 +52906,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "g12v0sy6"
+          ]
         },
         {
           "id": "Birgit-2026-50",
@@ -53192,8 +52931,7 @@
             3,
             2,
             3
-          ],
-          "groupId": "fyhlii0n"
+          ]
         },
         {
           "id": "Birgit-2026-51",
@@ -53218,8 +52956,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "aectsw65"
+          ]
         },
         {
           "id": "Birgit-2026-48",
@@ -53244,8 +52981,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "b4mqurdk"
+          ]
         },
         {
           "id": "Birgit-2026-49",
@@ -53270,8 +53006,7 @@
             2,
             3,
             5
-          ],
-          "groupId": "6qjjzzki"
+          ]
         },
         {
           "id": "Birgit-2026-46",
@@ -53296,8 +53031,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "thutxmu6"
+          ]
         },
         {
           "id": "Birgit-2026-47",
@@ -53322,8 +53056,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "4v9e301i"
+          ]
         },
         {
           "id": "Birgit-2026-44",
@@ -53348,8 +53081,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "njux7j64"
+          ]
         },
         {
           "id": "Birgit-2026-45",
@@ -53374,8 +53106,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "u9mg5bwz"
+          ]
         },
         {
           "id": "Birgit-2026-43",
@@ -53400,8 +53131,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "uogos122"
+          ]
         },
         {
           "id": "Birgit-2026-41",
@@ -53426,8 +53156,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "p0te3yo1"
+          ]
         },
         {
           "id": "Birgit-2026-42",
@@ -53452,8 +53181,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "7h2bj4pd"
+          ]
         },
         {
           "id": "Birgit-2026-40",
@@ -53478,8 +53206,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "0odpizhl"
+          ]
         },
         {
           "id": "Birgit-2026-38",
@@ -53504,8 +53231,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "goqfjpzn"
+          ]
         },
         {
           "id": "Birgit-2026-39",
@@ -53530,8 +53256,7 @@
             4,
             2,
             2
-          ],
-          "groupId": "ahrazvq7"
+          ]
         },
         {
           "id": "Birgit-2026-36",
@@ -53556,8 +53281,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3buw7qmk"
+          ]
         },
         {
           "id": "Birgit-2026-37",
@@ -53582,8 +53306,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "wxuhobbb"
+          ]
         },
         {
           "id": "Birgit-2026-35",
@@ -53608,8 +53331,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "rn69b4f6"
+          ]
         },
         {
           "date": "2026-04-04",
@@ -53666,8 +53388,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "axbq843r"
+          ]
         },
         {
           "date": "2026-04-03",
@@ -53727,8 +53448,7 @@
             4,
             1,
             2
-          ],
-          "groupId": "gg0s5rjr"
+          ]
         },
         {
           "id": "Birgit-2026-33",
@@ -53753,8 +53473,7 @@
             3,
             3,
             4
-          ],
-          "groupId": "4rbp1rvv"
+          ]
         },
         {
           "id": "Birgit-2026-31",
@@ -53779,8 +53498,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "a48pnhk0"
+          ]
         },
         {
           "id": "Birgit-2026-30",
@@ -53805,8 +53523,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "gkleaogm"
+          ]
         },
         {
           "id": "Birgit-2026-28",
@@ -53831,8 +53548,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "frvpfqwg"
+          ]
         },
         {
           "id": "Birgit-2026-29",
@@ -53857,8 +53573,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "ze8pe7jm"
+          ]
         },
         {
           "id": "Birgit-2026-27",
@@ -53883,8 +53598,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "19kgpkxf"
+          ]
         },
         {
           "id": "Birgit-2026-25",
@@ -53909,8 +53623,7 @@
             1,
             2,
             4
-          ],
-          "groupId": "nmmbuush"
+          ]
         },
         {
           "id": "Birgit-2026-26",
@@ -53935,8 +53648,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "zubhrqhj"
+          ]
         },
         {
           "id": "Birgit-2026-24",
@@ -53961,8 +53673,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "2ui1h6x5"
+          ]
         },
         {
           "id": "Birgit-2025-92",
@@ -53987,8 +53698,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "4ord3oec"
+          ]
         },
         {
           "id": "Birgit-2025-91",
@@ -54013,8 +53723,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "ux5rmsu7"
+          ]
         },
         {
           "id": "Birgit-2025-90",
@@ -54039,8 +53748,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "mal1xrla"
+          ]
         },
         {
           "id": "Birgit-2025-89",
@@ -54065,8 +53773,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "0ll0awxf"
+          ]
         },
         {
           "id": "Birgit-2025-87",
@@ -54091,8 +53798,7 @@
             2,
             3,
             3
-          ],
-          "groupId": "5pi51g4q"
+          ]
         },
         {
           "id": "Birgit-2025-88",
@@ -54117,8 +53823,7 @@
             2,
             2,
             7
-          ],
-          "groupId": "z8bjoagn"
+          ]
         },
         {
           "id": "Birgit-2025-85",
@@ -54143,8 +53848,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "ljm06tkl"
+          ]
         },
         {
           "id": "Birgit-2025-86",
@@ -54169,8 +53873,7 @@
             5,
             1,
             1
-          ],
-          "groupId": "abhupgkk"
+          ]
         },
         {
           "id": "Birgit-2025-82",
@@ -54195,8 +53898,7 @@
             1,
             1,
             2
-          ],
-          "groupId": "too86kxs"
+          ]
         },
         {
           "id": "Birgit-2025-83",
@@ -54221,8 +53923,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "k83go4q4"
+          ]
         },
         {
           "id": "Birgit-2025-84",
@@ -54247,8 +53948,7 @@
             2,
             1,
             4
-          ],
-          "groupId": "nr2z9i0f"
+          ]
         },
         {
           "id": "Birgit-2025-80",
@@ -54273,8 +53973,7 @@
             3,
             2,
             3
-          ],
-          "groupId": "xyyv7ooo"
+          ]
         },
         {
           "id": "Birgit-2025-81",
@@ -54299,8 +53998,7 @@
             2,
             1,
             4
-          ],
-          "groupId": "kxfkrtyb"
+          ]
         },
         {
           "id": "Birgit-2025-77",
@@ -54325,8 +54023,7 @@
             5,
             1,
             2
-          ],
-          "groupId": "635xgofl"
+          ]
         },
         {
           "id": "Birgit-2025-78",
@@ -54351,8 +54048,7 @@
             4,
             3,
             2
-          ],
-          "groupId": "44a128in"
+          ]
         },
         {
           "id": "Birgit-2025-79",
@@ -54377,8 +54073,7 @@
             2,
             4,
             3
-          ],
-          "groupId": "73z5253a"
+          ]
         },
         {
           "id": "Birgit-2025-75",
@@ -54403,8 +54098,7 @@
             4,
             2,
             2
-          ],
-          "groupId": "5deowayj"
+          ]
         },
         {
           "id": "Birgit-2025-76",
@@ -54429,8 +54123,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "hlwmwkn3"
+          ]
         },
         {
           "id": "Birgit-2025-73",
@@ -54455,8 +54148,7 @@
             2,
             2,
             4
-          ],
-          "groupId": "3ejn5keu"
+          ]
         },
         {
           "id": "Birgit-2025-74",
@@ -54481,8 +54173,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "mokb81zu"
+          ]
         },
         {
           "id": "Birgit-2025-70",
@@ -54507,8 +54198,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "1atkc7qk"
+          ]
         },
         {
           "id": "Birgit-2025-71",
@@ -54533,8 +54223,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8mn826qu"
+          ]
         },
         {
           "id": "Birgit-2025-72",
@@ -54559,8 +54248,7 @@
             2,
             1,
             5
-          ],
-          "groupId": "h812cvl4"
+          ]
         },
         {
           "id": "Birgit-2025-68",
@@ -54585,8 +54273,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "hd1h6tfx"
+          ]
         },
         {
           "id": "Birgit-2025-69",
@@ -54611,8 +54298,7 @@
             2,
             2,
             4
-          ],
-          "groupId": "bw25ndsg"
+          ]
         },
         {
           "id": "Birgit-2025-67",
@@ -54637,8 +54323,7 @@
             2,
             5,
             1
-          ],
-          "groupId": "9pg43g4t"
+          ]
         },
         {
           "id": "Birgit-2025-66",
@@ -54663,8 +54348,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "i0zlqg5m"
+          ]
         },
         {
           "id": "Birgit-2025-65",
@@ -54689,8 +54373,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "0zoolrcr"
+          ]
         },
         {
           "id": "Birgit-2025-63",
@@ -54715,8 +54398,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "st7m1vkz"
+          ]
         },
         {
           "id": "Birgit-2025-64",
@@ -54741,8 +54423,7 @@
             3,
             3,
             1
-          ],
-          "groupId": "j4bkdynl"
+          ]
         },
         {
           "id": "Birgit-2025-62",
@@ -54767,8 +54448,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "1vycl7z5"
+          ]
         },
         {
           "id": "Birgit-2025-61",
@@ -54793,8 +54473,7 @@
             5,
             3,
             3
-          ],
-          "groupId": "dtelui7w"
+          ]
         },
         {
           "id": "Birgit-2025-59",
@@ -54819,8 +54498,7 @@
             2,
             1,
             5
-          ],
-          "groupId": "8ph6mzid"
+          ]
         },
         {
           "id": "Birgit-2025-60",
@@ -54845,8 +54523,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "65bdub1v"
+          ]
         },
         {
           "id": "Birgit-2025-57",
@@ -54871,8 +54548,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "r483xu07"
+          ]
         },
         {
           "id": "Birgit-2025-58",
@@ -54897,8 +54573,7 @@
             2,
             1,
             5
-          ],
-          "groupId": "e7fowzg5"
+          ]
         },
         {
           "id": "Birgit-2025-55",
@@ -54923,8 +54598,7 @@
             7,
             1,
             1
-          ],
-          "groupId": "sk3074iq"
+          ]
         },
         {
           "id": "Birgit-2025-56",
@@ -54949,8 +54623,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "mb9wm2xj"
+          ]
         },
         {
           "id": "Birgit-2025-54",
@@ -54975,8 +54648,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "q22kz45p"
+          ]
         },
         {
           "id": "Birgit-2025-53",
@@ -55001,8 +54673,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "yejgr19p"
+          ]
         },
         {
           "id": "Birgit-2025-52",
@@ -55027,8 +54698,7 @@
             2,
             3,
             7
-          ],
-          "groupId": "o5dh2tk4"
+          ]
         },
         {
           "id": "Birgit-2025-50",
@@ -55053,8 +54723,7 @@
             2,
             3,
             3
-          ],
-          "groupId": "fqginjcc"
+          ]
         },
         {
           "id": "Birgit-2025-51",
@@ -55079,8 +54748,7 @@
             1,
             1,
             4
-          ],
-          "groupId": "95xteqav"
+          ]
         },
         {
           "id": "Birgit-2025-48",
@@ -55105,8 +54773,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "pkc0lhxp"
+          ]
         },
         {
           "id": "Birgit-2025-49",
@@ -55131,8 +54798,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "l5z24ypk"
+          ]
         },
         {
           "id": "Birgit-2025-47",
@@ -55157,8 +54823,7 @@
             2,
             1,
             7
-          ],
-          "groupId": "8ktyrnkx"
+          ]
         },
         {
           "id": "Birgit-2025-44",
@@ -55183,8 +54848,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "i2bts681"
+          ]
         },
         {
           "id": "Birgit-2025-45",
@@ -55209,8 +54873,7 @@
             4,
             3,
             5
-          ],
-          "groupId": "7hzhjazw"
+          ]
         },
         {
           "id": "Birgit-2025-46",
@@ -55235,8 +54898,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "e9muomry"
+          ]
         },
         {
           "id": "Birgit-2025-42",
@@ -55261,8 +54923,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "9wqjw6i5"
+          ]
         },
         {
           "id": "Birgit-2025-43",
@@ -55287,8 +54948,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "e5nr342z"
+          ]
         },
         {
           "id": "Birgit-2025-41",
@@ -55313,8 +54973,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "4aly73kn"
+          ]
         },
         {
           "id": "Birgit-2025-39",
@@ -55339,8 +54998,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "2xuvm4ud"
+          ]
         },
         {
           "id": "Birgit-2025-40",
@@ -55365,8 +55023,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "0amrcjzq"
+          ]
         },
         {
           "id": "Birgit-2025-38",
@@ -55391,8 +55048,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "xgfd55u3"
+          ]
         },
         {
           "id": "Birgit-2025-36",
@@ -55417,8 +55073,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "pa2j8e5b"
+          ]
         },
         {
           "id": "Birgit-2025-37",
@@ -55443,8 +55098,7 @@
             4,
             1,
             3
-          ],
-          "groupId": "2be19is9"
+          ]
         },
         {
           "id": "Birgit-2025-35",
@@ -55469,8 +55123,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "6hrxs2uf"
+          ]
         },
         {
           "id": "Birgit-2025-34",
@@ -55495,8 +55148,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "2harq0cj"
+          ]
         },
         {
           "id": "Birgit-2025-33",
@@ -55521,8 +55173,7 @@
             7,
             1,
             2
-          ],
-          "groupId": "q46hq31c"
+          ]
         },
         {
           "id": "Birgit-2025-31",
@@ -55547,8 +55198,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "pwbrwdox"
+          ]
         },
         {
           "id": "Birgit-2025-32",
@@ -55573,8 +55223,7 @@
             3,
             1,
             7
-          ],
-          "groupId": "1wa28s2j"
+          ]
         },
         {
           "id": "Birgit-2025-30",
@@ -55599,8 +55248,7 @@
             2,
             1,
             4
-          ],
-          "groupId": "d0sdql6n"
+          ]
         },
         {
           "id": "Birgit-2025-28",
@@ -55625,8 +55273,7 @@
             4,
             3,
             2
-          ],
-          "groupId": "bry3ygi9"
+          ]
         },
         {
           "id": "Birgit-2025-29",
@@ -55651,8 +55298,7 @@
             4,
             3,
             3
-          ],
-          "groupId": "62lv6o0b"
+          ]
         },
         {
           "id": "Birgit-2025-27",
@@ -55677,8 +55323,7 @@
             4,
             3,
             2
-          ],
-          "groupId": "4o4aviaz"
+          ]
         },
         {
           "id": "Birgit-2025-25",
@@ -55703,8 +55348,7 @@
             1,
             1,
             5
-          ],
-          "groupId": "ij4afj5o"
+          ]
         },
         {
           "id": "Birgit-2025-26",
@@ -55729,8 +55373,7 @@
             2,
             3,
             7
-          ],
-          "groupId": "2ejdbyv2"
+          ]
         },
         {
           "id": "Birgit-2025-24",
@@ -55755,8 +55398,7 @@
             2,
             3,
             4
-          ],
-          "groupId": "5j9wlt6r"
+          ]
         },
         {
           "id": "Birgit-2024-128",
@@ -57031,8 +56673,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "k9x328ey"
+          ]
         },
         {
           "id": "Birgit-2024-79",
@@ -57057,8 +56698,7 @@
             2,
             5,
             1
-          ],
-          "groupId": "9l2xppdy"
+          ]
         },
         {
           "id": "Birgit-2024-77",
@@ -57083,8 +56723,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "6wgtow7j"
+          ]
         },
         {
           "id": "Birgit-2024-75",
@@ -57109,8 +56748,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "yvo9mwpq"
+          ]
         },
         {
           "id": "Birgit-2024-76",
@@ -57135,8 +56773,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "6cj7czyo"
+          ]
         },
         {
           "id": "Birgit-2024-74",
@@ -57161,8 +56798,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "w14x7jai"
+          ]
         },
         {
           "id": "Birgit-2024-72",
@@ -57187,8 +56823,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "8yfx7sch"
+          ]
         },
         {
           "id": "Birgit-2024-73",
@@ -57213,8 +56848,7 @@
             4,
             3,
             6
-          ],
-          "groupId": "quala4va"
+          ]
         },
         {
           "id": "Birgit-2024-71",
@@ -57239,8 +56873,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "3x9acwt0"
+          ]
         },
         {
           "id": "Birgit-2024-69",
@@ -57265,8 +56898,7 @@
             5,
             2,
             1
-          ],
-          "groupId": "ehm36bbc"
+          ]
         },
         {
           "id": "Birgit-2024-70",
@@ -57291,8 +56923,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "0m69cehu"
+          ]
         },
         {
           "id": "Birgit-2024-67",
@@ -57317,8 +56948,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "e34uzv8k"
+          ]
         },
         {
           "id": "Birgit-2024-68",
@@ -57343,8 +56973,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "3yccl6uw"
+          ]
         },
         {
           "id": "Birgit-2024-66",
@@ -57369,8 +56998,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "89zo2ly9"
+          ]
         },
         {
           "id": "Birgit-2024-64",
@@ -57395,8 +57023,7 @@
             2,
             2,
             3
-          ],
-          "groupId": "jz1kgl3n"
+          ]
         },
         {
           "id": "Birgit-2024-65",
@@ -57421,8 +57048,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "tf1q544e"
+          ]
         },
         {
           "id": "Birgit-2024-63",
@@ -57447,8 +57073,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "e05u818u"
+          ]
         },
         {
           "id": "Birgit-2024-62",
@@ -57473,8 +57098,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "rjm2a95w"
+          ]
         },
         {
           "id": "Birgit-2024-60",
@@ -57499,8 +57123,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "8m494whz"
+          ]
         },
         {
           "id": "Birgit-2024-61",
@@ -57525,8 +57148,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "dhikiim2"
+          ]
         },
         {
           "id": "Birgit-2024-59",
@@ -57551,8 +57173,7 @@
             2,
             6,
             2
-          ],
-          "groupId": "wurnj2hu"
+          ]
         },
         {
           "id": "Birgit-2024-57",
@@ -57577,8 +57198,7 @@
             5,
             3,
             4
-          ],
-          "groupId": "6sptzwk2"
+          ]
         },
         {
           "id": "Birgit-2024-58",
@@ -57603,8 +57223,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "or4fr9d5"
+          ]
         },
         {
           "id": "Birgit-2024-55",
@@ -57629,8 +57248,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "vxvqykr5"
+          ]
         },
         {
           "id": "Birgit-2024-56",
@@ -57655,8 +57273,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "scoaa39i"
+          ]
         },
         {
           "id": "Birgit-2024-53",
@@ -57681,8 +57298,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "3z3aso5k"
+          ]
         },
         {
           "id": "Birgit-2024-54",
@@ -57707,8 +57323,7 @@
             3,
             1,
             7
-          ],
-          "groupId": "kpqy13ts"
+          ]
         },
         {
           "id": "Birgit-2024-52",
@@ -57733,8 +57348,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "3d0dv2fh"
+          ]
         },
         {
           "id": "Birgit-2024-50",
@@ -57759,8 +57373,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "zym5jkks"
+          ]
         },
         {
           "id": "Birgit-2024-51",
@@ -57785,8 +57398,7 @@
             4,
             1,
             1
-          ],
-          "groupId": "la3dhdnz"
+          ]
         },
         {
           "id": "Birgit-2024-49",
@@ -57811,8 +57423,7 @@
             3,
             1,
             5
-          ],
-          "groupId": "m56nnx7s"
+          ]
         },
         {
           "id": "Birgit-2024-48",
@@ -57837,8 +57448,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "fybzsx2v"
+          ]
         },
         {
           "id": "Birgit-2024-47",
@@ -57863,8 +57473,7 @@
             1,
             2,
             3
-          ],
-          "groupId": "00vsgf9c"
+          ]
         },
         {
           "id": "Birgit-2024-46",
@@ -57889,8 +57498,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "8sq5txik"
+          ]
         },
         {
           "id": "Birgit-2024-45",
@@ -57915,8 +57523,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "zdu4k24v"
+          ]
         },
         {
           "id": "Birgit-2024-43",
@@ -57941,8 +57548,7 @@
             1,
             1,
             1
-          ],
-          "groupId": "v09v9jif"
+          ]
         },
         {
           "id": "Birgit-2024-44",
@@ -57967,8 +57573,7 @@
             2,
             2,
             6
-          ],
-          "groupId": "offlz8im"
+          ]
         },
         {
           "id": "Birgit-2024-41",
@@ -57993,8 +57598,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "5gsugjnq"
+          ]
         },
         {
           "id": "Birgit-2024-42",
@@ -58019,8 +57623,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "40ig6igm"
+          ]
         },
         {
           "id": "Birgit-2024-39",
@@ -58045,8 +57648,7 @@
             1,
             2,
             1
-          ],
-          "groupId": "e5x7haez"
+          ]
         },
         {
           "id": "Birgit-2024-40",
@@ -58071,8 +57673,7 @@
             2,
             7,
             2
-          ],
-          "groupId": "ie1w358d"
+          ]
         },
         {
           "id": "Birgit-2024-37",
@@ -58097,8 +57698,7 @@
             1,
             1,
             4
-          ],
-          "groupId": "eksh5oim"
+          ]
         },
         {
           "id": "Birgit-2024-38",
@@ -58123,8 +57723,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "qdsdjsjx"
+          ]
         },
         {
           "id": "Birgit-2024-36",
@@ -58149,8 +57748,7 @@
             3,
             1,
             6
-          ],
-          "groupId": "9elo5kwk"
+          ]
         },
         {
           "id": "Birgit-2024-34",
@@ -58175,8 +57773,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "4ucbmdhv"
+          ]
         },
         {
           "id": "Birgit-2024-35",
@@ -58201,8 +57798,7 @@
             3,
             1,
             2
-          ],
-          "groupId": "ad4hgzu8"
+          ]
         },
         {
           "id": "Birgit-2024-32",
@@ -58227,8 +57823,7 @@
             2,
             2,
             7
-          ],
-          "groupId": "maby31xn"
+          ]
         },
         {
           "id": "Birgit-2024-33",
@@ -58253,8 +57848,7 @@
             3,
             1,
             4
-          ],
-          "groupId": "1tpzbm97"
+          ]
         },
         {
           "id": "Birgit-2024-31",
@@ -58279,8 +57873,7 @@
             3,
             5,
             1
-          ],
-          "groupId": "mltfeudd"
+          ]
         },
         {
           "id": "Birgit-2024-30",
@@ -58305,8 +57898,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "33yaj9da"
+          ]
         },
         {
           "id": "Birgit-2024-28",
@@ -58331,8 +57923,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "g3ir21ov"
+          ]
         },
         {
           "id": "Birgit-2024-29",
@@ -58357,8 +57948,7 @@
             5,
             1,
             6
-          ],
-          "groupId": "jtlesedd"
+          ]
         },
         {
           "id": "Birgit-2024-27",
@@ -58383,8 +57973,7 @@
             3,
             1,
             2
-          ],
-          "groupId": "t7v44r4j"
+          ]
         },
         {
           "id": "Birgit-2024-26",
@@ -58409,8 +57998,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "g28xiw84"
+          ]
         },
         {
           "id": "Birgit-2024-25",
@@ -58435,8 +58023,7 @@
             5,
             2,
             1
-          ],
-          "groupId": "txjiqmtl"
+          ]
         },
         {
           "id": "Birgit-2024-24",
@@ -58461,8 +58048,7 @@
             4,
             1,
             1
-          ],
-          "groupId": "om2480j2"
+          ]
         },
         {
           "id": "Birgit-2023-95",
@@ -58512,8 +58098,7 @@
             3,
             1,
             7
-          ],
-          "groupId": "73do91lu"
+          ]
         },
         {
           "id": "Birgit-2023-92",
@@ -58538,8 +58123,7 @@
             3,
             3,
             1
-          ],
-          "groupId": "ypu22l84"
+          ]
         },
         {
           "id": "Birgit-2023-93",
@@ -58564,8 +58148,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "8xqrdynt"
+          ]
         },
         {
           "id": "Birgit-2023-90",
@@ -58590,8 +58173,7 @@
             4,
             1,
             3
-          ],
-          "groupId": "3su85r12"
+          ]
         },
         {
           "id": "Birgit-2023-91",
@@ -58616,8 +58198,7 @@
             5,
             1,
             2
-          ],
-          "groupId": "ru2xjg7d"
+          ]
         },
         {
           "id": "Birgit-2023-89",
@@ -58642,8 +58223,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "lu88n7np"
+          ]
         },
         {
           "id": "Birgit-2023-87",
@@ -58668,8 +58248,7 @@
             1,
             2,
             5
-          ],
-          "groupId": "lj9rz8cq"
+          ]
         },
         {
           "id": "Birgit-2023-88",
@@ -58694,8 +58273,7 @@
             2,
             2,
             6
-          ],
-          "groupId": "ap73aeh2"
+          ]
         },
         {
           "id": "Birgit-2023-86",
@@ -58720,8 +58298,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "vv0m2b2e"
+          ]
         },
         {
           "id": "Birgit-2023-85",
@@ -58746,8 +58323,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "6lo83dxz"
+          ]
         },
         {
           "id": "Birgit-2023-83",
@@ -58772,8 +58348,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "t9gbxw3f"
+          ]
         },
         {
           "id": "Birgit-2023-84",
@@ -58798,8 +58373,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "ceuehykz"
+          ]
         },
         {
           "id": "Birgit-2023-80",
@@ -58824,8 +58398,7 @@
             1,
             1,
             3
-          ],
-          "groupId": "i3w35lgz"
+          ]
         },
         {
           "id": "Birgit-2023-81",
@@ -58850,8 +58423,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "c9ue0m1p"
+          ]
         },
         {
           "id": "Birgit-2023-82",
@@ -58876,8 +58448,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "66e5dwae"
+          ]
         },
         {
           "id": "Birgit-2023-78",
@@ -58902,8 +58473,7 @@
             3,
             1,
             1
-          ],
-          "groupId": "m35ogi7l"
+          ]
         },
         {
           "id": "Birgit-2023-79",
@@ -58928,8 +58498,7 @@
             2,
             3,
             2
-          ],
-          "groupId": "qz7rwyms"
+          ]
         },
         {
           "id": "Birgit-2023-77",
@@ -58954,8 +58523,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "lu3b5pqs"
+          ]
         },
         {
           "id": "Birgit-2023-76",
@@ -58980,8 +58548,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "wz0vi2se"
+          ]
         },
         {
           "id": "Birgit-2023-75",
@@ -59006,8 +58573,7 @@
             1,
             2,
             4
-          ],
-          "groupId": "afsx3yvm"
+          ]
         },
         {
           "id": "Birgit-2023-74",
@@ -59032,8 +58598,7 @@
             3,
             2,
             1
-          ],
-          "groupId": "36w6dso0"
+          ]
         },
         {
           "id": "Birgit-2023-70",
@@ -59058,8 +58623,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "3fa0z9h4"
+          ]
         },
         {
           "id": "Birgit-2023-71",
@@ -59084,8 +58648,7 @@
             2,
             3,
             5
-          ],
-          "groupId": "w56zrwlu"
+          ]
         },
         {
           "id": "Birgit-2023-72",
@@ -59110,8 +58673,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "ns4hsjwi"
+          ]
         },
         {
           "id": "Birgit-2023-73",
@@ -59136,8 +58698,7 @@
             5,
             4,
             7
-          ],
-          "groupId": "apzmcc43"
+          ]
         },
         {
           "id": "Birgit-2023-69",
@@ -59162,8 +58723,7 @@
             3,
             2,
             3
-          ],
-          "groupId": "bfrp14k6"
+          ]
         },
         {
           "id": "Birgit-2023-67",
@@ -59188,8 +58748,7 @@
             2,
             1,
             2
-          ],
-          "groupId": "onxn92dz"
+          ]
         },
         {
           "id": "Birgit-2023-68",
@@ -59214,8 +58773,7 @@
             4,
             2,
             3
-          ],
-          "groupId": "zv80v4qv"
+          ]
         },
         {
           "id": "Birgit-2023-66",
@@ -59240,8 +58798,7 @@
             4,
             3,
             3
-          ],
-          "groupId": "trggv6p8"
+          ]
         },
         {
           "id": "Birgit-2023-65",
@@ -59266,8 +58823,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "ev3bxsev"
+          ]
         },
         {
           "id": "Birgit-2023-63",
@@ -59292,8 +58848,7 @@
             5,
             3,
             3
-          ],
-          "groupId": "rfeqa3k2"
+          ]
         },
         {
           "id": "Birgit-2023-64",
@@ -59318,8 +58873,7 @@
             3,
             2,
             3
-          ],
-          "groupId": "lhu5l93i"
+          ]
         },
         {
           "id": "Birgit-2023-61",
@@ -59344,8 +58898,7 @@
             2,
             3,
             5
-          ],
-          "groupId": "wklc6nyn"
+          ]
         },
         {
           "id": "Birgit-2023-62",
@@ -59370,8 +58923,7 @@
             3,
             1,
             2
-          ],
-          "groupId": "zbqq9afz"
+          ]
         },
         {
           "id": "Birgit-2023-60",
@@ -59396,8 +58948,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "mdhmwigy"
+          ]
         },
         {
           "id": "Birgit-2023-59",
@@ -59422,8 +58973,7 @@
             3,
             2,
             2
-          ],
-          "groupId": "hiyjo3g3"
+          ]
         },
         {
           "id": "Birgit-2023-58",
@@ -59448,8 +58998,7 @@
             3,
             1,
             2
-          ],
-          "groupId": "is84xf4y"
+          ]
         },
         {
           "id": "Birgit-2023-57",
@@ -59474,8 +59023,7 @@
             4,
             2,
             7
-          ],
-          "groupId": "5ssn6fks"
+          ]
         },
         {
           "id": "Birgit-2023-56",
@@ -59500,8 +59048,7 @@
             2,
             3,
             7
-          ],
-          "groupId": "a6eqbla3"
+          ]
         },
         {
           "id": "Birgit-2023-55",
@@ -59526,8 +59073,7 @@
             2,
             3,
             1
-          ],
-          "groupId": "nx36zad3"
+          ]
         },
         {
           "id": "Birgit-2023-54",
@@ -59552,8 +59098,7 @@
             2,
             4,
             1
-          ],
-          "groupId": "334l6mct"
+          ]
         },
         {
           "id": "Birgit-2023-52",
@@ -59578,8 +59123,7 @@
             3,
             1,
             2
-          ],
-          "groupId": "qhr61eb5"
+          ]
         },
         {
           "id": "Birgit-2023-53",
@@ -59604,8 +59148,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "ibfz9tvy"
+          ]
         },
         {
           "id": "Birgit-2023-51",
@@ -59630,8 +59173,7 @@
             3,
             3,
             2
-          ],
-          "groupId": "pabf9ado"
+          ]
         },
         {
           "id": "Birgit-2023-49",
@@ -59656,8 +59198,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "lswl0jg4"
+          ]
         },
         {
           "id": "Birgit-2023-50",
@@ -59682,8 +59223,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "2g74r9pr"
+          ]
         },
         {
           "id": "Birgit-2023-48",
@@ -59708,8 +59248,7 @@
             1,
             4,
             6
-          ],
-          "groupId": "f6bxa22o"
+          ]
         },
         {
           "id": "Birgit-2023-47",
@@ -59734,8 +59273,7 @@
             3,
             5,
             3
-          ],
-          "groupId": "4jcdcf54"
+          ]
         },
         {
           "id": "Birgit-2023-46",
@@ -59760,8 +59298,7 @@
             5,
             5,
             2
-          ],
-          "groupId": "r3ls9ffd"
+          ]
         },
         {
           "id": "Birgit-2023-45",
@@ -59786,8 +59323,7 @@
             1,
             2,
             2
-          ],
-          "groupId": "1rp5iypz"
+          ]
         },
         {
           "id": "Birgit-2023-44",
@@ -59812,8 +59348,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "qpcdbbg3"
+          ]
         },
         {
           "id": "Birgit-2023-43",
@@ -59838,8 +59373,7 @@
             2,
             3,
             5
-          ],
-          "groupId": "45ugjty4"
+          ]
         },
         {
           "id": "Birgit-2023-42",
@@ -59864,8 +59398,7 @@
             4,
             2,
             4
-          ],
-          "groupId": "yychoua9"
+          ]
         },
         {
           "id": "Birgit-2023-40",
@@ -59890,8 +59423,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "7mqxbtqh"
+          ]
         },
         {
           "id": "Birgit-2023-41",
@@ -59916,8 +59448,7 @@
             3,
             2,
             3
-          ],
-          "groupId": "hw027avi"
+          ]
         },
         {
           "id": "Birgit-2023-39",
@@ -59942,8 +59473,7 @@
             2,
             3,
             7
-          ],
-          "groupId": "u0v27qri"
+          ]
         },
         {
           "id": "Birgit-2023-38",
@@ -59968,8 +59498,7 @@
             3,
             2,
             5
-          ],
-          "groupId": "7bzqv381"
+          ]
         },
         {
           "id": "Birgit-2023-37",
@@ -59994,8 +59523,7 @@
             3,
             3,
             5
-          ],
-          "groupId": "pyg3xiw0"
+          ]
         },
         {
           "id": "Birgit-2023-36",
@@ -60020,8 +59548,7 @@
             2,
             1,
             3
-          ],
-          "groupId": "309wjf20"
+          ]
         },
         {
           "id": "Birgit-2023-34",
@@ -60046,8 +59573,7 @@
             2,
             1,
             1
-          ],
-          "groupId": "8ey4t0e3"
+          ]
         },
         {
           "id": "Birgit-2023-35",
@@ -60072,8 +59598,7 @@
             2,
             2,
             7
-          ],
-          "groupId": "w8jf5661"
+          ]
         },
         {
           "id": "Birgit-2023-33",
@@ -60098,8 +59623,7 @@
             3,
             5,
             2
-          ],
-          "groupId": "d8qyyn3q"
+          ]
         },
         {
           "id": "Birgit-2023-32",
@@ -60124,8 +59648,7 @@
             2,
             2,
             2
-          ],
-          "groupId": "hqtpqqg6"
+          ]
         },
         {
           "id": "Birgit-2023-31",
@@ -60150,8 +59673,7 @@
             4,
             1,
             5
-          ],
-          "groupId": "tl0ctg5z"
+          ]
         },
         {
           "id": "Birgit-2023-30",
@@ -60176,8 +59698,7 @@
             2,
             1,
             4
-          ],
-          "groupId": "zmmnlldr"
+          ]
         },
         {
           "id": "Birgit-2023-29",
@@ -60202,8 +59723,7 @@
             6,
             1,
             3
-          ],
-          "groupId": "iokb1qwn"
+          ]
         },
         {
           "id": "Birgit-2023-28",
@@ -60228,8 +59748,7 @@
             2,
             1,
             5
-          ],
-          "groupId": "pdi7v925"
+          ]
         },
         {
           "id": "Birgit-2023-27",
@@ -60254,8 +59773,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "xbjc979s"
+          ]
         },
         {
           "id": "Birgit-2023-26",
@@ -60280,8 +59798,7 @@
             4,
             2,
             1
-          ],
-          "groupId": "s4kyfj5r"
+          ]
         },
         {
           "id": "Birgit-2023-25",
@@ -60306,8 +59823,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "d9rxoake"
+          ]
         },
         {
           "id": "Birgit-2023-24",
@@ -60332,8 +59848,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "iq8u123p"
+          ]
         },
         {
           "id": "Birgit-2022-102",
@@ -62158,8 +61673,7 @@
             1,
             4,
             5
-          ],
-          "groupId": "qfnpjr9z"
+          ]
         },
         {
           "id": "Birgit-2022-29",
@@ -62184,8 +61698,7 @@
             2,
             2,
             4
-          ],
-          "groupId": "85zrta8s"
+          ]
         },
         {
           "id": "Birgit-2022-30",
@@ -62210,8 +61723,7 @@
             3,
             4,
             1
-          ],
-          "groupId": "spq7hrbk"
+          ]
         },
         {
           "id": "Birgit-2022-28",
@@ -62236,8 +61748,7 @@
             2,
             3,
             4
-          ],
-          "groupId": "7wi9m6fn"
+          ]
         },
         {
           "id": "Birgit-2022-26",
@@ -62262,8 +61773,7 @@
             3,
             2,
             6
-          ],
-          "groupId": "17igh8n5"
+          ]
         },
         {
           "id": "Birgit-2022-27",
@@ -62288,8 +61798,7 @@
             4,
             5,
             2
-          ],
-          "groupId": "q3z6s025"
+          ]
         },
         {
           "id": "Birgit-2022-25",
@@ -62339,8 +61848,7 @@
             2,
             4,
             3
-          ],
-          "groupId": "hintlbxe"
+          ]
         },
         {
           "id": "Birgit-2021-67",
@@ -63465,8 +62973,7 @@
             2,
             3,
             5
-          ],
-          "groupId": "exkt9euc"
+          ]
         },
         {
           "id": "Birgit-2020-104",
@@ -63491,8 +62998,7 @@
             3,
             3,
             2
-          ],
-          "groupId": "mup7pkal"
+          ]
         },
         {
           "id": "Birgit-2020-102",
@@ -63517,8 +63023,7 @@
             4,
             1,
             6
-          ],
-          "groupId": "sszc9o6c"
+          ]
         },
         {
           "id": "Birgit-2020-100",
@@ -63543,8 +63048,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "6k5ksoah"
+          ]
         },
         {
           "id": "Birgit-2020-101",
@@ -63569,8 +63073,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "nv90gljv"
+          ]
         },
         {
           "id": "Birgit-2020-99",
@@ -63595,8 +63098,7 @@
             1,
             2,
             7
-          ],
-          "groupId": "fasv45ty"
+          ]
         },
         {
           "id": "Birgit-2020-98",
@@ -63621,8 +63123,7 @@
             2,
             2,
             1
-          ],
-          "groupId": "4ayqzu0t"
+          ]
         },
         {
           "id": "Birgit-2020-97",
@@ -68177,6 +67678,2001 @@
       ]
     },
     {
+      "id": "p3",
+      "name": "Rolf",
+      "rounds": [
+        {
+          "date": "2026-06-29",
+          "year": "2026",
+          "groupId": "b711cq58",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "5",
+          "precipProbability": "0",
+          "id": "x2fwonp9",
+          "scores": [
+            2,
+            3,
+            1,
+            4,
+            3,
+            3,
+            1,
+            2,
+            3,
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ]
+        },
+        {
+          "date": "2026-06-12",
+          "year": "2026",
+          "groupId": "mbtn1kvj",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "10",
+          "precipProbability": "9",
+          "id": "4g0gdgvx",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            6,
+            3,
+            1,
+            3,
+            2,
+            3,
+            2,
+            3,
+            2,
+            6
+          ]
+        },
+        {
+          "id": "Rolf-2026-31",
+          "date": "2026-06-08",
+          "year": "2026",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            7,
+            2,
+            2,
+            2,
+            5,
+            2,
+            5,
+            5,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2026-30",
+          "date": "2026-06-05",
+          "year": "2026",
+          "scores": [
+            2,
+            2,
+            2,
+            3,
+            5,
+            3,
+            1,
+            1,
+            6,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            6,
+            2
+          ]
+        },
+        {
+          "date": "2026-06-05",
+          "year": "2026",
+          "groupId": "b1kn6a90",
+          "time": "18:03",
+          "weather": [
+            "rain"
+          ],
+          "temperature": "16",
+          "windSpeed": "17",
+          "id": "3s1valq0",
+          "scores": [
+            2,
+            2,
+            2,
+            3,
+            5,
+            3,
+            1,
+            1,
+            6,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            6,
+            2
+          ],
+          "stars": {
+            "8": true
+          }
+        },
+        {
+          "id": "Rolf-2026-29",
+          "date": "2026-06-03",
+          "year": "2026",
+          "scores": [
+            2,
+            1,
+            2,
+            7,
+            2,
+            2,
+            3,
+            4,
+            7,
+            1,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2,
+            3,
+            5
+          ]
+        },
+        {
+          "id": "Rolf-2026-28",
+          "date": "2026-05-27",
+          "year": "2026",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            5,
+            3,
+            3
+          ]
+        },
+        {
+          "id": "Rolf-2026-27",
+          "date": "2026-05-20",
+          "year": "2026",
+          "scores": [
+            2,
+            3,
+            4,
+            7,
+            1,
+            2,
+            1,
+            5,
+            4,
+            3,
+            2,
+            1,
+            2,
+            2,
+            7,
+            2,
+            2,
+            5
+          ]
+        },
+        {
+          "id": "Rolf-2026-26",
+          "date": "2026-05-07",
+          "year": "2026",
+          "scores": [
+            2,
+            2,
+            2,
+            5,
+            2,
+            2,
+            2,
+            3,
+            4,
+            5,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "Rolf-2026-25",
+          "date": "2026-05-03",
+          "year": "2026",
+          "scores": [
+            2,
+            2,
+            1,
+            7,
+            3,
+            1,
+            2,
+            2,
+            4,
+            3,
+            1,
+            3,
+            2,
+            2,
+            2,
+            4,
+            3,
+            4
+          ]
+        },
+        {
+          "id": "Rolf-2026-24",
+          "date": "2026-04-03",
+          "year": "2026",
+          "scores": [
+            2,
+            1,
+            7,
+            6,
+            2,
+            3,
+            1,
+            2,
+            7,
+            3,
+            1,
+            2,
+            2,
+            4,
+            4,
+            3,
+            2,
+            4
+          ]
+        },
+        {
+          "date": "2026-04-03",
+          "year": "2026",
+          "groupId": "dl08vy6i",
+          "time": "18:22",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "8",
+          "windSpeed": "20",
+          "id": "8ccw8yvh",
+          "scores": [
+            2,
+            1,
+            7,
+            6,
+            2,
+            3,
+            1,
+            2,
+            7,
+            3,
+            1,
+            2,
+            2,
+            4,
+            4,
+            3,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "Rolf-2025-24",
+          "date": "2025-05-26",
+          "year": "2025",
+          "scores": [
+            2,
+            1,
+            2,
+            3,
+            4,
+            2,
+            2,
+            3,
+            3,
+            2,
+            2,
+            3,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2024-27",
+          "date": "2024-06-19",
+          "year": "2024",
+          "scores": [
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            3,
+            4,
+            3,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2024-26",
+          "date": "2024-06-12",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            3,
+            3,
+            1,
+            2,
+            4,
+            4,
+            2,
+            3,
+            2,
+            3,
+            7,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2024-25",
+          "date": "2024-05-05",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            1,
+            7,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            5,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2024-24",
+          "date": "2024-03-16",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            2,
+            4,
+            2,
+            4,
+            1,
+            3,
+            7,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2023-29",
+          "date": "2023-09-25",
+          "year": "2023",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            7,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            7
+          ]
+        },
+        {
+          "id": "Rolf-2023-28",
+          "date": "2023-09-23",
+          "year": "2023",
+          "scores": [
+            2,
+            2,
+            1,
+            7,
+            2,
+            2,
+            2,
+            4,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "Rolf-2023-27",
+          "date": "2023-08-14",
+          "year": "2023",
+          "scores": [
+            1,
+            2,
+            1,
+            5,
+            2,
+            2,
+            1,
+            5,
+            3,
+            2,
+            2,
+            2,
+            2,
+            5,
+            3,
+            6,
+            4,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2023-26",
+          "date": "2023-06-17",
+          "year": "2023",
+          "scores": [
+            2,
+            3,
+            3,
+            7,
+            1,
+            1,
+            1,
+            4,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            5,
+            2,
+            2,
+            7
+          ]
+        },
+        {
+          "id": "Rolf-2023-25",
+          "date": "2023-05-02",
+          "year": "2023",
+          "scores": [
+            4,
+            2,
+            5,
+            2,
+            4,
+            2,
+            1,
+            2,
+            5,
+            2,
+            4,
+            4,
+            2,
+            2,
+            4,
+            4,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2023-24",
+          "date": "2023-04-19",
+          "year": "2023",
+          "scores": [
+            3,
+            2,
+            1,
+            7,
+            2,
+            2,
+            1,
+            2,
+            7,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4,
+            4,
+            4,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2022-33",
+          "date": "2022-10-08",
+          "year": "2022",
+          "scores": [
+            3,
+            2,
+            1,
+            6,
+            4,
+            2,
+            5,
+            3,
+            2,
+            2,
+            1,
+            2,
+            6,
+            2,
+            6,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2022-32",
+          "date": "2022-07-30",
+          "year": "2022",
+          "scores": [
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            4,
+            4,
+            2,
+            2,
+            1,
+            2,
+            2,
+            5,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2022-31",
+          "date": "2022-07-14",
+          "year": "2022",
+          "scores": [
+            4,
+            1,
+            3,
+            3,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2022-30",
+          "date": "2022-06-22",
+          "year": "2022",
+          "scores": [
+            2,
+            1,
+            2,
+            6,
+            3,
+            4,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            3,
+            5,
+            3,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2022-29",
+          "date": "2022-06-10",
+          "year": "2022",
+          "scores": [
+            2,
+            2,
+            1,
+            5,
+            3,
+            2,
+            1,
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            2,
+            5,
+            5,
+            3,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2022-28",
+          "date": "2022-06-02",
+          "year": "2022",
+          "scores": [
+            2,
+            3,
+            2,
+            7,
+            4,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2022-27",
+          "date": "2022-05-29",
+          "year": "2022",
+          "scores": [
+            2,
+            4,
+            4,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2022-26",
+          "date": "2022-04-22",
+          "year": "2022",
+          "scores": [
+            3,
+            2,
+            4,
+            5,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            7,
+            2,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "Rolf-2022-25",
+          "date": "2022-04-08",
+          "year": "2022",
+          "scores": [
+            3,
+            2,
+            4,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            5,
+            4,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2022-24",
+          "date": "2022-03-25",
+          "year": "2022",
+          "scores": [
+            2,
+            2,
+            2,
+            6,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            7,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "id": "Rolf-2020-30",
+          "date": "2020-10-14",
+          "year": "2020",
+          "scores": [
+            3,
+            2,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            5,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            5,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2020-29",
+          "date": "2020-09-07",
+          "year": "2020",
+          "scores": [
+            3,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            7,
+            2,
+            2,
+            2,
+            2,
+            2,
+            7,
+            3,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2020-28",
+          "date": "2020-08-27",
+          "year": "2020",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            5,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            5,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2020-27",
+          "date": "2020-08-18",
+          "year": "2020",
+          "scores": [
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            5,
+            2,
+            1,
+            2,
+            2,
+            2,
+            5,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2020-26",
+          "date": "2020-07-07",
+          "year": "2020",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            4,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2020-25",
+          "date": "2020-07-04",
+          "year": "2020",
+          "scores": [
+            2,
+            3,
+            1,
+            5,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            3,
+            1,
+            2,
+            7,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2020-24",
+          "date": "2020-06-13",
+          "year": "2020",
+          "scores": [
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            2,
+            3,
+            2,
+            3,
+            5,
+            2,
+            3,
+            7
+          ]
+        },
+        {
+          "id": "Rolf-2019-32",
+          "date": "2019-10-27",
+          "year": "2019",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            3,
+            2,
+            3,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2019-31",
+          "date": "2019-10-11",
+          "year": "2019",
+          "scores": [
+            2,
+            3,
+            1,
+            1,
+            1,
+            1,
+            5,
+            5,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            6,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2019-30",
+          "date": "2019-08-29",
+          "year": "2019",
+          "scores": [
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            1,
+            4,
+            2,
+            3,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            4,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2019-29",
+          "date": "2019-08-04",
+          "year": "2019",
+          "scores": [
+            2,
+            2,
+            3,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            5
+          ]
+        },
+        {
+          "id": "Rolf-2019-28",
+          "date": "2019-07-07",
+          "year": "2019",
+          "scores": [
+            2,
+            3,
+            3,
+            5,
+            2,
+            4,
+            2,
+            3,
+            7,
+            2,
+            1,
+            2,
+            4,
+            3,
+            4,
+            2,
+            3,
+            6
+          ]
+        },
+        {
+          "id": "Rolf-2019-27",
+          "date": "2019-06-22",
+          "year": "2019",
+          "scores": [
+            2,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2
+          ]
+        },
+        {
+          "id": "Rolf-2019-26",
+          "date": "2019-06-17",
+          "year": "2019",
+          "scores": [
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            3,
+            2,
+            3,
+            3,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Rolf-2019-25",
+          "date": "2019-04-26",
+          "year": "2019",
+          "scores": [
+            2,
+            1,
+            2,
+            4,
+            3,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            5,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "date": "2019-04-17",
+          "year": "2019",
+          "id": "14eb83n8",
+          "scores": [
+            1,
+            1,
+            4,
+            5,
+            1,
+            2,
+            1,
+            2,
+            4,
+            3,
+            1,
+            3,
+            2,
+            2,
+            4,
+            2,
+            3,
+            1
+          ],
+          "groupId": "6haelsys"
+        },
+        {
+          "date": "2019-04-17",
+          "year": "2019",
+          "id": "gczvpwx4",
+          "scores": [
+            1,
+            1,
+            4,
+            5,
+            1,
+            2,
+            1,
+            2,
+            4,
+            3,
+            1,
+            3,
+            2,
+            2,
+            4,
+            2,
+            3,
+            1
+          ],
+          "groupId": "sptzv93t"
+        },
+        {
+          "id": "Rolf-2019-24",
+          "date": "1900-01-02",
+          "year": "2019",
+          "scores": [
+            1,
+            1,
+            4,
+            5,
+            1,
+            2,
+            1,
+            2,
+            4,
+            3,
+            1,
+            3,
+            2,
+            2,
+            4,
+            2,
+            3,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "name": "Verena",
+      "rounds": [
+        {
+          "id": "Verena-2025-24",
+          "date": "2025-03-03",
+          "year": "2025",
+          "scores": [
+            3,
+            2,
+            3,
+            3,
+            2,
+            3,
+            1,
+            3,
+            7,
+            5,
+            2,
+            2,
+            2,
+            2,
+            4,
+            5,
+            7,
+            7
+          ]
+        },
+        {
+          "id": "Verena-2025-25",
+          "date": "2025-03-30",
+          "year": "2025",
+          "scores": [
+            2,
+            2,
+            2,
+            6,
+            2,
+            3,
+            1,
+            2,
+            6,
+            2,
+            3,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "Verena-2025-26",
+          "date": "2025-03-30",
+          "year": "2025",
+          "scores": [
+            3,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            6,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2025-27",
+          "date": "2025-04-06",
+          "year": "2025",
+          "scores": [
+            2,
+            6,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            3,
+            3,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-24",
+          "date": "2024-03-03",
+          "year": "2024",
+          "scores": [
+            2,
+            3,
+            1,
+            2,
+            4,
+            2,
+            1,
+            4,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1,
+            3,
+            2,
+            4,
+            5
+          ]
+        },
+        {
+          "id": "Verena-2024-25",
+          "date": "2024-03-03",
+          "year": "2024",
+          "scores": [
+            3,
+            1,
+            7,
+            7,
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            4,
+            2,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "id": "Verena-2024-26",
+          "date": "2024-03-17",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            4,
+            4,
+            4,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Verena-2024-27",
+          "date": "2024-03-19",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            4,
+            2,
+            1,
+            4,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-28",
+          "date": "2024-03-19",
+          "year": "2024",
+          "scores": [
+            1,
+            3,
+            1,
+            3,
+            3,
+            4,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            3,
+            5,
+            1,
+            5
+          ]
+        },
+        {
+          "id": "Verena-2024-29",
+          "date": "2024-04-13",
+          "year": "2024",
+          "scores": [
+            5,
+            1,
+            2,
+            7,
+            4,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            3,
+            2,
+            2,
+            3,
+            4,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "Verena-2024-30",
+          "date": "2024-04-21",
+          "year": "2024",
+          "scores": [
+            4,
+            3,
+            2,
+            5,
+            2,
+            2,
+            2,
+            7,
+            4,
+            2,
+            2,
+            3,
+            3,
+            2,
+            7,
+            4,
+            4,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-31",
+          "date": "2024-04-21",
+          "year": "2024",
+          "scores": [
+            4,
+            3,
+            2,
+            5,
+            2,
+            5,
+            1,
+            2,
+            6,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "Verena-2024-32",
+          "date": "2024-05-11",
+          "year": "2024",
+          "scores": [
+            2,
+            4,
+            3,
+            6,
+            2,
+            2,
+            3,
+            7,
+            1,
+            2,
+            1,
+            3,
+            3,
+            2,
+            2,
+            4,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "Verena-2024-33",
+          "date": "2024-05-11",
+          "year": "2024",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-34",
+          "date": "2024-05-12",
+          "year": "2024",
+          "scores": [
+            4,
+            1,
+            3,
+            6,
+            2,
+            1,
+            1,
+            4,
+            3,
+            4,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            6
+          ]
+        },
+        {
+          "id": "Verena-2024-35",
+          "date": "2024-05-25",
+          "year": "2024",
+          "scores": [
+            2,
+            3,
+            1,
+            6,
+            1,
+            3,
+            1,
+            1,
+            5,
+            6,
+            1,
+            2,
+            1,
+            2,
+            5,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-36",
+          "date": "2024-05-25",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            3,
+            5,
+            2,
+            2,
+            2,
+            4,
+            3,
+            2,
+            2,
+            2,
+            2,
+            4,
+            3,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-37",
+          "date": "2024-05-26",
+          "year": "2024",
+          "scores": [
+            1,
+            3,
+            1,
+            7,
+            2,
+            2,
+            1,
+            5,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-38",
+          "date": "2024-05-26",
+          "year": "2024",
+          "scores": [
+            1,
+            3,
+            1,
+            1,
+            3,
+            2,
+            1,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-39",
+          "date": "2024-05-30",
+          "year": "2024",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            2,
+            4,
+            2,
+            2,
+            1,
+            3
+          ]
+        },
+        {
+          "id": "Verena-2024-40",
+          "date": "2024-05-30",
+          "year": "2024",
+          "scores": [
+            1,
+            3,
+            1,
+            1,
+            4,
+            3,
+            1,
+            2,
+            3,
+            2,
+            3,
+            3,
+            1,
+            3,
+            3,
+            2,
+            2,
+            5
+          ]
+        },
+        {
+          "id": "Verena-2024-41",
+          "date": "2024-06-23",
+          "year": "2024",
+          "scores": [
+            2,
+            3,
+            1,
+            3,
+            2,
+            3,
+            2,
+            7,
+            1,
+            2,
+            3,
+            2,
+            2,
+            3,
+            4,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Verena-2024-42",
+          "date": "2024-08-12",
+          "year": "2024",
+          "scores": [
+            2,
+            4,
+            1,
+            2,
+            2,
+            2,
+            1,
+            7,
+            2,
+            2,
+            1,
+            4,
+            3,
+            2,
+            6,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-43",
+          "date": "2024-08-12",
+          "year": "2024",
+          "scores": [
+            3,
+            3,
+            4,
+            3,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            3,
+            3,
+            4,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-44",
+          "date": "2024-08-19",
+          "year": "2024",
+          "scores": [
+            3,
+            2,
+            4,
+            4,
+            2,
+            4,
+            1,
+            4,
+            2,
+            1,
+            1,
+            3,
+            2,
+            4,
+            3,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "id": "Verena-2024-45",
+          "date": "2024-08-19",
+          "year": "2024",
+          "scores": [
+            3,
+            2,
+            1,
+            7,
+            2,
+            4,
+            1,
+            7,
+            5,
+            1,
+            1,
+            2,
+            3,
+            2,
+            4,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "id": "Verena-2024-46",
+          "date": "2024-08-20",
+          "year": "2024",
+          "scores": [
+            3,
+            3,
+            1,
+            1,
+            2,
+            2,
+            1,
+            4,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            4,
+            4,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
       "id": "bkc9viw0",
       "name": "Sylvia",
       "rounds": [
@@ -68577,6 +70073,73 @@
       ]
     },
     {
+      "id": "yc6i458y",
+      "name": "Anette",
+      "rounds": [
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "is0ohkr6",
+          "time": "18:40",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "g9u19d0q",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            2
+          ],
+          "stars": {
+            "9": true
+          }
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "qe4zeve1",
+          "id": "20l48mvx",
+          "scores": [
+            1,
+            2,
+            7,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            5,
+            3,
+            2
+          ]
+        }
+      ]
+    },
+    {
       "id": "f2efl6m2",
       "name": "Matthias",
       "rounds": [
@@ -68665,2060 +70228,6 @@
             1,
             2,
             3
-          ]
-        }
-      ]
-    },
-    {
-      "id": "yc6i458y",
-      "name": "Anette",
-      "rounds": [
-        {
-          "date": "2026-06-20",
-          "year": "2026",
-          "groupId": "is0ohkr6",
-          "time": "18:40",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "11",
-          "id": "g9u19d0q",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            1,
-            3,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            3,
-            2
-          ],
-          "stars": {
-            "9": true
-          }
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "qe4zeve1",
-          "id": "20l48mvx",
-          "scores": [
-            1,
-            2,
-            7,
-            3,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            5,
-            3,
-            2
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2v122fi8",
-      "name": "Andreas",
-      "rounds": [
-        {
-          "date": "2026-06-29",
-          "year": "2026",
-          "groupId": "541zntld",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "28",
-          "windSpeed": "3",
-          "precipProbability": "0",
-          "id": "cinrbp8q",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1
-          ]
-        }
-      ]
-    },
-    {
-      "id": "p3",
-      "name": "Rolf",
-      "rounds": [
-        {
-          "date": "2019-04-17",
-          "year": "2019",
-          "id": "gczvpwx4",
-          "scores": [
-            1,
-            1,
-            4,
-            5,
-            1,
-            2,
-            1,
-            2,
-            4,
-            3,
-            1,
-            3,
-            2,
-            2,
-            4,
-            2,
-            3,
-            1
-          ],
-          "groupId": "sptzv93t"
-        },
-        {
-          "date": "2026-06-29",
-          "year": "2026",
-          "groupId": "b711cq58",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "29",
-          "windSpeed": "5",
-          "precipProbability": "0",
-          "id": "x2fwonp9",
-          "scores": [
-            2,
-            3,
-            1,
-            4,
-            3,
-            3,
-            1,
-            2,
-            3,
-            2,
-            2,
-            4,
-            2,
-            2,
-            2,
-            3,
-            2,
-            4
-          ]
-        },
-        {
-          "date": "2026-06-12",
-          "year": "2026",
-          "groupId": "mbtn1kvj",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "25",
-          "windSpeed": "10",
-          "precipProbability": "9",
-          "id": "4g0gdgvx",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            6,
-            3,
-            1,
-            3,
-            2,
-            3,
-            2,
-            3,
-            2,
-            6
-          ]
-        },
-        {
-          "id": "Rolf-2026-31",
-          "date": "2026-06-08",
-          "year": "2026",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            3,
-            7,
-            2,
-            2,
-            2,
-            5,
-            2,
-            5,
-            5,
-            2,
-            2
-          ],
-          "groupId": "u14wn3q7"
-        },
-        {
-          "date": "2026-06-05",
-          "year": "2026",
-          "groupId": "b1kn6a90",
-          "time": "18:03",
-          "weather": [
-            "rain"
-          ],
-          "temperature": "16",
-          "windSpeed": "17",
-          "id": "3s1valq0",
-          "scores": [
-            2,
-            2,
-            2,
-            3,
-            5,
-            3,
-            1,
-            1,
-            6,
-            2,
-            1,
-            2,
-            2,
-            3,
-            2,
-            2,
-            6,
-            2
-          ],
-          "stars": {
-            "8": true
-          }
-        },
-        {
-          "id": "Rolf-2026-29",
-          "date": "2026-06-03",
-          "year": "2026",
-          "scores": [
-            2,
-            1,
-            2,
-            7,
-            2,
-            2,
-            3,
-            4,
-            7,
-            1,
-            1,
-            3,
-            2,
-            3,
-            2,
-            2,
-            3,
-            5
-          ],
-          "groupId": "k1taolbr"
-        },
-        {
-          "id": "Rolf-2026-28",
-          "date": "2026-05-27",
-          "year": "2026",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            3,
-            2,
-            2,
-            3,
-            2,
-            2,
-            2,
-            1,
-            2,
-            3,
-            2,
-            5,
-            3,
-            3
-          ],
-          "groupId": "exz73bof"
-        },
-        {
-          "id": "Rolf-2026-27",
-          "date": "2026-05-20",
-          "year": "2026",
-          "scores": [
-            2,
-            3,
-            4,
-            7,
-            1,
-            2,
-            1,
-            5,
-            4,
-            3,
-            2,
-            1,
-            2,
-            2,
-            7,
-            2,
-            2,
-            5
-          ],
-          "groupId": "6dkkcibf"
-        },
-        {
-          "id": "Rolf-2026-26",
-          "date": "2026-05-07",
-          "year": "2026",
-          "scores": [
-            2,
-            2,
-            2,
-            5,
-            2,
-            2,
-            2,
-            3,
-            4,
-            5,
-            1,
-            2,
-            2,
-            2,
-            2,
-            4,
-            2,
-            3
-          ],
-          "groupId": "z7ycpm11"
-        },
-        {
-          "id": "Rolf-2026-25",
-          "date": "2026-05-03",
-          "year": "2026",
-          "scores": [
-            2,
-            2,
-            1,
-            7,
-            3,
-            1,
-            2,
-            2,
-            4,
-            3,
-            1,
-            3,
-            2,
-            2,
-            2,
-            4,
-            3,
-            4
-          ],
-          "groupId": "jvo8z93o"
-        },
-        {
-          "date": "2026-04-03",
-          "year": "2026",
-          "groupId": "dl08vy6i",
-          "time": "18:22",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "8",
-          "windSpeed": "20",
-          "id": "8ccw8yvh",
-          "scores": [
-            2,
-            1,
-            7,
-            6,
-            2,
-            3,
-            1,
-            2,
-            7,
-            3,
-            1,
-            2,
-            2,
-            4,
-            4,
-            3,
-            2,
-            4
-          ]
-        },
-        {
-          "id": "Rolf-2025-24",
-          "date": "2025-05-26",
-          "year": "2025",
-          "scores": [
-            2,
-            1,
-            2,
-            3,
-            4,
-            2,
-            2,
-            3,
-            3,
-            2,
-            2,
-            3,
-            1,
-            3,
-            2,
-            3,
-            2,
-            2
-          ],
-          "groupId": "u6nhcmdh"
-        },
-        {
-          "id": "Rolf-2024-27",
-          "date": "2024-06-19",
-          "year": "2024",
-          "scores": [
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            3,
-            3,
-            4,
-            3,
-            2,
-            2
-          ],
-          "groupId": "1gbdib6h"
-        },
-        {
-          "id": "Rolf-2024-26",
-          "date": "2024-06-12",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            1,
-            1,
-            3,
-            3,
-            1,
-            2,
-            4,
-            4,
-            2,
-            3,
-            2,
-            3,
-            7,
-            3,
-            2,
-            1
-          ],
-          "groupId": "vzcq4e8l"
-        },
-        {
-          "id": "Rolf-2024-25",
-          "date": "2024-05-05",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            1,
-            7,
-            2,
-            2,
-            1,
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            5,
-            1,
-            1,
-            1
-          ],
-          "groupId": "fybzsx2v"
-        },
-        {
-          "id": "Rolf-2024-24",
-          "date": "2024-03-16",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            2,
-            4,
-            2,
-            4,
-            1,
-            3,
-            7,
-            2,
-            2,
-            2,
-            2,
-            2,
-            3,
-            2,
-            2,
-            2
-          ],
-          "groupId": "t7v44r4j"
-        },
-        {
-          "id": "Rolf-2023-29",
-          "date": "2023-09-25",
-          "year": "2023",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            7,
-            2,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            3,
-            7
-          ],
-          "groupId": "e4a6b0f5"
-        },
-        {
-          "id": "Rolf-2023-28",
-          "date": "2023-09-23",
-          "year": "2023",
-          "scores": [
-            2,
-            2,
-            1,
-            7,
-            2,
-            2,
-            2,
-            4,
-            3,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            4
-          ],
-          "groupId": "ru2xjg7d"
-        },
-        {
-          "id": "Rolf-2023-27",
-          "date": "2023-08-14",
-          "year": "2023",
-          "scores": [
-            1,
-            2,
-            1,
-            5,
-            2,
-            2,
-            1,
-            5,
-            3,
-            2,
-            2,
-            2,
-            2,
-            5,
-            3,
-            6,
-            4,
-            1
-          ],
-          "groupId": "e4l91cos"
-        },
-        {
-          "id": "Rolf-2023-26",
-          "date": "2023-06-17",
-          "year": "2023",
-          "scores": [
-            2,
-            3,
-            3,
-            7,
-            1,
-            1,
-            1,
-            4,
-            2,
-            1,
-            1,
-            2,
-            3,
-            1,
-            5,
-            2,
-            2,
-            7
-          ],
-          "groupId": "4jcdcf54"
-        },
-        {
-          "id": "Rolf-2023-25",
-          "date": "2023-05-02",
-          "year": "2023",
-          "scores": [
-            4,
-            2,
-            5,
-            2,
-            4,
-            2,
-            1,
-            2,
-            5,
-            2,
-            4,
-            4,
-            2,
-            2,
-            4,
-            4,
-            3,
-            1
-          ],
-          "groupId": "txtrhxjd"
-        },
-        {
-          "id": "Rolf-2023-24",
-          "date": "2023-04-19",
-          "year": "2023",
-          "scores": [
-            3,
-            2,
-            1,
-            7,
-            2,
-            2,
-            1,
-            2,
-            7,
-            2,
-            2,
-            2,
-            2,
-            2,
-            4,
-            4,
-            4,
-            2
-          ],
-          "groupId": "iokb1qwn"
-        },
-        {
-          "id": "Rolf-2022-33",
-          "date": "2022-10-08",
-          "year": "2022",
-          "scores": [
-            3,
-            2,
-            1,
-            6,
-            4,
-            2,
-            5,
-            3,
-            2,
-            2,
-            1,
-            2,
-            6,
-            2,
-            6,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "id": "Rolf-2022-32",
-          "date": "2022-07-30",
-          "year": "2022",
-          "scores": [
-            3,
-            2,
-            2,
-            1,
-            2,
-            2,
-            3,
-            4,
-            4,
-            2,
-            2,
-            1,
-            2,
-            2,
-            5,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "id": "Rolf-2022-31",
-          "date": "2022-07-14",
-          "year": "2022",
-          "scores": [
-            4,
-            1,
-            3,
-            3,
-            2,
-            2,
-            2,
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2
-          ]
-        },
-        {
-          "id": "Rolf-2022-30",
-          "date": "2022-06-22",
-          "year": "2022",
-          "scores": [
-            2,
-            1,
-            2,
-            6,
-            3,
-            4,
-            2,
-            2,
-            2,
-            2,
-            1,
-            3,
-            2,
-            3,
-            5,
-            3,
-            2,
-            2
-          ]
-        },
-        {
-          "id": "Rolf-2022-29",
-          "date": "2022-06-10",
-          "year": "2022",
-          "scores": [
-            2,
-            2,
-            1,
-            5,
-            3,
-            2,
-            1,
-            2,
-            2,
-            4,
-            2,
-            2,
-            2,
-            2,
-            5,
-            5,
-            3,
-            2
-          ]
-        },
-        {
-          "id": "Rolf-2022-28",
-          "date": "2022-06-02",
-          "year": "2022",
-          "scores": [
-            2,
-            3,
-            2,
-            7,
-            4,
-            2,
-            1,
-            2,
-            4,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            1
-          ]
-        },
-        {
-          "id": "Rolf-2022-27",
-          "date": "2022-05-29",
-          "year": "2022",
-          "scores": [
-            2,
-            4,
-            4,
-            2,
-            2,
-            2,
-            2,
-            3,
-            3,
-            2,
-            1,
-            2,
-            4,
-            2,
-            2,
-            2,
-            1,
-            1
-          ]
-        },
-        {
-          "id": "Rolf-2022-26",
-          "date": "2022-04-22",
-          "year": "2022",
-          "scores": [
-            3,
-            2,
-            4,
-            5,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            3,
-            2,
-            2,
-            7,
-            2,
-            2,
-            4
-          ]
-        },
-        {
-          "id": "Rolf-2022-25",
-          "date": "2022-04-08",
-          "year": "2022",
-          "scores": [
-            3,
-            2,
-            4,
-            3,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            5,
-            4,
-            2,
-            2
-          ]
-        },
-        {
-          "id": "Rolf-2022-24",
-          "date": "2022-03-25",
-          "year": "2022",
-          "scores": [
-            2,
-            2,
-            2,
-            6,
-            2,
-            2,
-            2,
-            3,
-            3,
-            2,
-            1,
-            2,
-            2,
-            2,
-            7,
-            3,
-            3,
-            3
-          ],
-          "groupId": "lpuhdl25"
-        },
-        {
-          "id": "Rolf-2020-30",
-          "date": "2020-10-14",
-          "year": "2020",
-          "scores": [
-            3,
-            2,
-            3,
-            2,
-            1,
-            2,
-            1,
-            2,
-            5,
-            3,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            5,
-            1
-          ],
-          "groupId": "m1ufju4m"
-        },
-        {
-          "id": "Rolf-2020-29",
-          "date": "2020-09-07",
-          "year": "2020",
-          "scores": [
-            3,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            7,
-            2,
-            2,
-            2,
-            2,
-            2,
-            7,
-            3,
-            3,
-            1
-          ],
-          "groupId": "x8lgtcib"
-        },
-        {
-          "id": "Rolf-2020-28",
-          "date": "2020-08-27",
-          "year": "2020",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            5,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            5,
-            2,
-            1,
-            1
-          ],
-          "groupId": "xfm8geur"
-        },
-        {
-          "id": "Rolf-2020-27",
-          "date": "2020-08-18",
-          "year": "2020",
-          "scores": [
-            2,
-            1,
-            1,
-            3,
-            2,
-            2,
-            2,
-            2,
-            5,
-            2,
-            1,
-            2,
-            2,
-            2,
-            5,
-            3,
-            2,
-            1
-          ],
-          "groupId": "1jmcp2bo"
-        },
-        {
-          "id": "Rolf-2020-26",
-          "date": "2020-07-07",
-          "year": "2020",
-          "scores": [
-            2,
-            2,
-            1,
-            1,
-            2,
-            4,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            2,
-            2
-          ],
-          "groupId": "7f6jupr8"
-        },
-        {
-          "id": "Rolf-2020-25",
-          "date": "2020-07-04",
-          "year": "2020",
-          "scores": [
-            2,
-            3,
-            1,
-            5,
-            2,
-            2,
-            2,
-            2,
-            3,
-            2,
-            1,
-            3,
-            1,
-            2,
-            7,
-            2,
-            2,
-            1
-          ],
-          "groupId": "jix55kcx"
-        },
-        {
-          "id": "Rolf-2020-24",
-          "date": "2020-06-13",
-          "year": "2020",
-          "scores": [
-            2,
-            2,
-            4,
-            2,
-            2,
-            2,
-            1,
-            3,
-            3,
-            2,
-            2,
-            3,
-            2,
-            3,
-            5,
-            2,
-            3,
-            7
-          ],
-          "groupId": "0u1w2c8l"
-        },
-        {
-          "id": "Rolf-2019-32",
-          "date": "2019-10-27",
-          "year": "2019",
-          "scores": [
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            3,
-            2,
-            3,
-            2,
-            3,
-            2,
-            2
-          ],
-          "groupId": "ch3c110x"
-        },
-        {
-          "id": "Rolf-2019-31",
-          "date": "2019-10-11",
-          "year": "2019",
-          "scores": [
-            2,
-            3,
-            1,
-            1,
-            1,
-            1,
-            5,
-            5,
-            2,
-            2,
-            2,
-            3,
-            2,
-            3,
-            6,
-            2,
-            2,
-            2
-          ],
-          "groupId": "qtezai7s"
-        },
-        {
-          "id": "Rolf-2019-30",
-          "date": "2019-08-29",
-          "year": "2019",
-          "scores": [
-            2,
-            1,
-            2,
-            1,
-            2,
-            3,
-            1,
-            4,
-            2,
-            3,
-            2,
-            2,
-            2,
-            3,
-            2,
-            2,
-            4,
-            1
-          ],
-          "groupId": "atdes0m0"
-        },
-        {
-          "id": "Rolf-2019-29",
-          "date": "2019-08-04",
-          "year": "2019",
-          "scores": [
-            2,
-            2,
-            3,
-            1,
-            2,
-            3,
-            2,
-            2,
-            2,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            3,
-            5
-          ],
-          "groupId": "1qt0i4gw"
-        },
-        {
-          "id": "Rolf-2019-28",
-          "date": "2019-07-07",
-          "year": "2019",
-          "scores": [
-            2,
-            3,
-            3,
-            5,
-            2,
-            4,
-            2,
-            3,
-            7,
-            2,
-            1,
-            2,
-            4,
-            3,
-            4,
-            2,
-            3,
-            6
-          ],
-          "groupId": "h5xxw9c5"
-        },
-        {
-          "id": "Rolf-2019-27",
-          "date": "2019-06-22",
-          "year": "2019",
-          "scores": [
-            2,
-            3,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            2,
-            3,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            4,
-            2
-          ],
-          "groupId": "3e18f62o"
-        },
-        {
-          "id": "Rolf-2019-26",
-          "date": "2019-06-17",
-          "year": "2019",
-          "scores": [
-            2,
-            3,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            3,
-            2,
-            3,
-            3,
-            3,
-            2,
-            1
-          ],
-          "groupId": "4gnlqg04"
-        },
-        {
-          "id": "Rolf-2019-25",
-          "date": "2019-04-26",
-          "year": "2019",
-          "scores": [
-            2,
-            1,
-            2,
-            4,
-            3,
-            3,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            5,
-            2,
-            2,
-            2
-          ],
-          "groupId": "mxqbitf7"
-        }
-      ]
-    },
-    {
-      "id": "p4",
-      "name": "Verena",
-      "rounds": [
-        {
-          "id": "Verena-2025-24",
-          "date": "2025-03-03",
-          "year": "2025",
-          "scores": [
-            3,
-            2,
-            3,
-            3,
-            2,
-            3,
-            1,
-            3,
-            7,
-            5,
-            2,
-            2,
-            2,
-            2,
-            4,
-            5,
-            7,
-            7
-          ],
-          "groupId": "5j9wlt6r"
-        },
-        {
-          "id": "Verena-2025-25",
-          "date": "2025-03-30",
-          "year": "2025",
-          "scores": [
-            2,
-            2,
-            2,
-            6,
-            2,
-            3,
-            1,
-            2,
-            6,
-            2,
-            3,
-            2,
-            2,
-            2,
-            4,
-            2,
-            2,
-            3
-          ],
-          "groupId": "4nw21lga"
-        },
-        {
-          "id": "Verena-2025-26",
-          "date": "2025-03-30",
-          "year": "2025",
-          "scores": [
-            3,
-            1,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            6,
-            2,
-            1,
-            1
-          ],
-          "groupId": "ywun5bif"
-        },
-        {
-          "id": "Verena-2025-27",
-          "date": "2025-04-06",
-          "year": "2025",
-          "scores": [
-            2,
-            6,
-            2,
-            2,
-            2,
-            4,
-            2,
-            2,
-            2,
-            1,
-            1,
-            2,
-            1,
-            2,
-            3,
-            3,
-            3,
-            1
-          ],
-          "groupId": "uvafvjs2"
-        },
-        {
-          "id": "Verena-2024-24",
-          "date": "2024-03-03",
-          "year": "2024",
-          "scores": [
-            2,
-            3,
-            1,
-            2,
-            4,
-            2,
-            1,
-            4,
-            2,
-            2,
-            2,
-            4,
-            2,
-            1,
-            3,
-            2,
-            4,
-            5
-          ],
-          "groupId": "plkjar2j"
-        },
-        {
-          "id": "Verena-2024-25",
-          "date": "2024-03-03",
-          "year": "2024",
-          "scores": [
-            3,
-            1,
-            7,
-            7,
-            2,
-            2,
-            1,
-            3,
-            3,
-            2,
-            4,
-            2,
-            2,
-            3,
-            3,
-            3,
-            3,
-            3
-          ],
-          "groupId": "yb0r7acz"
-        },
-        {
-          "id": "Verena-2024-26",
-          "date": "2024-03-17",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            1,
-            3,
-            3,
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            3,
-            2,
-            4,
-            4,
-            4,
-            2,
-            2
-          ],
-          "groupId": "jtlesedd"
-        },
-        {
-          "id": "Verena-2024-27",
-          "date": "2024-03-19",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            4,
-            2,
-            1,
-            4,
-            3,
-            1,
-            2,
-            2,
-            2,
-            2,
-            4,
-            3,
-            1
-          ],
-          "groupId": "7zsfpwai"
-        },
-        {
-          "id": "Verena-2024-28",
-          "date": "2024-03-19",
-          "year": "2024",
-          "scores": [
-            1,
-            3,
-            1,
-            3,
-            3,
-            4,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            2,
-            3,
-            3,
-            5,
-            1,
-            5
-          ],
-          "groupId": "fn7bpr4x"
-        },
-        {
-          "id": "Verena-2024-29",
-          "date": "2024-04-13",
-          "year": "2024",
-          "scores": [
-            5,
-            1,
-            2,
-            7,
-            4,
-            2,
-            2,
-            2,
-            3,
-            2,
-            2,
-            3,
-            2,
-            2,
-            3,
-            4,
-            2,
-            4
-          ],
-          "groupId": "r61hdw74"
-        },
-        {
-          "id": "Verena-2024-30",
-          "date": "2024-04-21",
-          "year": "2024",
-          "scores": [
-            4,
-            3,
-            2,
-            5,
-            2,
-            2,
-            2,
-            7,
-            4,
-            2,
-            2,
-            3,
-            3,
-            2,
-            7,
-            4,
-            4,
-            1
-          ],
-          "groupId": "2xwr1xca"
-        },
-        {
-          "id": "Verena-2024-31",
-          "date": "2024-04-21",
-          "year": "2024",
-          "scores": [
-            4,
-            3,
-            2,
-            5,
-            2,
-            5,
-            1,
-            2,
-            6,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            4,
-            2,
-            3
-          ],
-          "groupId": "m7wjs9yr"
-        },
-        {
-          "id": "Verena-2024-32",
-          "date": "2024-05-11",
-          "year": "2024",
-          "scores": [
-            2,
-            4,
-            3,
-            6,
-            2,
-            2,
-            3,
-            7,
-            1,
-            2,
-            1,
-            3,
-            3,
-            2,
-            2,
-            4,
-            2,
-            4
-          ],
-          "groupId": "38eyqdh0"
-        },
-        {
-          "id": "Verena-2024-33",
-          "date": "2024-05-11",
-          "year": "2024",
-          "scores": [
-            2,
-            1,
-            1,
-            1,
-            3,
-            2,
-            1,
-            2,
-            4,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            3,
-            1
-          ],
-          "groupId": "bb0hr7oy"
-        },
-        {
-          "id": "Verena-2024-34",
-          "date": "2024-05-12",
-          "year": "2024",
-          "scores": [
-            4,
-            1,
-            3,
-            6,
-            2,
-            1,
-            1,
-            4,
-            3,
-            4,
-            1,
-            2,
-            3,
-            2,
-            2,
-            2,
-            2,
-            6
-          ],
-          "groupId": "twmvqcgd"
-        },
-        {
-          "id": "Verena-2024-35",
-          "date": "2024-05-25",
-          "year": "2024",
-          "scores": [
-            2,
-            3,
-            1,
-            6,
-            1,
-            3,
-            1,
-            1,
-            5,
-            6,
-            1,
-            2,
-            1,
-            2,
-            5,
-            2,
-            1,
-            1
-          ],
-          "groupId": "oxcmjzix"
-        },
-        {
-          "id": "Verena-2024-36",
-          "date": "2024-05-25",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            3,
-            5,
-            2,
-            2,
-            2,
-            4,
-            3,
-            2,
-            2,
-            2,
-            2,
-            4,
-            3,
-            3,
-            2,
-            1
-          ],
-          "groupId": "5icimrvm"
-        },
-        {
-          "id": "Verena-2024-37",
-          "date": "2024-05-26",
-          "year": "2024",
-          "scores": [
-            1,
-            3,
-            1,
-            7,
-            2,
-            2,
-            1,
-            5,
-            3,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            1
-          ],
-          "groupId": "xg32k0jy"
-        },
-        {
-          "id": "Verena-2024-38",
-          "date": "2024-05-26",
-          "year": "2024",
-          "scores": [
-            1,
-            3,
-            1,
-            1,
-            3,
-            2,
-            1,
-            4,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1,
-            2,
-            1
-          ],
-          "groupId": "e6zppg8u"
-        },
-        {
-          "id": "Verena-2024-39",
-          "date": "2024-05-30",
-          "year": "2024",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            3,
-            1,
-            2,
-            2,
-            4,
-            2,
-            2,
-            1,
-            3
-          ],
-          "groupId": "8m494whz"
-        },
-        {
-          "id": "Verena-2024-40",
-          "date": "2024-05-30",
-          "year": "2024",
-          "scores": [
-            1,
-            3,
-            1,
-            1,
-            4,
-            3,
-            1,
-            2,
-            3,
-            2,
-            3,
-            3,
-            1,
-            3,
-            3,
-            2,
-            2,
-            5
-          ],
-          "groupId": "dhikiim2"
-        },
-        {
-          "id": "Verena-2024-41",
-          "date": "2024-06-23",
-          "year": "2024",
-          "scores": [
-            2,
-            3,
-            1,
-            3,
-            2,
-            3,
-            2,
-            7,
-            1,
-            2,
-            3,
-            2,
-            2,
-            3,
-            4,
-            2,
-            2,
-            2
-          ],
-          "groupId": "w14x7jai"
-        },
-        {
-          "id": "Verena-2024-42",
-          "date": "2024-08-12",
-          "year": "2024",
-          "scores": [
-            2,
-            4,
-            1,
-            2,
-            2,
-            2,
-            1,
-            7,
-            2,
-            2,
-            1,
-            4,
-            3,
-            2,
-            6,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "id": "Verena-2024-43",
-          "date": "2024-08-12",
-          "year": "2024",
-          "scores": [
-            3,
-            3,
-            4,
-            3,
-            2,
-            3,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            3,
-            3,
-            3,
-            3,
-            4,
-            1
-          ]
-        },
-        {
-          "id": "Verena-2024-44",
-          "date": "2024-08-19",
-          "year": "2024",
-          "scores": [
-            3,
-            2,
-            4,
-            4,
-            2,
-            4,
-            1,
-            4,
-            2,
-            1,
-            1,
-            3,
-            2,
-            4,
-            3,
-            1,
-            2,
-            1
-          ]
-        },
-        {
-          "id": "Verena-2024-45",
-          "date": "2024-08-19",
-          "year": "2024",
-          "scores": [
-            3,
-            2,
-            1,
-            7,
-            2,
-            4,
-            1,
-            7,
-            5,
-            1,
-            1,
-            2,
-            3,
-            2,
-            4,
-            2,
-            2,
-            2
-          ]
-        },
-        {
-          "id": "Verena-2024-46",
-          "date": "2024-08-20",
-          "year": "2024",
-          "scores": [
-            3,
-            3,
-            1,
-            1,
-            2,
-            2,
-            1,
-            4,
-            2,
-            1,
-            2,
-            3,
-            2,
-            2,
-            4,
-            4,
-            1,
-            1
           ]
         }
       ]
@@ -71419,6 +70928,44 @@
           "roundNumber": 1
         }
       ]
+    },
+    {
+      "id": "2v122fi8",
+      "name": "Andreas",
+      "rounds": [
+        {
+          "date": "2026-06-29",
+          "year": "2026",
+          "groupId": "541zntld",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "3",
+          "precipProbability": "0",
+          "id": "cinrbp8q",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        }
+      ]
     }
   ],
   "pricing": {
@@ -71724,7 +71271,7 @@
       "hardness": "50",
       "weight": "35",
       "color": "Gelb",
-      "notes": "2x im Bestand, Alt=schneller"
+      "notes": ""
     },
     {
       "id": "110df8w7",
