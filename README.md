@@ -1,1 +1,1 @@
-# Christians-Minigolf-Scorecard
+# Minigolf-Scorecard
