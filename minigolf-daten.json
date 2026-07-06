@@ -7,6 +7,43 @@
         {
           "date": "2026-07-06",
           "year": "2026",
+          "groupId": "673xrr9c",
+          "time": "17:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "g30czg4u",
+          "scores": [
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            3,
+            4,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
           "groupId": "u3bgimkk",
           "time": "16:19",
           "weather": [
@@ -68380,6 +68417,40 @@
       "id": "gccblctp",
       "name": "Gerd",
       "rounds": [
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "673xrr9c",
+          "time": "17:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "v046p2qe",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
         {
           "date": "2026-07-06",
           "year": "2026",
