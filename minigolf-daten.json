@@ -7,38 +7,6 @@
         {
           "date": "2026-07-05",
           "year": "2026",
-          "time": "19:20",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "23",
-          "windSpeed": "19",
-          "precipProbability": "86",
-          "id": "qqlc6mqg",
-          "scores": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1
-          ]
-        },
-        {
-          "date": "2026-07-05",
-          "year": "2026",
           "groupId": "ufhy3kyu",
           "time": "13:04",
           "weather": [
