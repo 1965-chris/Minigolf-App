@@ -7,6 +7,44 @@
         {
           "date": "2026-07-06",
           "year": "2026",
+          "groupId": "9lmotevd",
+          "time": "18:29",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "p3c0vyvh",
+          "scores": [
+            1,
+            1,
+            4,
+            4,
+            1,
+            3,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "2": true,
+            "3": true,
+            "8": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
           "groupId": "673xrr9c",
           "time": "17:26",
           "weather": [
@@ -69081,6 +69119,42 @@
       "id": "p3",
       "name": "Rolf",
       "rounds": [
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "9lmotevd",
+          "time": "18:29",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "fac4lu4z",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            5,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
         {
           "date": "2026-06-29",
           "year": "2026",
