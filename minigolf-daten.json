@@ -7,6 +7,44 @@
         {
           "date": "2026-07-07",
           "year": "2026",
+          "groupId": "10gbefap",
+          "time": "17:43",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "24",
+          "precipProbability": "0",
+          "id": "alz5hkp9",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "1": true,
+            "15": true
+          }
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
           "groupId": "4oex91av",
           "time": "15:26",
           "weather": [
@@ -53201,6 +53239,40 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "10gbefap",
+          "time": "17:43",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "24",
+          "precipProbability": "0",
+          "id": "ce0vbq5p",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            1
+          ]
+        },
         {
           "date": "2026-07-07",
           "year": "2026",
