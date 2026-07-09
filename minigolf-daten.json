@@ -7,6 +7,40 @@
         {
           "date": "2026-07-09",
           "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "n9vxrwss",
+          "scores": [
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
           "groupId": "rcutwmlq",
           "time": "15:39",
           "weather": [
@@ -68770,6 +68804,43 @@
         {
           "date": "2026-07-09",
           "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "tm7fa6mk",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
           "groupId": "rcutwmlq",
           "time": "15:39",
           "weather": [
@@ -69532,6 +69603,43 @@
       "id": "2v122fi8",
       "name": "Andreas",
       "rounds": [
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "mo06fdwh",
+          "scores": [
+            1,
+            3,
+            1,
+            4,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
         {
           "date": "2026-06-29",
           "year": "2026",
@@ -72296,6 +72404,46 @@
             1
           ],
           "roundNumber": 1
+        }
+      ]
+    },
+    {
+      "id": "orjbe8fe",
+      "name": "Heike",
+      "rounds": [
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "7kaftwwt",
+          "scores": [
+            2,
+            4,
+            1,
+            3,
+            1,
+            2,
+            1,
+            3,
+            4,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            1
+          ]
         }
       ]
     }
