@@ -5,6 +5,43 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "62j0ncb7",
+          "time": "11:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "balx8409",
+          "scores": [
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            7,
+            3,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
           "date": "2026-07-09",
           "year": "2026",
           "groupId": "6tmfmvjc",
@@ -68801,6 +68838,42 @@
       "id": "gccblctp",
       "name": "Gerd",
       "rounds": [
+        {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "62j0ncb7",
+          "time": "11:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "4xi2kl2w",
+          "scores": [
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
         {
           "date": "2026-07-09",
           "year": "2026",
