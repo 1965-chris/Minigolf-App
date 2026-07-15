@@ -5,6 +5,39 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-15",
+          "year": "2026",
+          "groupId": "kxxggq8u",
+          "time": "21:49",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "12",
+          "precipProbability": "5",
+          "id": "23wc75fa",
+          "scores": [
+            2,
+            3,
+            1,
+            1,
+            3,
+            2,
+            1,
+            3,
+            1,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
           "date": "2026-07-12",
           "year": "2026",
           "groupId": "qcn300k9",
@@ -53526,6 +53559,39 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-07-15",
+          "year": "2026",
+          "groupId": "kxxggq8u",
+          "time": "21:49",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "12",
+          "precipProbability": "5",
+          "id": "lb7ub4zd",
+          "scores": [
+            2,
+            2,
+            3,
+            4,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2
+          ]
+        },
         {
           "date": "2026-07-07",
           "year": "2026",
