@@ -7,29 +7,38 @@
         {
           "date": "2026-07-16",
           "year": "2026",
-          "groupId": "jnohd6en",
-          "time": "12:08",
-          "id": "et038d7z",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "k6hfmgim",
           "scores": [
+            1,
             2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
+            3,
             2,
             2,
             2,
             1,
-            1,
+            2,
+            2,
+            2,
             1,
             2,
-            1
-          ]
+            2,
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "15": true
+          }
         },
         {
           "date": "2026-07-16",
@@ -68734,6 +68743,39 @@
         {
           "date": "2026-07-16",
           "year": "2026",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "jae7yhbw",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
           "groupId": "54k54glm",
           "time": "10:52",
           "weather": [
@@ -69018,29 +69060,38 @@
         {
           "date": "2026-07-16",
           "year": "2026",
-          "groupId": "jnohd6en",
-          "time": "12:08",
-          "id": "e3fe513p",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "ims9i5ho",
           "scores": [
-            1,
-            1,
-            1,
+            2,
             1,
             2,
+            1,
+            1,
+            2,
+            1,
             2,
             2,
+            1,
+            1,
+            2,
+            3,
             2,
             2,
+            5,
             2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
-          ]
+            1
+          ],
+          "stars": {
+            "2": true
+          }
         },
         {
           "date": "2026-07-16",
