@@ -5,6 +5,39 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "zq1rgnpb",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            6,
+            2,
+            2,
+            1
+          ]
+        },
+        {
           "date": "2026-07-12",
           "year": "2026",
           "groupId": "qcn300k9",
@@ -68672,6 +68705,39 @@
       "name": "Sylvia",
       "rounds": [
         {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "84dc5mub",
+          "scores": [
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
           "date": "2026-07-07",
           "year": "2026",
           "groupId": "4oex91av",
@@ -68922,6 +68988,43 @@
       "id": "gccblctp",
       "name": "Gerd",
       "rounds": [
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "sdam1n5l",
+          "scores": [
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
         {
           "date": "2026-07-12",
           "year": "2026",
