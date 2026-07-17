@@ -73576,7 +73576,7 @@
     }
   ],
   "aceStreakSettings": {
-    "speechEnabled": true,
+    "speechEnabled": false,
     "whatsappNumber": "+4915234179349",
     "voiceURI": "",
     "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
