@@ -72956,25 +72956,11 @@
   ],
   "gastro": [
     {
-      "id": "acs46d44",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Coca-Cola",
-      "amount": 2
-    },
-    {
       "id": "6psfmmym",
       "date": "2026-07-12",
       "year": "2026",
       "name": "Getränke/Snaks v.01.03-12.07.2026",
       "amount": 310
-    },
-    {
-      "id": "92pn7mep",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Kaffee",
-      "amount": 2
     }
   ],
   "tournamentPlacements": {
