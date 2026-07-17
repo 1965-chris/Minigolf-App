@@ -5,31 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2024-08-10",
-          "year": "2024",
-          "id": "8utslpyn",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            1,
-            2
-          ]
-        },
-        {
           "date": "2026-07-16",
           "year": "2026",
           "groupId": "lsomau3y",
@@ -14202,6 +14177,31 @@
             2
           ],
           "groupId": "an107vi2"
+        },
+        {
+          "date": "2024-08-10",
+          "year": "2024",
+          "id": "8utslpyn",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2
+          ]
         },
         {
           "id": "Christian-2024-236",
@@ -72954,22 +72954,7 @@
       "amount": 12
     }
   ],
-  "gastro": [
-    {
-      "id": "6psfmmym",
-      "date": "2026-07-12",
-      "year": "2026",
-      "name": "Getränke/Snaks v.01.03-12.07.2026",
-      "amount": 310
-    },
-    {
-      "id": "3diz7rde",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 6
-    }
-  ],
+  "gastro": [],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
@@ -73574,5 +73559,11 @@
       "color": "Grün",
       "notes": ""
     }
-  ]
+  ],
+  "aceStreakSettings": {
+    "speechEnabled": true,
+    "whatsappNumber": "",
+    "voiceURI": "",
+    "messageTemplate": "Spitze! {name} nimmt eine Cola!"
+  }
 }
