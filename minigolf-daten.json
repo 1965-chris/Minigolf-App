@@ -72954,22 +72954,7 @@
       "amount": 12
     }
   ],
-  "gastro": [
-    {
-      "id": "6psfmmym",
-      "date": "2026-07-12",
-      "year": "2026",
-      "name": "Getränke/Snaks v.01.03-12.07.2026",
-      "amount": 310
-    },
-    {
-      "id": "3diz7rde",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 6
-    }
-  ],
+  "gastro": [],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
@@ -73579,7 +73564,7 @@
     "speechEnabled": false,
     "whatsappNumber": "+4915234179349",
     "voiceURI": "",
-    "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
+    "elevenLabsVoiceId": "4RZ84U1b4WCqpu57LvIq",
     "messageTemplate": "Spitze! {name} nimmt eine Cola!",
     "voiceName": "Anna"
   }
