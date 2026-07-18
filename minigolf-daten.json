@@ -73578,7 +73578,7 @@
   "aceStreakSettings": {
     "speechEnabled": false,
     "whatsappNumber": "+4915234179349",
-    "googleVoiceName": "",
+    "googleVoiceName": "de-DE-Neural2-C",
     "messageTemplate": "{name} gibt einen aus! Er hat 4 Asse!",
     "messageHistory": [
       "{name} gibt einen aus! Er hat 4 Asse!"
