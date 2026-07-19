@@ -149,6 +149,13 @@
     padding: 0.6rem 0.75rem; font-size: 1rem; outline: none; background: white;
     color: var(--ink);
   }
+  input[type="date"] {
+    -webkit-appearance: none; appearance: none;
+    box-sizing: border-box;
+    padding-top: 0; padding-bottom: 0;
+    height: 2.75rem; line-height: 2.75rem;
+  }
+  input[type="date"]::-webkit-date-and-time-value { text-align: left; }
   input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(45,106,79,0.2); }
   .field-label { display: block; font-size: 0.875rem; font-weight: 500; color: #57534e; margin-bottom: 0.4rem; }
 
@@ -476,6 +483,209 @@ function getRoundEntries(playerId, roundId) {
   return entries;
 }
 
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+// Renders a round summary as a shareable PNG image (canvas), matching the app's look.
+async function generateRoundShareImage(playerId, roundId) {
+  const entries = getRoundEntries(playerId, roundId);
+  if (entries.length === 0) return null;
+  const rep = entries[0].round;
+
+  const W = 800;
+  const PAD = 28;
+  const HEADER_H = 128;
+  const PLAYER_H = 190;
+  const FOOTER_H = 40;
+  const H = HEADER_H + entries.length * PLAYER_H + FOOTER_H;
+  const SCALE = 2;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W * SCALE;
+  canvas.height = H * SCALE;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(SCALE, SCALE);
+
+  // Background
+  ctx.fillStyle = "#F7F4ED";
+  ctx.fillRect(0, 0, W, H);
+
+  // Header
+  ctx.fillStyle = "#1B4332";
+  ctx.fillRect(0, 0, W, HEADER_H);
+  ctx.fillStyle = "#F7F4ED";
+  ctx.font = "700 30px Georgia, 'Times New Roman', serif";
+  ctx.fillText("⛳ Minigolf Scorecard", PAD, 52);
+  ctx.font = "400 17px -apple-system, 'Segoe UI', sans-serif";
+  ctx.fillStyle = "#D4A373";
+  const dateLine = `${formatDate(rep.date)}${rep.time ? ", " + rep.time : ""}`;
+  ctx.fillText(dateLine, PAD, 84);
+  let weatherLine = "";
+  if (rep.weather) weatherLine += weatherIconsForRound(rep.weather) + " ";
+  if (rep.temperature !== undefined && rep.temperature !== "") weatherLine += rep.temperature + "°C ";
+  if (rep.windSpeed) weatherLine += rep.windSpeed + " km/h ";
+  if (rep.precipProbability) weatherLine += rep.precipProbability + "% Regen";
+  if (weatherLine) {
+    ctx.fillStyle = "#e7e5e4";
+    ctx.font = "400 15px -apple-system, 'Segoe UI', sans-serif";
+    ctx.fillText(weatherLine.trim(), PAD, 108);
+  }
+
+  // Players
+  let y = HEADER_H + 20;
+  entries.forEach(({ player, round }) => {
+    const total = round.scores.reduce((a, b) => a + b, 0);
+    const diff = total - PAR_TOTAL;
+    const aces = round.scores.filter(s => s === 1).length;
+    const errors = round.scores.reduce((s, v) => s + Math.max(0, v - 2), 0);
+
+    ctx.fillStyle = "#1c1917";
+    ctx.font = "700 23px Georgia, 'Times New Roman', serif";
+    ctx.fillText(player.name, PAD, y + 22);
+
+    ctx.textAlign = "right";
+    ctx.font = "700 28px 'SF Mono', Menlo, Consolas, monospace";
+    ctx.fillStyle = "#1B4332";
+    ctx.fillText(String(total), W - PAD, y + 24);
+    ctx.textAlign = "left";
+
+    let subLine = diff === 0 ? "Par" : diff > 0 ? `+${diff}` : String(diff);
+    if (aces > 0) subLine += `   🏆 ${aces} Ass${aces === 1 ? "" : "e"}`;
+    if (errors > 0) subLine += `   ⚠️ ${errors} Fehler`;
+    ctx.fillStyle = "#78716c";
+    ctx.font = "400 14px -apple-system, 'Segoe UI', sans-serif";
+    ctx.fillText(subLine, PAD, y + 46);
+
+    // Mini hole grid: 9 columns x 2 rows
+    const gridY = y + 62;
+    const cellW = (W - 2 * PAD) / 9;
+    const cellH = 42;
+    round.scores.forEach((s, idx) => {
+      const col = idx % 9;
+      const row = Math.floor(idx / 9);
+      const cx = PAD + col * cellW;
+      const cy = gridY + row * (cellH + 6);
+      const par = PARS[idx];
+      let bg = "#f5f5f4", txt = "#44403c";
+      if (s === 1) { bg = "#fef3c7"; txt = "#b45309"; }
+      else if (s < par) { bg = "#dcfce7"; txt = "#15803d"; }
+      else if (s > par) { bg = "#fee2e2"; txt = "#b91c1c"; }
+      ctx.fillStyle = bg;
+      drawRoundedRect(ctx, cx + 2, cy, cellW - 4, cellH, 6);
+      ctx.fill();
+      ctx.fillStyle = "#a8a29e";
+      ctx.font = "400 9px -apple-system, sans-serif";
+      ctx.fillText(String(idx + 1), cx + 7, cy + 12);
+      ctx.fillStyle = txt;
+      ctx.font = "700 16px 'SF Mono', Menlo, Consolas, monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(String(s), cx + cellW / 2 - 1, cy + 30);
+      ctx.textAlign = "left";
+    });
+
+    y += PLAYER_H;
+  });
+
+  ctx.fillStyle = "#a8a29e";
+  ctx.font = "400 11px -apple-system, sans-serif";
+  ctx.fillText("Erstellt mit Minigolf Scorecard", PAD, H - 14);
+
+  return new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+}
+
+// Shares a PNG blob via the native share sheet (Mail, WhatsApp, etc.), falling
+// back to a plain download if the Web Share API with files isn't available.
+async function shareImageBlob(blob, fileName, title, text) {
+  if (!blob) {
+    showToast("Bild konnte nicht erstellt werden");
+    return;
+  }
+  const file = new File([blob], fileName, { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title, text });
+      return;
+    } catch(e) {
+      if (e && e.name === "AbortError") return; // user cancelled the share sheet
+      // fall through to download fallback below
+    }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  showToast("Bild heruntergeladen 📥 (Teilen per App nicht verfügbar)");
+}
+
+// Renders a small celebratory PNG for a 4-aces-in-a-row streak, shareable
+// immediately when it happens (same visual language as the round-share image).
+function wrapCanvasText(ctx, text, maxWidth) {
+  const words = text.split(" ");
+  const lines = [];
+  let line = "";
+  words.forEach(word => {
+    const test = line ? line + " " + word : word;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = test;
+    }
+  });
+  if (line) lines.push(line);
+  return lines;
+}
+
+async function generateAceStreakShareImage(alert, dateStr) {
+  const W = 640, H = 480, SCALE = 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = W * SCALE;
+  canvas.height = H * SCALE;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(SCALE, SCALE);
+
+  ctx.fillStyle = "#1B4332";
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = "#D4A373";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(W / 2, 130, 68, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.textAlign = "center";
+  ctx.font = "60px -apple-system, 'Segoe UI', sans-serif";
+  ctx.fillText("🏆", W / 2, 152);
+
+  const message = alert.msg || `4 Asse in Folge! ${alert.name} gibt eine Runde aus!`;
+  ctx.fillStyle = "#F7F4ED";
+  ctx.font = "700 28px Georgia, 'Times New Roman', serif";
+  const lines = wrapCanvasText(ctx, message, W - 90).slice(0, 4);
+  let ly = 245;
+  lines.forEach(line => { ctx.fillText(line, W / 2, ly); ly += 38; });
+
+  ctx.fillStyle = "#a8a29e";
+  ctx.font = "400 14px -apple-system, 'Segoe UI', sans-serif";
+  ctx.fillText(`Bahn ${alert.hole} · ${dateStr}`, W / 2, ly + 12);
+
+  ctx.font = "400 12px -apple-system, sans-serif";
+  ctx.fillText("Minigolf Scorecard", W / 2, H - 20);
+  ctx.textAlign = "left";
+
+  return new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+}
+
 function buildRoundShareText(playerId, roundId) {
   const entries = getRoundEntries(playerId, roundId);
   if (entries.length === 0) return "";
@@ -569,6 +779,7 @@ function renderRoundDetailModal() {
     const total = round.scores.reduce((a,b)=>a+b,0);
     const diff = total - PAR_TOTAL;
     const aces = round.scores.filter(s=>s===1).length;
+    const errors = round.scores.reduce((sum,s) => sum + Math.max(0, s - 2), 0);
     const cardTitle = isTournamentGroup ? `Runde ${round.roundNumber || (idx+1)}` : player.name;
     html += `<div class="card">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
@@ -580,7 +791,10 @@ function renderRoundDetailModal() {
       </div>
       <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem; color:#78716c; margin-bottom:0.5rem;">
         <span>${diff === 0 ? 'Par' : diff > 0 ? `+${diff}` : diff}</span>
-        ${aces > 0 ? `<span class="txt-ace" style="display:flex; align-items:center; gap:0.25rem;">${ICONS.trophy(13)} ${aces} ${aces===1?'Ass':'Asse'}</span>` : ''}
+        <span style="display:flex; align-items:center; gap:0.6rem;">
+          ${aces > 0 ? `<span class="txt-ace" style="display:flex; align-items:center; gap:0.25rem;">${ICONS.trophy(13)} ${aces} ${aces===1?'Ass':'Asse'}</span>` : ''}
+          ${errors > 0 ? `<span style="display:flex; align-items:center; gap:0.25rem; color:#dc2626;">⚠️ ${errors} Fehler</span>` : ''}
+        </span>
       </div>
       <div class="mini-grid">
         ${round.scores.map((s,i) => `<div class="mini-cell ${scoreClassBg(s, PARS[i])} ${round.notes?.[i] ? 'has-note' : ''} ${round.stars?.[i] ? 'has-star' : ''}" title="${round.stars?.[i] ? 'Vom Abschlag eingelocht' : ''}">
@@ -597,12 +811,8 @@ function renderRoundDetailModal() {
     html += renderTournamentBlock(gid);
   }
 
-  html += `<button class="btn btn-primary btn-full" data-action="share-round-detail" style="margin-top:0.5rem;">${ICONS.download(15)} Runde teilen (kopieren)</button>
-    <p style="font-size:0.8rem; color:#78716c; margin:0.6rem 0 0;">Kopiert eine Textzusammenfassung in die Zwischenablage.</p>`;
-
-  if (state.shareText) {
-    html += `<textarea readonly style="width:100%; height:8rem; margin-top:0.6rem; font-family:'SF Mono',Menlo,Consolas,monospace; font-size:0.7rem; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; background:white;">${esc(state.shareText)}</textarea>`;
-  }
+  html += `<button class="btn btn-primary btn-full" data-action="share-round-detail" style="margin-top:0.5rem;">${ICONS.download(15)} Runde teilen (Bild)</button>
+    <p style="font-size:0.8rem; color:#78716c; margin:0.6rem 0 0;">Erstellt ein Bild der Runde – wähle danach Mail, WhatsApp o.ä.</p>`;
 
   html += `</div></div>`;
   return html;
@@ -613,12 +823,13 @@ function renderRoundDetailModal() {
 // ============================================================
 function renderBallsView() {
   const tournamentBalls = getBallsFromTournament();
-  const manualBalls = state.balls;
+  const manualBalls = state.balls.filter(b => !b.id.startsWith("tourn_"));
   const allBalls = [...tournamentBalls, ...manualBalls];
 
-  let html = `<h2 class="section-title">${ICONS.flag(18, "#2D6A4F")} Ball-Datenbank</h2>`;
+  let html = `<h2 class="section-title">${ICONS.flag(18, "#2D6A4F")} Ball-Datenbank <span style="font-weight:400; color:#78716c; font-size:0.85rem;">(${allBalls.length})</span></h2>`;
 
-  html += `<button class="btn btn-primary btn-full" data-action="ball-open-add" style="margin-bottom:1rem; display:flex; align-items:center; justify-content:center; gap:0.5rem;">${ICONS.plus(16)} Neuen Ball hinzufügen</button>`;
+  html += `<button class="btn btn-primary btn-full" data-action="ball-open-add" style="margin-bottom:0.6rem; display:flex; align-items:center; justify-content:center; gap:0.5rem;">${ICONS.plus(16)} Neuen Ball hinzufügen</button>`;
+  html += `<button class="btn btn-secondary btn-full" data-action="sync-tournament-balls" style="margin-bottom:1rem; display:flex; align-items:center; justify-content:center; gap:0.5rem;">🎯 Turnier-Bälle synchronisieren</button>`;
 
   if (allBalls.length === 0) {
     html += `<div class="card-dashed">Noch keine Bälle in der Datenbank.<br/>Füge Bälle manuell hinzu oder sie werden automatisch aus dem Einballturnier übernommen.</div>`;
@@ -916,6 +1127,45 @@ function persistAccessories() {
   try { localStorage.setItem(ACCESSORIES_KEY, JSON.stringify(state.accessories)); } catch (e) {}
 }
 
+const GASTRO_KEY = "minigolf-gastro";
+function loadGastro() {
+  try {
+    const raw = localStorage.getItem(GASTRO_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data)) return data;
+    }
+  } catch (e) {}
+  return [];
+}
+function persistGastro() {
+  try { localStorage.setItem(GASTRO_KEY, JSON.stringify(state.gastro)); } catch (e) {}
+}
+
+// Saves a Gastronomie entry, summing multiple categories into one amount and
+// merging with any existing entry for the same day (so each day shows as a
+// single, combined line in the Kostenaufstellung).
+function saveGastroEntry(date, drinks, snacks, icecream) {
+  const parts = [];
+  if (drinks > 0) parts.push("Getränke");
+  if (snacks > 0) parts.push("Snacks");
+  if (icecream > 0) parts.push("Eis");
+  const total = drinks + snacks + icecream;
+  if (parts.length === 0 || total <= 0) return { ok: false };
+
+  const existing = state.gastro.find(g => g.date === date);
+  if (existing) {
+    existing.amount = (parseDecimal(existing.amount) || 0) + total;
+    const existingParts = (existing.name || "").split("+").map(s => s.trim()).filter(Boolean);
+    parts.forEach(p => { if (!existingParts.includes(p)) existingParts.push(p); });
+    existing.name = existingParts.join(" + ");
+  } else {
+    state.gastro.push({ id: uid(), date, year: date.slice(0,4), name: parts.join(" + "), amount: total });
+  }
+  persistGastro();
+  return { ok: true, total };
+}
+
 // --- Tournament placements (e.g. "3. Platz von 12" for the Einballturnier) ---
 const TOURNAMENT_PLACEMENTS_KEY = "minigolf-tournament-placements"; // { [groupId]: "text" }
 function loadTournamentPlacements() {
@@ -1023,9 +1273,63 @@ function getBallsFromTournament() {
     .sort((a, b) => b.name.localeCompare(a.name));
 }
 
+// Mirrors tournament-derived balls into the real balls list (state.balls) under a
+// stable "tourn_<groupId>" id, so they get written to minigolf-baelle.json and are
+// therefore available in training.html - not just shown on the Ball-Datenbank page.
+// Only the tournament-sourced fields (photo/photo2/jumpHeight/hardness/weight) are kept
+// in sync here; manualBalls filtering hides these mirror entries from the balls-page
+// list itself (it still shows the live "Turnier Auto" version instead), so nothing
+// appears twice.
+async function syncTournamentBallsIntoDB() {
+  const tournamentBalls = getBallsFromTournament();
+  const liveIds = new Set(tournamentBalls.map(tb => "tourn_" + tb._tournamentGroupId));
+  let changed = false;
+
+  for (const tb of tournamentBalls) {
+    const id = "tourn_" + tb._tournamentGroupId;
+    const fields = {
+      photo: await compressDataUrl(tb.photo),
+      photo2: await compressDataUrl(tb.photo2),
+      jumpHeight: tb.jumpHeight,
+      hardness: tb.hardness,
+      weight: tb.weight,
+    };
+    const idx = state.balls.findIndex(b => b.id === id);
+    if (idx >= 0) {
+      const b = state.balls[idx];
+      if (b.photo !== fields.photo || b.photo2 !== fields.photo2 || b.jumpHeight !== fields.jumpHeight || b.hardness !== fields.hardness || b.weight !== fields.weight) {
+        state.balls[idx] = { ...b, ...fields };
+        changed = true;
+      }
+    } else {
+      state.balls.push({
+        id,
+        manufacturer: tb.manufacturer,
+        series: tb.series,
+        name: tb.name,
+        color: "",
+        notes: "",
+        ...fields,
+      });
+      changed = true;
+    }
+  }
+
+  // Remove mirrors whose tournament entry no longer exists (e.g. round deleted)
+  const before = state.balls.length;
+  state.balls = state.balls.filter(b => !b.id.startsWith("tourn_") || liveIds.has(b.id));
+  if (state.balls.length !== before) changed = true;
+
+  if (changed) persistBalls();
+  return changed;
+}
 const CLAUDE_API_KEY_STORAGE = "minigolf-claude-api-key";
 function loadClaudeApiKey() { try { return localStorage.getItem(CLAUDE_API_KEY_STORAGE) || ""; } catch(e) { return ""; } }
 function saveClaudeApiKey(k) { try { localStorage.setItem(CLAUDE_API_KEY_STORAGE, k); } catch(e) {} }
+
+const GOOGLE_TTS_API_KEY_STORAGE = "minigolf-google-tts-api-key";
+function loadGoogleTtsApiKey() { try { return localStorage.getItem(GOOGLE_TTS_API_KEY_STORAGE) || ""; } catch(e) { return ""; } }
+function saveGoogleTtsApiKey(k) { try { localStorage.setItem(GOOGLE_TTS_API_KEY_STORAGE, k); } catch(e) {} }
 
 // --- Weather location (for automatic weather lookup via Open-Meteo) ---
 const WEATHER_LOCATION_KEY = "minigolf-weather-location"; // {name, lat, lon}
@@ -1041,6 +1345,19 @@ function loadWeatherLocation() {
 }
 function persistWeatherLocation() {
   try { localStorage.setItem(WEATHER_LOCATION_KEY, JSON.stringify(state.weatherLocation)); } catch (e) {}
+}
+
+const ACE_STREAK_DEFAULT_MESSAGE = "4 Asse in Folge! {name} gibt eine Runde aus!";
+const ACE_STREAK_SETTINGS_KEY = "minigolf-ace-streak-settings"; // {whatsappNumber, speechEnabled}
+function loadAceStreakSettings() {
+  try {
+    const raw = localStorage.getItem(ACE_STREAK_SETTINGS_KEY);
+    if (raw) return { speechEnabled: true, whatsappNumber: "", googleVoiceName: "", messageTemplate: ACE_STREAK_DEFAULT_MESSAGE, messageHistory: [], ...JSON.parse(raw) };
+  } catch (e) {}
+  return { speechEnabled: true, whatsappNumber: "", googleVoiceName: "", messageTemplate: ACE_STREAK_DEFAULT_MESSAGE, messageHistory: [] };
+}
+function persistAceStreakSettings() {
+  try { localStorage.setItem(ACE_STREAK_SETTINGS_KEY, JSON.stringify(state.aceStreakSettings)); } catch (e) {}
 }
 
 // Searches for a place name via Open-Meteo's free geocoding API (no key required).
@@ -1126,8 +1443,10 @@ function buildExportBundle() {
     players: state.players,
     pricing: state.pricing,
     accessories: state.accessories,
+    gastro: state.gastro,
     tournamentPlacements: state.tournamentPlacements,
     balls: state.balls,
+    aceStreakSettings: state.aceStreakSettings,
   };
 }
 
@@ -1142,7 +1461,12 @@ function applyImportedBundle(data) {
     incomingPlayers = data.players;
     if (data.pricing && typeof data.pricing === "object") state.pricing = data.pricing;
     if (Array.isArray(data.accessories)) state.accessories = data.accessories;
+    if (Array.isArray(data.gastro)) state.gastro = data.gastro;
     if (data.tournamentPlacements && typeof data.tournamentPlacements === "object") state.tournamentPlacements = data.tournamentPlacements;
+    if (data.aceStreakSettings && typeof data.aceStreakSettings === "object") {
+      state.aceStreakSettings = { ...state.aceStreakSettings, ...data.aceStreakSettings };
+      persistAceStreakSettings();
+    }
     if (Array.isArray(data.balls)) {
       const localIds = new Set(state.balls.map(b => b.id));
       const newBalls = data.balls.filter(b => b.id && !localIds.has(b.id));
@@ -1471,7 +1795,8 @@ function persist() {
 // GitHub sync
 // ============================================================
 const GITHUB_CONFIG_KEY = "minigolf-github-config";
-const APP_VERSION = "069";
+const APP_VERSION = "094";
+const EINTRAGEN_ICON = "data:image/png;base64,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";
 
 function loadGithubConfig() {
   try {
@@ -1486,6 +1811,208 @@ function saveGithubConfig(cfg) {
 function githubConfigured() {
   const cfg = loadGithubConfig();
   return !!(cfg && cfg.owner && cfg.repo && cfg.token);
+}
+
+// Downscale + re-compress a photo before storing it, so a raw iPhone photo
+// (often 3-6 MB) becomes a small JPEG (~100-150 KB). Used for ball photos.
+function compressImageFile(file, maxDim = 1000, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > height && width > maxDim) { height = Math.round(height * maxDim / width); width = maxDim; }
+      else if (height >= width && height > maxDim) { width = Math.round(width * maxDim / height); height = maxDim; }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+}
+
+// Same idea, but for images already stored as a data: URL (e.g. older tournament
+// photos uploaded before compression existed) - downscales/re-encodes in place.
+// Skips already-small images to avoid needless work.
+function compressDataUrl(dataUrl, maxDim = 1000, quality = 0.72) {
+  return new Promise((resolve) => {
+    if (!dataUrl || typeof dataUrl !== "string" || !dataUrl.startsWith("data:image")) { resolve(dataUrl); return; }
+    if (dataUrl.length < 150000) { resolve(dataUrl); return; } // already small (~<110KB binary)
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > height && width > maxDim) { height = Math.round(height * maxDim / width); width = maxDim; }
+      else if (height >= width && height > maxDim) { width = Math.round(width * maxDim / height); height = maxDim; }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => resolve(dataUrl); // keep original if it fails to decode
+    img.src = dataUrl;
+  });
+}
+
+// iOS Safari only allows audio.play() without restriction when it's a DIRECT,
+// synchronous result of a user gesture. Since we need to await a network
+// fetch first, play() can get silently blocked afterwards. Workaround: prime
+// one reusable <audio> element with a real play()+pause() during any early
+// tap in the app - once "unlocked" this way, iOS keeps allowing playback on
+// that same element for the rest of the session, even from async callbacks.
+let __unlockedAudio = null;
+function unlockAudioPlayback() {
+  if (__unlockedAudio) return;
+  try {
+    const a = new Audio();
+    a.src = "data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgID/+xDECgAJyAP///wAAAAA//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+    a.volume = 0;
+    const p = a.play();
+    if (p && p.then) p.then(() => { a.pause(); a.volume = 1; }).catch(() => { a.volume = 1; });
+  } catch(e) {}
+  __unlockedAudio = true;
+}
+if (typeof document !== "undefined") {
+  document.addEventListener("touchstart", unlockAudioPlayback, { once: true, passive: true });
+  document.addEventListener("click", unlockAudioPlayback, { once: true });
+}
+
+// Premium TTS via Google Cloud Text-to-Speech - this is the ONLY announcement
+// path (no browser-voice fallback), since Safari's Web Speech API can't reach
+// the good iOS voices anyway (Apple restriction). Requires the user's own
+// Google Cloud API key (kept local-only, never synced to GitHub).
+// Returns {ok, reason} so callers (and "Stimme testen") can show what failed.
+async function speakViaGoogleTTS(text) {
+  const apiKey = state.googleTtsApiKey;
+  if (!apiKey) return { ok: false, reason: "Kein Google-Cloud-Key hinterlegt" };
+  const voiceName = (state.aceStreakSettings.googleVoiceName || "").trim() || "de-DE-Neural2-C";
+  let response;
+  try {
+    response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${encodeURIComponent(apiKey)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input: { text },
+        voice: { languageCode: "de-DE", name: voiceName },
+        audioConfig: { audioEncoding: "MP3" },
+      }),
+    });
+  } catch(e) {
+    return { ok: false, reason: "Netzwerk-/CORS-Fehler beim Abruf: " + (e.message || "?") };
+  }
+  if (!response.ok) {
+    let detail = `HTTP ${response.status}`;
+    try { const j = await response.json(); if (j?.error?.message) detail += ": " + j.error.message; } catch(e) {}
+    return { ok: false, reason: detail };
+  }
+  try {
+    const j = await response.json();
+    if (!j.audioContent) return { ok: false, reason: "Keine Audiodaten in der Antwort" };
+    const binary = atob(j.audioContent);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const blob = new Blob([bytes], { type: "audio/mp3" });
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onended = () => URL.revokeObjectURL(url);
+    audio.onerror = () => URL.revokeObjectURL(url);
+    await audio.play();
+    return { ok: true };
+  } catch(e) {
+    return { ok: false, reason: "Wiedergabe blockiert: " + (e.name || e.message || "?") };
+  }
+}
+
+async function speakAnnouncement(text) {
+  try {
+    if (!state.aceStreakSettings.speechEnabled) return { ok: false, reason: "Sprachansage deaktiviert" };
+    return await speakViaGoogleTTS(text);
+  } catch(e) {
+    return { ok: false, reason: "Unerwarteter Fehler in speakAnnouncement: " + (e && e.message ? e.message : String(e)) };
+  }
+}
+
+function scrollToFirstPlayerCard() {
+  requestAnimationFrame(() => {
+    const first = document.querySelector('[data-player-card]');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+function scrollToNextPlayerCard(playerId) {
+  requestAnimationFrame(() => {
+    const cards = Array.from(document.querySelectorAll('[data-player-card]'));
+    const idx = cards.findIndex(c => c.dataset.playerCard === playerId);
+    if (idx >= 0 && idx < cards.length - 1) {
+      cards[idx + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+}
+
+function longestAceStreakInRound(round) {
+  let streak = 0, best = 0;
+  (round.scores || []).forEach(s => {
+    if (s === 1) { streak++; if (streak > best) best = streak; }
+    else streak = 0;
+  });
+  return best;
+}
+
+function formatStatsListValue(type, value) {
+  if (type === "best") return `${value} / ${PAR_TOTAL}`;
+  if (type === "aces") return `${value}× in Folge`;
+  return String(value);
+}
+
+function renderStatsListModal() {
+  const m = state.statsListModal;
+  if (!m) return "";
+  let html = `<div class="modal-overlay" data-action="close-stats-list">
+    <div class="modal-box" style="max-width:32rem; max-height:85vh; overflow-y:auto;" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <h3 class="font-display">${esc(m.title)}</h3>
+        <button class="modal-close" data-action="close-stats-list">${ICONS.x(20)}</button>
+      </div>`;
+  if (m.items.length === 0) {
+    html += `<div class="card-dashed">Keine passenden Runden gefunden.</div>`;
+  } else {
+    html += `<div>`;
+    m.items.forEach((it, i) => {
+      html += `<div data-action="show-round-detail-from-stats" data-player="${esc(m.playerId || '')}" data-round="${esc(it.round.id)}" style="display:flex; align-items:center; gap:0.6rem; padding:0.55rem 0.1rem; cursor:pointer; ${i < m.items.length-1 ? 'border-bottom:1px solid #f5f5f4;' : ''}">
+        <span style="font-weight:700; color:#a8a29e; font-size:0.82rem; width:1.5rem; flex-shrink:0;">${i+1}.</span>
+        <span style="flex:1; font-size:0.88rem; color:#44403c;">${formatDate(it.round.date)}</span>
+        <span class="font-mono" style="font-weight:700; font-size:0.92rem; color:#2D6A4F;">${formatStatsListValue(m.type, it.value)}</span>
+        <span style="color:#d6d3d1;">${ICONS.chevron(14)}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `</div></div>`;
+  return html;
+}
+
+function renderGastroQuickModal() {
+  let html = `<div class="modal-overlay" data-action="close-gastro-quick">
+    <div class="modal-box" style="max-width:26rem;" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <h3 class="font-display">🍴 Gastronomie erfassen</h3>
+        <button class="modal-close" data-action="close-gastro-quick">${ICONS.x(20)}</button>
+      </div>
+      <input type="date" id="gastro-quick-date" value="${todayISO()}" style="margin-bottom:0.75rem;" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+        <div><label class="field-label">🥤 Getränke (€)</label><input type="text" inputMode="decimal" id="gastro-quick-drinks" placeholder="0,00" /></div>
+        <div><label class="field-label">🍟 Snacks (€)</label><input type="text" inputMode="decimal" id="gastro-quick-snacks" placeholder="0,00" /></div>
+      </div>
+      <div style="margin-bottom:0.85rem;"><label class="field-label">🍦 Eis (€)</label><input type="text" inputMode="decimal" id="gastro-quick-icecream" placeholder="0,00" /></div>
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.75rem;">Leer lassen, was nicht zutrifft. Beträge werden addiert; mehrere Erfassungen am selben Tag werden automatisch zusammengefasst.</p>
+      <button class="btn btn-primary btn-full" data-action="save-gastro-quick">${ICONS.plus(15)} Speichern</button>
+    </div>
+  </div>`;
+  return html;
 }
 
 function utf8ToBase64(str) {
@@ -1507,6 +2034,65 @@ function base64ToUtf8(str) {
   return decodeURIComponent(escape(atob(str.replace(/\n/g, ""))));
 }
 
+// Reliably gets a file's sha - uses the 'object' media type so this works even
+// for files over 1MB (where the default JSON media type can fail to return it).
+async function githubGetSha(cfg, branch, path) {
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${branch}&t=${Date.now()}`;
+    const res = await githubApiRequest(url, {
+      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github.object+json", "Cache-Control": "no-cache" }
+    });
+    if (res.ok) { const d = await res.json(); return d.sha || null; }
+  } catch(e) {}
+  return null;
+}
+
+// GitHub's "sha mismatch" conflict message - happens when two saves overlap
+// (e.g. saving a round right after adding a ball) and the second write's sha
+// reference goes stale because the first write already changed the file.
+function isShaConflict(reason) {
+  return !!reason && /expected/i.test(reason) && /is at/i.test(reason);
+}
+
+async function githubPutFileOnce(cfg, branch, path, contentObj, message) {
+  const sha = await githubGetSha(cfg, branch, path);
+  const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+  const body = { message, content: utf8ToBase64(JSON.stringify(contentObj, null, 2)), branch };
+  if (sha) body.sha = sha;
+  try {
+    const res = await githubApiRequest(apiUrl, {
+      method: "PUT",
+      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) return { ok: true };
+    let reason = `HTTP ${res.status}`;
+    try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
+    return { ok: false, reason, status: res.status };
+  } catch(e) {
+    return { ok: false, reason: "Netzwerkfehler" };
+  }
+}
+
+// Writes a file, automatically retrying once with a fresh sha on conflict.
+async function githubPutFile(cfg, branch, path, contentObj, message) {
+  let result = await githubPutFileOnce(cfg, branch, path, contentObj, message);
+  if (!result.ok && isShaConflict(result.reason)) {
+    result = await githubPutFileOnce(cfg, branch, path, contentObj, message);
+  }
+  return result;
+}
+
+// All GitHub writes funnel through this queue so overlapping saves (round
+// data + balls, manual save + auto-sync, etc.) run strictly one after
+// another instead of racing each other's sha.
+let githubSyncChain = Promise.resolve();
+function queueGithubWrite(fn) {
+  const run = githubSyncChain.then(fn, fn);
+  githubSyncChain = run.catch(() => {});
+  return run;
+}
+
 async function githubSave() {
   const cfg = loadGithubConfig();
   if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) {
@@ -1515,54 +2101,28 @@ async function githubSave() {
   }
   const path = cfg.path || "minigolf-daten.json";
   const branch = cfg.branch || "main";
-  const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
-  const json = JSON.stringify(buildExportBundle(), null, 2);
 
   state.syncing = true;
   render();
 
   try {
-    // Always fetch fresh SHA to avoid conflicts
-    let sha = null;
-    const getRes = await githubApiRequest(`${apiUrl}?ref=${encodeURIComponent(branch)}&t=${Date.now()}`, {
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Cache-Control": "no-cache" }
-    });
-    if (getRes.ok) {
-      const data = await getRes.json();
-      sha = data.sha;
-    } else if (getRes.status !== 404) {
-      throw new Error("Lesefehler (Status " + getRes.status + ")");
-    }
+    const message = "Minigolf Daten aktualisiert – " + new Date().toLocaleString("de-DE");
+    const result = await queueGithubWrite(() => githubPutFile(cfg, branch, path, buildExportBundle(), message));
 
-    const body = {
-      message: "Minigolf Daten aktualisiert – " + new Date().toLocaleString("de-DE"),
-      content: utf8ToBase64(json),
-      branch: branch,
-    };
-    if (sha) body.sha = sha;
-
-    const putRes = await githubApiRequest(apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `token ${cfg.token}`,
-        Accept: "application/vnd.github+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (putRes.ok) {
+    if (result.ok) {
       addSyncEntry("save", "Gespeichert auf GitHub");
       showToast("Auf GitHub gespeichert ✓");
-      const apiBase = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/`;
-      await githubSyncBalls(cfg, branch, apiBase);
-    } else if (putRes.status === 401) {
+      const { path: ballsPath } = getBallsApiUrl(cfg);
+      const ballsMsg = "Bälle-Sync – " + new Date().toLocaleString("de-DE");
+      const ballsResult = await queueGithubWrite(() => githubPutFile(cfg, branch, ballsPath, { balls: state.balls }, ballsMsg));
+      if (!ballsResult.ok) {
+        addSyncEntry("save", "⚠️ Bälle-Sync-Fehler: " + (ballsResult.reason || "").substring(0, 60));
+        showToast("Bälle-Sync fehlgeschlagen: " + (ballsResult.reason || "unbekannt"));
+      }
+    } else if (result.status === 401) {
       showToast("GitHub Token abgelaufen – bitte neu einrichten");
-    } else if (putRes.status === 422) {
-      showToast("SHA-Konflikt – bitte nochmal versuchen");
     } else {
-      const err = await putRes.json().catch(() => ({}));
-      showToast("Fehler " + putRes.status + ": " + (err.message || "Unbekannt"));
+      showToast("Fehler: " + (result.reason || "Unbekannt"));
     }
   } catch (e) {
     showToast("Fehler: " + (e.message || "Unbekannter Fehler beim Speichern"));
@@ -1587,48 +2147,34 @@ async function githubApiRequest(url, options = {}) {
   return await fetch(proxyUrl, { ...options, headers: { ...(options.headers || {}), "x-requested-with": "XMLHttpRequest" } });
 }
 
-async function getShaForFile(cfg, branch, path) {
-  try {
-    const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${branch}&t=${Date.now()}`;
-    const res = await githubApiRequest(apiUrl, {
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Cache-Control": "no-cache" }
-    });
-    if (res.ok) {
-      const data = await res.json();
-      return data.sha || null;
-    }
-  } catch(e) {}
-  return null;
-}
-
 async function githubAutoSync() {
   const cfg = loadGithubConfig();
-  if (!cfg || !cfg.token || !cfg.owner || !cfg.repo) return;
-  if (state.syncing) return;
-  try {
-    const branch = cfg.branch || "main";
-    const apiBase = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/`;
-    const path = cfg.path || "minigolf-daten.json";
+  if (!cfg || !cfg.token || !cfg.owner || !cfg.repo) return { ok: false, reason: "Kein GitHub-Zugang konfiguriert" };
+  return queueGithubWrite(async () => {
+    try {
+      const branch = cfg.branch || "main";
+      const path = cfg.path || "minigolf-daten.json";
+      const message = `Auto-Sync ${new Date().toLocaleDateString("de-DE")} ${new Date().toLocaleTimeString("de-DE", {hour:"2-digit",minute:"2-digit"})}`;
+      const dataResult = await githubPutFile(cfg, branch, path, buildExportBundle(), message);
+      if (dataResult.ok) {
+        addSyncEntry("save", "Auto-Sync nach Runde");
+      } else {
+        addSyncEntry("save", "⚠️ Sync-Fehler: " + (dataResult.reason || "?").substring(0,50));
+      }
 
-    const sha = await getShaForFile(cfg, branch, path);
-    const content = utf8ToBase64(JSON.stringify(buildExportBundle(), null, 2));
-    const body = { message: `Auto-Sync ${new Date().toLocaleDateString("de-DE")} ${new Date().toLocaleTimeString("de-DE", {hour:"2-digit",minute:"2-digit"})}`, content, branch };
-    if (sha) body.sha = sha;
-    const putRes = await githubApiRequest(apiBase + path, {
-      method: "PUT",
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (putRes.ok) {
-      addSyncEntry("save", "Auto-Sync nach Runde");
-    } else {
-      const err = await putRes.json().catch(() => ({}));
-      addSyncEntry("save", "⚠️ Sync-Fehler " + putRes.status + ": " + (err.message || "?").substring(0,40));
+      const { path: ballsPath } = getBallsApiUrl(cfg);
+      const ballsMsg = `Bälle-Sync ${new Date().toLocaleDateString("de-DE")}`;
+      const ballsResult = await githubPutFile(cfg, branch, ballsPath, { balls: state.balls }, ballsMsg);
+      if (!ballsResult.ok) {
+        addSyncEntry("save", "⚠️ Bälle-Sync-Fehler: " + (ballsResult.reason || "?").substring(0,50));
+      }
+
+      return { ok: dataResult.ok && ballsResult.ok, dataResult, ballsResult };
+    } catch(e) {
+      addSyncEntry("save", "⚠️ Sync-Exception: " + (e.message || "?").substring(0,40));
+      return { ok: false, reason: e.message || "Unbekannter Fehler" };
     }
-    await githubSyncBalls(cfg, branch, apiBase);
-  } catch(e) {
-    addSyncEntry("save", "⚠️ Sync-Exception: " + (e.message || "?").substring(0,40));
-  }
+  });
 }
 
 
@@ -1662,25 +2208,6 @@ async function loadBallsFromGithub() {
     state.balls = Object.values(localById);
     persistBalls();
     render();
-  } catch(e) {}
-}
-
-async function githubSyncBalls(cfg, branch, apiBase) {
-  try {
-    const { url: ballsUrl } = getBallsApiUrl(cfg);
-    const getRes = await githubApiRequest(ballsUrl + `?ref=${branch}&t=${Date.now()}`, {
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Cache-Control": "no-cache" }
-    });
-    const existing = getRes.ok ? await getRes.json() : null;
-    const sha = existing?.sha;
-    const ballsContent = utf8ToBase64(JSON.stringify({ balls: state.balls }, null, 2));
-    const body = { message: `Bälle-Sync ${new Date().toLocaleDateString("de-DE")}`, content: ballsContent, branch };
-    if (sha) body.sha = sha;
-    await githubApiRequest(ballsUrl, {
-      method: "PUT",
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
   } catch(e) {}
 }
 
@@ -1800,7 +2327,7 @@ const state = {
   players: loadFromStorage() || getSeedData(),
   activePlayerId: null,
   activeYear: "all",
-  view: "entry", // rounds | entry | stats
+  view: "dashboard", // dashboard | rounds | entry | stats
   showAddPlayer: false,
   editingPlayerId: null,
   showExportModal: false,
@@ -1817,6 +2344,7 @@ const state = {
   toast: null, // {message}
   pricing: loadPricing(), // { "2026": {firstRoundPerDay, extraRoundPerDay, seasonPass}, ... }
   accessories: loadAccessories(), // [{id, date, year, name, amount}]
+  gastro: loadGastro(), // [{id, date, year, name, amount}]
   weatherLocation: loadWeatherLocation(), // {name, lat, lon} or null
   weatherLookupStatus: null, // null | "loading" | "ok" | "error"
   weatherLocationSearch: "", // transient search results in Settings
@@ -1828,8 +2356,13 @@ const state = {
   tournamentPlacements: loadTournamentPlacements(), // { [groupId]: "3. Platz von 12" }
   balls: loadBalls(), // [{id, photo, manufacturer, series, name, jumpHeight, hardness, weight, color, notes}]
   ballModal: null, // null | {mode:"add"|"edit"|"search", ball:{...}, searchQuery:"", searchResults:[]}
+  statsListModal: null, // null | {type:"best"|"aces"|"clean", title, items:[{round,value}]}
+  gastroQuickModal: false, // Dashboard quick-entry for Gastronomie expenses
+  aceStreakSettings: loadAceStreakSettings(), // {whatsappNumber, speechEnabled, googleVoiceName, messageTemplate, messageHistory}
+  googleTtsApiKey: loadGoogleTtsApiKey(), // local-only, never synced to GitHub
+  aceStreakTestResult: null, // persistent diagnostic text shown under "Stimme testen"
   lastSavedResult: null, // {winnerName, total, diff} - shown once after saving a round
-  collapsed: { season: true, holidays: true, accessoryForm: true, players: true, pricing: true, data: true, weatherLoc: true, merge: true, claudeApi: true },
+  collapsed: { season: true, holidays: true, accessoryForm: true, gastroForm: true, players: true, pricing: true, data: true, weatherLoc: true, merge: true, claudeApi: true, aceStreak: true },
   showCostSummary: false, // "Kostenaufstellung" overlay window
   query: {
     mode: "total", // 'total' | 'hole'
@@ -1854,6 +2387,10 @@ const state = {
     scoresByPlayer: {}, // {playerId: ["", ...18]}
     notesByPlayer: {}, // {playerId: {holeIdx: "note text"}}
     starsByPlayer: {}, // {playerId: {holeIdx: true}} - "vom Abschlag mit 2.-6. Schlag eingelocht"
+    aceStreakAlerts: [], // [{name, hole}] - filled when a player gets 4+ aces in a row
+    aceStreakAcknowledged: true, // must be manually dismissed on the finish screen before saving
+    pendingLiveAceAlert: null, // {name, hole} - shown immediately, ready to share right after it happens
+    aceStreakFiredPlayers: [], // playerIds already celebrated this round, so it only fires once each
     weatherKeys: [], // array of: "sun" | "cloud" | "rain" | "wind" | "cold"
     temperature: "", // optional, in °C
     windSpeed: "", // optional, in km/h
@@ -1965,21 +2502,22 @@ function render() {
         <h1 class="font-display">Minigolf Scorecard</h1>
         <span style="font-size:0.65rem; color:#a8a29e; font-family:'SF Mono',Menlo,Consolas,monospace; margin-left:0.3rem; align-self:flex-end; padding-bottom:0.15rem;">v${APP_VERSION}</span>
       </div>
-      <button class="btn-add-player" data-action="goto-settings-players">${ICONS.settings(14)} Spieler</button>
+      ${state.view !== "dashboard" ? `<button class="btn-add-player" data-action="set-view" data-view="dashboard" title="Zum Dashboard">🏠</button>` : ""}
     </div>
 
     <div class="selectors" style="margin-top:0.6rem;">
       <select class="sel page" data-action="set-view-select" style="flex:1;">
+        <option value="dashboard" ${state.view === "dashboard" ? "selected" : ""}>🏠 Dashboard</option>
         <option value="entry" ${state.view === "entry" ? "selected" : ""}>📝 Eintragen</option>
-        <option value="rounds" ${state.view === "rounds" ? "selected" : ""}>📅 Runden</option>
+        <option value="rounds" ${state.view === "rounds" ? "selected" : ""}>🏌️‍♀️ Runden</option>
         <option value="stats" ${state.view === "stats" ? "selected" : ""}>📊 Statistik</option>
-        <option value="balls" ${state.view === "balls" ? "selected" : ""}>🏌️ Ball-Datenbank</option>
+        <option value="balls" ${state.view === "balls" ? "selected" : ""}>🎱 Ball-Datenbank</option>
         <option value="costs" ${state.view === "costs" ? "selected" : ""}>💶 Kosten-Übersicht</option>
         <option value="settings" ${state.view === "settings" ? "selected" : ""}>⚙️ Einstellungen</option>
       </select>
     </div>`;
 
-  if (state.view !== "entry" && state.view !== "settings" && state.view !== "costs" && state.view !== "rounds" && state.view !== "result" && state.view !== "balls" && state.players.length > 0) {
+  if (state.view === "stats" && state.players.length > 0) {
     html += `<div class="selectors">
       <select class="sel player" data-action="switch-player">
         ${state.players.map(p => `<option value="${esc(p.id)}" ${p.id === state.activePlayerId ? "selected" : ""}>${esc(p.name)}</option>`).join("")}
@@ -2022,6 +2560,14 @@ function render() {
     html += renderBallModal();
   }
 
+  if (state.statsListModal && !state.detailRound) {
+    html += renderStatsListModal();
+  }
+
+  if (state.gastroQuickModal) {
+    html += renderGastroQuickModal();
+  }
+
   // Confirm dialog (delete actions)
   if (state.confirmModal) {
     html += renderConfirmModal();
@@ -2047,6 +2593,7 @@ function render() {
   } else {
     html += `<main>`;
     if (state.view === "result") html += renderResultView();
+    else if (state.view === "dashboard") html += renderDashboardView(); // <--- NEU!
     else if (state.view === "rounds") html += renderRoundsView();
     else if (state.view === "entry") html += renderEntryView();
     else if (state.view === "stats") html += renderStatsView(activePlayer, rounds);
@@ -2163,6 +2710,23 @@ function captureNotesFromDOM() {
 // ============================================================
 // Result / winner screen (shown once after saving a multi-player round)
 // ============================================================
+  function renderDashboardView() {
+  return `
+    <div style="padding: 1rem 0;">
+      <h2 class="section-title">🏠 Dashboard</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+        <button class="btn btn-primary" data-action="set-view" data-view="entry" style="display:flex; align-items:center; justify-content:center; gap:0.4rem;"><img src="${EINTRAGEN_ICON}" alt="" style="width:1.3em; height:1.3em; border-radius:50%; flex-shrink:0;" /> Eintragen</button>
+        <button class="btn btn-secondary" data-action="set-view" data-view="rounds">🏌️‍♀️ Runden</button>
+        <button class="btn btn-secondary" data-action="set-view" data-view="stats">📊 Statistik</button>
+        <button class="btn btn-secondary" data-action="set-view" data-view="balls">🎱 Ball-DB</button>
+        <button class="btn btn-secondary" data-action="set-view" data-view="costs">💶 Kosten</button>
+        <button class="btn btn-secondary" data-action="set-view" data-view="settings">⚙️ Einst.</button>
+        <button class="btn btn-secondary" data-action="open-gastro-quick">🍴 Gastronomie</button>
+        <a class="btn btn-secondary" href="https://cityminigolf.de/" target="_blank" rel="noopener" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:0.4rem;">🌐 City Minigolf</a>
+        <a class="btn btn-secondary" href="training.html" style="grid-column: 1 / -1; text-decoration:none; display:block;">🎯 Training</a>
+      </div>
+    </div>`;
+}
 function renderResultView() {
   const r = state.lastSavedResult;
   if (!r) {
@@ -2653,6 +3217,12 @@ function renderEntryView() {
       return { id: slotId, name: resolved.label, player: resolved.player };
     }).filter(Boolean);
     const allFilledForHole = activeSlotIds.every(id => e.scoresByPlayer[id]?.[e.currentHole] !== "");
+    const allHolesFilledForAllPlayers = activeSlotIds.every(id => (e.scoresByPlayer[id] || []).every(s => s !== "" && s !== undefined && s !== null));
+    const missingHoleNumbers = [];
+    for (let hi = 0; hi < 18; hi++) {
+      const missing = activeSlotIds.some(id => { const v = (e.scoresByPlayer[id] || [])[hi]; return v === "" || v === undefined || v === null; });
+      if (missing) missingHoleNumbers.push(hi + 1);
+    }
     const isLastHole = e.currentHole === 17;
     const isRound1Done = isTournamentMode && isLastHole && e.tournamentRound === 1 && allFilledForHole;
 
@@ -2686,7 +3256,7 @@ function renderEntryView() {
       const runningTotal = scores.slice(0, e.currentHole+1).reduce((s,v)=>s+(parseInt(v)||0),0);
       const displayName = isTournamentMode ? (e.tournamentRound === 1 ? 'Runde 1' : 'Runde 2') : p.name;
       const canRemove = activeSelectedPlayers.length > 1 && !isTournamentMode;
-      html += `<div class="card">
+      html += `<div class="card" data-player-card="${esc(p.id)}">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
           <h3 class="font-display" style="margin:0; font-size:1rem;">${esc(displayName)}</h3>
           <div style="display:flex; align-items:center; gap:0.5rem;">
@@ -2726,6 +3296,25 @@ function renderEntryView() {
       </div>`;
     });
 
+    // A "gap" means an open hole sits below the highest hole already fully filled -
+    // i.e. genuinely skipped, not just "not reached yet" in normal sequential play.
+    let maxFilledIndex = -1;
+    for (let hi = 0; hi < 18; hi++) {
+      const filled = activeSlotIds.every(id => { const v = (e.scoresByPlayer[id] || [])[hi]; return v !== "" && v !== undefined && v !== null; });
+      if (filled) maxFilledIndex = hi;
+    }
+    const hasGap = missingHoleNumbers.some(h => (h - 1) < maxFilledIndex);
+    const isFinishStep = isLastHole && (!isTournamentMode || e.tournamentRound === 2);
+    if (allFilledForHole && hasGap && !isFinishStep) {
+      html += `<div style="background:#fffbeb; border:1px solid #fbbf24; border-radius:0.6rem; padding:0.6rem 0.75rem; margin-bottom:0.6rem;">
+        <label class="field-label" style="margin-bottom:0.4rem;">Es gibt noch offene Bahnen (${missingHoleNumbers.join(', ')}) – wohin als Nächstes?</label>
+        <select data-action="jump-hole-select" style="width:100%;">
+          <option value="">– Bahn wählen –</option>
+          ${missingHoleNumbers.map(h => `<option value="${h-1}">Bahn ${h}</option>`).join('')}
+        </select>
+      </div>`;
+    }
+
     html += `<div class="btn-row">`;
     if (e.currentHole > 0) {
       html += `<button class="btn btn-secondary" data-action="prev-hole" style="flex:0;">Zurück</button>`;
@@ -2733,11 +3322,43 @@ function renderEntryView() {
     if (isRound1Done) {
       html += `<button class="btn btn-primary" data-action="start-tournament-round2" style="background:var(--green-dark);">🏌️ 2. Runde starten</button>`;
     } else {
-      html += `<button class="btn btn-primary" data-action="next-hole" ${!allFilledForHole ? 'disabled' : ''}>${isLastHole && !isTournamentMode ? 'Runde beenden' : isLastHole && e.tournamentRound === 2 ? 'Runde beenden' : `Weiter zu Bahn ${e.currentHole+2}`}</button>`;
+      const btnDisabled = isFinishStep ? !allHolesFilledForAllPlayers : !allFilledForHole;
+      // Find the next OPEN hole (skipping ones already filled, e.g. from an earlier jump), not just currentHole+1
+      let nextOpenHoleIndex = null;
+      for (let hi = e.currentHole + 1; hi < 18; hi++) {
+        const filled = activeSlotIds.every(id => { const v = (e.scoresByPlayer[id] || [])[hi]; return v !== "" && v !== undefined && v !== null; });
+        if (!filled) { nextOpenHoleIndex = hi; break; }
+      }
+      if (nextOpenHoleIndex === null) {
+        for (let hi = 0; hi < e.currentHole; hi++) {
+          const filled = activeSlotIds.every(id => { const v = (e.scoresByPlayer[id] || [])[hi]; return v !== "" && v !== undefined && v !== null; });
+          if (!filled) { nextOpenHoleIndex = hi; break; }
+        }
+      }
+      const nextLabel = nextOpenHoleIndex !== null ? `Weiter zu Bahn ${nextOpenHoleIndex + 1}` : `Weiter zu Bahn ${Math.min(e.currentHole + 2, 18)}`;
+      html += `<button class="btn btn-primary" data-action="next-hole" data-next="${nextOpenHoleIndex !== null ? nextOpenHoleIndex : ''}" ${btnDisabled ? 'disabled' : ''}>${isFinishStep ? 'Runde beenden' : nextLabel}</button>`;
     }
-    html += `</div>
-    <button data-action="pause-round" style="width:100%; margin-top:0.5rem; background:none; border:1px solid #e7e5e4; border-radius:0.75rem; padding:0.5rem; font-size:0.82rem; color:#a8a29e; cursor:pointer;">⏸ Runde pausieren – später fortfahren</button>`;
+    html += `</div>`;
+    if (isFinishStep && !isRound1Done && !allHolesFilledForAllPlayers) {
+      html += `<p style="font-size:0.78rem; color:#dc2626; text-align:center; margin:0.4rem 0 0;">Es fehlt noch ein Eintrag bei Bahn ${missingHoleNumbers.join(', ')}.</p>`;
+    }
+    html += `<button data-action="pause-round" style="width:100%; margin-top:0.5rem; background:none; border:1px solid #e7e5e4; border-radius:0.75rem; padding:0.5rem; font-size:0.82rem; color:#a8a29e; cursor:pointer;">⏸ Runde pausieren – später fortfahren</button>`;
 
+    if (e.pendingLiveAceAlert) {
+      const alert = e.pendingLiveAceAlert;
+      const alertMsg = alert.msg || `4 Asse in Folge! ${alert.name} gibt eine Runde aus!`;
+      const waNumber = (state.aceStreakSettings.whatsappNumber || "").replace(/[^\d+]/g, "");
+      const waText = encodeURIComponent(`🎉 ${alertMsg} 🍻`);
+      html += `<div class="modal-overlay" style="z-index:300;">
+        <div class="modal-box" style="max-width:24rem; text-align:center; border:3px solid #D4A373;" onclick="event.stopPropagation()">
+          <div style="font-size:3.2rem; line-height:1; margin-bottom:0.5rem;">🎉🍻</div>
+          <p style="font-size:1.1rem; font-weight:600; margin:0.3rem 0;">${esc(alertMsg)}<br><span style="font-weight:400; font-size:0.8rem; color:#a8a29e;">Bahn ${alert.hole}</span></p>
+          <button class="btn btn-primary btn-full" data-action="share-ace-streak" style="margin-top:0.85rem;">📤 Bild teilen</button>
+          ${waNumber ? `<a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" rel="noopener" class="btn btn-secondary btn-full" style="margin-top:0.5rem; text-decoration:none; display:block;">📱 Per WhatsApp senden</a>` : ''}
+          <button data-action="dismiss-live-ace-alert" style="width:100%; margin-top:0.6rem; background:none; border:none; color:#a8a29e; font-size:0.85rem; cursor:pointer; padding:0.4rem;">Weiter spielen</button>
+        </div>
+      </div>`;
+    }
 
     return html;
   }
@@ -2747,7 +3368,8 @@ function renderEntryView() {
     const scores = e.scoresByPlayer[p.id].map(s => parseInt(s)||0);
     const total = scores.reduce((a,b)=>a+b,0);
     const aces = scores.filter(s=>s===1).length;
-    return { p, scores, total, aces };
+    const errors = scores.reduce((sum,s) => sum + Math.max(0, s - 2), 0);
+    return { p, scores, total, aces, errors };
   }).sort((a,b) => a.total - b.total);
 
   let html = `<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
@@ -2771,7 +3393,10 @@ function renderEntryView() {
       </div>
       <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.875rem; color:#78716c;">
         <span>${diff === 0 ? 'Par' : diff > 0 ? `+${diff}` : diff}</span>
-        ${r.aces > 0 ? `<span class="txt-ace" style="display:flex; align-items:center; gap:0.25rem;">${ICONS.trophy(13)} ${r.aces} ${r.aces===1?'Ass':'Asse'}</span>` : ''}
+        <span style="display:flex; align-items:center; gap:0.6rem;">
+          ${r.aces > 0 ? `<span class="txt-ace" style="display:flex; align-items:center; gap:0.25rem;">${ICONS.trophy(13)} ${r.aces} ${r.aces===1?'Ass':'Asse'}</span>` : ''}
+          ${r.errors > 0 ? `<span style="display:flex; align-items:center; gap:0.25rem; color:#dc2626;">⚠️ ${r.errors} ${r.errors===1?'Fehler':'Fehler'}</span>` : ''}
+        </span>
       </div>
       <div class="mini-grid" style="margin-top:0.75rem;">
         ${r.scores.map((s,idx) => `<div class="mini-cell ${scoreClassBg(s, PARS[idx])} ${e.notesByPlayer[r.p.id]?.[idx] ? 'has-note' : ''} ${e.starsByPlayer[r.p.id]?.[idx] ? 'has-star' : ''}">
@@ -2783,11 +3408,33 @@ function renderEntryView() {
     </div>`;
   });
 
-  html += `<p style="font-size:0.875rem; color:#78716c; text-align:center; margin:0.75rem 0;">${e.saveIds.length > 0 ? 'Möchtest du diese Runde speichern?' : 'Keiner der Spieler wird gespeichert – nur verwerfen möglich.'}</p>
+  html += `<button class="btn btn-secondary" data-action="back-to-play" style="width:100%; margin-top:0.75rem;">← Zurück zur Eingabe</button>
+  <p style="font-size:0.875rem; color:#78716c; text-align:center; margin:0.75rem 0;">${e.saveIds.length > 0 ? 'Möchtest du diese Runde speichern?' : 'Keiner der Spieler wird gespeichert – nur verwerfen möglich.'}</p>
   <div class="btn-row">
     <button class="btn btn-secondary" data-action="discard-round">Verwerfen</button>
     <button class="btn btn-primary" data-action="save-round" ${e.saveIds.length === 0 ? 'disabled' : ''}>Speichern</button>
   </div>`;
+
+  if (e.aceStreakAlerts && e.aceStreakAlerts.length > 0 && !e.aceStreakAcknowledged) {
+    const waNumber = (state.aceStreakSettings.whatsappNumber || "").replace(/[^\d+]/g, "");
+    html += `<div class="modal-overlay" style="z-index:300;">
+      <div class="modal-box" style="max-width:24rem; text-align:center; border:3px solid #D4A373;" onclick="event.stopPropagation()">
+        <div style="font-size:3.2rem; line-height:1; margin-bottom:0.5rem;">🎉🍻</div>
+        <h2 class="font-display" style="margin:0 0 0.75rem;">4 Asse in Folge!</h2>
+        ${e.aceStreakAlerts.map((a,i) => {
+          const aMsg = a.msg || `4 Asse in Folge! ${a.name} gibt eine Runde aus!`;
+          const waText = encodeURIComponent(`🎉 ${aMsg} 🍻`);
+          return `<div style="margin:0.5rem 0; padding-bottom:0.5rem; ${i < e.aceStreakAlerts.length-1 ? 'border-bottom:1px solid rgba(255,255,255,0.15);' : ''}">
+            <p style="font-size:1.05rem; font-weight:600; margin:0 0 0.4rem;">${esc(aMsg)}<br><span style="font-weight:400; font-size:0.8rem; color:#a8a29e;">Bahn ${a.hole}</span></p>
+            <button class="btn btn-primary btn-full" data-action="share-ace-streak" data-idx="${i}">📤 Bild teilen</button>
+            ${waNumber ? `<a href="https://wa.me/${waNumber}?text=${waText}" target="_blank" rel="noopener" class="btn btn-secondary btn-full" style="margin-top:0.4rem; text-decoration:none; display:block;">📱 Per WhatsApp senden</a>` : ''}
+          </div>`;
+        }).join('')}
+        ${!waNumber ? `<p style="font-size:0.75rem; color:#a8a29e; margin-top:0.5rem;">WhatsApp-Nummer in den Einstellungen hinterlegen, um direkt zu versenden.</p>` : ''}
+        <button class="btn btn-secondary btn-full" data-action="dismiss-ace-streak-banner" style="margin-top:0.6rem;">Verstanden 👍</button>
+      </div>
+    </div>`;
+  }
 
   return html;
 }
@@ -3286,6 +3933,78 @@ function renderSettingsView() {
   }
   html += `</div>`;
 
+  // --- Ace-Streak Ansage ---
+  html += `<div class="collapsible-card">
+    <button class="collapsible-head" data-action="toggle-ace-streak-section">
+      <h3>🎉 4-Asse-Ansage</h3>
+      <span class="collapsible-arrow ${state.collapsed.aceStreak ? 'collapsed' : ''}">${ICONS.chevron(16)}</span>
+    </button>`;
+  if (!state.collapsed.aceStreak) {
+    const msgHistory = (state.aceStreakSettings.messageHistory || []).filter(Boolean);
+    const googleVoices = [
+      { id: "de-DE-Chirp3-HD-Aoede", label: "Chirp3 HD – Aoede (weiblich)" },
+      { id: "de-DE-Chirp3-HD-Kore", label: "Chirp3 HD – Kore (weiblich)" },
+      { id: "de-DE-Chirp3-HD-Leda", label: "Chirp3 HD – Leda (weiblich)" },
+      { id: "de-DE-Chirp3-HD-Zephyr", label: "Chirp3 HD – Zephyr (weiblich)" },
+      { id: "de-DE-Chirp3-HD-Puck", label: "Chirp3 HD – Puck (männlich)" },
+      { id: "de-DE-Chirp3-HD-Charon", label: "Chirp3 HD – Charon (männlich)" },
+      { id: "de-DE-Chirp3-HD-Fenrir", label: "Chirp3 HD – Fenrir (männlich)" },
+      { id: "de-DE-Chirp3-HD-Orus", label: "Chirp3 HD – Orus (männlich)" },
+      { id: "de-DE-Neural2-A", label: "Neural2-A (weiblich)" },
+      { id: "de-DE-Neural2-B", label: "Neural2-B (männlich)" },
+      { id: "de-DE-Neural2-C", label: "Neural2-C (weiblich)" },
+      { id: "de-DE-Neural2-D", label: "Neural2-D (männlich)" },
+      { id: "de-DE-Neural2-F", label: "Neural2-F (weiblich)" },
+      { id: "de-DE-Wavenet-A", label: "Wavenet-A (weiblich)" },
+      { id: "de-DE-Wavenet-B", label: "Wavenet-B (männlich)" },
+      { id: "de-DE-Wavenet-C", label: "Wavenet-C (weiblich)" },
+      { id: "de-DE-Wavenet-D", label: "Wavenet-D (männlich)" },
+      { id: "de-DE-Wavenet-F", label: "Wavenet-F (weiblich)" },
+      { id: "de-DE-Studio-B", label: "Studio-B (männlich, News-Stil)" },
+      { id: "de-DE-Studio-C", label: "Studio-C (weiblich, News-Stil)" },
+    ];
+    const currentVoice = state.aceStreakSettings.googleVoiceName || "de-DE-Neural2-C";
+    html += `<div class="collapsible-body">
+      <p style="font-size:0.8rem; color:#78716c; margin:0 0 0.75rem;">Bei 4 Assen in Folge wird ein großer Hinweis angezeigt (muss beim Rundenabschluss manuell bestätigt werden). Die Sprachansage läuft ausschließlich über Google Cloud Text-to-Speech – ohne Key gibt's keine Ansage (kein iPhone-Stimme-Rückfall mehr).</p>
+      <label class="field-label">Ansage-Text</label>
+      <input type="text" id="ace-streak-message" value="${esc(state.aceStreakSettings.messageTemplate || '')}" placeholder="4 Asse in Folge! {name} gibt eine Runde aus!" style="margin-bottom:0.3rem;" />
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.6rem;">{name} wird durch den Spielernamen ersetzt.</p>
+      <button class="btn btn-secondary btn-full" data-action="save-ace-streak-message" style="margin-bottom:${msgHistory.length > 0 ? '0.6' : '0.85'}rem;">Text speichern</button>
+      ${msgHistory.length > 0 ? `
+      <label class="field-label">Frühere Texte</label>
+      <select id="ace-streak-message-history" data-action="select-ace-streak-message-history" style="margin-bottom:0.85rem;">
+        <option value="">– auswählen –</option>
+        ${msgHistory.map(m => `<option value="${esc(m)}" ${m === state.aceStreakSettings.messageTemplate ? "selected" : ""}>${esc(m)}</option>`).join('')}
+      </select>` : ''}
+      <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.85rem; cursor:pointer;">
+        <input type="checkbox" id="ace-streak-speech" ${state.aceStreakSettings.speechEnabled ? "checked" : ""} data-action="toggle-ace-streak-speech" style="width:1.1rem; height:1.1rem;" />
+        <span>Sprachansage abspielen</span>
+      </label>
+
+      <div style="background:#fdf8f0; border:1px solid #D4A373; border-radius:0.6rem; padding:0.75rem; margin-bottom:1rem;">
+        <label class="field-label" style="margin-bottom:0.3rem;">🎙️ Google Cloud Text-to-Speech</label>
+        <p style="font-size:0.72rem; color:#78716c; margin:0 0 0.6rem;">Braucht einen Google-Cloud-Account (console.cloud.google.com): Projekt anlegen → "Cloud Text-to-Speech API" aktivieren → unter "APIs & Dienste → Anmeldedaten" einen API-Key erstellen. Kreditkarte wird von Google verlangt, im Rahmen des kostenlosen Kontingents (aktuelle Grenzen siehe cloud.google.com/text-to-speech/pricing) fällt aber nichts an.</p>
+        <label class="field-label">API-Key</label>
+        <input type="password" id="google-tts-api-key-input" value="${esc(state.googleTtsApiKey || "")}" placeholder="AIza..." style="margin-bottom:0.5rem; font-family:monospace; font-size:0.85rem;" />
+        <label class="field-label">Stimme</label>
+        <select id="google-tts-voice-select" style="margin-bottom:0.6rem;">
+          ${googleVoices.map(v => `<option value="${v.id}" ${currentVoice === v.id ? "selected" : ""}>${esc(v.label)}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary btn-full" data-action="save-google-tts-settings">Speichern</button>
+      </div>
+
+      <button class="btn btn-secondary btn-full" data-action="test-ace-streak-voice" style="margin-bottom:0.5rem;">🔊 Stimme testen</button>
+      ${state.aceStreakTestResult ? `<div style="background:#f5f5f4; border-radius:0.5rem; padding:0.6rem 0.75rem; margin-bottom:0.85rem; font-size:0.8rem; color:#44403c;">${esc(state.aceStreakTestResult)}</div>` : ''}
+      <label class="field-label">WhatsApp-Nummer (optional)</label>
+      <p style="font-size:0.75rem; color:#a8a29e; margin:0 0 0.4rem;">Mit Ländervorwahl, z.B. 491701234567. WhatsApp öffnet sich mit vorausgefüllter Nachricht – Senden musst du dort selbst bestätigen (WhatsApp erlaubt kein automatisches Versenden aus Web-Apps).</p>
+      <div style="display:flex; gap:0.5rem;">
+        <input type="text" id="ace-streak-whatsapp" placeholder="491701234567" value="${esc(state.aceStreakSettings.whatsappNumber || "")}" style="flex:1;" />
+        <button class="btn btn-secondary" data-action="save-ace-streak-whatsapp">Speichern</button>
+      </div>
+    </div>`;
+  }
+  html += `</div>`;
+
   // --- Claude API Key ---
   html += `<div class="collapsible-card">
     <button class="collapsible-head" data-action="toggle-claude-api-section">
@@ -3374,6 +4093,8 @@ function renderCostsView() {
   const seasonData = christian ? computeSeasonData(roundsForYear, year) : null;
   const yearAccessories = state.accessories.filter(a => a.year === year);
   const accessoriesTotal = yearAccessories.reduce((sum,a) => sum + (parseDecimal(a.amount)||0), 0);
+  const yearGastro = state.gastro.filter(g => g.year === year);
+  const gastroTotal = yearGastro.reduce((sum,g) => sum + (parseDecimal(g.amount)||0), 0);
 
   html += `<div class="collapsible-card">
     <button class="collapsible-head" data-action="toggle-cost-summary">
@@ -3420,11 +4141,26 @@ function renderCostsView() {
       html += `<p style="font-size:0.85rem; color:#a8a29e; margin:0.5rem 0;">Noch keine Zubehör-Käufe für ${yearNum}.</p>`;
     }
 
+    if (yearGastro.length > 0) {
+      yearGastro.sort((a,b)=>a.date<b.date?1:-1).forEach(g => {
+        html += `<div style="display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid #f5f5f4;">
+          <div>
+            <div style="font-weight:500;">🍴 ${esc(g.name || "Gastronomie")}</div>
+            <div style="font-size:0.75rem; color:#a8a29e;">${formatDate(g.date)}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <div class="font-mono" style="font-weight:600;">${parseDecimal(g.amount).toFixed(2).replace('.',',')} €</div>
+            <button class="icon-btn icon-btn-danger" style="width:1.75rem;height:1.75rem;" data-action="delete-gastro" data-id="${esc(g.id)}">${ICONS.trash(15)}</button>
+          </div>
+        </div>`;
+      });
+    }
+
     const grandTotal = (seasonData
       ? (seasonData.prices.hasSeasonPass
           ? seasonData.prices.seasonPass + (seasonData.prices.seasonPassAll ? 0 : seasonData.weekendHolidayCost)
           : seasonData.wouldCost)
-      : 0) + accessoriesTotal;
+      : 0) + accessoriesTotal + gastroTotal;
     html += `<div style="display:flex; justify-content:space-between; padding-top:0.6rem; margin-top:0.4rem; border-top:2px solid #e7e5e4;">
       <span style="font-weight:700;">Gesamt</span><span class="font-mono" style="font-weight:700; font-size:1.1rem;">${grandTotal.toFixed(2).replace('.',',')} €</span>
     </div>`;
@@ -3447,6 +4183,26 @@ function renderCostsView() {
         <input type="text" inputMode="decimal" id="accessory-amount" placeholder="€" style="width:5rem;" />
       </div>
       <button class="btn btn-primary btn-full" data-action="add-accessory" data-year="${esc(year)}">${ICONS.plus(15)} Hinzufügen</button>
+    </div>`;
+  }
+  html += `</div>`;
+
+  // --- 3b. Gastronomie erfassen (input only) ---
+  html += `<div class="collapsible-card">
+    <button class="collapsible-head" data-action="toggle-gastro-form">
+      <h3>🍴 Gastronomie erfassen</h3>
+      <span class="collapsible-arrow ${state.collapsed.gastroForm ? 'collapsed' : ''}">${ICONS.chevron(16)}</span>
+    </button>`;
+  if (!state.collapsed.gastroForm) {
+    html += `<div class="collapsible-body">
+      <input type="date" id="gastro-date" value="${todayISO()}" style="margin-bottom:0.75rem;" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+        <div><label class="field-label">🥤 Getränke (€)</label><input type="text" inputMode="decimal" id="gastro-drinks" placeholder="0,00" /></div>
+        <div><label class="field-label">🍟 Snacks (€)</label><input type="text" inputMode="decimal" id="gastro-snacks" placeholder="0,00" /></div>
+      </div>
+      <div style="margin-bottom:0.5rem;"><label class="field-label">🍦 Eis (€)</label><input type="text" inputMode="decimal" id="gastro-icecream" placeholder="0,00" /></div>
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.5rem;">Leer lassen, was nicht zutrifft. Mehrere Erfassungen am selben Tag werden automatisch zusammengefasst.</p>
+      <button class="btn btn-primary btn-full" data-action="add-gastro" data-year="${esc(year)}">${ICONS.plus(15)} Hinzufügen</button>
     </div>`;
   }
   html += `</div>`;
@@ -3498,6 +4254,14 @@ function renderStatsView(player, rounds) {
   const totalAces = rounds.reduce((s,r) => s + r.scores.filter(v=>v===1).length, 0);
   const totalStrokes = totals.reduce((a,b)=>a+b,0);
   const cleanRounds = rounds.filter(r => r.scores.every((s,i) => s <= PARS[i])).length;
+  let longestAceStreak = 0;
+  rounds.forEach(r => {
+    let streak = 0;
+    r.scores.forEach(s => {
+      if (s === 1) { streak++; if (streak > longestAceStreak) longestAceStreak = streak; }
+      else streak = 0;
+    });
+  });
 
   const holeStats = HOLES.map((hole, idx) => {
     const vals = rounds.map(r => r.scores[idx]);
@@ -3521,10 +4285,11 @@ function renderStatsView(player, rounds) {
 
   html += `<div class="stat-grid">
     <div class="stat-card"><div class="stat-label">Runden</div><div class="stat-value font-mono">${n}</div></div>
-    <div class="stat-card"><div class="stat-label">Bestes Ergebnis</div><div class="stat-value font-mono">${best}</div><div class="stat-sub">${best-PAR_TOTAL>=0?'+':''}${best-PAR_TOTAL} zu Par</div></div>
+    <div class="stat-card" data-action="show-stats-list" data-type="best" style="cursor:pointer;"><div class="stat-label">Bestes Ergebnis</div><div class="stat-value font-mono">${best}</div><div class="stat-sub">${best-PAR_TOTAL>=0?'+':''}${best-PAR_TOTAL} zu Par · Top 10 ansehen</div></div>
     <div class="stat-card"><div class="stat-label">Schnitt</div><div class="stat-value font-mono">${avg.toFixed(1)}</div><div class="stat-sub">Par ${PAR_TOTAL}</div></div>
     <div class="stat-card accent"><div class="stat-label">Asse insgesamt</div><div class="stat-value font-mono">${totalAces}</div></div>
-    <div class="stat-card"><div class="stat-label">Fehlerfreie Runden</div><div class="stat-value font-mono">${cleanRounds}</div><div class="stat-sub">${n>0 ? (cleanRounds/n*100).toFixed(1).replace('.',',') : '0'} % aller Runden</div></div>
+    <div class="stat-card accent" data-action="show-stats-list" data-type="aces" style="cursor:pointer;"><div class="stat-label">Asse in Folge</div><div class="stat-value font-mono">${longestAceStreak}</div><div class="stat-sub">Rekord · Top 10 ansehen</div></div>
+    <div class="stat-card" data-action="show-stats-list" data-type="clean" style="cursor:pointer;"><div class="stat-label">Fehlerfreie Runden</div><div class="stat-value font-mono">${cleanRounds}</div><div class="stat-sub">${n>0 ? (cleanRounds/n*100).toFixed(1).replace('.',',') : '0'} % · alle ansehen</div></div>
   </div>`;
 
   html += `<div class="card" style="font-size:0.875rem; color:#57534e;">Insgesamt <strong style="color:#292524;">${totalStrokes}</strong> Schläge in <strong style="color:#292524;">${n}</strong> Runden gespielt.</div>`;
@@ -3845,6 +4610,17 @@ function handleAction(action, el, ev) {
       state.accessories = state.accessories.filter(a => a.id !== id);
       persistAccessories();
       closeConfirm();
+      githubAutoSync();
+      render();
+      break;
+    }
+
+    case "do-delete-gastro": {
+      const { id } = state.confirmModal.payload;
+      state.gastro = state.gastro.filter(g => g.id !== id);
+      persistGastro();
+      closeConfirm();
+      githubAutoSync();
       render();
       break;
     }
@@ -3978,6 +4754,12 @@ function handleAction(action, el, ev) {
       render();
       break;
 
+    case "show-round-detail-from-stats":
+      state.detailRound = { playerId: el.dataset.player, roundId: el.dataset.round };
+      state.shareText = null;
+      render();
+      break;
+
     case "close-round-detail":
       state.detailRound = null;
       state.shareText = null;
@@ -3986,10 +4768,17 @@ function handleAction(action, el, ev) {
 
     case "share-round-detail": {
       const { playerId, roundId } = state.detailRound;
-      const text = buildRoundShareText(playerId, roundId);
-      state.shareText = text;
-      attemptCopy(text);
-      render();
+      (async () => {
+        showToast("Erstelle Bild …");
+        let blob;
+        try {
+          blob = await generateRoundShareImage(playerId, roundId);
+        } catch(e) { blob = null; }
+        const entries = getRoundEntries(playerId, roundId);
+        const dateStr = entries[0] ? formatDate(entries[0].round.date) : "";
+        const fileName = `minigolf-runde-${(entries[0]?.round.date || "").replace(/[^0-9]/g,"")}.png`;
+        await shareImageBlob(blob, fileName, "Minigolf-Runde", `Minigolf-Runde vom ${dateStr}`);
+      })();
       break;
     }
 
@@ -4067,6 +4856,11 @@ function handleAction(action, el, ev) {
       if (hardInput) d.hardness = hardInput.value.trim();
       if (weightInput) d.weight = weightInput.value.trim();
       persistTournamentPlacements();
+      (async () => {
+        await syncTournamentBallsIntoDB();
+        githubAutoSync();
+        render();
+      })();
       render();
       break;
     }
@@ -4088,15 +4882,24 @@ function handleAction(action, el, ev) {
       if (jumpInput2) d.jumpHeight = jumpInput2.value.trim();
       if (hardInput2) d.hardness = hardInput2.value.trim();
       if (weightInput2) d.weight = weightInput2.value.trim();
-      const reader = new FileReader();
-      reader.onload = (ev2) => {
-        const base64 = ev2.target.result;
-        if (imgNum === "1") d.img1 = base64;
-        else d.img2 = base64;
+      (async () => {
+        let dataUrl;
+        try {
+          dataUrl = await compressImageFile(file);
+        } catch(e) {
+          dataUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (ev2) => resolve(ev2.target.result);
+            reader.readAsDataURL(file);
+          });
+        }
+        if (imgNum === "1") d.img1 = dataUrl;
+        else d.img2 = dataUrl;
         persistTournamentPlacements();
+        await syncTournamentBallsIntoDB();
+        githubAutoSync();
         render();
-      };
-      reader.readAsDataURL(file);
+      })();
       break;
     }
 
@@ -4117,6 +4920,11 @@ function handleAction(action, el, ev) {
       d.locked = true;
       persistTournamentPlacements();
       showToast("Turnierergebnis gespeichert und gesperrt 🔒");
+      (async () => {
+        await syncTournamentBallsIntoDB();
+        githubAutoSync();
+        render();
+      })();
       render();
       break;
     }
@@ -4138,6 +4946,105 @@ function handleAction(action, el, ev) {
       state.collapsed.claudeApi = !state.collapsed.claudeApi;
       render();
       break;
+
+    case "toggle-ace-streak-section":
+      state.collapsed.aceStreak = !state.collapsed.aceStreak;
+      render();
+      break;
+
+    case "toggle-ace-streak-speech":
+      state.aceStreakSettings.speechEnabled = !state.aceStreakSettings.speechEnabled;
+      persistAceStreakSettings();
+      render();
+      (async () => {
+        const result = await githubAutoSync();
+        if (!result.ok) showToast("⚠️ GitHub-Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+      })();
+      break;
+
+    case "save-google-tts-settings": {
+      unlockAudioPlayback();
+      const key = document.getElementById("google-tts-api-key-input")?.value.trim() || "";
+      const voiceName = document.getElementById("google-tts-voice-select")?.value || "de-DE-Neural2-C";
+      state.googleTtsApiKey = key;
+      saveGoogleTtsApiKey(key); // local-only, never synced to GitHub
+      state.aceStreakSettings.googleVoiceName = voiceName;
+      persistAceStreakSettings();
+      showToast(key ? "Gespeichert ✓ – teste mit \"Stimme testen\"" : "Kein Key hinterlegt – keine Ansage möglich");
+      render();
+      (async () => {
+        const result = await githubAutoSync(); // syncs the (non-secret) voice choice
+        if (!result.ok) showToast("⚠️ GitHub-Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+      })();
+      break;
+    }
+
+    case "select-ace-streak-message-history": {
+      const val = document.getElementById("ace-streak-message-history")?.value || "";
+      if (!val) return;
+      state.aceStreakSettings.messageTemplate = val;
+      persistAceStreakSettings();
+      render();
+      (async () => {
+        const result = await githubAutoSync();
+        if (!result.ok) showToast("⚠️ GitHub-Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+      })();
+      break;
+    }
+
+    case "save-ace-streak-message": {
+      const val = document.getElementById("ace-streak-message")?.value.trim();
+      const newMsg = val || ACE_STREAK_DEFAULT_MESSAGE;
+      state.aceStreakSettings.messageTemplate = newMsg;
+      if (!state.aceStreakSettings.messageHistory) state.aceStreakSettings.messageHistory = [];
+      state.aceStreakSettings.messageHistory = state.aceStreakSettings.messageHistory.filter(m => m !== newMsg);
+      state.aceStreakSettings.messageHistory.unshift(newMsg);
+      state.aceStreakSettings.messageHistory = state.aceStreakSettings.messageHistory.slice(0, 10);
+      persistAceStreakSettings();
+      showToast("Speichere …");
+      render();
+      (async () => {
+        const result = await githubAutoSync();
+        showToast(result.ok ? "Text gespeichert ✓ (auf GitHub)" : "⚠️ Lokal gespeichert, GitHub-Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+      })();
+      break;
+    }
+
+    case "test-ace-streak-voice": {
+      unlockAudioPlayback();
+      const wasEnabled = state.aceStreakSettings.speechEnabled;
+      state.aceStreakSettings.speechEnabled = true; // force-play for the test, regardless of the toggle
+      const template = state.aceStreakSettings.messageTemplate || ACE_STREAK_DEFAULT_MESSAGE;
+      const hasKey = !!state.googleTtsApiKey;
+      state.aceStreakTestResult = hasKey ? "Teste Google Cloud TTS …" : "Kein Google-Cloud-Key hinterlegt – keine Ansage möglich.";
+      render();
+      if (!hasKey) { break; }
+      (async () => {
+        try {
+          const result = await speakAnnouncement(template.replace(/\{name\}/g, "Christian"));
+          state.aceStreakSettings.speechEnabled = wasEnabled;
+          state.aceStreakTestResult = result.ok ? "✓ Google Cloud TTS hat abgespielt." : "⚠️ Fehlgeschlagen: " + (result.reason || "?");
+        } catch(err) {
+          state.aceStreakSettings.speechEnabled = wasEnabled;
+          state.aceStreakTestResult = "⚠️ Unerwarteter Fehler: " + (err && err.message ? err.message : String(err));
+        }
+        render();
+      })();
+      break;
+    }
+
+    case "save-ace-streak-whatsapp": {
+      const num = document.getElementById("ace-streak-whatsapp")?.value.trim() || "";
+      state.aceStreakSettings.whatsappNumber = num;
+      persistAceStreakSettings();
+      showToast("Speichere …");
+      render();
+      (async () => {
+        const result = await githubAutoSync();
+        showToast(result.ok ? "Gespeichert ✓ (auf GitHub)" : "⚠️ Lokal gespeichert, GitHub-Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+      })();
+      break;
+    }
 
     case "toggle-weather-section":
       state.collapsed.weatherLoc = !state.collapsed.weatherLoc;
@@ -4247,6 +5154,7 @@ function handleAction(action, el, ev) {
       if (isNaN(amount)) { showToast("Bitte einen gültigen Betrag eingeben."); return; }
       state.accessories.push({ id: uid(), date, year: date.slice(0,4) || year, name, amount });
       persistAccessories();
+      githubAutoSync();
       render();
       break;
     }
@@ -4254,6 +5162,30 @@ function handleAction(action, el, ev) {
     case "delete-accessory": {
       const id = el.dataset.id;
       openConfirm("Diesen Eintrag wirklich löschen?", "do-delete-accessory", { id });
+      break;
+    }
+
+    case "toggle-gastro-form":
+      state.collapsed.gastroForm = !state.collapsed.gastroForm;
+      render();
+      break;
+
+    case "add-gastro": {
+      const date = document.getElementById("gastro-date")?.value || todayISO();
+      const drinks = parseDecimal(document.getElementById("gastro-drinks")?.value) || 0;
+      const snacks = parseDecimal(document.getElementById("gastro-snacks")?.value) || 0;
+      const icecream = parseDecimal(document.getElementById("gastro-icecream")?.value) || 0;
+      const result = saveGastroEntry(date, drinks, snacks, icecream);
+      if (!result.ok) { showToast("Bitte mindestens einen Betrag eingeben."); return; }
+      showToast(`Gastronomie erfasst: ${result.total.toFixed(2).replace('.',',')} € ✓`);
+      githubAutoSync();
+      render();
+      break;
+    }
+
+    case "delete-gastro": {
+      const id = el.dataset.id;
+      openConfirm("Diesen Eintrag wirklich löschen?", "do-delete-gastro", { id });
       break;
     }
 
@@ -4336,6 +5268,7 @@ function handleAction(action, el, ev) {
       try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
       try { localStorage.removeItem(PRICING_KEY); } catch(e) {}
       try { localStorage.removeItem(ACCESSORIES_KEY); } catch(e) {}
+      try { localStorage.removeItem(GASTRO_KEY); } catch(e) {}
       try { localStorage.removeItem(TOURNAMENT_PLACEMENTS_KEY); } catch(e) {}
       clearEntryProgress();
       state.players = getSeedData();
@@ -4343,6 +5276,7 @@ function handleAction(action, el, ev) {
       state.activeYear = "all";
       state.pricing = {};
       state.accessories = [];
+      state.gastro = [];
       state.tournamentPlacements = {};
       state.view = "rounds";
       persist();
@@ -4379,6 +5313,7 @@ function handleAction(action, el, ev) {
         phase: "setup", selectedIds: [], saveIds: [],
         date: todayISO(), time: nowTimeHHMM(), currentHole: 0,
         scoresByPlayer: {}, notesByPlayer: {}, starsByPlayer: {},
+        aceStreakAlerts: [], aceStreakAcknowledged: true, pendingLiveAceAlert: null, aceStreakFiredPlayers: [],
         weatherKeys: [], temperature: "", windSpeed: "", precipProbability: "",
         tournamentRound: 1, pauseId: null, showPlayerPicker: true,
       };
@@ -4553,7 +5488,30 @@ function handleAction(action, el, ev) {
       if (n < 2 || n > 6) {
         if (e.starsByPlayer[playerId]) delete e.starsByPlayer[playerId][e.currentHole];
       }
+      // Fun tradition: 4 aces in a row means you buy a round for everyone (once per player per round)
+      if (n === 1 && e.currentHole >= 3) {
+        const scores = e.scoresByPlayer[playerId];
+        const last4 = [0,1,2,3].map(back => parseInt(scores[e.currentHole - back]));
+        if (!e.aceStreakFiredPlayers) e.aceStreakFiredPlayers = [];
+        if (last4.every(s => s === 1) && !e.aceStreakFiredPlayers.includes(playerId)) {
+          const resolved = resolveSlot(playerId);
+          const name = resolved ? resolved.label : "Spieler";
+          const template = state.aceStreakSettings.messageTemplate || "4 Asse in Folge! {name} gibt eine Runde aus!";
+          const msg = template.replace(/\{name\}/g, name);
+          showToast(`🎉 ${msg} 🍻`);
+          speakAnnouncement(msg);
+          const alertEntry = { name, hole: e.currentHole + 1, msg };
+          if (!e.aceStreakAlerts) e.aceStreakAlerts = [];
+          e.aceStreakAlerts.push(alertEntry);
+          e.aceStreakAcknowledged = false;
+          e.pendingLiveAceAlert = alertEntry; // shown immediately, ready to share
+          e.aceStreakFiredPlayers.push(playerId);
+        }
+      }
       render();
+      // Auto-focus: scroll to the next player's card so you can keep entering
+      // scores hole-by-hole without manually scrolling between players.
+      scrollToNextPlayerCard(playerId);
       break;
     }
 
@@ -4573,19 +5531,32 @@ function handleAction(action, el, ev) {
       captureNotesFromDOM();
       e.currentHole = Math.max(e.currentHole - 1, 0);
       render();
+      scrollToFirstPlayerCard();
       break;
 
     case "next-hole-nav":
       captureNotesFromDOM();
       e.currentHole = Math.min(e.currentHole + 1, 17);
       render();
+      scrollToFirstPlayerCard();
       break;
 
     case "jump-hole":
       captureNotesFromDOM();
       e.currentHole = parseInt(el.dataset.idx);
       render();
+      scrollToFirstPlayerCard();
       break;
+
+    case "jump-hole-select": {
+      const idx = parseInt(el.value);
+      if (isNaN(idx)) return;
+      captureNotesFromDOM();
+      e.currentHole = idx;
+      render();
+      scrollToFirstPlayerCard();
+      break;
+    }
 
     case "next-hole": {
       const allFilled = e.selectedIds.every(id => {
@@ -4615,12 +5586,16 @@ function handleAction(action, el, ev) {
           // stay in play phase - button "2. Runde starten" will appear
           render();
         } else {
+          const allHolesFilled = activeIds2.every(sid => (e.scoresByPlayer[sid] || []).every(s => s !== "" && s !== undefined && s !== null));
+          if (!allHolesFilled) { render(); return; }
           e.phase = "finish";
           render();
         }
       } else {
-        e.currentHole = Math.min(e.currentHole + 1, 17);
+        const nextAttr = el.dataset.next;
+        e.currentHole = (nextAttr !== undefined && nextAttr !== "") ? parseInt(nextAttr) : Math.min(e.currentHole + 1, 17);
         render();
+        scrollToFirstPlayerCard();
       }
       break;
     }
@@ -4630,6 +5605,7 @@ function handleAction(action, el, ev) {
       e.tournamentRound = 2;
       e.currentHole = 0;
       render();
+      scrollToFirstPlayerCard();
       break;
 
     case "back-to-setup":
@@ -4638,11 +5614,46 @@ function handleAction(action, el, ev) {
       render();
       break;
 
+    case "dismiss-ace-streak-banner":
+      e.aceStreakAcknowledged = true;
+      render();
+      break;
+
+    case "back-to-play":
+      if (e.aceStreakAlerts && e.aceStreakAlerts.length > 0 && !e.aceStreakAcknowledged) return;
+      e.phase = "play";
+      render();
+      scrollToFirstPlayerCard();
+      break;
+
+    case "dismiss-live-ace-alert":
+      e.pendingLiveAceAlert = null;
+      render();
+      break;
+
+    case "share-ace-streak": {
+      const idx = el.dataset.idx;
+      const alert = idx !== undefined ? (e.aceStreakAlerts || [])[parseInt(idx)] : e.pendingLiveAceAlert;
+      if (!alert) return;
+      (async () => {
+        showToast("Erstelle Bild …");
+        let blob;
+        try {
+          blob = await generateAceStreakShareImage(alert, formatDate(e.date));
+        } catch(err) { blob = null; }
+        await shareImageBlob(blob, `minigolf-4-asse-${alert.name.replace(/[^a-z0-9]/gi,'')}.png`, "4 Asse in Folge!", `${alert.msg || alert.name + ' gibt eine Runde aus!'} 🍻`);
+      })();
+      break;
+    }
+
     case "discard-round":
+      if (e.aceStreakAlerts && e.aceStreakAlerts.length > 0 && !e.aceStreakAcknowledged) return;
       e.phase = "setup";
       e.scoresByPlayer = {};
       e.notesByPlayer = {};
       e.starsByPlayer = {};
+      e.aceStreakAlerts = [];
+      e.aceStreakAcknowledged = true;
       e.weatherKeys = [];
       e.temperature = "";
       e.windSpeed = "";
@@ -4657,6 +5668,7 @@ function handleAction(action, el, ev) {
 
     case "save-round": {
       if (e.saveIds.length === 0) return;
+      if (e.aceStreakAlerts && e.aceStreakAlerts.length > 0 && !e.aceStreakAcknowledged) return;
       captureNotesFromDOM();
       // Only assign a groupId when multiple players play together,
       // OR when the double-round (Einballturnier) player is involved (needs groupId to link both slots).
@@ -4710,6 +5722,10 @@ function handleAction(action, el, ev) {
         scoresByPlayer: {},
         notesByPlayer: {},
         starsByPlayer: {},
+        aceStreakAlerts: [],
+        aceStreakAcknowledged: true,
+        pendingLiveAceAlert: null,
+        aceStreakFiredPlayers: [],
         weatherKeys: [],
         temperature: "",
         windSpeed: "",
@@ -4735,7 +5751,83 @@ function handleAction(action, el, ev) {
     }
 
 
+    // ---------- Statistik ----------
+    case "show-stats-list": {
+      const type = el.dataset.type;
+      const player = getActivePlayer();
+      const rounds = getFilteredRounds(player);
+      let items = [];
+      let title = "";
+      if (type === "best") {
+        title = "Beste Ergebnisse";
+        items = rounds.map(r => ({ round: r, value: r.scores.reduce((a,b)=>a+b,0) }))
+          .sort((a,b) => a.value - b.value)
+          .slice(0, 10);
+      } else if (type === "aces") {
+        title = "Meiste Asse in Folge";
+        items = rounds.map(r => ({ round: r, value: longestAceStreakInRound(r) }))
+          .filter(it => it.value > 0)
+          .sort((a,b) => b.value - a.value || (a.round.date < b.round.date ? 1 : -1))
+          .slice(0, 10);
+      } else if (type === "clean") {
+        title = "Fehlerfreie Runden";
+        items = rounds.filter(r => r.scores.every((s,i) => s <= PARS[i]))
+          .map(r => ({ round: r, value: r.scores.reduce((a,b)=>a+b,0) }))
+          .sort((a,b) => a.round.date < b.round.date ? 1 : -1);
+      }
+      state.statsListModal = { type, title, items, playerId: player ? player.id : null };
+      render();
+      break;
+    }
+
+    case "close-stats-list":
+      state.statsListModal = null;
+      render();
+      break;
+
+    // ---------- Gastronomie (Dashboard quick entry) ----------
+    case "open-gastro-quick":
+      state.gastroQuickModal = true;
+      render();
+      break;
+
+    case "close-gastro-quick":
+      state.gastroQuickModal = false;
+      render();
+      break;
+
+    case "save-gastro-quick": {
+      const date = document.getElementById("gastro-quick-date")?.value || todayISO();
+      const drinks = parseDecimal(document.getElementById("gastro-quick-drinks")?.value) || 0;
+      const snacks = parseDecimal(document.getElementById("gastro-quick-snacks")?.value) || 0;
+      const icecream = parseDecimal(document.getElementById("gastro-quick-icecream")?.value) || 0;
+      const result = saveGastroEntry(date, drinks, snacks, icecream);
+      if (!result.ok) { showToast("Bitte mindestens einen Betrag eingeben."); return; }
+      state.gastroQuickModal = false;
+      showToast(`Gastronomie erfasst: ${result.total.toFixed(2).replace('.',',')} € ✓`);
+      githubAutoSync();
+      render();
+      break;
+    }
+
     // ---------- Ball-Datenbank ----------
+    case "sync-tournament-balls": {
+      const beforeCount = getBallsFromTournament().length;
+      showToast("Synchronisiere Turnier-Bälle …");
+      (async () => {
+        const changed = await syncTournamentBallsIntoDB();
+        render();
+        if (changed) {
+          showToast(`✓ ${beforeCount} Turnier-Ball/Bälle übernommen – synchronisiere …`);
+          const result = await githubAutoSync();
+          showToast(result.ok ? "✓ Auf GitHub gespeichert" : "⚠️ Sync fehlgeschlagen: " + (result.reason || "unbekannt"));
+        } else {
+          showToast(beforeCount > 0 ? "Bereits aktuell ✓" : "Keine Turnier-Bälle gefunden (noch keine Runde mit Sprunghöhe/Härte/Gewicht/Foto gespeichert).");
+        }
+      })();
+      break;
+    }
+
     case "ball-open-add": {
       const draft = loadBallDraft();
       const ball = draft || { photo: null, photo2: null, manufacturer: "", series: "", name: "", jumpHeight: "", hardness: "", weight: "", color: "", notes: "" };
@@ -4883,13 +5975,19 @@ Gib nur Werte an die du wirklich auf dem Ball siehst. Erfinde keine Daten.`
       const num = el.dataset.num;
       const file = el.files?.[0];
       if (!file || !state.ballModal) return;
-      const reader = new FileReader();
-      reader.onload = (ev2) => {
-        const key = num === "1" ? "photo" : "photo2";
-        state.ballModal.ball[key] = ev2.target.result;
+      const key = num === "1" ? "photo" : "photo2";
+      (async () => {
+        try {
+          state.ballModal.ball[key] = await compressImageFile(file);
+        } catch(e) {
+          // Fallback: store raw if compression fails for some reason
+          const reader = new FileReader();
+          reader.onload = (ev2) => { state.ballModal.ball[key] = ev2.target.result; render(); };
+          reader.readAsDataURL(file);
+          return;
+        }
         render();
-      };
-      reader.readAsDataURL(file);
+      })();
       break;
     }
 
@@ -5100,7 +6198,10 @@ document.addEventListener("touchmove", e => {
 
 render();
 
-// Auto-load balls on startup via raw GitHub URL
+// Auto-load balls on startup via raw GitHub URL, then mirror tournament-derived
+// balls into the real balls list so they're written to minigolf-baelle.json
+// (and therefore show up in training.html). Sequenced as a single flow (rather
+// than two competing startup tasks) to avoid overlapping GitHub writes.
 (async function autoLoadBallsOnStart() {
   try {
     const cfg = loadGithubConfig();
@@ -5110,17 +6211,23 @@ render();
     const dir = dataPath.includes("/") ? dataPath.substring(0, dataPath.lastIndexOf("/") + 1) : "";
     const rawUrl = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${branch}/${dir}minigolf-baelle.json`;
     const res = await fetch(rawUrl + "?t=" + Date.now());
-    if (!res.ok) return;
-    const ballsData = await res.json();
-    if (!Array.isArray(ballsData.balls) || ballsData.balls.length === 0) return;
-    const localById = {};
-    state.balls.forEach(b => { if (b.id) localById[b.id] = b; });
-    ballsData.balls.forEach(b => { if (b.id) localById[b.id] = b; });
-    const merged = Object.values(localById);
-    if (merged.length !== state.balls.length) {
-      state.balls = merged;
-      persistBalls();
+    if (res.ok) {
+      const ballsData = await res.json();
+      if (Array.isArray(ballsData.balls) && ballsData.balls.length > 0) {
+        const localById = {};
+        state.balls.forEach(b => { if (b.id) localById[b.id] = b; });
+        ballsData.balls.forEach(b => { if (b.id) localById[b.id] = b; });
+        const merged = Object.values(localById);
+        if (merged.length !== state.balls.length) {
+          state.balls = merged;
+          persistBalls();
+          render();
+        }
+      }
+    }
+    if (await syncTournamentBallsIntoDB()) {
       render();
+      githubAutoSync();
     }
   } catch(e) {}
 })();
