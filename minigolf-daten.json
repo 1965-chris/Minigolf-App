@@ -73077,29 +73077,7 @@
       "amount": 12
     }
   ],
-  "gastro": [
-    {
-      "id": "6psfmmym",
-      "date": "2026-07-12",
-      "year": "2026",
-      "name": "Getränke/Snaks v.01.03-12.07.2026",
-      "amount": 310
-    },
-    {
-      "id": "3diz7rde",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 6
-    },
-    {
-      "id": "8heyca03",
-      "date": "2026-07-19",
-      "year": "2026",
-      "name": "Getränke + Eis",
-      "amount": 4.5
-    }
-  ],
+  "gastro": [],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
