@@ -73564,8 +73564,9 @@
     "speechEnabled": true,
     "whatsappNumber": "+4915234179349",
     "googleVoiceName": "de-DE-Chirp3-HD-Zephyr",
-    "messageTemplate": "{name} gibt einen aus! Er hat 4 Asse!",
+    "messageTemplate": "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
     "messageHistory": [
+      "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
       "{name} gibt einen aus! Er hat 4 Asse!"
     ],
     "voiceURI": "",
