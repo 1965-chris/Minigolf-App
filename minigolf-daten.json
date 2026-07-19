@@ -73037,6 +73037,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 6
+    },
+    {
+      "id": "8heyca03",
+      "date": "2026-07-19",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2
     }
   ],
   "tournamentPlacements": {
