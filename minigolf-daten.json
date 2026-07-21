@@ -5,6 +5,43 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "6d1py0tf",
+          "time": "11:34",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "ejvwrxsc",
+          "scores": [
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            3
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
           "date": "2026-07-19",
           "year": "2026",
           "groupId": "2owfws96",
@@ -68779,6 +68816,42 @@
       "name": "Sylvia",
       "rounds": [
         {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "6d1py0tf",
+          "time": "11:34",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "gsbmfvze",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            3,
+            1,
+            3
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
           "date": "2026-07-16",
           "year": "2026",
           "groupId": "lsomau3y",
@@ -73084,22 +73157,7 @@
       "amount": 310
     }
   ],
-  "gastro": [
-    {
-      "id": "5nnpp9sf",
-      "date": "2026-07-16",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 4
-    },
-    {
-      "id": "15jc0qgr",
-      "date": "2026-07-19",
-      "year": "2026",
-      "name": "Getränke + Eis",
-      "amount": 4.5
-    }
-  ],
+  "gastro": [],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
