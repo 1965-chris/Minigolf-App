@@ -73226,7 +73226,15 @@
       "amount": 310
     }
   ],
-  "gastro": [],
+  "gastro": [
+    {
+      "id": "bfziz29z",
+      "date": "2026-07-21",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 7
+    }
+  ],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
