@@ -92,6 +92,7 @@ let state = {
   toast: null,
   syncStatus: {}, // { [holeKey]: 'pending' | 'error' }
   syncError: null, // last error message, shown in persistent banner
+  addingAlt: false, // whether the "add another photo" mini-form is open
 };
 
 // ── Helpers ──────────────────────────────────────────────────
@@ -395,6 +396,7 @@ function renderMain() {
     if (svg) {
       const handleTap = ev => {
         if (ev.touches && ev.touches.length > 1) return;
+        if (state.draft.ballLocked) return; // ball position is fixed - taps shouldn't move it
         ev.preventDefault();
         const wrap = document.getElementById('overlay-wrap');
         const rect = wrap.getBoundingClientRect();
@@ -553,6 +555,104 @@ function renderMain() {
       <button class="btn btn-primary" onclick="startEdit()">+ Setup erstellen</button>
     </div>`;
   }
+
+  if (!state.editing) {
+    el.innerHTML += renderAltPhotosCard();
+  }
+}
+
+// Additional trial photos per hole - e.g. for different balls tried, or bank/cushion
+// shots ("über Bande") - separate from the single main setup photo above.
+function renderAltPhotosCard() {
+  const key = 'hole_' + state.hole;
+  const setup = state.setups[key];
+  const alts = (setup && setup.altPhotos) || [];
+
+  let html = `<div class="card" style="margin-top:0.75rem;">
+    <div style="font-size:0.85rem;font-weight:600;color:#2D6A4F;margin-bottom:0.3rem;">📸 Weitere Versuche (Bahn ${state.hole})</div>
+    <p style="color:#a8a29e; font-size:0.76rem; margin:0 0 0.6rem;">Für andere Bälle oder Bande-Varianten – zusätzlich zum Hauptfoto oben.</p>`;
+
+  if (alts.length === 0 && !state.addingAlt) {
+    html += `<p style="color:#a8a29e; font-size:0.85rem; margin:0 0 0.6rem;">Noch keine weiteren Versuche für diese Bahn.</p>`;
+  }
+
+  alts.forEach((a, i) => {
+    const ball = state.balls.find(b => b.id === a.ballId);
+    html += `<div style="display:flex; align-items:center; gap:0.6rem; padding:0.5rem 0; border-bottom:1px solid #f5f5f4;">
+      ${a.photo ? `<img src="${a.photo}" style="width:3rem; height:3rem; object-fit:cover; border-radius:0.4rem; flex-shrink:0; border:1px solid #e7e5e4;" />` : ''}
+      <div style="flex:1;">
+        <div style="font-weight:600; font-size:0.85rem;">${ball ? esc((ball.manufacturer ? ball.manufacturer + ' · ' : '') + (ball.name || ball.series || '')) : '– kein Ball –'}</div>
+        ${a.note ? `<div style="font-size:0.78rem; color:#a8a29e;">${esc(a.note)}</div>` : ''}
+      </div>
+      <button onclick="deleteAltPhoto(${i})" style="background:none;border:none;color:#e11d48;font-size:0.8rem;cursor:pointer;padding:0.2rem 0.4rem;">✕</button>
+    </div>`;
+  });
+
+  if (state.addingAlt) {
+    const ballOptions = state.balls.map(b => `<option value="${esc(b.id)}">${esc((b.manufacturer ? b.manufacturer + ' · ' : '') + (b.name || b.series || b.id))}</option>`).join('');
+    html += `<div style="margin-top:0.6rem;">
+      <span class="label">Foto</span>
+      <input type="file" accept="image/*" id="alt-photo-input" style="margin-bottom:0.6rem;">
+      <span class="label">Ball</span>
+      <select id="alt-ball-select">
+        <option value="">– Kein Ball –</option>
+        ${ballOptions}
+      </select>
+      <span class="label">Notiz (optional)</span>
+      <input type="text" id="alt-note-input" placeholder="z.B. über Bande links gespielt" style="width:100%; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.9rem; box-sizing:border-box;">
+      <div class="btn-row" style="margin-top:0.6rem;">
+        <button class="btn btn-secondary" onclick="state.addingAlt=false; renderMain();">Abbrechen</button>
+        <button class="btn btn-primary" onclick="saveAltPhoto()">Speichern</button>
+      </div>
+    </div>`;
+  } else {
+    html += `<button class="btn btn-secondary" style="width:100%; margin-top:0.4rem;" onclick="state.addingAlt=true; renderMain();">+ Foto hinzufügen</button>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+async function saveAltPhoto() {
+  const fileInput = document.getElementById('alt-photo-input');
+  const file = fileInput?.files?.[0];
+  const ballId = document.getElementById('alt-ball-select')?.value || null;
+  const note = document.getElementById('alt-note-input')?.value.trim() || '';
+  if (!file) { toast('Bitte ein Foto wählen'); return; }
+  toast('Foto wird verkleinert…');
+  let dataUrl;
+  try {
+    dataUrl = await compressImage(file);
+  } catch(e) {
+    dataUrl = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = e2 => resolve(e2.target.result);
+      reader.readAsDataURL(file);
+    });
+  }
+  const key = 'hole_' + state.hole;
+  if (!state.setups[key]) state.setups[key] = { ballId:null, ballX:null, ballY:null, ballLocked:false, clubAngle:0, clubSide:0, clubFwd:0, photo:null, notes:'' };
+  if (!state.setups[key].altPhotos) state.setups[key].altPhotos = [];
+  state.setups[key].altPhotos.push({ photo: dataUrl, ballId, note });
+  state.addingAlt = false;
+  saveLocalSetups();
+  renderHoleGrid();
+  renderMain();
+  toast('Speichere …');
+  const result = await syncToGitHub();
+  toast(result.ok ? '✓ Gespeichert' : '⚠️ Sync fehlgeschlagen – lokal gespeichert');
+}
+
+async function deleteAltPhoto(idx) {
+  const key = 'hole_' + state.hole;
+  if (state.setups[key] && state.setups[key].altPhotos) {
+    state.setups[key].altPhotos.splice(idx, 1);
+  }
+  saveLocalSetups();
+  renderMain();
+  toast('Speichere …');
+  const result = await syncToGitHub();
+  toast(result.ok ? '✓ Gespeichert' : '⚠️ Sync fehlgeschlagen – lokal gespeichert');
 }
 
 function updateSVG() {
