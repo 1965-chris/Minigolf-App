@@ -73543,6 +73543,13 @@
       "year": "2026",
       "name": "Getränke + Eis",
       "amount": 4.5
+    },
+    {
+      "id": "0r0dhwus",
+      "date": "2026-07-24",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 6
     }
   ],
   "tournamentPlacements": {
