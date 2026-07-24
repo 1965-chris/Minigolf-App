@@ -5,6 +5,62 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "54cs46rs",
+          "scores": [
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "15": true
+          },
+          "ballsByHole": [
+            "2qee6eqq",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "c8pitm5y",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
           "date": "2026-07-21",
           "year": "2026",
           "groupId": "8vo15f4a",
@@ -53773,6 +53829,39 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "8esirnmf",
+          "scores": [
+            2,
+            4,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1
+          ]
+        },
+        {
           "date": "2026-07-21",
           "year": "2026",
           "groupId": "8vo15f4a",
@@ -54724,6 +54813,42 @@
       "id": "bkc9viw0",
       "name": "Sylvia",
       "rounds": [
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "qi8zq6kq",
+          "scores": [
+            1,
+            2,
+            1,
+            4,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "15": true
+          }
+        },
         {
           "date": "2026-07-21",
           "year": "2026",
@@ -73627,7 +73752,7 @@
       "photo2": null,
       "manufacturer": "M&G",
       "series": "Starball",
-      "name": "DM 2013 Oliver Rathjens",
+      "name": "DM 2013 Oliver Rathjens/Kl",
       "jumpHeight": "19",
       "hardness": "34",
       "weight": "46",
@@ -74043,7 +74168,7 @@
       "photo2": null,
       "manufacturer": "minigolfworld",
       "series": "Smilie",
-      "name": "5/Neu",
+      "name": "5/Alt",
       "jumpHeight": "40",
       "hardness": "50",
       "weight": "35",
