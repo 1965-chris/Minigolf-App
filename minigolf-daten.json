@@ -74180,8 +74180,9 @@
     "speechEnabled": true,
     "whatsappNumber": "+4915774935209",
     "googleVoiceName": "de-DE-Chirp3-HD-Fenrir",
-    "messageTemplate": "Super!{name}gibt einen aus…er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
+    "messageTemplate": "Super!{name}gibt einen aus…er hat 4Asse. Weiter so!!",
     "messageHistory": [
+      "Super!{name}gibt einen aus…er hat 4Asse. Weiter so!!",
       "Super!{name}gibt einen aus…er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
       "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
       "{name} gibt einen aus! Er hat 4 Asse!"
