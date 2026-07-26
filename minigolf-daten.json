@@ -73850,6 +73850,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 8
+    },
+    {
+      "id": "52a44ipz",
+      "date": "2026-07-26",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
     }
   ],
   "tournamentPlacements": {
