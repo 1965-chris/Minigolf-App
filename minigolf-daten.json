@@ -7,6 +7,63 @@
         {
           "date": "2026-07-27",
           "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "xwpaik4s",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "8": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
           "groupId": "78jigxvn",
           "time": "13:39",
           "weather": [
@@ -71087,6 +71144,43 @@
       "name": "Andreas",
       "rounds": [
         {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "ti7axdfj",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
           "date": "2026-07-09",
           "year": "2026",
           "groupId": "6tmfmvjc",
@@ -71161,6 +71255,40 @@
       "id": "orjbe8fe",
       "name": "Heike",
       "rounds": [
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "96jhid5z",
+          "scores": [
+            3,
+            3,
+            2,
+            2,
+            5,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ]
+        },
         {
           "date": "2026-07-09",
           "year": "2026",
@@ -74103,6 +74231,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 4
+    },
+    {
+      "id": "65iwxb31",
+      "date": "2026-07-27",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 11.8
     }
   ],
   "tournamentPlacements": {
