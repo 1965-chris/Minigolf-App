@@ -5,6 +5,62 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "37nn2535",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "14": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
           "date": "2026-07-26",
           "year": "2026",
           "groupId": "yc2yy85w",
@@ -53997,6 +54053,39 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "z6h1femu",
+          "scores": [
+            1,
+            3,
+            1,
+            4,
+            2,
+            4,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
           "date": "2026-07-26",
           "year": "2026",
           "groupId": "yc2yy85w",
@@ -55081,6 +55170,42 @@
       "name": "Sylvia",
       "rounds": [
         {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "64y1a03x",
+          "scores": [
+            2,
+            1,
+            3,
+            4,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            5,
+            4,
+            3,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
           "date": "2026-07-26",
           "year": "2026",
           "groupId": "djp3x6gc",
@@ -55535,6 +55660,39 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "a9dkgjzk",
+          "scores": [
+            2,
+            2,
+            1,
+            7,
+            2,
+            3,
+            4,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            4
+          ]
+        },
         {
           "date": "2026-07-07",
           "year": "2026",
@@ -73857,6 +74015,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 4
+    },
+    {
+      "id": "pf4og85w",
+      "date": "2026-07-27",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2
     }
   ],
   "tournamentPlacements": {
