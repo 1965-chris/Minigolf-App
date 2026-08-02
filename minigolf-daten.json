@@ -75024,7 +75024,7 @@
     }
   ],
   "aceStreakSettings": {
-    "speechEnabled": false,
+    "speechEnabled": true,
     "whatsappNumber": "+4915774935209",
     "googleVoiceName": "de-DE-Neural2-B",
     "messageTemplate": "4 Asse! {name} gibt einen aus! {name} noch vier und es gibt ein Stück Kuchen dazu!",
