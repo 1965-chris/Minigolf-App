@@ -75029,9 +75029,9 @@
     "googleVoiceName": "de-DE-Chirp3-HD-Fenrir",
     "messageTemplate": "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
     "messageHistory": [
+      "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
       "Super!{name}gibt einen aus…er hat 4Asse. Weiter so!!",
       "Super!{name}gibt einen aus…er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
-      "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
       "{name} gibt einen aus! Er hat 4 Asse!"
     ],
     "voiceURI": "",
