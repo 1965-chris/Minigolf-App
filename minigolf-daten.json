@@ -5,6 +5,63 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "21mzoi66",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "2": true,
+            "8": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
           "date": "2026-08-02",
           "year": "2026",
           "groupId": "s2tmj8yk",
@@ -54329,6 +54386,42 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "t18zmrkl",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
           "date": "2026-08-02",
           "year": "2026",
           "groupId": "s2tmj8yk",
@@ -56104,6 +56197,43 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "p3dc1pc4",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            4,
+            2,
+            2,
+            3,
+            2,
+            1,
+            3,
+            2,
+            3,
+            7,
+            1,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true,
+            "4": true
+          }
+        },
         {
           "date": "2026-07-27",
           "year": "2026",
