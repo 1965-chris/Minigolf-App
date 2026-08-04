@@ -7,6 +7,60 @@
         {
           "date": "2026-08-04",
           "year": "2026",
+          "groupId": "8pydn2xm",
+          "time": "16:47",
+          "weather": [
+            "sun",
+            "cloud"
+          ],
+          "temperature": "35",
+          "windSpeed": "8",
+          "precipProbability": "1",
+          "id": "3oyr41q0",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "065e3gmu",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
           "groupId": "rv5skgb1",
           "time": "15:27",
           "weather": [
@@ -54497,6 +54551,40 @@
         {
           "date": "2026-08-04",
           "year": "2026",
+          "groupId": "8pydn2xm",
+          "time": "16:47",
+          "weather": [
+            "sun",
+            "cloud"
+          ],
+          "temperature": "35",
+          "windSpeed": "8",
+          "precipProbability": "1",
+          "id": "hou8bqaz",
+          "scores": [
+            3,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            5
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
           "groupId": "rv5skgb1",
           "time": "15:27",
           "weather": [
@@ -74925,6 +75013,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 5.8
+    },
+    {
+      "id": "gynyhrp2",
+      "date": "2026-08-04",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 3.8
     }
   ],
   "tournamentPlacements": {
