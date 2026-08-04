@@ -7,6 +7,62 @@
         {
           "date": "2026-08-04",
           "year": "2026",
+          "groupId": "l2znu9dt",
+          "time": "17:57",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "33",
+          "windSpeed": "17",
+          "precipProbability": "18",
+          "id": "bywpwfpm",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
           "groupId": "8pydn2xm",
           "time": "16:47",
           "weather": [
@@ -54548,6 +54604,42 @@
       "id": "gccblctp",
       "name": "Gerd",
       "rounds": [
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "l2znu9dt",
+          "time": "17:57",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "33",
+          "windSpeed": "17",
+          "precipProbability": "18",
+          "id": "wro5ea6u",
+          "scores": [
+            2,
+            3,
+            2,
+            6,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4
+          ],
+          "stars": {
+            "2": true
+          }
+        },
         {
           "date": "2026-08-04",
           "year": "2026",
