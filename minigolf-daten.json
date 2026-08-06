@@ -75733,6 +75733,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 15
+    },
+    {
+      "id": "cwl1ew2b",
+      "date": "2026-08-06",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 5.8
     }
   ],
   "tournamentPlacements": {
