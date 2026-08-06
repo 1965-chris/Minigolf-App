@@ -7,6 +7,62 @@
         {
           "date": "2026-08-06",
           "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "zb5n8qda",
+          "scores": [
+            2,
+            3,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
           "groupId": "fx99w7vo",
           "time": "16:45",
           "weather": [
@@ -56915,6 +56971,43 @@
         {
           "date": "2026-08-06",
           "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "g02ebqss",
+          "scores": [
+            2,
+            4,
+            4,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "15": true
+          }
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
           "groupId": "fx99w7vo",
           "time": "16:45",
           "weather": [
@@ -72163,6 +72256,42 @@
       "id": "f2efl6m2",
       "name": "Matthias",
       "rounds": [
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "68i4cdg6",
+          "scores": [
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "4": true
+          }
+        },
         {
           "date": "2026-08-05",
           "year": "2026",
