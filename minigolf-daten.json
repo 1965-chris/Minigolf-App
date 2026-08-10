@@ -5,6 +5,2154 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-08-08",
+          "year": "2026",
+          "groupId": "77ak694p",
+          "time": "18:40",
+          "id": "7j75kh2s",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-08",
+          "year": "2026",
+          "groupId": "j49euj3i",
+          "time": "16:49",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "rj1mrrg8",
+          "scores": [
+            2,
+            3,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            3,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-07",
+          "year": "2026",
+          "groupId": "dctumaxu",
+          "time": "17:26",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "h9kadexc",
+          "scores": [
+            2,
+            7,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            3
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-07",
+          "year": "2026",
+          "groupId": "xj8m0xcs",
+          "time": "15:49",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "2",
+          "id": "sfglovl5",
+          "scores": [
+            2,
+            5,
+            3,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            4,
+            1,
+            6
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "zb5n8qda",
+          "scores": [
+            2,
+            3,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "fx99w7vo",
+          "time": "16:45",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "15",
+          "precipProbability": "1",
+          "id": "gxiaz92d",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "stars": {
+            "3": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "rcqgj3ij",
+          "time": "18:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "18",
+          "precipProbability": "22",
+          "id": "3s4tvucc",
+          "scores": [
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "41hopxmp",
+          "time": "16:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "32",
+          "id": "ylz0ygss",
+          "scores": [
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "hw656sqx",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "45",
+          "id": "g6qesf4i",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            3,
+            2,
+            2,
+            1,
+            4,
+            2,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "l2znu9dt",
+          "time": "17:57",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "33",
+          "windSpeed": "17",
+          "precipProbability": "18",
+          "id": "bywpwfpm",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "8pydn2xm",
+          "time": "16:47",
+          "weather": [
+            "sun",
+            "cloud"
+          ],
+          "temperature": "35",
+          "windSpeed": "8",
+          "precipProbability": "1",
+          "id": "3oyr41q0",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "065e3gmu",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "rv5skgb1",
+          "time": "15:27",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "34",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "zvhx90nj",
+          "scores": [
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            3,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp"
+          ]
+        },
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "xv7yyi6f",
+          "time": "12:21",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "7m95xsbt",
+          "scores": [
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            1
+          ],
+          "stars": {
+            "2": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "21mzoi66",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "2": true,
+            "8": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "s2tmj8yk",
+          "time": "12:10",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "vl6fno5v",
+          "scores": [
+            1,
+            1,
+            1,
+            3,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "g0ti7e4e",
+          "time": "11:03",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "g9yin77j",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            2
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "tttn3s9a",
+          "time": "18:39",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "21",
+          "precipProbability": "10",
+          "id": "xk0qeq7x",
+          "scores": [
+            2,
+            1,
+            1,
+            4,
+            1,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2
+          ],
+          "stars": {
+            "3": true,
+            "15": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "xwpaik4s",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "8": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "78jigxvn",
+          "time": "13:39",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "15",
+          "precipProbability": "69",
+          "id": "eacsnkt3",
+          "scores": [
+            1,
+            4,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            3,
+            1,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            null,
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            null,
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "37nn2535",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "14": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-26",
+          "year": "2026",
+          "groupId": "yc2yy85w",
+          "time": "13:01",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "19",
+          "precipProbability": "43",
+          "id": "2n7y4dh3",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1
+          ],
+          "stars": {
+            "4": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "goqaj30m",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-26",
+          "year": "2026",
+          "groupId": "djp3x6gc",
+          "time": "11:05",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "19",
+          "precipProbability": "10",
+          "id": "bc5vvqfr",
+          "scores": [
+            2,
+            4,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            6,
+            2,
+            1,
+            2
+          ],
+          "ballsByHole": [
+            null,
+            null,
+            null,
+            null,
+            "1vngy8w0",
+            null,
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "xsa2lsjd",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "ky70eh4z",
+          "time": "16:33",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "3",
+          "precipProbability": "0",
+          "id": "nfo7eruf",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "notes": {
+            "14": "Leider Bier Fuß 2 cm zurück"
+          },
+          "stars": {
+            "3": true
+          },
+          "ballsByHole": [
+            "2qee6eqq",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "ix4d3uey",
+            "vwtdywti",
+            "1vngy8w0",
+            "c8pitm5y",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "54cs46rs",
+          "scores": [
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "15": true
+          },
+          "ballsByHole": [
+            "2qee6eqq",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "6jj59q86",
+            "xtikckii",
+            "94p2xmw6",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "c8pitm5y",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "1vfxg0dz"
+          ]
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "8vo15f4a",
+          "time": "15:08",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "wk8c6f30",
+          "scores": [
+            1,
+            5,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "zshcw6h2",
+          "time": "14:14",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "c73cny5x",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "0gjqjp4q",
+          "time": "13:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "24",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "jn3ydmii",
+          "scores": [
+            3,
+            3,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3
+          ],
+          "stars": {
+            "4": true
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "6d1py0tf",
+          "time": "11:34",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "ejvwrxsc",
+          "scores": [
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            3
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-19",
+          "year": "2026",
+          "groupId": "2owfws96",
+          "time": "12:10",
+          "id": "7qkciv7o",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            3,
+            2,
+            3,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-19",
+          "year": "2026",
+          "groupId": "ccrdyod7",
+          "time": "10:58",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "10",
+          "id": "mteyqnty",
+          "scores": [
+            2,
+            2,
+            3,
+            5,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "k6hfmgim",
+          "scores": [
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "15": true
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "zq1rgnpb",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            6,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "qcn300k9",
+          "time": "11:53",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "1m0t18l5",
+          "scores": [
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "62j0ncb7",
+          "time": "11:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "balx8409",
+          "scores": [
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            7,
+            3,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "n9vxrwss",
+          "scores": [
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "rcutwmlq",
+          "time": "15:39",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "c6wfqvk2",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            4,
+            2,
+            1,
+            4,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "2xvr8fwu",
+          "time": "18:35",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "13",
+          "precipProbability": "28",
+          "id": "srgbqi2i",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "n3aj2dhi",
+          "time": "16:52",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "41",
+          "id": "mimx9753",
+          "scores": [
+            2,
+            7,
+            2,
+            2,
+            2,
+            2,
+            1,
+            5,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            4,
+            7,
+            7
+          ]
+        },
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "jnaue697",
+          "time": "15:25",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "46",
+          "id": "zjuf56b6",
+          "scores": [
+            2,
+            2,
+            2,
+            5,
+            1,
+            4,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            3,
+            2,
+            3,
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "10gbefap",
+          "time": "17:43",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "24",
+          "precipProbability": "0",
+          "id": "alz5hkp9",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "1": true,
+            "15": true
+          }
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "4oex91av",
+          "time": "15:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "sc0zt9tp",
+          "scores": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            1,
+            3,
+            3,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "9lmotevd",
+          "time": "18:29",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "p3c0vyvh",
+          "scores": [
+            1,
+            1,
+            4,
+            4,
+            1,
+            3,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "2": true,
+            "3": true,
+            "8": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "673xrr9c",
+          "time": "17:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "g30czg4u",
+          "scores": [
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            3,
+            4,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "u3bgimkk",
+          "time": "16:19",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "31",
+          "windSpeed": "22",
+          "precipProbability": "0",
+          "id": "nkr48h0e",
+          "scores": [
+            2,
+            1,
+            3,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "time": "14:03",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "xlo6fxoz",
+          "scores": [
+            2,
+            4,
+            2,
+            3,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "gc0upl9j",
+          "time": "12:16",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "16",
+          "precipProbability": "0",
+          "id": "g3qkuwjp",
+          "scores": [
+            2,
+            2,
+            4,
+            1,
+            2,
+            2,
+            1,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            5,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "ufhy3kyu",
+          "time": "13:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "17",
+          "precipProbability": "36",
+          "id": "xm5efyvn",
+          "scores": [
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "9ukncafu",
+          "time": "11:10",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "12",
+          "precipProbability": "51",
+          "id": "k460bne1",
+          "scores": [
+            2,
+            4,
+            1,
+            3,
+            3,
+            1,
+            1,
+            3,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
           "date": "2026-06-29",
           "year": "2026",
           "groupId": "b711cq58",
@@ -13546,6 +15694,31 @@
             2
           ],
           "groupId": "an107vi2"
+        },
+        {
+          "date": "2024-08-10",
+          "year": "2024",
+          "id": "8utslpyn",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2
+          ]
         },
         {
           "id": "Christian-2024-236",
@@ -52911,9 +55084,2442 @@
       ]
     },
     {
+      "id": "gccblctp",
+      "name": "Gerd",
+      "rounds": [
+        {
+          "date": "2026-08-08",
+          "year": "2026",
+          "groupId": "j49euj3i",
+          "time": "16:49",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "qdoltxlv",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-08-07",
+          "year": "2026",
+          "groupId": "dctumaxu",
+          "time": "17:26",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "759k9ch2",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-08-07",
+          "year": "2026",
+          "groupId": "xj8m0xcs",
+          "time": "15:49",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "2",
+          "id": "9iy42pdj",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "41hopxmp",
+          "time": "16:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "32",
+          "id": "a30dlf7r",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "hw656sqx",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "45",
+          "id": "1clkv39m",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            3,
+            3,
+            3,
+            1,
+            3,
+            2,
+            2,
+            5,
+            2,
+            1,
+            3
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "l2znu9dt",
+          "time": "17:57",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "33",
+          "windSpeed": "17",
+          "precipProbability": "18",
+          "id": "wro5ea6u",
+          "scores": [
+            2,
+            3,
+            2,
+            6,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "8pydn2xm",
+          "time": "16:47",
+          "weather": [
+            "sun",
+            "cloud"
+          ],
+          "temperature": "35",
+          "windSpeed": "8",
+          "precipProbability": "1",
+          "id": "hou8bqaz",
+          "scores": [
+            3,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            5
+          ]
+        },
+        {
+          "date": "2026-08-04",
+          "year": "2026",
+          "groupId": "rv5skgb1",
+          "time": "15:27",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "34",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "v8hxfz4h",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "xv7yyi6f",
+          "time": "12:21",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "7jddkkgt",
+          "scores": [
+            3,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2
+          ]
+        },
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "t18zmrkl",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "s2tmj8yk",
+          "time": "12:10",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "sn8qguyv",
+          "scores": [
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4,
+            1
+          ]
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "g0ti7e4e",
+          "time": "11:03",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "mndwzexf",
+          "scores": [
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "78jigxvn",
+          "time": "13:39",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "15",
+          "precipProbability": "69",
+          "id": "8mf70tem",
+          "scores": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "z6h1femu",
+          "scores": [
+            1,
+            3,
+            1,
+            4,
+            2,
+            4,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-26",
+          "year": "2026",
+          "groupId": "yc2yy85w",
+          "time": "13:01",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "19",
+          "precipProbability": "43",
+          "id": "7mexm8k7",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            4,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-26",
+          "year": "2026",
+          "groupId": "djp3x6gc",
+          "time": "11:05",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "19",
+          "precipProbability": "10",
+          "id": "etiqw9e1",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            3,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "ky70eh4z",
+          "time": "16:33",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "3",
+          "precipProbability": "0",
+          "id": "f8f1ihpg",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            4,
+            2,
+            2,
+            2,
+            1,
+            4
+          ]
+        },
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "8esirnmf",
+          "scores": [
+            2,
+            4,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "8vo15f4a",
+          "time": "15:08",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "g2snh4z6",
+          "scores": [
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "zshcw6h2",
+          "time": "14:14",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "xk9tfujp",
+          "scores": [
+            5,
+            2,
+            1,
+            4,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "0gjqjp4q",
+          "time": "13:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "24",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "rqo4ht1n",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-19",
+          "year": "2026",
+          "groupId": "2owfws96",
+          "time": "12:10",
+          "id": "8mc041an",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-19",
+          "year": "2026",
+          "groupId": "ccrdyod7",
+          "time": "10:58",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "10",
+          "id": "b6sk6tqn",
+          "scores": [
+            1,
+            2,
+            1,
+            1,
+            3,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            2,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "ims9i5ho",
+          "scores": [
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            5,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "sdam1n5l",
+          "scores": [
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "qcn300k9",
+          "time": "11:53",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "nvwlz43k",
+          "scores": [
+            2,
+            3,
+            1,
+            5,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            3,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-12",
+          "year": "2026",
+          "groupId": "62j0ncb7",
+          "time": "11:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "4xi2kl2w",
+          "scores": [
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "tm7fa6mk",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "rcutwmlq",
+          "time": "15:39",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "0fpoguf5",
+          "scores": [
+            2,
+            4,
+            1,
+            2,
+            1,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "n3aj2dhi",
+          "time": "16:52",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "41",
+          "id": "ouj91s68",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "jnaue697",
+          "time": "15:25",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "46",
+          "id": "3mihnppm",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            5,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "4oex91av",
+          "time": "15:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "0vgc3n3a",
+          "scores": [
+            2,
+            1,
+            4,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            4
+          ]
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "673xrr9c",
+          "time": "17:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "v046p2qe",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "u3bgimkk",
+          "time": "16:19",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "31",
+          "windSpeed": "22",
+          "precipProbability": "0",
+          "id": "tbrtrq3l",
+          "scores": [
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "gc0upl9j",
+          "time": "12:16",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "16",
+          "precipProbability": "0",
+          "id": "qrbx45hc",
+          "scores": [
+            2,
+            2,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "ufhy3kyu",
+          "time": "13:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "17",
+          "precipProbability": "36",
+          "id": "ijsc9lrc",
+          "scores": [
+            1,
+            2,
+            1,
+            5,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            4,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "9ukncafu",
+          "time": "11:10",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "12",
+          "precipProbability": "51",
+          "id": "alncp438",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-06-29",
+          "year": "2026",
+          "groupId": "yjdm4zqf",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "3",
+          "precipProbability": "0",
+          "id": "vfmxym2q",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            3,
+            3,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "date": "2026-06-29",
+          "year": "2026",
+          "groupId": "sse9xfaq",
+          "weather": [
+            "sun"
+          ],
+          "id": "lyihw92h",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-06-23",
+          "year": "2026",
+          "groupId": "x42nkdwx",
+          "time": "17:05",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "6",
+          "precipProbability": "0",
+          "id": "eitg5sw2",
+          "scores": [
+            3,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            1,
+            3
+          ]
+        },
+        {
+          "date": "2026-06-23",
+          "year": "2026",
+          "groupId": "9t173jg3",
+          "time": "16:41",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "xloli4yo",
+          "scores": [
+            2,
+            1,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            3
+          ]
+        },
+        {
+          "date": "2026-06-22",
+          "year": "2026",
+          "groupId": "kzuiwme2",
+          "time": "17:22",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "wn0ara17",
+          "scores": [
+            2,
+            1,
+            3,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            1,
+            4
+          ],
+          "stars": {
+            "3": true,
+            "8": true
+          }
+        },
+        {
+          "date": "2026-06-22",
+          "year": "2026",
+          "groupId": "hqosd2ar",
+          "time": "15:42",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "33",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "xr4x5a2b",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            2,
+            2,
+            3,
+            1,
+            3,
+            3,
+            2,
+            2
+          ],
+          "stars": {
+            "16": true
+          }
+        },
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "tt5xta0t",
+          "time": "17:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "cheb8xpl",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "c1sh9rns",
+          "weather": [
+            "cloud",
+            "wind"
+          ],
+          "id": "4mi8hmll",
+          "scores": [
+            2,
+            1,
+            2,
+            5,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "w4kxdpvq",
+          "id": "syvq5sbs",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            3,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bkc9viw0",
+      "name": "Sylvia",
+      "rounds": [
+        {
+          "date": "2026-08-08",
+          "year": "2026",
+          "groupId": "j49euj3i",
+          "time": "16:49",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "7ydx21n6",
+          "scores": [
+            3,
+            3,
+            2,
+            3,
+            1,
+            2,
+            1,
+            2,
+            7,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3
+          ]
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "41hopxmp",
+          "time": "16:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "32",
+          "id": "llipsmpm",
+          "scores": [
+            2,
+            2,
+            4,
+            5,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            6,
+            2,
+            3,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "hw656sqx",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "45",
+          "id": "061nwkfz",
+          "scores": [
+            2,
+            3,
+            1,
+            7,
+            3,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            3,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "15": true
+          }
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "s2tmj8yk",
+          "time": "12:10",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "pl19v3om",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-08-02",
+          "year": "2026",
+          "groupId": "g0ti7e4e",
+          "time": "11:03",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "r0xb7e4m",
+          "scores": [
+            1,
+            3,
+            1,
+            3,
+            2,
+            2,
+            1,
+            4,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "64y1a03x",
+          "scores": [
+            2,
+            1,
+            3,
+            4,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            5,
+            4,
+            3,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-26",
+          "year": "2026",
+          "groupId": "djp3x6gc",
+          "time": "11:05",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "19",
+          "precipProbability": "10",
+          "id": "iws9cfe9",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            3,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-24",
+          "year": "2026",
+          "groupId": "wkcrdroi",
+          "time": "15:36",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "24",
+          "windSpeed": "2",
+          "precipProbability": "0",
+          "id": "qi8zq6kq",
+          "scores": [
+            1,
+            2,
+            1,
+            4,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "15": true
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "8vo15f4a",
+          "time": "15:08",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "12",
+          "precipProbability": "0",
+          "id": "jffumsvt",
+          "scores": [
+            1,
+            1,
+            1,
+            6,
+            3,
+            2,
+            2,
+            2,
+            6,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "date": "2026-07-21",
+          "year": "2026",
+          "groupId": "6d1py0tf",
+          "time": "11:34",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "20",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "gsbmfvze",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            1,
+            3,
+            2,
+            3,
+            1,
+            3
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "lsomau3y",
+          "time": "13:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "31",
+          "windSpeed": "1",
+          "precipProbability": "3",
+          "id": "jae7yhbw",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-16",
+          "year": "2026",
+          "groupId": "54k54glm",
+          "time": "10:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "28",
+          "windSpeed": "4",
+          "precipProbability": "0",
+          "id": "84dc5mub",
+          "scores": [
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "4oex91av",
+          "time": "15:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "pw7ra2ug",
+          "scores": [
+            2,
+            3,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            3
+          ],
+          "stars": {
+            "2": true,
+            "3": true,
+            "8": true,
+            "16": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "gc0upl9j",
+          "time": "12:16",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "16",
+          "precipProbability": "0",
+          "id": "dy7zlv47",
+          "scores": [
+            1,
+            1,
+            1,
+            2,
+            5,
+            4,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "ufhy3kyu",
+          "time": "13:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "17",
+          "precipProbability": "36",
+          "id": "o5c07lf4",
+          "scores": [
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            7,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-05",
+          "year": "2026",
+          "groupId": "9ukncafu",
+          "time": "11:10",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "12",
+          "precipProbability": "51",
+          "id": "l429c9kd",
+          "scores": [
+            2,
+            3,
+            2,
+            3,
+            2,
+            3,
+            1,
+            3,
+            1,
+            1,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "4": true
+          }
+        },
+        {
+          "date": "2026-06-29",
+          "year": "2026",
+          "groupId": "sse9xfaq",
+          "weather": [
+            "sun"
+          ],
+          "id": "bt9id6z3",
+          "scores": [
+            2,
+            2,
+            2,
+            7,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            5,
+            2,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-06-20",
+          "year": "2026",
+          "groupId": "tt5xta0t",
+          "time": "17:24",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "32",
+          "windSpeed": "11",
+          "id": "ub076b0c",
+          "scores": [
+            2,
+            2,
+            3,
+            5,
+            3,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            3,
+            2,
+            2,
+            4,
+            1,
+            2,
+            2
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-06-14",
+          "year": "2026",
+          "groupId": "c1sh9rns",
+          "weather": [
+            "cloud",
+            "wind"
+          ],
+          "id": "ln3iqw7t",
+          "scores": [
+            2,
+            1,
+            2,
+            4,
+            4,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            2,
+            5
+          ]
+        }
+      ]
+    },
+    {
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "g02ebqss",
+          "scores": [
+            2,
+            4,
+            4,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "15": true
+          }
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "fx99w7vo",
+          "time": "16:45",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "15",
+          "precipProbability": "1",
+          "id": "z3nubwpo",
+          "scores": [
+            2,
+            2,
+            1,
+            4,
+            3,
+            3,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            4
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-08-03",
+          "year": "2026",
+          "groupId": "mbiskwki",
+          "time": "11:16",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "15",
+          "precipProbability": "0",
+          "id": "p3dc1pc4",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            4,
+            2,
+            2,
+            3,
+            2,
+            1,
+            3,
+            2,
+            3,
+            7,
+            1,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true,
+            "4": true
+          }
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "4md1nabw",
+          "time": "12:07",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "14",
+          "precipProbability": "49",
+          "id": "a9dkgjzk",
+          "scores": [
+            2,
+            2,
+            1,
+            7,
+            2,
+            3,
+            4,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            4
+          ]
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "10gbefap",
+          "time": "17:43",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "24",
+          "precipProbability": "0",
+          "id": "ce0vbq5p",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-07",
+          "year": "2026",
+          "groupId": "4oex91av",
+          "time": "15:26",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "4ixfjcnt",
+          "scores": [
+            2,
+            6,
+            1,
+            4,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1,
+            4,
+            3,
+            3,
+            2,
+            1,
+            1
+          ]
+        },
         {
           "date": "2026-06-25",
           "year": "2026",
@@ -67988,409 +72594,139 @@
       ]
     },
     {
-      "id": "bkc9viw0",
-      "name": "Sylvia",
-      "rounds": [
-        {
-          "date": "2026-06-29",
-          "year": "2026",
-          "groupId": "sse9xfaq",
-          "weather": [
-            "sun"
-          ],
-          "id": "bt9id6z3",
-          "scores": [
-            2,
-            2,
-            2,
-            7,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            5,
-            2,
-            2,
-            2,
-            2
-          ],
-          "stars": {
-            "2": true
-          }
-        },
-        {
-          "date": "2026-06-20",
-          "year": "2026",
-          "groupId": "tt5xta0t",
-          "time": "17:24",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "11",
-          "id": "ub076b0c",
-          "scores": [
-            2,
-            2,
-            3,
-            5,
-            3,
-            2,
-            1,
-            2,
-            4,
-            2,
-            1,
-            3,
-            2,
-            2,
-            4,
-            1,
-            2,
-            2
-          ],
-          "stars": {
-            "2": true
-          }
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "c1sh9rns",
-          "weather": [
-            "cloud",
-            "wind"
-          ],
-          "id": "ln3iqw7t",
-          "scores": [
-            2,
-            1,
-            2,
-            4,
-            4,
-            2,
-            1,
-            2,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            3,
-            3,
-            2,
-            5
-          ]
-        }
-      ]
-    },
-    {
-      "id": "gccblctp",
-      "name": "Gerd",
-      "rounds": [
-        {
-          "date": "2026-06-29",
-          "year": "2026",
-          "groupId": "yjdm4zqf",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "28",
-          "windSpeed": "3",
-          "precipProbability": "0",
-          "id": "vfmxym2q",
-          "scores": [
-            2,
-            2,
-            1,
-            3,
-            2,
-            2,
-            1,
-            2,
-            3,
-            3,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
-          ]
-        },
-        {
-          "date": "2026-06-29",
-          "year": "2026",
-          "groupId": "sse9xfaq",
-          "weather": [
-            "sun"
-          ],
-          "id": "lyihw92h",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "date": "2026-06-23",
-          "year": "2026",
-          "groupId": "x42nkdwx",
-          "time": "17:05",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "6",
-          "precipProbability": "0",
-          "id": "eitg5sw2",
-          "scores": [
-            3,
-            2,
-            1,
-            2,
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            4,
-            1,
-            3
-          ]
-        },
-        {
-          "date": "2026-06-23",
-          "year": "2026",
-          "groupId": "9t173jg3",
-          "time": "16:41",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "7",
-          "precipProbability": "0",
-          "id": "xloli4yo",
-          "scores": [
-            2,
-            1,
-            1,
-            3,
-            1,
-            2,
-            1,
-            2,
-            2,
-            1,
-            1,
-            2,
-            1,
-            1,
-            2,
-            3,
-            1,
-            3
-          ]
-        },
-        {
-          "date": "2026-06-22",
-          "year": "2026",
-          "groupId": "kzuiwme2",
-          "time": "17:22",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "11",
-          "precipProbability": "0",
-          "id": "wn0ara17",
-          "scores": [
-            2,
-            1,
-            3,
-            3,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            4,
-            1,
-            4
-          ],
-          "stars": {
-            "3": true,
-            "8": true
-          }
-        },
-        {
-          "date": "2026-06-22",
-          "year": "2026",
-          "groupId": "hqosd2ar",
-          "time": "15:42",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "33",
-          "windSpeed": "12",
-          "precipProbability": "0",
-          "id": "xr4x5a2b",
-          "scores": [
-            2,
-            2,
-            1,
-            3,
-            2,
-            2,
-            1,
-            1,
-            3,
-            2,
-            2,
-            2,
-            3,
-            1,
-            3,
-            3,
-            2,
-            2
-          ],
-          "stars": {
-            "16": true
-          }
-        },
-        {
-          "date": "2026-06-20",
-          "year": "2026",
-          "groupId": "tt5xta0t",
-          "time": "17:24",
-          "weather": [
-            "sun"
-          ],
-          "temperature": "32",
-          "windSpeed": "11",
-          "id": "cheb8xpl",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            1,
-            2,
-            3,
-            1,
-            1
-          ],
-          "stars": {
-            "3": true
-          }
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "c1sh9rns",
-          "weather": [
-            "cloud",
-            "wind"
-          ],
-          "id": "4mi8hmll",
-          "scores": [
-            2,
-            1,
-            2,
-            5,
-            1,
-            2,
-            1,
-            2,
-            3,
-            2,
-            1,
-            1,
-            2,
-            3,
-            2,
-            2,
-            2,
-            1
-          ]
-        },
-        {
-          "date": "2026-06-14",
-          "year": "2026",
-          "groupId": "w4kxdpvq",
-          "id": "syvq5sbs",
-          "scores": [
-            2,
-            2,
-            1,
-            1,
-            2,
-            3,
-            1,
-            2,
-            3,
-            2,
-            1,
-            2,
-            4,
-            2,
-            1,
-            2,
-            1,
-            1
-          ]
-        }
-      ]
-    },
-    {
       "id": "f2efl6m2",
       "name": "Matthias",
       "rounds": [
+        {
+          "date": "2026-08-08",
+          "year": "2026",
+          "groupId": "77ak694p",
+          "time": "18:40",
+          "id": "mo1j1q3x",
+          "scores": [
+            1,
+            3,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "u9ytzf8n",
+          "time": "19:01",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "25",
+          "windSpeed": "18",
+          "precipProbability": "3",
+          "id": "68i4cdg6",
+          "scores": [
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "4": true
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "rcqgj3ij",
+          "time": "18:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "18",
+          "precipProbability": "22",
+          "id": "8f3uf98u",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "tttn3s9a",
+          "time": "18:39",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "21",
+          "precipProbability": "10",
+          "id": "yngklcnz",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1
+          ]
+        },
         {
           "date": "2026-06-20",
           "year": "2026",
@@ -68485,6 +72821,76 @@
       "name": "Anette",
       "rounds": [
         {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "rcqgj3ij",
+          "time": "18:52",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "18",
+          "precipProbability": "22",
+          "id": "h8pbiu49",
+          "scores": [
+            2,
+            2,
+            3,
+            4,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            3,
+            3,
+            1,
+            3
+          ],
+          "stars": {
+            "2": true
+          }
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "tttn3s9a",
+          "time": "18:39",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "21",
+          "precipProbability": "10",
+          "id": "b94mo5wz",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            1,
+            3,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            3,
+            2
+          ]
+        },
+        {
           "date": "2026-06-20",
           "year": "2026",
           "groupId": "is0ohkr6",
@@ -68552,6 +72958,153 @@
       "name": "Andreas",
       "rounds": [
         {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "fx99w7vo",
+          "time": "16:45",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "15",
+          "precipProbability": "1",
+          "id": "6sapkz0e",
+          "scores": [
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "41hopxmp",
+          "time": "16:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "32",
+          "id": "rgkx20kl",
+          "scores": [
+            2,
+            5,
+            3,
+            2,
+            1,
+            1,
+            1,
+            2,
+            3,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "ti7axdfj",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            4,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "mo06fdwh",
+          "scores": [
+            1,
+            3,
+            1,
+            4,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            3,
+            2,
+            3,
+            2,
+            2,
+            2
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
           "date": "2026-06-29",
           "year": "2026",
           "groupId": "541zntld",
@@ -68586,9 +73139,226 @@
       ]
     },
     {
+      "id": "orjbe8fe",
+      "name": "Heike",
+      "rounds": [
+        {
+          "date": "2026-08-06",
+          "year": "2026",
+          "groupId": "fx99w7vo",
+          "time": "16:45",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "15",
+          "precipProbability": "1",
+          "id": "83xg17ex",
+          "scores": [
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2
+          ],
+          "stars": {
+            "3": true,
+            "16": true
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "year": "2026",
+          "groupId": "41hopxmp",
+          "time": "16:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "29",
+          "windSpeed": "18",
+          "precipProbability": "32",
+          "id": "drdx6ges",
+          "scores": [
+            2,
+            4,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            4,
+            3,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-27",
+          "year": "2026",
+          "groupId": "m3xxt8jv",
+          "time": "16:49",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "18",
+          "precipProbability": "26",
+          "id": "96jhid5z",
+          "scores": [
+            3,
+            3,
+            2,
+            2,
+            5,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "date": "2026-07-09",
+          "year": "2026",
+          "groupId": "6tmfmvjc",
+          "time": "16:31",
+          "weather": [
+            "cloud",
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "7kaftwwt",
+          "scores": [
+            2,
+            4,
+            1,
+            3,
+            1,
+            2,
+            1,
+            3,
+            4,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            3,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
       "id": "p3",
       "name": "Rolf",
       "rounds": [
+        {
+          "date": "2026-07-08",
+          "year": "2026",
+          "groupId": "2xvr8fwu",
+          "time": "18:35",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "13",
+          "precipProbability": "28",
+          "id": "j2443rbq",
+          "scores": [
+            2,
+            3,
+            2,
+            4,
+            5,
+            3,
+            1,
+            4,
+            3,
+            2,
+            1,
+            5,
+            2,
+            2,
+            6,
+            4,
+            1,
+            2
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          }
+        },
+        {
+          "date": "2026-07-06",
+          "year": "2026",
+          "groupId": "9lmotevd",
+          "time": "18:29",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "30",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "fac4lu4z",
+          "scores": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            5,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
         {
           "date": "2026-06-29",
           "year": "2026",
@@ -71374,9 +76144,108 @@
       "year": "2017",
       "name": "Einballturnier",
       "amount": 12
+    },
+    {
+      "id": "syxw2k33",
+      "date": "2026-07-12",
+      "year": "2026",
+      "name": "Getränke,Snacks, Eis v.01.02-12.07.2026",
+      "amount": 310
+    },
+    {
+      "id": "1tqsrpph",
+      "date": "2026-08-04",
+      "year": "2026",
+      "name": "Ball „alles easy“",
+      "amount": 25.9
     }
   ],
-  "gastro": [],
+  "gastro": [
+    {
+      "id": "bfziz29z",
+      "date": "2026-07-21",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 9
+    },
+    {
+      "id": "45wr3c05",
+      "date": "2026-07-16",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "aoqflfja",
+      "date": "2026-07-19",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    },
+    {
+      "id": "0r0dhwus",
+      "date": "2026-07-24",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 8
+    },
+    {
+      "id": "52a44ipz",
+      "date": "2026-07-26",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "65iwxb31",
+      "date": "2026-07-27",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 15.8
+    },
+    {
+      "id": "37x532md",
+      "date": "2026-08-02",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "i7jidyo1",
+      "date": "2026-08-03",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 5.8
+    },
+    {
+      "id": "gynyhrp2",
+      "date": "2026-08-04",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 3.8
+    },
+    {
+      "id": "3snnfh8z",
+      "date": "2026-08-05",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 15
+    },
+    {
+      "id": "cwl1ew2b",
+      "date": "2026-08-06",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 5.8
+    },
+    {
+      "id": "y43rh6zz",
+      "date": "2026-08-08",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    }
+  ],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
@@ -71854,9 +76723,18 @@
   ],
   "aceStreakSettings": {
     "speechEnabled": true,
-    "whatsappNumber": "",
-    "googleVoiceName": "de-DE-Neural2-C",
-    "messageTemplate": "4 Asse in Folge! {name} gibt eine Runde aus!",
-    "messageHistory": []
+    "whatsappNumber": "+4915774935209",
+    "googleVoiceName": "de-DE-Neural2-B",
+    "messageTemplate": "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
+    "messageHistory": [
+      "Super!{name}gibt einen aus, er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
+      "4 Asse! {name} gibt einen aus! {name} noch vier und es gibt ein Stück Kuchen dazu!",
+      "Super!{name}gibt einen aus…er hat 4Asse. Weiter so!!",
+      "Super!{name}gibt einen aus…er hat 4Asse. Und jetzt hör auf mit dem scheiß!",
+      "{name} gibt einen aus! Er hat 4 Asse!"
+    ],
+    "voiceURI": "",
+    "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
+    "voiceName": "Anna"
   }
 }
