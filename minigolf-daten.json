@@ -7,6 +7,43 @@
         {
           "date": "2026-08-26",
           "year": "2026",
+          "groupId": "tifbaz62",
+          "time": "18:02",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "6",
+          "precipProbability": "0",
+          "id": "5alxc9ce",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true,
+            "14": true
+          }
+        },
+        {
+          "date": "2026-08-26",
+          "year": "2026",
           "groupId": "eksr0smj",
           "time": "16:57",
           "weather": [
@@ -55285,6 +55322,39 @@
         {
           "date": "2026-08-26",
           "year": "2026",
+          "groupId": "tifbaz62",
+          "time": "18:02",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "6",
+          "precipProbability": "0",
+          "id": "wl7oxccx",
+          "scores": [
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            4,
+            2,
+            2,
+            4
+          ]
+        },
+        {
+          "date": "2026-08-26",
+          "year": "2026",
           "groupId": "eksr0smj",
           "time": "16:57",
           "weather": [
@@ -57640,6 +57710,39 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-08-26",
+          "year": "2026",
+          "groupId": "tifbaz62",
+          "time": "18:02",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "6",
+          "precipProbability": "0",
+          "id": "paqzhekm",
+          "scores": [
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            4,
+            2,
+            3
+          ]
+        },
         {
           "date": "2026-08-25",
           "year": "2026",
@@ -76692,6 +76795,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 10.8
+    },
+    {
+      "id": "til60elm",
+      "date": "2026-08-26",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 3.8
     }
   ],
   "tournamentPlacements": {
