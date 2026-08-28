@@ -55,7 +55,10 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
 <div class="header">
   <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;">
     <h1>🎯 Minigolf Training</h1>
-    <a href="index.html" title="Zum Dashboard" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏠</a>
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
+      <a href="index.html" title="Zum Dashboard" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏠</a>
+    </div>
   </div>
   <div class="header-sub" id="header-sub">Lade Daten…</div>
 </div>
@@ -129,21 +132,45 @@ async function retrySync() {
   renderHoleGrid();
 }
 
+// Retries a request a few times on network failure. GitHub's REST API
+// officially supports CORS (incl. the Authorization header) from any origin,
+// so no proxy is needed - and the corsproxy.io fallback that used to sit here
+// used a URL format corsproxy.io no longer accepts anyway.
+async function ghFetch(url, options = {}, retries = 6) {
+  let lastErr;
+  for (let i = 0; i < retries; i++) {
+    try { return await fetch(url, options); }
+    catch(e) {
+      lastErr = e;
+      if (i < retries - 1) await new Promise(r => setTimeout(r, Math.min(500 * (i + 1), 2000)));
+    }
+  }
+  throw lastErr;
+}
+
 // ── GitHub API ───────────────────────────────────────────────
 async function apiGet(path) {
   const cfg = state.cfg;
-  if (!cfg) return null;
+  if (!cfg) return { ok:false, reason:'Kein GitHub-Zugang konfiguriert' };
   const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`;
   // 'object' media type reliably returns metadata (incl. sha) even for files >1MB,
   // where the default JSON media type can fail to return usable data.
+  // NOTE: no Cache-Control header - GitHub's CORS policy doesn't allow it, so
+  // sending it makes the browser reject the request before it's even sent
+  // (Safari reports this as the generic "Load failed"). The ?t= param above
+  // already defeats caching.
   try {
-    // Try direct first, then proxy
-    let res;
-    try { res = await fetch(url, { headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github.object+json', 'Cache-Control': 'no-cache' } }); }
-    catch(e) { res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), { headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github.object+json' } }); }
-    if (!res.ok) return null;
-    return await res.json();
-  } catch(e) { return null; }
+    const res = await ghFetch(url, { headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github.object+json' } });
+    if (res.status === 404) return { ok:true, data:null }; // file doesn't exist yet - fine to create
+    if (!res.ok) {
+      let reason = `HTTP ${res.status}`;
+      try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
+      return { ok:false, reason };
+    }
+    return { ok:true, data: await res.json() };
+  } catch(e) {
+    return { ok:false, reason: e.message || 'Netzwerkfehler bei SHA-Abfrage' };
+  }
 }
 
 async function apiPut(path, content, sha) {
@@ -153,9 +180,7 @@ async function apiPut(path, content, sha) {
   const body = { message: `Training ${new Date().toLocaleDateString('de-DE')}`, content, branch: BRANCH };
   if (sha) body.sha = sha;
   try {
-    let res;
-    try { res = await fetch(url, { method:'PUT', headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) }); }
-    catch(e) { res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), { method:'PUT', headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) }); }
+    const res = await ghFetch(url, { method:'PUT', headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) });
     if (res.ok) return { ok:true };
     let reason = `HTTP ${res.status}`;
     try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
@@ -196,7 +221,12 @@ function compressImage(file, maxDim = 1000, quality = 0.72) {
 async function syncOnce() {
   if (!state.cfg) return { ok:false, reason:'Kein GitHub-Zugang konfiguriert (Einstellungen prüfen)' };
   const existing = await apiGet('minigolf-training.json');
-  const sha = existing?.sha;
+  if (!existing.ok) {
+    // Don't fall through to a write without a sha - GitHub would reject it
+    // with the confusing 'sha wasn't supplied', hiding the real cause.
+    return { ok:false, reason: `SHA-Abfrage fehlgeschlagen: ${existing.reason}` };
+  }
+  const sha = existing.data?.sha;
   const content = utf8ToBase64(JSON.stringify({ setups: state.setups }, null, 2));
   const result = await apiPut('minigolf-training.json', content, sha);
   if (result.ok) saveLocalSetups();
@@ -230,10 +260,44 @@ function syncToGitHub() {
   return run;
 }
 
+// Manual sync: push whatever is local, then pull GitHub's state back, so the
+// button both saves pending changes and picks up edits made on another device.
+async function manualSync() {
+  const btn = document.getElementById('manual-sync-btn');
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  try {
+    const pushed = await syncOnce();
+    if (!pushed.ok) {
+      state.syncError = `Nicht auf GitHub gespeichert: ${pushed.reason}`;
+      renderSyncBanner();
+      return;
+    }
+    const r = await fetch(TRAINING_RAW + '?t=' + Date.now());
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.setups) { state.setups = d.setups; saveLocalSetups(); }
+    }
+    state.syncError = null;
+    renderSyncBanner();
+    const sub = document.getElementById('header-sub');
+    if (sub) sub.textContent = `${state.balls.length} Bälle · ${Object.keys(state.setups).length} Setups · synchronisiert ✓`;
+    renderHoleGrid();
+    renderMain();
+  } catch(e) {
+    state.syncError = `Sync fehlgeschlagen: ${e.message || 'Unbekannter Fehler'}`;
+    renderSyncBanner();
+  } finally {
+    if (btn) { btn.textContent = '🔄'; btn.disabled = false; }
+  }
+}
+
 // ── Init ─────────────────────────────────────────────────────
 async function init() {
   state.cfg = loadCfg();
   state.setups = loadLocalSetups(); // offline fallback, replaced below if GitHub is reachable
+
+  const syncBtn = document.getElementById('manual-sync-btn');
+  if (syncBtn) syncBtn.addEventListener('click', manualSync);
 
   // Load balls
   try {
