@@ -5,100 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2026-08-28",
-          "year": "2026",
-          "groupId": "3uknndvm",
-          "time": "20:11",
-          "id": "59rk7620",
-          "scores": [
-            2,
-            1,
-            1,
-            1,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1
-          ],
-          "ballsByHole": [
-            "065e3gmu",
-            "ix4d3uey",
-            "tc7hza19",
-            "1gv8aex4",
-            "1vngy8w0",
-            "6uibvdb6",
-            "x32ummcu",
-            "xtikckii",
-            "hjsp1un4",
-            "fq6w76oa",
-            "vwtdywti",
-            "1vngy8w0",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "w63zosuf",
-            "f21n5mzh",
-            "kqri4khp",
-            "7ugiklv4"
-          ]
-        },
-        {
-          "date": "2026-08-28",
-          "year": "2026",
-          "groupId": "qejrfj1c",
-          "time": "20:06",
-          "id": "q3hte84s",
-          "scores": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            1,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            1,
-            1,
-            1
-          ],
-          "ballsByHole": [
-            "065e3gmu",
-            "ix4d3uey",
-            "tc7hza19",
-            "1gv8aex4",
-            "1vngy8w0",
-            "6uibvdb6",
-            "x32ummcu",
-            "xtikckii",
-            "hjsp1un4",
-            "fq6w76oa",
-            "vwtdywti",
-            "1vngy8w0",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "w63zosuf",
-            "f21n5mzh",
-            "kqri4khp",
-            "7ugiklv4"
-          ]
-        },
-        {
           "date": "2026-08-27",
           "year": "2026",
           "groupId": "hngim0qx",
@@ -58881,33 +58787,6 @@
       "name": "Gerd",
       "rounds": [
         {
-          "date": "2026-08-28",
-          "year": "2026",
-          "groupId": "qejrfj1c",
-          "time": "20:06",
-          "id": "22qqpqa0",
-          "scores": [
-            1,
-            1,
-            2,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            1,
-            1
-          ]
-        },
-        {
           "date": "2026-08-26",
           "year": "2026",
           "groupId": "tifbaz62",
@@ -61298,33 +61177,6 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
-        {
-          "date": "2026-08-28",
-          "year": "2026",
-          "groupId": "3uknndvm",
-          "time": "20:11",
-          "id": "9e1431rb",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2
-          ]
-        },
         {
           "date": "2026-08-27",
           "year": "2026",
@@ -81207,7 +81059,11 @@
   "deletedIds": {
     "rounds": [
       "leu6qsc6",
-      "xlf5t9ap"
+      "xlf5t9ap",
+      "q3hte84s",
+      "22qqpqa0",
+      "59rk7620",
+      "9e1431rb"
     ],
     "players": []
   }
