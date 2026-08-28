@@ -76960,7 +76960,7 @@
       "amount": 3.8
     },
     {
-      "id": "abub2v1k",
+      "id": "dw36262u",
       "date": "2026-08-27",
       "year": "2026",
       "name": "Getränke",
@@ -77669,5 +77669,77 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": []
+  "pausedRounds": [
+    {
+      "pauseId": "hej1r76j",
+      "pausedAt": "2026-08-28T17:21:52.809Z",
+      "phase": "play",
+      "selectedIds": [
+        "p2",
+        "p1"
+      ],
+      "saveIds": [
+        "p2",
+        "p1"
+      ],
+      "date": "2026-08-28",
+      "time": "19:21",
+      "currentHole": 2,
+      "tournamentRound": 1,
+      "weatherKeys": [],
+      "temperature": "",
+      "windSpeed": "",
+      "precipProbability": "",
+      "scoresByPlayer": {
+        "p2": [
+          "1",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "p1": [
+          "2",
+          "2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "notesByPlayer": {
+        "p2": {},
+        "p1": {}
+      },
+      "starsByPlayer": {
+        "p2": {},
+        "p1": {}
+      }
+    }
+  ]
 }
