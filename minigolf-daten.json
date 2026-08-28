@@ -5,6 +5,53 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-08-28",
+          "year": "2026",
+          "groupId": "qejrfj1c",
+          "time": "20:06",
+          "id": "q3hte84s",
+          "scores": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
+        {
           "date": "2026-08-27",
           "year": "2026",
           "groupId": "hngim0qx",
@@ -71530,6 +71577,33 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-08-28",
+          "year": "2026",
+          "groupId": "qejrfj1c",
+          "time": "20:06",
+          "id": "22qqpqa0",
+          "scores": [
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1
+          ]
+        },
+        {
           "date": "2026-08-26",
           "year": "2026",
           "groupId": "tifbaz62",
@@ -76960,7 +77034,7 @@
       "amount": 3.8
     },
     {
-      "id": "abub2v1k",
+      "id": "dw36262u",
       "date": "2026-08-27",
       "year": "2026",
       "name": "Getränke",
@@ -77740,81 +77814,11 @@
         "p2": {},
         "p1": {}
       }
-    },
-    {
-      "pauseId": "lmolz9ax",
-      "pausedAt": "2026-08-28T18:07:10.700Z",
-      "phase": "play",
-      "selectedIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "saveIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "date": "2026-08-28",
-      "time": "20:06",
-      "currentHole": 5,
-      "tournamentRound": 1,
-      "weatherKeys": [],
-      "temperature": "",
-      "windSpeed": "",
-      "precipProbability": "",
-      "scoresByPlayer": {
-        "p2": [
-          "1",
-          "1",
-          "1",
-          "1",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ],
-        "gccblctp": [
-          "1",
-          "1",
-          "2",
-          "2",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "notesByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      },
-      "starsByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      }
     }
   ],
   "retiredPauseIds": [
     "phhinvnv",
-    "exnyqjtc"
+    "exnyqjtc",
+    "lmolz9ax"
   ]
 }
