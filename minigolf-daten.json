@@ -81055,7 +81055,7 @@
   "pausedRounds": [
     {
       "pauseId": "89c0pfco",
-      "pausedAt": "2026-08-28T19:14:30.817Z",
+      "pausedAt": "2026-08-28T19:18:00.177Z",
       "phase": "play",
       "selectedIds": [
         "p2",
@@ -81067,7 +81067,7 @@
       ],
       "date": "2026-08-28",
       "time": "20:57",
-      "currentHole": 0,
+      "currentHole": 8,
       "tournamentRound": 1,
       "weatherKeys": [],
       "temperature": "",
