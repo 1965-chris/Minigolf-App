@@ -77740,77 +77740,9 @@
         "p2": {},
         "p1": {}
       }
-    },
-    {
-      "pauseId": "phhinvnv",
-      "pausedAt": "2026-08-28T17:23:20.476Z",
-      "phase": "play",
-      "selectedIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "saveIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "date": "2026-08-28",
-      "time": "19:22",
-      "currentHole": 3,
-      "tournamentRound": 1,
-      "weatherKeys": [],
-      "temperature": "",
-      "windSpeed": "",
-      "precipProbability": "",
-      "scoresByPlayer": {
-        "p2": [
-          "1",
-          "1",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ],
-        "gccblctp": [
-          "1",
-          "2",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "notesByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      },
-      "starsByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      }
     }
+  ],
+  "retiredPauseIds": [
+    "phhinvnv"
   ]
 }
