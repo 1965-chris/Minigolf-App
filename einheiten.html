@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-title" content="Einheiten" />
+<link rel="apple-touch-icon" href="training-icon.png" />
+<title>Minigolf Trainingseinheiten</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; background: #f5f0e8; color: #1c1917; min-height: 100vh; }
+.header { background: #2D6A4F; color: white; padding: 1rem 1rem 0.75rem; position: sticky; top: 0; z-index: 100; }
+.header h1 { font-size: 1.2rem; font-weight: 700; }
+.header-sub { font-size: 0.75rem; opacity: 0.7; margin-top: 0.1rem; }
+.content { padding: 1rem; max-width: 480px; margin: 0 auto; }
+.card { background: white; border-radius: 0.9rem; padding: 0.9rem; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.card h3 { font-size: 0.95rem; color: #2D6A4F; margin-bottom: 0.6rem; }
+.label { display: block; font-size: 0.75rem; font-weight: 600; color: #78716c; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.sel, input[type=date], input[type=number] { width: 100%; padding: 0.5rem; border: 1px solid #d6d3d1; border-radius: 0.5rem; font-size: 0.9rem; background: white; color: #1c1917; font-family: inherit; }
+.hole-grid { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+.hole-btn { width: 2.3rem; height: 2.3rem; border-radius: 0.5rem; border: 2px solid #e7e5e4; background: white; color: #44403c; font-size: 0.88rem; cursor: pointer; position: relative; }
+.hole-btn.active { border-color: #2D6A4F; background: #2D6A4F; color: white; font-weight: 700; }
+.hole-btn.has-data { border-color: #86efac; }
+.hole-btn.active.has-data { border-color: #2D6A4F; }
+.btn { padding: 0.6rem 0.9rem; border-radius: 0.6rem; border: 1px solid transparent; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-primary { background: #2D6A4F; color: white; }
+.btn-secondary { background: white; color: #44403c; border-color: #d6d3d1; }
+.btn-full { width: 100%; }
+.btn-row { display: flex; gap: 0.5rem; }
+.wx { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.wx button { padding: 0.4rem 0.6rem; border-radius: 0.5rem; border: 1px solid #d6d3d1; background: white; font-size: 1rem; cursor: pointer; }
+.wx button.on { border-color: #2D6A4F; background: #e8f2ec; }
+.tally { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+.tally button { flex: 1; padding: 1.1rem 0.5rem; border-radius: 0.8rem; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; color: white; }
+.tally .hit { background: #16a34a; }
+.tally .miss { background: #b91c1c; }
+.big { font-size: 1.6rem; font-weight: 800; }
+.muted { font-size: 0.75rem; color: #a8a29e; }
+#toast { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); background: #1c3d2f; color: white; padding: 0.6rem 1rem; border-radius: 0.7rem; font-size: 0.85rem; z-index: 300; max-width: 90%; text-align: center; }
+#sync-banner { background: #dc2626; color: white; padding: 0.6rem 1rem; font-size: 0.8rem; display: flex; align-items: center; gap: 0.6rem; position: sticky; top: 0; z-index: 110; }
+#sync-banner button { background: white; color: #dc2626; border: none; border-radius: 0.4rem; padding: 0.35rem 0.7rem; font-weight: 700; font-size: 0.75rem; cursor: pointer; flex-shrink: 0; }
+.row { display: flex; align-items: center; gap: 0.55rem; padding: 0.45rem 0.5rem; border: 1px solid #e7e5e4; border-radius: 0.5rem; margin-bottom: 0.3rem; background: white; }
+.row.best { border-color: #86efac; background: #f0fdf4; }
+.ballimg { width: 2rem; height: 2rem; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: #f5f5f4; display: flex; align-items: center; justify-content: center; }
+.ballimg img { width: 100%; height: 100%; object-fit: cover; }
+.tabs { display: flex; gap: 0.35rem; margin-bottom: 0.75rem; }
+.tabs button { flex: 1; padding: 0.5rem; border-radius: 0.6rem; border: 1px solid #d6d3d1; background: white; font-size: 0.85rem; cursor: pointer; font-family: inherit; }
+.tabs button.on { background: #2D6A4F; color: white; border-color: #2D6A4F; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;">
+    <h1>🏌️ Trainingseinheiten <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span></h1>
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
+      <a href="training.html" title="Zum Training" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🎯</a>
+      <a href="index.html" title="Zum Dashboard" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏠</a>
+    </div>
+  </div>
+  <div class="header-sub" id="header-sub">Lade Daten…</div>
+</div>
+
+<div id="sync-banner" style="display:none;"></div>
+
+<div class="content">
+  <div class="tabs">
+    <button id="tab-log" class="on">Erfassen</button>
+    <button id="tab-stats">Auswertung</button>
+  </div>
+  <div id="main"></div>
+</div>
+
+<script>
+"use strict";
+
+// ── Config ──────────────────────────────────────────────────
+const OWNER = "1965-chris";
+const REPO  = "Minigolf-App";
+const BRANCH = "main";
+const SESSIONS_FILE = "minigolf-einheiten.json";
+const SESSIONS_RAW  = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${SESSIONS_FILE}`;
+const BALLS_RAW     = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-baelle.json`;
+const GITHUB_CFG_KEY = "minigolf-github-config";
+const SESSIONS_KEY   = "minigolf-einheiten";
+const PLAYERS = ["Christian", "Birgit"];
+const APP_VERSION = "1";
+
+const WEATHER_OPTS = [
+  { key: "sun",   icon: "☀️", label: "Sonne" },
+  { key: "cloud", icon: "☁️", label: "Bewölkt" },
+  { key: "rain",  icon: "🌧️", label: "Regen" },
+  { key: "wind",  icon: "💨", label: "Wind" },
+  { key: "cold",  icon: "🥶", label: "Kalt" },
+];
+
+// ── State ────────────────────────────────────────────────────
+let state = {
+  tab: "log",
+  player: "Christian",
+  hole: 1,
+  ballId: null,
+  date: todayISO(),
+  weatherKeys: [],
+  temperature: "",
+  sessions: [],     // [{id, date, player, weatherKeys, temperature, attempts:[{hole, ballId, holed}]}]
+  balls: [],
+  cfg: null,
+  syncError: null,
+  statsYear: "",    // "" = all seasons
+};
+
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y,m,d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+function loadCfg() { try { return JSON.parse(localStorage.getItem(GITHUB_CFG_KEY)||'null'); } catch(e) { return null; } }
+function loadLocal() { try { const d = JSON.parse(localStorage.getItem(SESSIONS_KEY)||'{}'); return Array.isArray(d.sessions) ? d.sessions : []; } catch(e) { return []; } }
+function saveLocal() { try { localStorage.setItem(SESSIONS_KEY, JSON.stringify({ sessions: state.sessions })); } catch(e) {} }
+
+function toast(msg) {
+  const old = document.getElementById('toast');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.id = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2200);
+}
+
+function renderSyncBanner() {
+  const el = document.getElementById('sync-banner');
+  if (!el) return;
+  if (!state.syncError) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.innerHTML = `<span style="flex:1;">⚠️ ${esc(state.syncError)}</span><button id="retry-sync">🔄 Erneut</button>`;
+  const b = document.getElementById('retry-sync');
+  if (b) b.addEventListener('click', () => { state.syncError = null; renderSyncBanner(); pushToGitHub(); });
+}
+
+// ── GitHub ───────────────────────────────────────────────────
+// Retries the direct request; GitHub's API supports CORS from any origin, so
+// no proxy is needed. NOTE: never send a Cache-Control header - GitHub's CORS
+// policy rejects it and the browser then fails the request outright.
+async function ghFetch(url, options = {}, retries = 6) {
+  let lastErr;
+  for (let i = 0; i < retries; i++) {
+    try { return await fetch(url, options); }
+    catch(e) {
+      lastErr = e;
+      if (i < retries - 1) await new Promise(r => setTimeout(r, Math.min(500*(i+1), 2000)));
+    }
+  }
+  throw lastErr;
+}
+
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+
+async function apiGetSha(path) {
+  const cfg = state.cfg;
+  if (!cfg) return { ok:false, reason:'Kein GitHub-Zugang konfiguriert' };
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`;
+  try {
+    const res = await ghFetch(url, { headers: { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github.object+json' } });
+    if (res.status === 404) return { ok:true, sha:null };
+    if (!res.ok) {
+      let reason = `HTTP ${res.status}`;
+      try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
+      return { ok:false, reason };
+    }
+    const d = await res.json();
+    return { ok:true, sha: d.sha || null };
+  } catch(e) {
+    return { ok:false, reason: e.message || 'Netzwerkfehler' };
+  }
+}
+
+// Merge is additive by session id, so two devices logging on the same day
+// never wipe each other's work.
+function mergeSessions(incoming) {
+  if (!Array.isArray(incoming)) return false;
+  const byId = {};
+  state.sessions.forEach(s => { if (s.id) byId[s.id] = s; });
+  let changed = false;
+  incoming.forEach(s => {
+    if (!s || !s.id) return;
+    const mine = byId[s.id];
+    if (!mine) { byId[s.id] = s; changed = true; return; }
+    // Same session on both sides: keep whichever has more attempts recorded.
+    const a = (mine.attempts || []).length, b = (s.attempts || []).length;
+    if (b > a) { byId[s.id] = s; changed = true; }
+  });
+  const merged = Object.values(byId).sort((x,y) => (y.date||'').localeCompare(x.date||''));
+  if (changed || merged.length !== state.sessions.length) {
+    state.sessions = merged;
+    saveLocal();
+    return true;
+  }
+  return false;
+}
+
+async function pushToGitHub() {
+  const cfg = state.cfg;
+  if (!cfg || !cfg.token) { state.syncError = 'Kein GitHub-Zugang – in der Haupt-App einrichten.'; renderSyncBanner(); return { ok:false }; }
+  const shaRes = await apiGetSha(SESSIONS_FILE);
+  if (!shaRes.ok) {
+    // Writing without a sha would be rejected with a confusing message, so
+    // surface the real reason instead.
+    state.syncError = `Nicht gespeichert: ${shaRes.reason}`;
+    renderSyncBanner();
+    return { ok:false };
+  }
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${SESSIONS_FILE}`;
+  const body = {
+    message: `Trainingseinheiten ${new Date().toLocaleDateString('de-DE')}`,
+    content: utf8ToBase64(JSON.stringify({ sessions: state.sessions }, null, 2)),
+    branch: BRANCH,
+  };
+  if (shaRes.sha) body.sha = shaRes.sha;
+  try {
+    const res = await ghFetch(url, {
+      method:'PUT',
+      headers:{ Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) { state.syncError = null; renderSyncBanner(); return { ok:true }; }
+    let reason = `HTTP ${res.status}`;
+    try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
+    state.syncError = `Nicht gespeichert: ${reason}`;
+    renderSyncBanner();
+    return { ok:false };
+  } catch(e) {
+    state.syncError = 'Nicht gespeichert: Netzwerkfehler';
+    renderSyncBanner();
+    return { ok:false };
+  }
+}
+
+// Rapid tapping shouldn't mean one upload per tap - collapse a burst into a
+// single push a few seconds after the last one.
+let pushTimer = null;
+function schedulePush(delay = 4000) {
+  if (pushTimer) clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => { pushTimer = null; pushToGitHub(); }, delay);
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && pushTimer) {
+    clearTimeout(pushTimer); pushTimer = null; pushToGitHub();
+  }
+});
+
+async function pullFromGitHub() {
+  try {
+    const r = await ghFetch(SESSIONS_RAW + '?t=' + Date.now());
+    if (r.ok) {
+      const d = await r.json();
+      if (d && Array.isArray(d.sessions)) return mergeSessions(d.sessions);
+    }
+  } catch(e) {}
+  return false;
+}
+
+async function manualSync() {
+  const btn = document.getElementById('manual-sync-btn');
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  try {
+    const pushed = await pushToGitHub();
+    if (pushed.ok) {
+      await pullFromGitHub();
+      toast('Synchronisiert ✓');
+      render();
+    }
+  } finally {
+    if (btn) { btn.textContent = '🔄'; btn.disabled = false; }
+  }
+}
+
+// ── Session helpers ──────────────────────────────────────────
+// One session per player per day: logging is naturally resumed across the
+// day, so re-opening the page shouldn't start a second record.
+function currentSession(createIfMissing) {
+  let s = state.sessions.find(x => x.date === state.date && x.player === state.player);
+  if (!s && createIfMissing) {
+    s = { id: uid(), date: state.date, player: state.player, weatherKeys: [...state.weatherKeys], temperature: state.temperature, attempts: [] };
+    state.sessions.unshift(s);
+  }
+  return s || null;
+}
+
+function recordAttempt(holed) {
+  if (!state.ballId) { toast('Bitte zuerst einen Ball wählen.'); return; }
+  const s = currentSession(true);
+  s.weatherKeys = [...state.weatherKeys];
+  s.temperature = state.temperature;
+  s.attempts.push({ hole: state.hole, ballId: state.ballId, holed: !!holed, ts: Date.now() });
+  saveLocal();
+  schedulePush();
+  render();
+}
+
+function undoLastAttempt() {
+  const s = currentSession(false);
+  if (!s || !s.attempts.length) return;
+  // Undo the last attempt for the hole/ball currently selected, which is what
+  // "that one was a mistap" almost always means.
+  for (let i = s.attempts.length - 1; i >= 0; i--) {
+    if (s.attempts[i].hole === state.hole && s.attempts[i].ballId === state.ballId) {
+      s.attempts.splice(i, 1);
+      saveLocal();
+      schedulePush();
+      render();
+      return;
+    }
+  }
+  toast('Nichts zum Zurücknehmen für diese Bahn und diesen Ball.');
+}
+
+function tallyFor(hole, ballId) {
+  const s = currentSession(false);
+  if (!s) return { hits: 0, total: 0 };
+  let hits = 0, total = 0;
+  s.attempts.forEach(a => {
+    if (a.hole !== hole) return;
+    if (ballId && a.ballId !== ballId) return;
+    total++;
+    if (a.holed) hits++;
+  });
+  return { hits, total };
+}
+
+function ballById(id) { return state.balls.find(b => b.id === id) || null; }
+function ballLabel(id) {
+  const b = ballById(id);
+  if (!b) return 'Unbekannter Ball';
+  return [b.manufacturer, b.series, b.name].filter(Boolean).join(' ') || id;
+}
+
+// ── Render ───────────────────────────────────────────────────
+function render() {
+  const sub = document.getElementById('header-sub');
+  const s = currentSession(false);
+  const total = s ? s.attempts.length : 0;
+  if (sub) sub.textContent = `${state.player} · ${fmtDate(state.date)} · ${total} Versuch${total === 1 ? '' : 'e'}`;
+  document.getElementById('tab-log').className = state.tab === 'log' ? 'on' : '';
+  document.getElementById('tab-stats').className = state.tab === 'stats' ? 'on' : '';
+  const el = document.getElementById('main');
+  el.innerHTML = state.tab === 'log' ? renderLog() : renderStats();
+  wire();
+}
+
+function renderLog() {
+  const usable = state.balls.filter(b => !b.archived);
+  const t = tallyFor(state.hole, state.ballId);
+  const holeTotal = tallyFor(state.hole, null);
+  const pct = t.total ? Math.round(t.hits / t.total * 100) : 0;
+
+  let html = `<div class="card">
+    <h3>📋 Einheit</h3>
+    <div style="display:flex; gap:0.4rem; margin-bottom:0.5rem;">
+      <select class="sel" id="sel-player" style="flex:1;">
+        ${PLAYERS.map(p => `<option value="${esc(p)}" ${state.player === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
+      </select>
+      <input type="date" id="sel-date" value="${esc(state.date)}" style="flex:1;" />
+    </div>
+    <span class="label">Wetter</span>
+    <div class="wx" style="margin-bottom:0.5rem;">
+      ${WEATHER_OPTS.map(w => `<button data-wx="${w.key}" class="${state.weatherKeys.includes(w.key) ? 'on' : ''}" title="${esc(w.label)}">${w.icon}</button>`).join('')}
+      <input type="number" id="temp" placeholder="°C" value="${esc(state.temperature)}" style="width:4.5rem; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem;" />
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⛳ Bahn</h3>
+    <div class="hole-grid">
+      ${Array.from({length:18}).map((_,i) => {
+        const n = i+1;
+        const ht = tallyFor(n, null);
+        return `<button class="hole-btn ${state.hole===n?'active':''} ${ht.total?'has-data':''}" data-hole="${n}">${n}</button>`;
+      }).join('')}
+    </div>
+    ${holeTotal.total ? `<div class="muted">Bahn ${state.hole} heute: ${holeTotal.hits}/${holeTotal.total} eingelocht</div>` : ''}
+  </div>
+
+  <div class="card">
+    <h3>🎱 Ball</h3>
+    ${usable.length === 0 ? `<div class="muted">Keine Bälle geladen.</div>` : `
+    <select class="sel" id="sel-ball">
+      <option value="">– Ball wählen –</option>
+      ${usable.map(b => `<option value="${esc(b.id)}" ${state.ballId === b.id ? 'selected' : ''}>${esc(ballLabel(b.id))}</option>`).join('')}
+    </select>`}
+  </div>
+
+  <div class="card">
+    <h3>🎯 Vom Abschlag eingelocht?</h3>
+    <div style="display:flex; align-items:baseline; gap:0.5rem;">
+      <span class="big">${t.hits}/${t.total}</span>
+      <span class="muted">${t.total ? pct + '% – Bahn ' + state.hole : 'noch keine Versuche'}</span>
+    </div>
+    <div class="tally">
+      <button class="hit" id="btn-hit">✓ Eingelocht</button>
+      <button class="miss" id="btn-miss">✗ Daneben</button>
+    </div>
+    <button class="btn btn-secondary btn-full" id="btn-undo" style="margin-top:0.5rem;">↺ Letzten Versuch zurücknehmen</button>
+  </div>`;
+  return html;
+}
+
+function renderStats() {
+  // Aggregate every logged attempt by hole and ball.
+  const years = Array.from(new Set(state.sessions.map(s => (s.date||'').slice(0,4)).filter(Boolean))).sort().reverse();
+  const rows = {}; // hole -> ballId -> {hits,total}
+  state.sessions.forEach(s => {
+    if (s.player !== state.player) return;
+    if (state.statsYear && (s.date||'').slice(0,4) !== state.statsYear) return;
+    (s.attempts || []).forEach(a => {
+      if (!rows[a.hole]) rows[a.hole] = {};
+      if (!rows[a.hole][a.ballId]) rows[a.hole][a.ballId] = { hits:0, total:0 };
+      rows[a.hole][a.ballId].total++;
+      if (a.holed) rows[a.hole][a.ballId].hits++;
+    });
+  });
+
+  let html = `<div class="card">
+    <div style="display:flex; gap:0.4rem;">
+      <select class="sel" id="stats-player" style="flex:1;">
+        ${PLAYERS.map(p => `<option value="${esc(p)}" ${state.player === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
+      </select>
+      <select class="sel" id="stats-year" style="flex:1;">
+        <option value="">Alle Jahre</option>
+        ${years.map(y => `<option value="${esc(y)}" ${state.statsYear === y ? 'selected' : ''}>${esc(y)}</option>`).join('')}
+      </select>
+    </div>
+  </div>`;
+
+  const holes = Object.keys(rows).map(Number).sort((a,b) => a-b);
+  if (holes.length === 0) {
+    html += `<div class="card"><div class="muted">Noch keine Versuche erfasst.</div></div>`;
+    return html;
+  }
+
+  holes.forEach(h => {
+    const entries = Object.entries(rows[h])
+      .map(([ballId, v]) => ({ ballId, ...v, rate: v.total ? v.hits/v.total : 0 }))
+      .sort((a,b) => b.rate - a.rate || b.total - a.total);
+    const sum = entries.reduce((acc,e) => ({ hits: acc.hits+e.hits, total: acc.total+e.total }), {hits:0,total:0});
+    html += `<div class="card">
+      <h3 style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span>Bahn ${h}</span>
+        <span class="muted" style="font-weight:400;">${sum.hits}/${sum.total} · ${Math.round(sum.hits/sum.total*100)}%</span>
+      </h3>`;
+    entries.forEach((e, i) => {
+      const b = ballById(e.ballId);
+      const best = i === 0 && entries.length > 1 && e.total >= 3;
+      html += `<div class="row ${best ? 'best' : ''}">
+        <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}</div>
+          <div class="muted">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
+        </div>
+        <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  return html;
+}
+
+// ── Wiring ───────────────────────────────────────────────────
+function wire() {
+  const p = document.getElementById('sel-player');
+  if (p) p.addEventListener('change', () => { state.player = p.value; render(); });
+  const d = document.getElementById('sel-date');
+  if (d) d.addEventListener('change', () => { state.date = d.value || todayISO(); render(); });
+  const b = document.getElementById('sel-ball');
+  if (b) b.addEventListener('change', () => { state.ballId = b.value || null; render(); });
+  const temp = document.getElementById('temp');
+  if (temp) temp.addEventListener('change', () => {
+    state.temperature = temp.value;
+    const s = currentSession(false);
+    if (s) { s.temperature = state.temperature; saveLocal(); schedulePush(); }
+  });
+  document.querySelectorAll('[data-wx]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.wx;
+      const i = state.weatherKeys.indexOf(k);
+      if (i >= 0) state.weatherKeys.splice(i,1); else state.weatherKeys.push(k);
+      const s = currentSession(false);
+      if (s) { s.weatherKeys = [...state.weatherKeys]; saveLocal(); schedulePush(); }
+      render();
+    });
+  });
+  document.querySelectorAll('[data-hole]').forEach(el => {
+    el.addEventListener('click', () => { state.hole = parseInt(el.dataset.hole,10); render(); });
+  });
+  const hit = document.getElementById('btn-hit');
+  if (hit) hit.addEventListener('click', () => recordAttempt(true));
+  const miss = document.getElementById('btn-miss');
+  if (miss) miss.addEventListener('click', () => recordAttempt(false));
+  const undo = document.getElementById('btn-undo');
+  if (undo) undo.addEventListener('click', undoLastAttempt);
+
+  const sp = document.getElementById('stats-player');
+  if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
+  const sy = document.getElementById('stats-year');
+  if (sy) sy.addEventListener('change', () => { state.statsYear = sy.value; render(); });
+}
+
+// ── Init ─────────────────────────────────────────────────────
+async function init() {
+  state.cfg = loadCfg();
+  state.sessions = loadLocal();
+
+  const ver = document.getElementById('app-version');
+  if (ver) ver.textContent = 'v' + APP_VERSION;
+
+  document.getElementById('tab-log').addEventListener('click', () => { state.tab = 'log'; render(); });
+  document.getElementById('tab-stats').addEventListener('click', () => { state.tab = 'stats'; render(); });
+  const syncBtn = document.getElementById('manual-sync-btn');
+  if (syncBtn) syncBtn.addEventListener('click', manualSync);
+
+  try {
+    const r = await ghFetch(BALLS_RAW + '?t=' + Date.now());
+    if (r.ok) { const d = await r.json(); state.balls = (d.balls || []).filter(b => !b.archived); }
+  } catch(e) {}
+
+  await pullFromGitHub();
+
+  // Carry today's weather over if a session already exists for today.
+  const s = currentSession(false);
+  if (s) {
+    state.weatherKeys = [...(s.weatherKeys || [])];
+    state.temperature = s.temperature || "";
+  }
+
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
