@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "2";
+const APP_VERSION = "3";
 
 const WEATHER_OPTS = [
   { key: "sun",   icon: "☀️", label: "Sonne" },
@@ -488,8 +488,75 @@ function renderLog() {
       <button class="miss" id="btn-miss">✗ Daneben</button>
     </div>
     <button class="btn btn-secondary btn-full" id="btn-undo" style="margin-top:0.5rem;">↺ Letzten Versuch zurücknehmen</button>
-  </div>`;
+  </div>` + renderSessionEntries();
   return html;
+}
+
+// Everything logged in the current session, grouped by hole and ball. Needed
+// because a whole batch can be logged against the wrong ball before you
+// notice - undoing one attempt at a time isn't a realistic fix.
+function renderSessionEntries() {
+  const sess = currentSession(false);
+  if (!sess || !sess.attempts.length) return '';
+  const usable = state.balls.filter(b => !b.archived);
+  const groups = {};
+  sess.attempts.forEach(a => {
+    const k = a.hole + '|' + a.ballId;
+    if (!groups[k]) groups[k] = { hole: a.hole, ballId: a.ballId, hits: 0, total: 0 };
+    groups[k].total++;
+    if (a.holed) groups[k].hits++;
+  });
+  const list = Object.values(groups).sort((a,b) => a.hole - b.hole || ballLabel(a.ballId).localeCompare(ballLabel(b.ballId)));
+
+  let html = `<div class="card">
+    <h3>📝 Erfasst am ${esc(fmtDate(state.date))}</h3>`;
+  list.forEach(g => {
+    const b = ballById(g.ballId);
+    html += `<div class="row" style="flex-wrap:wrap;">
+      <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.83rem; font-weight:600;">Bahn ${g.hole} · ${esc(ballLabel(g.ballId))}</div>
+        <div class="muted">${g.hits}/${g.total} eingelocht</div>
+      </div>
+      <button class="btn btn-secondary" data-del-hole="${g.hole}" data-del-ball="${esc(g.ballId)}" style="flex:0; padding:0.3rem 0.55rem; font-size:0.8rem; color:#dc2626; border-color:#fca5a5;">✕</button>
+      <select class="sel" data-move-hole="${g.hole}" data-move-ball="${esc(g.ballId)}" style="flex-basis:100%; margin-top:0.35rem; font-size:0.8rem;">
+        <option value="">Ball ändern auf…</option>
+        ${usable.filter(x => x.id !== g.ballId).map(x => `<option value="${esc(x.id)}">${esc(ballLabel(x.id))}</option>`).join('')}
+      </select>
+    </div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+// Reassigns every attempt of one hole/ball group to a different ball.
+function reassignGroup(hole, fromBallId, toBallId) {
+  const sess = currentSession(false);
+  if (!sess || !toBallId) return;
+  let n = 0;
+  sess.attempts.forEach(a => {
+    if (a.hole === hole && a.ballId === fromBallId) { a.ballId = toBallId; n++; }
+  });
+  if (n) {
+    saveLocal();
+    schedulePush();
+    toast(`${n} Versuch(e) auf ${ballLabel(toBallId)} geändert ✓`);
+    render();
+  }
+}
+
+function deleteGroup(hole, ballId) {
+  const sess = currentSession(false);
+  if (!sess) return;
+  const before = sess.attempts.length;
+  sess.attempts = sess.attempts.filter(a => !(a.hole === hole && a.ballId === ballId));
+  const removed = before - sess.attempts.length;
+  if (removed) {
+    saveLocal();
+    schedulePush();
+    toast(`${removed} Versuch(e) gelöscht`);
+    render();
+  }
 }
 
 function renderStats() {
@@ -587,6 +654,17 @@ function wire() {
   if (miss) miss.addEventListener('click', () => recordAttempt(false));
   const undo = document.getElementById('btn-undo');
   if (undo) undo.addEventListener('click', undoLastAttempt);
+
+  document.querySelectorAll('[data-move-hole]').forEach(el => {
+    el.addEventListener('change', () => {
+      reassignGroup(parseInt(el.dataset.moveHole,10), el.dataset.moveBall, el.value);
+    });
+  });
+  document.querySelectorAll('[data-del-hole]').forEach(el => {
+    el.addEventListener('click', () => {
+      deleteGroup(parseInt(el.dataset.delHole,10), el.dataset.delBall);
+    });
+  });
 
   const sp = document.getElementById('stats-player');
   if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
