@@ -87,7 +87,10 @@ const BALLS_RAW     = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const SESSIONS_KEY   = "minigolf-einheiten";
 const PLAYERS = ["Christian", "Birgit"];
-const APP_VERSION = "1";
+// Same key as the main app, so the location configured there is reused here.
+const WEATHER_LOCATION_KEY = "minigolf-weather-location";
+const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
+const APP_VERSION = "2";
 
 const WEATHER_OPTS = [
   { key: "sun",   icon: "☀️", label: "Sonne" },
@@ -111,6 +114,7 @@ let state = {
   cfg: null,
   syncError: null,
   statsYear: "",    // "" = all seasons
+  weatherAuto: null, // short summary of the last automatic fetch
 };
 
 function todayISO() {
@@ -124,6 +128,70 @@ function fmtDate(iso) {
   const [y,m,d] = iso.split('-');
   return `${d}.${m}.${y}`;
 }
+function loadWeatherLocation() {
+  try {
+    const raw = localStorage.getItem(WEATHER_LOCATION_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return DEFAULT_WEATHER_LOCATION;
+}
+
+function wmoToWeatherKey(code) {
+  if (code === 0 || code === 1) return "sun";
+  if (code === 2 || code === 3 || code === 45 || code === 48) return "cloud";
+  if (code >= 51 && code <= 67) return "rain";
+  if (code >= 71 && code <= 86) return "cold"; // snow
+  if (code >= 95) return "rain"; // thunderstorm
+  return "cloud";
+}
+
+// Current conditions at the configured location, same source and mapping as
+// the main app so the two stay consistent.
+async function fetchCurrentWeather(lat, lon) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weathercode,temperature_2m,windspeed_10m&hourly=precipitation_probability&timezone=Europe%2FBerlin&forecast_days=1`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Wetterabruf fehlgeschlagen");
+  const data = await res.json();
+  const c = data.current;
+  if (!c) throw new Error("Keine aktuellen Wetterdaten verfügbar");
+  let precipProbability = null;
+  if (data.hourly && data.hourly.time && data.hourly.precipitation_probability) {
+    const idx = data.hourly.time.findIndex(t => t === c.time.slice(0, 13) + ":00");
+    if (idx !== -1) precipProbability = data.hourly.precipitation_probability[idx];
+  }
+  return {
+    weatherKey: wmoToWeatherKey(c.weathercode),
+    temperature: Math.round(c.temperature_2m),
+    windSpeed: Math.round(c.windspeed_10m),
+    precipProbability,
+  };
+}
+
+// Pulls current conditions into the session. Only sensible for a session
+// logged today - for a back-dated entry "now" would be the wrong weather.
+async function applyCurrentWeather(silent) {
+  if (state.date !== todayISO()) {
+    if (!silent) toast('Automatisches Wetter gibt es nur für heute.');
+    return;
+  }
+  const loc = loadWeatherLocation();
+  if (!loc) return;
+  try {
+    const w = await fetchCurrentWeather(loc.lat, loc.lon);
+    state.weatherKeys = [w.weatherKey];
+    if (w.windSpeed >= 20 && !state.weatherKeys.includes('wind')) state.weatherKeys.push('wind');
+    if (w.temperature <= 5 && !state.weatherKeys.includes('cold')) state.weatherKeys.push('cold');
+    state.temperature = String(w.temperature);
+    state.weatherAuto = `${w.temperature}°C · ${w.windSpeed} km/h${w.precipProbability != null ? ` · ${w.precipProbability}% Regen` : ''}`;
+    const sess = currentSession(false);
+    if (sess) { sess.weatherKeys = [...state.weatherKeys]; sess.temperature = state.temperature; saveLocal(); schedulePush(); }
+    render();
+    if (!silent) toast('Wetter übernommen ✓');
+  } catch(e) {
+    if (!silent) toast('Wetter konnte nicht geladen werden.');
+  }
+}
+
 function loadCfg() { try { return JSON.parse(localStorage.getItem(GITHUB_CFG_KEY)||'null'); } catch(e) { return null; } }
 function loadLocal() { try { const d = JSON.parse(localStorage.getItem(SESSIONS_KEY)||'{}'); return Array.isArray(d.sessions) ? d.sessions : []; } catch(e) { return []; } }
 function saveLocal() { try { localStorage.setItem(SESSIONS_KEY, JSON.stringify({ sessions: state.sessions })); } catch(e) {} }
@@ -377,11 +445,15 @@ function renderLog() {
       </select>
       <input type="date" id="sel-date" value="${esc(state.date)}" style="flex:1;" />
     </div>
-    <span class="label">Wetter</span>
-    <div class="wx" style="margin-bottom:0.5rem;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <span class="label">Wetter</span>
+      <button id="btn-weather" style="background:none; border:none; color:#2D6A4F; font-size:0.78rem; text-decoration:underline; cursor:pointer; padding:0 0 0.3rem;">🔄 Automatisch</button>
+    </div>
+    <div class="wx" style="margin-bottom:0.35rem;">
       ${WEATHER_OPTS.map(w => `<button data-wx="${w.key}" class="${state.weatherKeys.includes(w.key) ? 'on' : ''}" title="${esc(w.label)}">${w.icon}</button>`).join('')}
       <input type="number" id="temp" placeholder="°C" value="${esc(state.temperature)}" style="width:4.5rem; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem;" />
     </div>
+    ${state.weatherAuto ? `<div class="muted" style="margin-bottom:0.5rem;">${esc(state.weatherAuto)}</div>` : '<div style="margin-bottom:0.5rem;"></div>'}
   </div>
 
   <div class="card">
@@ -507,6 +579,8 @@ function wire() {
   document.querySelectorAll('[data-hole]').forEach(el => {
     el.addEventListener('click', () => { state.hole = parseInt(el.dataset.hole,10); render(); });
   });
+  const wbtn = document.getElementById('btn-weather');
+  if (wbtn) wbtn.addEventListener('click', () => applyCurrentWeather(false));
   const hit = document.getElementById('btn-hit');
   if (hit) hit.addEventListener('click', () => recordAttempt(true));
   const miss = document.getElementById('btn-miss');
@@ -548,6 +622,12 @@ async function init() {
   }
 
   render();
+
+  // Fill the weather in automatically the first time a session is started
+  // today - without overwriting anything already recorded by hand.
+  if (state.date === todayISO() && state.weatherKeys.length === 0) {
+    applyCurrentWeather(true);
+  }
 }
 
 init();
