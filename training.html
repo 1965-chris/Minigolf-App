@@ -57,6 +57,7 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
     <h1>🎯 Minigolf Training <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span></h1>
     <div style="display:flex; align-items:center; gap:0.5rem;">
       <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
+      <a href="einheiten.html" title="Trainingseinheiten" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏌️</a>
       <a href="index.html" title="Zum Dashboard" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏠</a>
     </div>
   </div>
@@ -88,7 +89,7 @@ const DATEN_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANC
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "5";
+const APP_VERSION    = "6";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
