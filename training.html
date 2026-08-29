@@ -81,6 +81,9 @@ const REPO  = "Minigolf-App";   // uses data from main app
 const BRANCH = "main";
 const TRAINING_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-training.json`;
 const BALLS_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-baelle.json`;
+const DATEN_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-daten.json`;
+// Players whose per-hole ball choices are recorded in the main app.
+const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
 
@@ -91,6 +94,9 @@ let state = {
   draft: null,
   setups: {},
   balls: [],
+  players: [],   // from minigolf-daten.json, for the per-hole ball statistics
+  statsYear: String(new Date().getFullYear()),
+  statsPlayer: "Christian",
   cfg: null,
   toast: null,
   syncStatus: {}, // { [holeKey]: 'pending' | 'error' }
@@ -303,6 +309,15 @@ async function init() {
   try {
     const r = await fetch(BALLS_RAW + '?t=' + Date.now());
     if (r.ok) { const d = await r.json(); state.balls = d.balls || []; }
+  } catch(e) {}
+
+  // Load rounds (main app data) for the per-hole ball statistics.
+  try {
+    const r = await fetch(DATEN_RAW + '?t=' + Date.now());
+    if (r.ok) {
+      const d = await r.json();
+      if (d && Array.isArray(d.players)) state.players = d.players;
+    }
   } catch(e) {}
 
   // Load training from GitHub - this is the source of truth whenever reachable,
@@ -622,11 +637,105 @@ function renderMain() {
 
   if (!state.editing) {
     el.innerHTML += renderAltPhotosCard();
+    el.innerHTML += renderBallStatsCard();
+    wireBallStatsFilters();
   }
 }
 
 // Additional trial photos per hole - e.g. for different balls tried, or bank/cushion
 // shots ("über Bande") - separate from the single main setup photo above.
+
+// ── Ball-Statistik pro Bahn ──────────────────────────────────
+// Which ball was actually played on this hole, how often, and how it scored.
+// Uses the rounds recorded in the main app (minigolf-daten.json), so this
+// reflects real play rather than the training setup.
+function getHoleBallStats(holeNum, year, playerName) {
+  const idx = holeNum - 1;
+  const players = state.players.filter(p =>
+    BALL_PLAYERS.includes(p.name) && (!playerName || p.name === playerName));
+  const byBall = {};
+  players.forEach(pl => {
+    (pl.rounds || []).forEach(r => {
+      if (year && (r.year || (r.date||'').slice(0,4)) !== String(year)) return;
+      const ballId = r.ballsByHole && r.ballsByHole[idx];
+      const score = r.scores && parseInt(r.scores[idx]);
+      if (!ballId || !score || isNaN(score)) return;
+      if (!byBall[ballId]) byBall[ballId] = { ballId, plays: 0, total: 0, aces: 0, best: null };
+      const e = byBall[ballId];
+      e.plays++; e.total += score;
+      if (score === 1) e.aces++;
+      if (e.best === null || score < e.best) e.best = score;
+    });
+  });
+  return Object.values(byBall).map(e => ({
+    ...e,
+    avg: e.plays ? e.total / e.plays : 0,
+    aceRate: e.plays ? e.aces / e.plays : 0,
+  })).sort((a, b) => a.avg - b.avg); // best average first
+}
+
+function ballLabelById(ballId) {
+  const b = state.balls.find(x => x.id === ballId);
+  if (!b) return 'Unbekannter Ball';
+  return [b.manufacturer, b.series, b.name].filter(Boolean).join(' ') || ballId;
+}
+function ballPhotoById(ballId) {
+  const b = state.balls.find(x => x.id === ballId);
+  return b && b.photo ? b.photo : null;
+}
+
+function wireBallStatsFilters() {
+  const y = document.getElementById('stats-year');
+  if (y) y.addEventListener('change', () => { state.statsYear = y.value; renderMain(); });
+  const pl = document.getElementById('stats-player');
+  if (pl) pl.addEventListener('change', () => { state.statsPlayer = pl.value; renderMain(); });
+}
+
+function renderBallStatsCard() {
+  const years = Array.from(new Set(
+    state.players.filter(p => BALL_PLAYERS.includes(p.name))
+      .flatMap(p => (p.rounds || []).map(r => r.year || (r.date||'').slice(0,4)))
+  )).filter(Boolean).sort().reverse();
+  if (!years.includes(state.statsYear)) years.unshift(state.statsYear);
+  const availablePlayers = BALL_PLAYERS.filter(n => state.players.some(p => p.name === n));
+  const stats = getHoleBallStats(state.hole, state.statsYear, state.statsPlayer);
+
+  let html = `<div class="card" style="margin-top:0.75rem;">
+    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">📊 Ball-Statistik (Bahn ${state.hole})</h3>
+    <div style="display:flex; gap:0.4rem; margin-bottom:0.6rem;">
+      <select id="stats-year" style="flex:1; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.4rem; font-size:0.85rem; background:white;">
+        ${years.map(y => `<option value="${esc(y)}" ${state.statsYear === y ? 'selected' : ''}>Saison ${esc(y)}</option>`).join('')}
+      </select>
+      ${availablePlayers.length > 1 ? `<select id="stats-player" style="flex:1; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.4rem; font-size:0.85rem; background:white;">
+        ${availablePlayers.map(n => `<option value="${esc(n)}" ${state.statsPlayer === n ? 'selected' : ''}>${esc(n)}</option>`).join('')}
+      </select>` : ''}
+    </div>`;
+
+  if (stats.length === 0) {
+    html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Runden mit erfasstem Ball auf dieser Bahn.</div>`;
+  } else {
+    html += `<div style="display:flex; flex-direction:column; gap:0.35rem;">`;
+    stats.forEach((e, i) => {
+      const photo = ballPhotoById(e.ballId);
+      const best = i === 0 && stats.length > 1;
+      html += `<div style="display:flex; align-items:center; gap:0.55rem; padding:0.4rem 0.5rem; border:1px solid ${best ? '#86efac' : '#e7e5e4'}; background:${best ? '#f0fdf4' : 'white'}; border-radius:0.5rem;">
+        <div style="width:2rem; height:2rem; border-radius:50%; overflow:hidden; flex-shrink:0; background:#f5f5f4; display:flex; align-items:center; justify-content:center;">
+          ${photo ? `<img src="${photo}" alt="" style="width:100%; height:100%; object-fit:cover;" />` : '<span style="font-size:0.9rem;">⚪</span>'}
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.83rem; font-weight:600; color:#1c1917;">${esc(ballLabelById(e.ballId))}</div>
+          <div style="font-size:0.72rem; color:#78716c;">${e.plays}× · Ø ${e.avg.toFixed(2)} · beste ${e.best}${e.aces ? ` · ${e.aces} Ass${e.aces === 1 ? '' : 'e'}` : ''}</div>
+        </div>
+        ${e.aces ? `<div style="font-size:0.78rem; font-weight:700; color:#b45309; flex-shrink:0;">${Math.round(e.aceRate * 100)}%</div>` : ''}
+      </div>`;
+    });
+    html += `</div>
+      <div style="font-size:0.7rem; color:#a8a29e; margin-top:0.45rem;">Sortiert nach bestem Schnitt. Prozent = Ass-Quote.</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
 function renderAltPhotosCard() {
   const key = 'hole_' + state.hole;
   const setup = state.setups[key];
