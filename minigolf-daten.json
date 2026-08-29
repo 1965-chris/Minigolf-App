@@ -37,13 +37,13 @@
             1
           ],
           "ballsByHole": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
             null,
             null,
             null,
@@ -51,7 +51,8 @@
             null,
             null,
             "tourn_kghij870"
-          ]
+          ],
+          "ballsUpdatedAt": 1788000339653
         },
         {
           "date": "2026-08-27",
