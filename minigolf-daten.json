@@ -96632,62 +96632,15 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [
-    {
-      "pauseId": "pwf08jx0",
-      "pausedAt": "2026-08-29T15:12:03.215Z",
-      "phase": "play",
-      "selectedIds": [
-        "p2"
-      ],
-      "saveIds": [
-        "p2"
-      ],
-      "date": "2026-08-29",
-      "time": "17:04",
-      "currentHole": 3,
-      "tournamentRound": 1,
-      "weatherKeys": [],
-      "temperature": "",
-      "windSpeed": "",
-      "precipProbability": "",
-      "scoresByPlayer": {
-        "p2": [
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "notesByPlayer": {
-        "p2": {}
-      },
-      "starsByPlayer": {
-        "p2": {}
-      }
-    }
-  ],
+  "pausedRounds": [],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
     "lmolz9ax",
     "2d0fnyz1",
     "89c0pfco",
-    "vw3ttzbx"
+    "vw3ttzbx",
+    "pwf08jx0"
   ],
   "deletedIds": {
     "rounds": [
