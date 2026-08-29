@@ -5,6 +5,55 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-08-29",
+          "year": "2026",
+          "groupId": "60upj7w1",
+          "time": "11:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "16",
+          "precipProbability": "0",
+          "id": "fqom92j6",
+          "scores": [
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            4,
+            3,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "tourn_kghij870"
+          ]
+        },
+        {
           "date": "2026-08-27",
           "year": "2026",
           "groupId": "hngim0qx",
@@ -84731,6 +84780,39 @@
       "id": "2v122fi8",
       "name": "Andreas",
       "rounds": [
+        {
+          "date": "2026-08-29",
+          "year": "2026",
+          "groupId": "60upj7w1",
+          "time": "11:51",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "23",
+          "windSpeed": "16",
+          "precipProbability": "0",
+          "id": "dbd8se4z",
+          "scores": [
+            1,
+            1,
+            1,
+            4,
+            2,
+            3,
+            1,
+            2,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            2,
+            2,
+            1,
+            2
+          ]
+        },
         {
           "date": "2026-08-25",
           "year": "2026",
