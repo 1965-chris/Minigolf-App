@@ -54,7 +54,7 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
 
 <div class="header">
   <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;">
-    <h1>🎯 Minigolf Training</h1>
+    <h1>🎯 Minigolf Training <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span></h1>
     <div style="display:flex; align-items:center; gap:0.5rem;">
       <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
       <a href="index.html" title="Zum Dashboard" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏠</a>
@@ -66,6 +66,8 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
 <div id="sync-banner" style="display:none;"></div>
 
 <div class="content">
+  <!-- Season / player selector - applies to the whole page -->
+  <div id="stats-filter-bar" style="display:flex; gap:0.4rem; margin-bottom:0.75rem;"></div>
   <!-- Hole selector -->
   <div class="hole-grid" id="hole-grid"></div>
   <!-- Main content -->
@@ -86,6 +88,7 @@ const DATEN_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANC
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
+const APP_VERSION    = "4";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -343,6 +346,10 @@ async function init() {
   const sub = document.getElementById('header-sub');
   if (sub) sub.textContent = `${state.balls.length} Bälle · ${Object.keys(state.setups).length} Setups`;
 
+  const ver = document.getElementById('app-version');
+  if (ver) ver.textContent = 'v' + APP_VERSION;
+
+  renderStatsFilterBar();
   renderHoleGrid();
   renderMain();
 }
@@ -586,17 +593,24 @@ function renderMain() {
     const savedBall = setup.ballId ? state.balls.find(b => b.id === setup.ballId) : null;
     const sbx = (setup.ballX||50)*4, sby = (setup.ballY||50)*3;
     const z = setup.zoom || 1;
+    // The saved setup (ball position, club angle) is Christian's aiming
+    // reference. For anyone else the markings would be misleading, so they
+    // get the plain tee-off photo.
+    const showsOverlay = state.statsPlayer === "Christian";
     el.innerHTML = `
     <div class="card">
-      ${setup.photo ? `
+      ${setup.photo ? (showsOverlay ? `
       <div class="overlay-wrap" id="saved-wrap" style="margin-bottom:0.75rem;">
         <img src="${setup.photo}" style="transform:scale(${z});">
         <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="transform:scale(${z});">
           <circle cx="${sbx}" cy="${sby}" r="12" fill="${savedBall?.color||'#888'}" stroke="white" stroke-width="2" opacity="0.95"/>
           ${clubSVG(sbx, sby, setup.clubSide||0, setup.clubFwd||0, setup.clubAngle||0)}
         </svg>
-      </div>` : '<div style="background:#f5f5f4;border-radius:0.75rem;height:6rem;display:flex;align-items:center;justify-content:center;color:#a8a29e;margin-bottom:0.75rem;">Kein Foto</div>'}
-      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+      </div>` : `
+      <div class="overlay-wrap" id="saved-wrap" style="margin-bottom:0.75rem;">
+        <img src="${setup.photo}" style="transform:scale(${z});">
+      </div>`) : '<div style="background:#f5f5f4;border-radius:0.75rem;height:6rem;display:flex;align-items:center;justify-content:center;color:#a8a29e;margin-bottom:0.75rem;">Kein Foto</div>'}
+      ${showsOverlay ? `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
         ${savedBall?`<div style="width:1.2rem;height:1.2rem;border-radius:50%;background:${savedBall.color||'#222'};border:2px solid white;box-shadow:0 0 0 1px #ccc;"></div>
         <span style="font-size:0.85rem;font-weight:600;">${esc(savedBall.name||savedBall.series||'')}</span>`:''}
         <span style="font-size:0.78rem;color:#78716c;margin-left:auto;">Winkel: ${setup.clubAngle||0}°</span>
@@ -605,7 +619,7 @@ function renderMain() {
       <div class="btn-row">
         <button class="btn btn-secondary" style="flex:1;" onclick="startEdit()">✏️ Bearbeiten</button>
         <button class="btn btn-secondary" style="flex:0;padding:0.5rem 0.75rem;color:#dc2626;border-color:#fca5a5;" onclick="resetSetup()">↺</button>
-      </div>
+      </div>` : `<div style="font-size:0.78rem;color:#a8a29e;">Foto vom Abschlag – Setup-Markierungen gehören zu Christian.</div>`}
     </div>`;
 
     // Pinch zoom on saved image
@@ -638,7 +652,6 @@ function renderMain() {
   if (!state.editing) {
     el.innerHTML += renderAltPhotosCard();
     el.innerHTML += renderBallStatsCard();
-    wireBallStatsFilters();
   }
 }
 
@@ -684,33 +697,48 @@ function ballPhotoById(ballId) {
   return b && b.photo ? b.photo : null;
 }
 
-function wireBallStatsFilters() {
+// Seasons that actually have ball data recorded - listing every season the
+// rounds span would offer years where the statistics are necessarily empty.
+function getSeasonsWithBalls() {
+  const years = new Set();
+  state.players.filter(p => BALL_PLAYERS.includes(p.name)).forEach(pl => {
+    (pl.rounds || []).forEach(r => {
+      if (r.ballsByHole && r.ballsByHole.some(Boolean)) {
+        const y = r.year || (r.date||'').slice(0,4);
+        if (y) years.add(y);
+      }
+    });
+  });
+  return Array.from(years).sort().reverse();
+}
+
+// Season/player selector, rendered once at the top of the page since it
+// applies to everything below it.
+function renderStatsFilterBar() {
+  const bar = document.getElementById('stats-filter-bar');
+  if (!bar) return;
+  const years = getSeasonsWithBalls();
+  if (years.length === 0) { bar.innerHTML = ''; return; }
+  if (!years.includes(state.statsYear)) state.statsYear = years[0];
+  const availablePlayers = BALL_PLAYERS.filter(n => state.players.some(p => p.name === n));
+  if (availablePlayers.length && !availablePlayers.includes(state.statsPlayer)) state.statsPlayer = availablePlayers[0];
+  bar.innerHTML = `
+    <select id="stats-year" style="flex:1; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white;">
+      ${years.map(y => `<option value="${esc(y)}" ${state.statsYear === y ? 'selected' : ''}>Saison ${esc(y)}</option>`).join('')}
+    </select>
+    ${availablePlayers.length > 1 ? `<select id="stats-player" style="flex:1; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white;">
+      ${availablePlayers.map(n => `<option value="${esc(n)}" ${state.statsPlayer === n ? 'selected' : ''}>${esc(n)}</option>`).join('')}
+    </select>` : ''}`;
   const y = document.getElementById('stats-year');
   if (y) y.addEventListener('change', () => { state.statsYear = y.value; renderMain(); });
   const pl = document.getElementById('stats-player');
-  if (pl) pl.addEventListener('change', () => { state.statsPlayer = pl.value; renderMain(); });
+  if (pl) pl.addEventListener('change', () => { state.statsPlayer = pl.value; renderStatsFilterBar(); renderMain(); });
 }
 
 function renderBallStatsCard() {
-  const years = Array.from(new Set(
-    state.players.filter(p => BALL_PLAYERS.includes(p.name))
-      .flatMap(p => (p.rounds || []).map(r => r.year || (r.date||'').slice(0,4)))
-  )).filter(Boolean).sort().reverse();
-  if (!years.includes(state.statsYear)) years.unshift(state.statsYear);
-  const availablePlayers = BALL_PLAYERS.filter(n => state.players.some(p => p.name === n));
   const stats = getHoleBallStats(state.hole, state.statsYear, state.statsPlayer);
-
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">📊 Ball-Statistik (Bahn ${state.hole})</h3>
-    <div style="display:flex; gap:0.4rem; margin-bottom:0.6rem;">
-      <select id="stats-year" style="flex:1; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.4rem; font-size:0.85rem; background:white;">
-        ${years.map(y => `<option value="${esc(y)}" ${state.statsYear === y ? 'selected' : ''}>Saison ${esc(y)}</option>`).join('')}
-      </select>
-      ${availablePlayers.length > 1 ? `<select id="stats-player" style="flex:1; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.4rem; font-size:0.85rem; background:white;">
-        ${availablePlayers.map(n => `<option value="${esc(n)}" ${state.statsPlayer === n ? 'selected' : ''}>${esc(n)}</option>`).join('')}
-      </select>` : ''}
-    </div>`;
-
+    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">📊 Ball-Statistik (Bahn ${state.hole} · ${esc(state.statsPlayer)} · ${esc(state.statsYear)})</h3>`;
   if (stats.length === 0) {
     html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Runden mit erfasstem Ball auf dieser Bahn.</div>`;
   } else {
