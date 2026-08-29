@@ -1,0 +1,46 @@
+{
+  "sessions": [
+    {
+      "id": "mtehi4nyyygc8x",
+      "date": "2026-08-27",
+      "player": "Christian",
+      "weatherKeys": [
+        "cloud",
+        "wind"
+      ],
+      "temperature": "29",
+      "attempts": [
+        {
+          "hole": 14,
+          "ballId": "tourn_ukku6ktl",
+          "holed": true,
+          "ts": 1788014223646
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_ukku6ktl",
+          "holed": false,
+          "ts": 1788014227646
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_ukku6ktl",
+          "holed": true,
+          "ts": 1788014232157
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_ukku6ktl",
+          "holed": true,
+          "ts": 1788014235712
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_ukku6ktl",
+          "holed": false,
+          "ts": 1788014237600
+        }
+      ]
+    }
+  ]
+}
