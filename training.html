@@ -85,11 +85,12 @@ const BRANCH = "main";
 const TRAINING_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-training.json`;
 const BALLS_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-baelle.json`;
 const DATEN_RAW    = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-daten.json`;
+const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/minigolf-einheiten.json`;
 // Players whose per-hole ball choices are recorded in the main app.
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "6";
+const APP_VERSION    = "7";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -99,6 +100,7 @@ let state = {
   setups: {},
   balls: [],
   players: [],   // from minigolf-daten.json, for the per-hole ball statistics
+  sessions: [],  // from minigolf-einheiten.json, for the training-practice statistics
   statsYear: String(new Date().getFullYear()),
   statsPlayer: "Christian",
   cfg: null,
@@ -329,6 +331,15 @@ async function init() {
     if (r.ok) {
       const d = await r.json();
       if (d && Array.isArray(d.players)) state.players = d.players;
+    }
+  } catch(e) {}
+
+  // Load training sessions for the practice statistics (tee-off attempts).
+  try {
+    const r = await fetch(EINHEITEN_RAW + '?t=' + Date.now());
+    if (r.ok) {
+      const d = await r.json();
+      if (d && Array.isArray(d.sessions)) state.sessions = d.sessions;
     }
   } catch(e) {}
 
@@ -654,6 +665,7 @@ function renderMain() {
   if (!state.editing) {
     el.innerHTML += renderAltPhotosCard();
     el.innerHTML += renderBallStatsCard();
+    el.innerHTML += renderPracticeStatsCard();
   }
 }
 
@@ -741,6 +753,54 @@ function renderStatsFilterBar() {
     renderHoleGrid(); // the grid marks which holes have a setup - that's per player
     renderMain();
   });
+}
+
+// Tee-off attempts logged on the Einheiten page, aggregated per ball for
+// this hole. Complements the round statistics: many attempts at one hole say
+// more about a ball than a handful of competitive rounds.
+function getHolePracticeStats(holeNum, year, playerName) {
+  const byBall = {};
+  state.sessions.forEach(s => {
+    if (playerName && s.player !== playerName) return;
+    if (year && (s.date || '').slice(0,4) !== String(year)) return;
+    (s.attempts || []).forEach(a => {
+      if (a.hole !== holeNum || !a.ballId) return;
+      if (!byBall[a.ballId]) byBall[a.ballId] = { ballId: a.ballId, hits: 0, total: 0 };
+      byBall[a.ballId].total++;
+      if (a.holed) byBall[a.ballId].hits++;
+    });
+  });
+  return Object.values(byBall)
+    .map(e => ({ ...e, rate: e.total ? e.hits / e.total : 0 }))
+    .sort((a, b) => b.rate - a.rate || b.total - a.total);
+}
+
+function renderPracticeStatsCard() {
+  const stats = getHolePracticeStats(state.hole, state.statsYear, state.statsPlayer);
+  let html = `<div class="card" style="margin-top:0.75rem;">
+    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">🎯 Training – vom Abschlag eingelocht (Bahn ${state.hole})</h3>`;
+  if (stats.length === 0) {
+    html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Trainingsversuche auf dieser Bahn. <a href="einheiten.html" style="color:#2D6A4F;">Einheit erfassen →</a></div>`;
+  } else {
+    html += `<div style="display:flex; flex-direction:column; gap:0.35rem;">`;
+    stats.forEach((e, i) => {
+      const photo = ballPhotoById(e.ballId);
+      const best = i === 0 && stats.length > 1 && e.total >= 3;
+      html += `<div style="display:flex; align-items:center; gap:0.55rem; padding:0.4rem 0.5rem; border:1px solid ${best ? '#86efac' : '#e7e5e4'}; background:${best ? '#f0fdf4' : 'white'}; border-radius:0.5rem;">
+        <div style="width:2rem; height:2rem; border-radius:50%; overflow:hidden; flex-shrink:0; background:#f5f5f4; display:flex; align-items:center; justify-content:center;">
+          ${photo ? `<img src="${photo}" alt="" style="width:100%; height:100%; object-fit:cover;" />` : '<span style="font-size:0.9rem;">⚪</span>'}
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.83rem; font-weight:600; color:#1c1917;">${esc(ballLabelById(e.ballId))}</div>
+          <div style="font-size:0.72rem; color:#78716c;">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
+        </div>
+        <div style="font-size:0.85rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'}; flex-shrink:0;">${Math.round(e.rate*100)}%</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 function renderBallStatsCard() {
