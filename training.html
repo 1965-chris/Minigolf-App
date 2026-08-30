@@ -90,12 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-// Link to the shared iCloud Drive folder holding the training videos. Videos
-// themselves stay out of the repo: GitHub's per-file limit made storing them
-// impractical (a handful of clips already exceeds what the API accepts), so
-// the app keeps only the descriptions and points at the folder.
-const VIDEO_FOLDER_KEY = "minigolf-video-folder";
-const APP_VERSION    = "8";
+const APP_VERSION    = "9";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -108,7 +103,6 @@ let state = {
   sessions: [],  // from minigolf-einheiten.json, for the training-practice statistics
   statsYear: String(new Date().getFullYear()),
   statsPlayer: "Christian",
-  videoFolder: "",   // shared folder link
   videoDraft: null,  // {file, ballId, bands, notes} while adding an entry
   cfg: null,
   toast: null,
@@ -128,9 +122,6 @@ function setupKey(hole, playerName) {
 
 function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function loadCfg() { try { return JSON.parse(localStorage.getItem(GITHUB_CFG_KEY)||'null'); } catch(e) { return null; } }
-function loadVideoFolder() { try { return localStorage.getItem(VIDEO_FOLDER_KEY) || ""; } catch(e) { return ""; } }
-function saveVideoFolder(v) { try { localStorage.setItem(VIDEO_FOLDER_KEY, v); } catch(e) {} }
-
 function loadLocalSetups() { try { return JSON.parse(localStorage.getItem(TRAINING_KEY)||'{}'); } catch(e) { return {}; } }
 function saveLocalSetups() { try { localStorage.setItem(TRAINING_KEY, JSON.stringify(state.setups)); } catch(e) {} }
 function toast(msg) {
@@ -325,7 +316,6 @@ async function manualSync() {
 async function init() {
   state.cfg = loadCfg();
   state.setups = loadLocalSetups(); // offline fallback, replaced below if GitHub is reachable
-  state.videoFolder = loadVideoFolder();
 
   const syncBtn = document.getElementById('manual-sync-btn');
   if (syncBtn) syncBtn.addEventListener('click', manualSync);
@@ -847,9 +837,11 @@ function renderBallStatsCard() {
 
 
 // ── Trainingsvideos ──────────────────────────────────────────
-// Descriptions only - the clips live in the shared iCloud folder. Each entry
-// records which ball and how many cushions, because standing position and
-// aim change completely between a direct line and a two-cushion route.
+// Descriptions plus a per-video link. The clips themselves stay out of the
+// repo: GitHub's per-file limit made storing them impractical (a handful of
+// 5-11MB clips already exceeds what the API accepts). Each entry records
+// which ball and how many cushions, because standing position and aim change
+// completely between a direct line and a two-cushion route.
 function videoKey(hole, playerName) {
   const pn = playerName || state.statsPlayer || "Christian";
   return (pn === "Christian" ? 'vid_' : pn + '::vid_') + hole;
@@ -873,11 +865,6 @@ function renderVideosCard() {
   let html = `<div class="card" style="margin-top:0.75rem;">
     <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">🎬 Videos (Bahn ${state.hole})</h3>`;
 
-  if (!state.videoFolder) {
-    html += `<div style="font-size:0.8rem; color:#78716c; margin-bottom:0.5rem;">Ordner-Link einmalig hinterlegen – danach genügt hier der Dateiname.</div>`;
-  }
-  html += `<input type="text" id="video-folder" placeholder="Link zum geteilten Video-Ordner" value="${esc(state.videoFolder)}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-bottom:0.6rem;" />`;
-
   if (vids.length === 0) {
     html += `<div style="font-size:0.82rem; color:#a8a29e; margin-bottom:0.5rem;">Noch keine Videos für diese Bahn.</div>`;
   } else {
@@ -891,8 +878,9 @@ function renderVideosCard() {
           <div style="font-size:0.83rem; font-weight:600;">${esc(v.file || 'Ohne Namen')}</div>
           <div style="font-size:0.72rem; color:#78716c;">${b ? esc(ballLabelById(v.ballId)) : 'kein Ball'}${v.bands ? ' · ' + esc(v.bands) : ''}</div>
           ${v.notes ? `<div style="font-size:0.72rem; color:#44403c; font-style:italic;">${esc(v.notes)}</div>` : ''}
+          ${!v.link ? `<div style="font-size:0.7rem; color:#a8a29e;">kein Link hinterlegt</div>` : ''}
         </div>
-        ${state.videoFolder ? `<button data-open-video="1" style="background:none; border:none; color:#2D6A4F; font-size:1.1rem; cursor:pointer; padding:0.2rem;">▶</button>` : ''}
+        ${v.link ? `<button data-open-video="${esc(v.link)}" style="background:none; border:none; color:#2D6A4F; font-size:1.1rem; cursor:pointer; padding:0.2rem;">▶</button>` : ''}
         <button data-del-video="${i}" style="background:none; border:none; color:#dc2626; font-size:0.95rem; cursor:pointer; padding:0.2rem;">✕</button>
       </div>`;
     });
@@ -900,7 +888,8 @@ function renderVideosCard() {
 
   if (d) {
     html += `<div style="border-top:1px solid #e7e5e4; padding-top:0.6rem; margin-top:0.5rem;">
-      <input type="text" id="vd-file" placeholder="Dateiname, z. B. Bahn${state.hole}.1" value="${esc(d.file||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.35rem;" />
+      <input type="text" id="vd-file" placeholder="Bezeichnung, z. B. Bahn${state.hole}.1" value="${esc(d.file||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.35rem;" />
+      <input type="text" id="vd-link" placeholder="Link zum Video (aus Dateien teilen)" value="${esc(d.link||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-bottom:0.35rem;" />
       <div style="display:flex; gap:0.35rem; margin-bottom:0.35rem;">
         <select id="vd-ball" style="flex:1; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white;">
           <option value="">Ball…</option>
@@ -924,10 +913,8 @@ function renderVideosCard() {
 }
 
 function wireVideos() {
-  const f = document.getElementById('video-folder');
-  if (f) f.addEventListener('change', () => { state.videoFolder = f.value.trim(); saveVideoFolder(state.videoFolder); renderMain(); });
   const add = document.getElementById('vd-add');
-  if (add) add.addEventListener('click', () => { state.videoDraft = { file:'', ballId:'', bands:'', notes:'' }; renderMain(); });
+  if (add) add.addEventListener('click', () => { state.videoDraft = { file:'', link:'', ballId:'', bands:'', notes:'' }; renderMain(); });
   const cancel = document.getElementById('vd-cancel');
   if (cancel) cancel.addEventListener('click', () => { state.videoDraft = null; renderMain(); });
   const save = document.getElementById('vd-save');
@@ -937,6 +924,7 @@ function wireVideos() {
     const list = getVideos(state.hole).slice();
     list.push({
       file,
+      link: (document.getElementById('vd-link')?.value || '').trim(),
       ballId: document.getElementById('vd-ball')?.value || '',
       bands: document.getElementById('vd-bands')?.value || '',
       notes: (document.getElementById('vd-notes')?.value || '').trim(),
@@ -958,7 +946,10 @@ function wireVideos() {
     });
   });
   document.querySelectorAll('[data-open-video]').forEach(el => {
-    el.addEventListener('click', () => { if (state.videoFolder) window.open(state.videoFolder, '_blank'); });
+    el.addEventListener('click', () => {
+      const link = el.dataset.openVideo;
+      if (link) window.open(link, '_blank');
+    });
   });
 }
 
