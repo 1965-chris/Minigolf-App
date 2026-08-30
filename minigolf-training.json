@@ -246,6 +246,14 @@
       "panX": 0,
       "panY": 0
     },
-    "vid_1": []
+    "vid_1": [
+      {
+        "file": "Bahn1.1",
+        "ballId": "065e3gmu",
+        "bands": "2 Banden",
+        "notes": "Leichter Schwung",
+        "date": "2026-08-30"
+      }
+    ]
   }
 }
