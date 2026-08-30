@@ -245,6 +245,15 @@
       "zoom": 1,
       "panX": 0,
       "panY": 0
-    }
+    },
+    "vid_1": [
+      {
+        "file": "Bahn1.1",
+        "ballId": "",
+        "bands": "",
+        "notes": "",
+        "date": "2026-08-30"
+      }
+    ]
   }
 }
