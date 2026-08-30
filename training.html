@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "9";
+const APP_VERSION    = "10";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -103,7 +103,9 @@ let state = {
   sessions: [],  // from minigolf-einheiten.json, for the training-practice statistics
   statsYear: String(new Date().getFullYear()),
   statsPlayer: "Christian",
-  videoDraft: null,  // {file, ballId, bands, notes} while adding an entry
+  videoDraft: null,  // {file, link, ballId, bands, notes} while adding/editing an entry
+  videoEditIndex: null, // index being edited, null when adding a new one
+  videosOpen: false, // the video list is collapsed by default - it's reference material, not something needed on every visit
   cfg: null,
   toast: null,
   syncStatus: {}, // { [holeKey]: 'pending' | 'error' }
@@ -859,16 +861,28 @@ function setVideos(hole, list) {
 }
 
 function renderVideosCard() {
-  const vids = getVideos(state.hole);
+  // Sorted by name so Bahn1.1, Bahn1.2 ... stay in a predictable order.
+  const vids = getVideos(state.hole).slice().sort((a, b) =>
+    String(a.file || '').localeCompare(String(b.file || ''), 'de', { numeric: true }));
   const usable = state.balls.filter(b => !b.archived);
   const d = state.videoDraft;
+  const open = state.videosOpen || !!d;
+
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">🎬 Videos (Bahn ${state.hole})</h3>`;
+    <button id="videos-toggle" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
+      <h3 style="margin:0; font-size:0.95rem; color:#2D6A4F;">🎬 Videos (Bahn ${state.hole})${vids.length ? ` · ${vids.length}` : ''}</h3>
+      <span style="color:#a8a29e; font-size:0.9rem;">${open ? '▾' : '▸'}</span>
+    </button>`;
+
+  if (!open) { html += `</div>`; return html; }
+  html += `<div style="margin-top:0.6rem;">`;
 
   if (vids.length === 0) {
     html += `<div style="font-size:0.82rem; color:#a8a29e; margin-bottom:0.5rem;">Noch keine Videos für diese Bahn.</div>`;
   } else {
-    vids.forEach((v, i) => {
+    vids.forEach((v) => {
+      // Index in the UNSORTED list, so edit/delete hit the right entry.
+      const realIdx = getVideos(state.hole).indexOf(v);
       const b = v.ballId ? state.balls.find(x => x.id === v.ballId) : null;
       html += `<div style="display:flex; align-items:center; gap:0.55rem; padding:0.45rem 0.5rem; border:1px solid #e7e5e4; border-radius:0.5rem; margin-bottom:0.3rem; background:white;">
         <div style="width:2rem; height:2rem; border-radius:50%; overflow:hidden; flex-shrink:0; background:#f5f5f4; display:flex; align-items:center; justify-content:center;">
@@ -881,13 +895,16 @@ function renderVideosCard() {
           ${!v.link ? `<div style="font-size:0.7rem; color:#a8a29e;">kein Link hinterlegt</div>` : ''}
         </div>
         ${v.link ? `<button data-open-video="${esc(v.link)}" style="background:none; border:none; color:#2D6A4F; font-size:1.1rem; cursor:pointer; padding:0.2rem;">▶</button>` : ''}
-        <button data-del-video="${i}" style="background:none; border:none; color:#dc2626; font-size:0.95rem; cursor:pointer; padding:0.2rem;">✕</button>
+        <button data-edit-video="${realIdx}" style="background:none; border:none; font-size:0.95rem; cursor:pointer; padding:0.2rem;">✏️</button>
+        <button data-del-video="${realIdx}" style="background:none; border:none; color:#dc2626; font-size:0.95rem; cursor:pointer; padding:0.2rem;">✕</button>
       </div>`;
     });
   }
 
   if (d) {
+    const editing = state.videoEditIndex !== null;
     html += `<div style="border-top:1px solid #e7e5e4; padding-top:0.6rem; margin-top:0.5rem;">
+      <div style="font-size:0.78rem; color:#78716c; margin-bottom:0.35rem;">${editing ? 'Video bearbeiten' : 'Neues Video'}</div>
       <input type="text" id="vd-file" placeholder="Bezeichnung, z. B. Bahn${state.hole}.1" value="${esc(d.file||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.35rem;" />
       <input type="text" id="vd-link" placeholder="Link zum Video (aus Dateien teilen)" value="${esc(d.link||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-bottom:0.35rem;" />
       <div style="display:flex; gap:0.35rem; margin-bottom:0.35rem;">
@@ -901,37 +918,57 @@ function renderVideosCard() {
       </div>
       <input type="text" id="vd-notes" placeholder="Notiz (Stand, Schwung…)" value="${esc(d.notes||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.4rem;" />
       <div class="btn-row">
-        <button class="btn btn-primary" style="flex:1;" id="vd-save">Speichern</button>
+        <button class="btn btn-primary" style="flex:1;" id="vd-save">${editing ? 'Änderungen speichern' : 'Speichern'}</button>
         <button class="btn btn-secondary" id="vd-cancel">Abbrechen</button>
       </div>
     </div>`;
   } else {
     html += `<button class="btn btn-secondary btn-full" id="vd-add">+ Video hinzufügen</button>`;
   }
-  html += `</div>`;
+  html += `</div></div>`;
   return html;
 }
 
 function wireVideos() {
+  const tog = document.getElementById('videos-toggle');
+  if (tog) tog.addEventListener('click', () => { state.videosOpen = !state.videosOpen; renderMain(); });
   const add = document.getElementById('vd-add');
-  if (add) add.addEventListener('click', () => { state.videoDraft = { file:'', link:'', ballId:'', bands:'', notes:'' }; renderMain(); });
+  if (add) add.addEventListener('click', () => { state.videoEditIndex = null; state.videoDraft = { file:'', link:'', ballId:'', bands:'', notes:'' }; renderMain(); });
   const cancel = document.getElementById('vd-cancel');
-  if (cancel) cancel.addEventListener('click', () => { state.videoDraft = null; renderMain(); });
+  if (cancel) cancel.addEventListener('click', () => { state.videoDraft = null; state.videoEditIndex = null; renderMain(); });
+  document.querySelectorAll('[data-edit-video]').forEach(el => {
+    el.addEventListener('click', () => {
+      const i = parseInt(el.dataset.editVideo, 10);
+      const v = getVideos(state.hole)[i];
+      if (!v) return;
+      state.videoEditIndex = i;
+      state.videoDraft = { file: v.file||'', link: v.link||'', ballId: v.ballId||'', bands: v.bands||'', notes: v.notes||'' };
+      renderMain();
+    });
+  });
   const save = document.getElementById('vd-save');
   if (save) save.addEventListener('click', () => {
     const file = (document.getElementById('vd-file')?.value || '').trim();
     if (!file) { toast('Bitte einen Dateinamen eingeben.'); return; }
     const list = getVideos(state.hole).slice();
-    list.push({
+    const entry = {
       file,
       link: (document.getElementById('vd-link')?.value || '').trim(),
       ballId: document.getElementById('vd-ball')?.value || '',
       bands: document.getElementById('vd-bands')?.value || '',
       notes: (document.getElementById('vd-notes')?.value || '').trim(),
-      date: new Date().toISOString().slice(0,10),
-    });
+    };
+    if (state.videoEditIndex !== null && list[state.videoEditIndex]) {
+      // Keep the original date when editing an existing entry.
+      entry.date = list[state.videoEditIndex].date || new Date().toISOString().slice(0,10);
+      list[state.videoEditIndex] = entry;
+    } else {
+      entry.date = new Date().toISOString().slice(0,10);
+      list.push(entry);
+    }
     setVideos(state.hole, list);
     state.videoDraft = null;
+    state.videoEditIndex = null;
     renderHoleGrid();
     renderMain();
   });
