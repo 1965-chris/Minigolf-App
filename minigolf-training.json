@@ -264,14 +264,6 @@
         "date": "2026-08-30"
       },
       {
-        "file": "Bahn7.1",
-        "link": "https://www.icloud.com/iclouddrive/09dOKcN403QrfXbxt1CTU_l_A#Bahn7",
-        "ballId": "x32ummcu",
-        "bands": "direkt",
-        "notes": "",
-        "date": "2026-08-30"
-      },
-      {
         "file": "Bahn8.1",
         "link": "https://www.icloud.com/iclouddrive/04a1M9u2ZaFxk6f_2WkYmXdLQ#Bahn8",
         "ballId": "xtikckii",
@@ -323,6 +315,16 @@
         "file": "Bahn6.1",
         "link": "https://www.icloud.com/iclouddrive/001sJRTtS-GQJjmHET_whiW9w#Bahn6",
         "ballId": "qw7jm6pc",
+        "bands": "direkt",
+        "notes": "",
+        "date": "2026-08-30"
+      }
+    ],
+    "vid_7": [
+      {
+        "file": "Bahn7.1",
+        "link": "https://www.icloud.com/iclouddrive/09dOKcN403QrfXbxt1CTU_l_A#Bahn7",
+        "ballId": "x32ummcu",
         "bands": "direkt",
         "notes": "",
         "date": "2026-08-30"
