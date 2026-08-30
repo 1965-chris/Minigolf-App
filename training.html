@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "10";
+const APP_VERSION    = "11";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -105,7 +105,10 @@ let state = {
   statsPlayer: "Christian",
   videoDraft: null,  // {file, link, ballId, bands, notes} while adding/editing an entry
   videoEditIndex: null, // index being edited, null when adding a new one
-  videosOpen: false, // the video list is collapsed by default - it's reference material, not something needed on every visit
+  // All the reference cards below the setup are collapsed by default - they
+  // are look-up material, not something needed on every visit. Kept in one
+  // place so they behave identically.
+  cardsOpen: { altPhotos: false, ballStats: false, practice: false, videos: false },
   cfg: null,
   toast: null,
   syncStatus: {}, // { [holeKey]: 'pending' | 'error' }
@@ -783,7 +786,9 @@ function getHolePracticeStats(holeNum, year, playerName) {
 function renderPracticeStatsCard() {
   const stats = getHolePracticeStats(state.hole, state.statsYear, state.statsPlayer);
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">🎯 Training – vom Abschlag eingelocht (Bahn ${state.hole})</h3>`;
+    ${cardHeader('practice', `🎯 Training – vom Abschlag (Bahn ${state.hole})`, stats.length)}`;
+  if (!state.cardsOpen.practice) { html += `</div>`; return html; }
+  html += `<div style="margin-top:0.6rem;">`;
   if (stats.length === 0) {
     html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Trainingsversuche auf dieser Bahn. <a href="einheiten.html" style="color:#2D6A4F;">Einheit erfassen →</a></div>`;
   } else {
@@ -804,14 +809,17 @@ function renderPracticeStatsCard() {
     });
     html += `</div>`;
   }
-  html += `</div>`;
+  html += `</div></div>`;
   return html;
 }
 
 function renderBallStatsCard() {
   const stats = getHoleBallStats(state.hole, state.statsYear, state.statsPlayer);
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">📊 Ball-Statistik (Bahn ${state.hole} · ${esc(state.statsPlayer)} · ${esc(state.statsYear)})</h3>`;
+    ${cardHeader('ballStats', `📊 Ball-Statistik (Bahn ${state.hole})`, stats.length)}`;
+  if (!state.cardsOpen.ballStats) { html += `</div>`; return html; }
+  html += `<div style="margin-top:0.6rem;">
+    <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.4rem;">${esc(state.statsPlayer)} · Saison ${esc(state.statsYear)}</div>`;
   if (stats.length === 0) {
     html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Runden mit erfasstem Ball auf dieser Bahn.</div>`;
   } else {
@@ -833,7 +841,7 @@ function renderBallStatsCard() {
     html += `</div>
       <div style="font-size:0.7rem; color:#a8a29e; margin-top:0.45rem;">Sortiert nach bestem Schnitt. Prozent = Ass-Quote.</div>`;
   }
-  html += `</div>`;
+  html += `</div></div>`;
   return html;
 }
 
@@ -860,19 +868,25 @@ function setVideos(hole, list) {
   });
 }
 
+// Consistent collapsible header for the reference cards.
+function cardHeader(id, title, count) {
+  const open = !!state.cardsOpen[id];
+  return `<button data-card-toggle="${id}" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
+    <h3 style="margin:0; font-size:0.95rem; color:#2D6A4F;">${title}${count ? ` · ${count}` : ''}</h3>
+    <span style="color:#a8a29e; font-size:0.9rem;">${open ? '▾' : '▸'}</span>
+  </button>`;
+}
+
 function renderVideosCard() {
   // Sorted by name so Bahn1.1, Bahn1.2 ... stay in a predictable order.
   const vids = getVideos(state.hole).slice().sort((a, b) =>
     String(a.file || '').localeCompare(String(b.file || ''), 'de', { numeric: true }));
   const usable = state.balls.filter(b => !b.archived);
   const d = state.videoDraft;
-  const open = state.videosOpen || !!d;
+  const open = state.cardsOpen.videos || !!d;
 
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <button id="videos-toggle" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
-      <h3 style="margin:0; font-size:0.95rem; color:#2D6A4F;">🎬 Videos (Bahn ${state.hole})${vids.length ? ` · ${vids.length}` : ''}</h3>
-      <span style="color:#a8a29e; font-size:0.9rem;">${open ? '▾' : '▸'}</span>
-    </button>`;
+    ${cardHeader('videos', `🎬 Videos (Bahn ${state.hole})`, vids.length)}`;
 
   if (!open) { html += `</div>`; return html; }
   html += `<div style="margin-top:0.6rem;">`;
@@ -930,8 +944,13 @@ function renderVideosCard() {
 }
 
 function wireVideos() {
-  const tog = document.getElementById('videos-toggle');
-  if (tog) tog.addEventListener('click', () => { state.videosOpen = !state.videosOpen; renderMain(); });
+  document.querySelectorAll('[data-card-toggle]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.cardToggle;
+      state.cardsOpen[id] = !state.cardsOpen[id];
+      renderMain();
+    });
+  });
   const add = document.getElementById('vd-add');
   if (add) add.addEventListener('click', () => { state.videoEditIndex = null; state.videoDraft = { file:'', link:'', ballId:'', bands:'', notes:'' }; renderMain(); });
   const cancel = document.getElementById('vd-cancel');
@@ -995,8 +1014,11 @@ function renderAltPhotosCard() {
   const setup = state.setups[key];
   const alts = (setup && setup.altPhotos) || [];
 
+  const open = state.cardsOpen.altPhotos || state.addingAlt;
   let html = `<div class="card" style="margin-top:0.75rem;">
-    <div style="font-size:0.85rem;font-weight:600;color:#2D6A4F;margin-bottom:0.3rem;">📸 Weitere Versuche (Bahn ${state.hole})</div>
+    ${cardHeader('altPhotos', `📸 Weitere Versuche (Bahn ${state.hole})`, alts.length)}`;
+  if (!open) { html += `</div>`; return html; }
+  html += `<div style="margin-top:0.6rem;">
     <p style="color:#a8a29e; font-size:0.76rem; margin:0 0 0.6rem;">Für andere Bälle oder Bande-Varianten – zusätzlich zum Hauptfoto oben.</p>`;
 
   if (alts.length === 0 && !state.addingAlt) {
@@ -1036,7 +1058,7 @@ function renderAltPhotosCard() {
     html += `<button class="btn btn-secondary" style="width:100%; margin-top:0.4rem;" onclick="state.addingAlt=true; renderMain();">+ Foto hinzufügen</button>`;
   }
 
-  html += `</div>`;
+  html += `</div></div>`;
   return html;
 }
 
