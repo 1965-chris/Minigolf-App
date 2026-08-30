@@ -28045,52 +28045,6 @@
           "ballsUpdatedAt": 1788012790439
         },
         {
-          "date": "2024-08-10",
-          "year": "2024",
-          "id": "8utslpyn",
-          "scores": [
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            1,
-            2,
-            2,
-            2,
-            3,
-            2,
-            1,
-            2
-          ],
-          "ballsByHole": [
-            "065e3gmu",
-            "hjsp1un4",
-            "tc7hza19",
-            "1gv8aex4",
-            "tc7hza19",
-            "qw7jm6pc",
-            "x32ummcu",
-            "xtikckii",
-            "08oivu4u",
-            "fq6w76oa",
-            "vwtdywti",
-            "pl5sa33s",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "4r45uqji",
-            "j0it62hd",
-            "aebmoqgw",
-            "7ugiklv4"
-          ],
-          "ballsUpdatedAt": 1788012790439
-        },
-        {
           "id": "Christian-2024-236",
           "date": "2024-08-09",
           "year": "2024",
@@ -96923,7 +96877,8 @@
       "q3hte84s",
       "22qqpqa0",
       "59rk7620",
-      "9e1431rb"
+      "9e1431rb",
+      "8utslpyn"
     ],
     "players": []
   }
