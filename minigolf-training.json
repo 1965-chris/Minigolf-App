@@ -276,14 +276,6 @@
     ],
     "vid_4": [
       {
-        "file": "Bahn3.1",
-        "link": "https://www.icloud.com/iclouddrive/043twQQopqSdIQHMgIF9N_9NA#Bahn3",
-        "ballId": "tc7hza19",
-        "bands": "direkt",
-        "notes": "",
-        "date": "2026-08-30"
-      },
-      {
         "file": "Bahn4.1",
         "link": "https://www.icloud.com/iclouddrive/0f08iAHtdbhWOnC6q7gVakbDA#Bahn4",
         "ballId": "1gv8aex4",
@@ -329,6 +321,16 @@
         "ballId": "xtikckii",
         "bands": "direkt",
         "notes": "Mäßiger Schwung",
+        "date": "2026-08-30"
+      }
+    ],
+    "vid_3": [
+      {
+        "file": "Bahn3.1",
+        "link": "https://www.icloud.com/iclouddrive/043twQQopqSdIQHMgIF9N_9NA#Bahn3",
+        "ballId": "tc7hza19",
+        "bands": "direkt",
+        "notes": "",
         "date": "2026-08-30"
       }
     ]
