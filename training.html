@@ -90,7 +90,12 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "7";
+// Link to the shared iCloud Drive folder holding the training videos. Videos
+// themselves stay out of the repo: GitHub's per-file limit made storing them
+// impractical (a handful of clips already exceeds what the API accepts), so
+// the app keeps only the descriptions and points at the folder.
+const VIDEO_FOLDER_KEY = "minigolf-video-folder";
+const APP_VERSION    = "8";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -103,6 +108,8 @@ let state = {
   sessions: [],  // from minigolf-einheiten.json, for the training-practice statistics
   statsYear: String(new Date().getFullYear()),
   statsPlayer: "Christian",
+  videoFolder: "",   // shared folder link
+  videoDraft: null,  // {file, ballId, bands, notes} while adding an entry
   cfg: null,
   toast: null,
   syncStatus: {}, // { [holeKey]: 'pending' | 'error' }
@@ -121,6 +128,9 @@ function setupKey(hole, playerName) {
 
 function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function loadCfg() { try { return JSON.parse(localStorage.getItem(GITHUB_CFG_KEY)||'null'); } catch(e) { return null; } }
+function loadVideoFolder() { try { return localStorage.getItem(VIDEO_FOLDER_KEY) || ""; } catch(e) { return ""; } }
+function saveVideoFolder(v) { try { localStorage.setItem(VIDEO_FOLDER_KEY, v); } catch(e) {} }
+
 function loadLocalSetups() { try { return JSON.parse(localStorage.getItem(TRAINING_KEY)||'{}'); } catch(e) { return {}; } }
 function saveLocalSetups() { try { localStorage.setItem(TRAINING_KEY, JSON.stringify(state.setups)); } catch(e) {} }
 function toast(msg) {
@@ -315,6 +325,7 @@ async function manualSync() {
 async function init() {
   state.cfg = loadCfg();
   state.setups = loadLocalSetups(); // offline fallback, replaced below if GitHub is reachable
+  state.videoFolder = loadVideoFolder();
 
   const syncBtn = document.getElementById('manual-sync-btn');
   if (syncBtn) syncBtn.addEventListener('click', manualSync);
@@ -666,6 +677,8 @@ function renderMain() {
     el.innerHTML += renderAltPhotosCard();
     el.innerHTML += renderBallStatsCard();
     el.innerHTML += renderPracticeStatsCard();
+    el.innerHTML += renderVideosCard();
+    wireVideos();
   }
 }
 
@@ -830,6 +843,123 @@ function renderBallStatsCard() {
   }
   html += `</div>`;
   return html;
+}
+
+
+// ── Trainingsvideos ──────────────────────────────────────────
+// Descriptions only - the clips live in the shared iCloud folder. Each entry
+// records which ball and how many cushions, because standing position and
+// aim change completely between a direct line and a two-cushion route.
+function videoKey(hole, playerName) {
+  const pn = playerName || state.statsPlayer || "Christian";
+  return (pn === "Christian" ? 'vid_' : pn + '::vid_') + hole;
+}
+function getVideos(hole) {
+  const v = state.setups[videoKey(hole)];
+  return Array.isArray(v) ? v : [];
+}
+function setVideos(hole, list) {
+  state.setups[videoKey(hole)] = list;
+  saveLocalSetups();
+  syncToGitHub().then(r => {
+    if (r && !r.ok) { state.syncError = r.reason || 'Nicht gespeichert'; renderSyncBanner(); }
+  });
+}
+
+function renderVideosCard() {
+  const vids = getVideos(state.hole);
+  const usable = state.balls.filter(b => !b.archived);
+  const d = state.videoDraft;
+  let html = `<div class="card" style="margin-top:0.75rem;">
+    <h3 style="margin:0 0 0.5rem; font-size:0.95rem; color:#2D6A4F;">🎬 Videos (Bahn ${state.hole})</h3>`;
+
+  if (!state.videoFolder) {
+    html += `<div style="font-size:0.8rem; color:#78716c; margin-bottom:0.5rem;">Ordner-Link einmalig hinterlegen – danach genügt hier der Dateiname.</div>`;
+  }
+  html += `<input type="text" id="video-folder" placeholder="Link zum geteilten Video-Ordner" value="${esc(state.videoFolder)}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-bottom:0.6rem;" />`;
+
+  if (vids.length === 0) {
+    html += `<div style="font-size:0.82rem; color:#a8a29e; margin-bottom:0.5rem;">Noch keine Videos für diese Bahn.</div>`;
+  } else {
+    vids.forEach((v, i) => {
+      const b = v.ballId ? state.balls.find(x => x.id === v.ballId) : null;
+      html += `<div style="display:flex; align-items:center; gap:0.55rem; padding:0.45rem 0.5rem; border:1px solid #e7e5e4; border-radius:0.5rem; margin-bottom:0.3rem; background:white;">
+        <div style="width:2rem; height:2rem; border-radius:50%; overflow:hidden; flex-shrink:0; background:#f5f5f4; display:flex; align-items:center; justify-content:center;">
+          ${b && b.photo ? `<img src="${b.photo}" alt="" style="width:100%; height:100%; object-fit:cover;" />` : '<span style="font-size:0.9rem;">🎬</span>'}
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.83rem; font-weight:600;">${esc(v.file || 'Ohne Namen')}</div>
+          <div style="font-size:0.72rem; color:#78716c;">${b ? esc(ballLabelById(v.ballId)) : 'kein Ball'}${v.bands ? ' · ' + esc(v.bands) : ''}</div>
+          ${v.notes ? `<div style="font-size:0.72rem; color:#44403c; font-style:italic;">${esc(v.notes)}</div>` : ''}
+        </div>
+        ${state.videoFolder ? `<button data-open-video="1" style="background:none; border:none; color:#2D6A4F; font-size:1.1rem; cursor:pointer; padding:0.2rem;">▶</button>` : ''}
+        <button data-del-video="${i}" style="background:none; border:none; color:#dc2626; font-size:0.95rem; cursor:pointer; padding:0.2rem;">✕</button>
+      </div>`;
+    });
+  }
+
+  if (d) {
+    html += `<div style="border-top:1px solid #e7e5e4; padding-top:0.6rem; margin-top:0.5rem;">
+      <input type="text" id="vd-file" placeholder="Dateiname, z. B. Bahn${state.hole}.1" value="${esc(d.file||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.35rem;" />
+      <div style="display:flex; gap:0.35rem; margin-bottom:0.35rem;">
+        <select id="vd-ball" style="flex:1; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white;">
+          <option value="">Ball…</option>
+          ${usable.map(b => `<option value="${esc(b.id)}" ${d.ballId === b.id ? 'selected' : ''}>${esc(ballLabelById(b.id))}</option>`).join('')}
+        </select>
+        <select id="vd-bands" style="flex:1; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white;">
+          ${['', 'direkt', '1 Bande', '2 Banden', '3 Banden'].map(x => `<option value="${esc(x)}" ${d.bands === x ? 'selected' : ''}>${x || 'Banden…'}</option>`).join('')}
+        </select>
+      </div>
+      <input type="text" id="vd-notes" placeholder="Notiz (Stand, Schwung…)" value="${esc(d.notes||'')}" style="width:100%; padding:0.45rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; margin-bottom:0.4rem;" />
+      <div class="btn-row">
+        <button class="btn btn-primary" style="flex:1;" id="vd-save">Speichern</button>
+        <button class="btn btn-secondary" id="vd-cancel">Abbrechen</button>
+      </div>
+    </div>`;
+  } else {
+    html += `<button class="btn btn-secondary btn-full" id="vd-add">+ Video hinzufügen</button>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function wireVideos() {
+  const f = document.getElementById('video-folder');
+  if (f) f.addEventListener('change', () => { state.videoFolder = f.value.trim(); saveVideoFolder(state.videoFolder); renderMain(); });
+  const add = document.getElementById('vd-add');
+  if (add) add.addEventListener('click', () => { state.videoDraft = { file:'', ballId:'', bands:'', notes:'' }; renderMain(); });
+  const cancel = document.getElementById('vd-cancel');
+  if (cancel) cancel.addEventListener('click', () => { state.videoDraft = null; renderMain(); });
+  const save = document.getElementById('vd-save');
+  if (save) save.addEventListener('click', () => {
+    const file = (document.getElementById('vd-file')?.value || '').trim();
+    if (!file) { toast('Bitte einen Dateinamen eingeben.'); return; }
+    const list = getVideos(state.hole).slice();
+    list.push({
+      file,
+      ballId: document.getElementById('vd-ball')?.value || '',
+      bands: document.getElementById('vd-bands')?.value || '',
+      notes: (document.getElementById('vd-notes')?.value || '').trim(),
+      date: new Date().toISOString().slice(0,10),
+    });
+    setVideos(state.hole, list);
+    state.videoDraft = null;
+    renderHoleGrid();
+    renderMain();
+  });
+  document.querySelectorAll('[data-del-video]').forEach(el => {
+    el.addEventListener('click', () => {
+      const i = parseInt(el.dataset.delVideo, 10);
+      const list = getVideos(state.hole).slice();
+      list.splice(i, 1);
+      setVideos(state.hole, list);
+      renderHoleGrid();
+      renderMain();
+    });
+  });
+  document.querySelectorAll('[data-open-video]').forEach(el => {
+    el.addEventListener('click', () => { if (state.videoFolder) window.open(state.videoFolder, '_blank'); });
+  });
 }
 
 function renderAltPhotosCard() {
