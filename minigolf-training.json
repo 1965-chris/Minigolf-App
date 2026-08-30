@@ -262,14 +262,6 @@
         "bands": "2 Banden",
         "notes": "Leichter schwung",
         "date": "2026-08-30"
-      },
-      {
-        "file": "Bahn8.1",
-        "link": "https://www.icloud.com/iclouddrive/04a1M9u2ZaFxk6f_2WkYmXdLQ#Bahn8",
-        "ballId": "xtikckii",
-        "bands": "direkt",
-        "notes": "Mäßiger Schwung",
-        "date": "2026-08-30"
       }
     ],
     "vid_2": [
@@ -327,6 +319,16 @@
         "ballId": "x32ummcu",
         "bands": "direkt",
         "notes": "",
+        "date": "2026-08-30"
+      }
+    ],
+    "vid_8": [
+      {
+        "file": "Bahn8.1",
+        "link": "https://www.icloud.com/iclouddrive/04a1M9u2ZaFxk6f_2WkYmXdLQ#Bahn8",
+        "ballId": "xtikckii",
+        "bands": "direkt",
+        "notes": "Mäßiger Schwung",
         "date": "2026-08-30"
       }
     ]
