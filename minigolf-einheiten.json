@@ -1,6 +1,41 @@
 {
   "sessions": [
     {
+      "id": "mtftof6ku7iazl",
+      "date": "2026-08-30",
+      "player": "Christian",
+      "weatherKeys": [
+        "cloud"
+      ],
+      "temperature": "22",
+      "attempts": [
+        {
+          "hole": 17,
+          "ballId": "qw7jm6pc",
+          "holed": false,
+          "ts": 1788095138781
+        },
+        {
+          "hole": 17,
+          "ballId": "qw7jm6pc",
+          "holed": true,
+          "ts": 1788095139764
+        },
+        {
+          "hole": 17,
+          "ballId": "qw7jm6pc",
+          "holed": true,
+          "ts": 1788095140348
+        },
+        {
+          "hole": 17,
+          "ballId": "qw7jm6pc",
+          "holed": true,
+          "ts": 1788095141097
+        }
+      ]
+    },
+    {
       "id": "mtehi4nyyygc8x",
       "date": "2026-08-27",
       "player": "Christian",
