@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "13";
+const APP_VERSION    = "14";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -380,6 +380,8 @@ async function init() {
   if (backHole >= 1 && backHole <= 18) {
     state.hole = backHole;
     state.cardsOpen.ballStats = true;
+    const backBall = params.get('ball');
+    if (backBall) state.statsBallOpen = backBall;
   }
 
   const ver = document.getElementById('app-version');
@@ -862,7 +864,7 @@ function renderBallStatsCard() {
           <span style="color:#a8a29e; font-size:0.8rem; flex-shrink:0;">${open ? '▾' : '▸'}</span>
         </button>
         ${open ? `<div style="padding:0 0.5rem 0.45rem;">
-          ${e.rounds.map(rd => `<a href="index.html?round=${encodeURIComponent(rd.roundId)}&player=${encodeURIComponent(rd.playerId)}&back=training&hole=${state.hole}" style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; text-decoration:none; background:white; border:1px solid #e7e5e4; border-radius:0.45rem; padding:0.35rem 0.55rem; margin-bottom:0.25rem;">
+          ${e.rounds.map(rd => `<a href="index.html?round=${encodeURIComponent(rd.roundId)}&player=${encodeURIComponent(rd.playerId)}&back=training&hole=${state.hole}&ball=${encodeURIComponent(e.ballId)}" style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; text-decoration:none; background:white; border:1px solid #e7e5e4; border-radius:0.45rem; padding:0.35rem 0.55rem; margin-bottom:0.25rem;">
             <span style="font-size:0.78rem; color:#44403c;">${esc(fmtDateDE(rd.date))}</span>
             <span style="font-size:0.76rem; color:#78716c;">${rd.score} ${rd.score === 1 ? 'Schlag' : 'Schläge'} ›</span>
           </a>`).join('')}
