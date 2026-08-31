@@ -9,38 +9,7 @@
         "wind"
       ],
       "temperature": "19",
-      "attempts": [
-        {
-          "hole": 3,
-          "ballId": "tourn_esr7rs3u",
-          "holed": true,
-          "ts": 1788192293609
-        },
-        {
-          "hole": 3,
-          "ballId": "tourn_esr7rs3u",
-          "holed": false,
-          "ts": 1788192295580
-        },
-        {
-          "hole": 3,
-          "ballId": "tourn_esr7rs3u",
-          "holed": false,
-          "ts": 1788192296873
-        },
-        {
-          "hole": 3,
-          "ballId": "tourn_esr7rs3u",
-          "holed": true,
-          "ts": 1788192297523
-        },
-        {
-          "hole": 3,
-          "ballId": "tourn_esr7rs3u",
-          "holed": true,
-          "ts": 1788192298253
-        }
-      ]
+      "attempts": []
     },
     {
       "id": "mtftof6ku7iazl",
