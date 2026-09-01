@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "15";
+const APP_VERSION    = "16";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -289,6 +289,31 @@ function syncToGitHub() {
 
 // Manual sync: push whatever is local, then pull GitHub's state back, so the
 // button both saves pending changes and picks up edits made on another device.
+// Training sessions come from the Einheiten page. Pulled through the
+// Contents API when a token is available, because raw.githubusercontent.com
+// can serve a stale copy for minutes after a change - which would show
+// yesterday's practice figures here.
+async function loadSessions() {
+  const cfg = state.cfg;
+  if (cfg && cfg.token) {
+    try {
+      const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/minigolf-einheiten.json?ref=${BRANCH}&t=${Date.now()}`;
+      const res = await ghFetch(url, { headers: { Authorization: `token ${cfg.token}`, Accept: 'application/vnd.github.raw' } });
+      if (res.ok) {
+        const d = JSON.parse(await res.text());
+        if (d && Array.isArray(d.sessions)) { state.sessions = d.sessions; return; }
+      }
+    } catch(e) { /* fall through to the raw URL */ }
+  }
+  try {
+    const r = await ghFetch(EINHEITEN_RAW + '?t=' + Date.now());
+    if (r.ok) {
+      const d = await r.json();
+      if (d && Array.isArray(d.sessions)) state.sessions = d.sessions;
+    }
+  } catch(e) {}
+}
+
 async function manualSync() {
   const btn = document.getElementById('manual-sync-btn');
   if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
@@ -304,6 +329,7 @@ async function manualSync() {
       const d = await r.json();
       if (d && d.setups) { state.setups = d.setups; saveLocalSetups(); }
     }
+    await loadSessions(); // practice figures come from the Einheiten page
     state.syncError = null;
     renderSyncBanner();
     const sub = document.getElementById('header-sub');
@@ -341,14 +367,7 @@ async function init() {
     }
   } catch(e) {}
 
-  // Load training sessions for the practice statistics (tee-off attempts).
-  try {
-    const r = await fetch(EINHEITEN_RAW + '?t=' + Date.now());
-    if (r.ok) {
-      const d = await r.json();
-      if (d && Array.isArray(d.sessions)) state.sessions = d.sessions;
-    }
-  } catch(e) {}
+  await loadSessions();
 
   // Load training from GitHub - this is the source of truth whenever reachable,
   // so what you see always matches what's actually saved (no stale local cache).
