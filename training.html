@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "16";
+const APP_VERSION    = "17";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -431,7 +431,10 @@ function renderHoleGrid() {
     if (!active && status === 'pending') cls = ' sync-pending';
     if (!active && status === 'error') cls = ' sync-error';
     const badge = status === 'pending' ? '⏳' : status === 'error' ? '⚠️' : '';
-    html += `<button class="hole-btn${cls}" onclick="selectHole(${i})">${badge || i}</button>`;
+    // A small dot marks holes with training attempts, so it's obvious where
+    // the practice figures actually exist.
+    const hasPractice = getHolePracticeStats(i, state.statsYear, state.statsPlayer).length > 0;
+    html += `<button class="hole-btn${cls}" onclick="selectHole(${i})" style="position:relative;">${badge || i}${hasPractice ? '<span style="position:absolute; top:2px; right:3px; width:6px; height:6px; border-radius:50%; background:#16a34a;"></span>' : ''}</button>`;
   }
   grid.innerHTML = html;
 }
@@ -800,7 +803,7 @@ function renderStatsFilterBar() {
       ${availablePlayers.map(n => `<option value="${esc(n)}" ${state.statsPlayer === n ? 'selected' : ''}>${esc(n)}</option>`).join('')}
     </select>` : ''}`;
   const y = document.getElementById('stats-year');
-  if (y) y.addEventListener('change', () => { state.statsYear = y.value; renderMain(); });
+  if (y) y.addEventListener('change', () => { state.statsYear = y.value; renderHoleGrid(); renderMain(); });
   const pl = document.getElementById('stats-player');
   if (pl) pl.addEventListener('change', () => {
     state.statsPlayer = pl.value;
@@ -838,7 +841,11 @@ function renderPracticeStatsCard() {
   if (!state.cardsOpen.practice) { html += `</div>`; return html; }
   html += `<div style="margin-top:0.6rem;">`;
   if (stats.length === 0) {
-    html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Trainingsversuche auf dieser Bahn. <a href="einheiten.html" style="color:#2D6A4F;">Einheit erfassen →</a></div>`;
+    const withData = [];
+    for (let i = 1; i <= 18; i++) {
+      if (getHolePracticeStats(i, state.statsYear, state.statsPlayer).length > 0) withData.push(i);
+    }
+    html += `<div style="font-size:0.82rem; color:#a8a29e;">Noch keine Trainingsversuche auf dieser Bahn.${withData.length ? ` Vorhanden für Bahn ${withData.join(', ')}.` : ''} <a href="einheiten.html" style="color:#2D6A4F;">Einheit erfassen →</a></div>`;
   } else {
     html += `<div style="display:flex; flex-direction:column; gap:0.35rem;">`;
     stats.forEach((e, i) => {
