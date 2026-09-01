@@ -239,31 +239,41 @@
           "hole": 14,
           "ballId": "tourn_kghij870",
           "holed": true,
-          "ts": 1788014223646
+          "ts": 1788014223646,
+          "bands": "3 Banden",
+          "note": ""
         },
         {
           "hole": 14,
           "ballId": "tourn_kghij870",
           "holed": false,
-          "ts": 1788014227646
+          "ts": 1788014227646,
+          "bands": "3 Banden",
+          "note": ""
         },
         {
           "hole": 14,
           "ballId": "tourn_kghij870",
           "holed": true,
-          "ts": 1788014232157
+          "ts": 1788014232157,
+          "bands": "3 Banden",
+          "note": ""
         },
         {
           "hole": 14,
           "ballId": "tourn_kghij870",
           "holed": true,
-          "ts": 1788014235712
+          "ts": 1788014235712,
+          "bands": "3 Banden",
+          "note": ""
         },
         {
           "hole": 14,
           "ballId": "tourn_kghij870",
           "holed": false,
-          "ts": 1788014237600
+          "ts": 1788014237600,
+          "bands": "3 Banden",
+          "note": ""
         }
       ]
     }
