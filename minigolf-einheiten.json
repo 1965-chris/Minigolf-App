@@ -195,25 +195,33 @@
           "hole": 17,
           "ballId": "qw7jm6pc",
           "holed": false,
-          "ts": 1788095138781
+          "ts": 1788095138781,
+          "bands": "direkt",
+          "note": ""
         },
         {
           "hole": 17,
           "ballId": "qw7jm6pc",
           "holed": true,
-          "ts": 1788095139764
+          "ts": 1788095139764,
+          "bands": "direkt",
+          "note": ""
         },
         {
           "hole": 17,
           "ballId": "qw7jm6pc",
           "holed": true,
-          "ts": 1788095140348
+          "ts": 1788095140348,
+          "bands": "direkt",
+          "note": ""
         },
         {
           "hole": 17,
           "ballId": "qw7jm6pc",
           "holed": true,
-          "ts": 1788095141097
+          "ts": 1788095141097,
+          "bands": "direkt",
+          "note": ""
         }
       ]
     },
