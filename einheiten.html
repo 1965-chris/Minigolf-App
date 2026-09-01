@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "5";
+const APP_VERSION = "6";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -118,6 +118,8 @@ let state = {
   cfg: null,
   syncError: null,
   statsYear: "",    // "" = all seasons
+  statsHoleOpen: null, // hole expanded in the aggregate view
+  statsEditGroup: null, // "sessionId|hole|ball|bands" being edited
   statsDayOpen: null, // session id expanded in the per-day breakdown
   weatherAuto: null, // short summary of the last automatic fetch
 };
@@ -642,20 +644,38 @@ function renderStats() {
         const per = {};
         sess.attempts.forEach(a => {
           const k = a.hole + '|' + a.ballId + '|' + (a.bands || '');
-          if (!per[k]) per[k] = { hole: a.hole, ballId: a.ballId, bands: a.bands || '', hits: 0, total: 0 };
+          if (!per[k]) per[k] = { hole: a.hole, ballId: a.ballId, bands: a.bands || '', note: a.note || '', hits: 0, total: 0 };
           per[k].total++;
           if (a.holed) per[k].hits++;
+          if (a.note && !per[k].note) per[k].note = a.note;
         });
         const list = Object.values(per).sort((a,b) => a.hole - b.hole);
         html += `<div style="padding:0 0.6rem 0.5rem;">`;
         list.forEach(e2 => {
           const b = ballById(e2.ballId);
-          html += `<div style="display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0; border-top:1px solid #f5f5f4;">
-            <div class="ballimg" style="width:1.6rem; height:1.6rem;">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span style="font-size:0.7rem;">⚪</span>'}</div>
-            <div style="flex:1; min-width:0;">
-              <div style="font-size:0.78rem;">Bahn ${e2.hole} · ${esc(ballLabel(e2.ballId))}${e2.bands ? ` · ${esc(e2.bands)}` : ''}</div>
+          const gk = `${sess.id}|${e2.hole}|${e2.ballId}|${e2.bands || ''}`;
+          const editing = state.statsEditGroup === gk;
+          html += `<div style="padding:0.35rem 0; border-top:1px solid #f5f5f4;">
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <div class="ballimg" style="width:1.6rem; height:1.6rem;">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span style="font-size:0.7rem;">⚪</span>'}</div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:0.78rem;">Bahn ${e2.hole} · ${esc(ballLabel(e2.ballId))}${e2.bands ? ` · ${esc(e2.bands)}` : ''}</div>
+                ${e2.note ? `<div class="muted" style="font-style:italic;">${esc(e2.note)}</div>` : ''}
+              </div>
+              <div class="muted" style="flex-shrink:0;">${e2.hits}/${e2.total}</div>
+              <button data-edit-group="${esc(gk)}" style="background:none; border:none; font-size:0.9rem; cursor:pointer; padding:0.15rem;">✏️</button>
             </div>
-            <div class="muted" style="flex-shrink:0;">${e2.hits}/${e2.total}</div>
+            ${editing ? `<div style="display:flex; gap:0.35rem; margin-top:0.35rem;">
+              <select class="sel" id="eg-bands" style="flex:1; font-size:0.8rem;">
+                <option value="">Banden…</option>
+                ${BANDS_OPTS.map(x => `<option value="${esc(x)}" ${e2.bands === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}
+              </select>
+            </div>
+            <input type="text" id="eg-note" placeholder="Art des Schlages" value="${esc(e2.note || '')}" style="width:100%; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-top:0.35rem;" />
+            <div class="btn-row" style="margin-top:0.35rem;">
+              <button class="btn btn-primary" style="flex:1; padding:0.4rem; font-size:0.8rem;" data-save-group="${esc(gk)}">Speichern</button>
+              <button class="btn btn-secondary" style="padding:0.4rem 0.6rem; font-size:0.8rem;" data-cancel-group="1">Abbrechen</button>
+            </div>` : ''}
           </div>`;
         });
         html += `</div>`;
@@ -670,11 +690,15 @@ function renderStats() {
       .map(v => ({ ...v, rate: v.total ? v.hits/v.total : 0 }))
       .sort((a,b) => b.rate - a.rate || b.total - a.total);
     const sum = entries.reduce((acc,e) => ({ hits: acc.hits+e.hits, total: acc.total+e.total }), {hits:0,total:0});
+    const holeOpen = state.statsHoleOpen === h;
     html += `<div class="card">
-      <h3 style="display:flex; justify-content:space-between; align-items:baseline;">
-        <span>Bahn ${h}</span>
-        <span class="muted" style="font-weight:400;">${sum.hits}/${sum.total} · ${Math.round(sum.hits/sum.total*100)}%</span>
-      </h3>`;
+      <button data-stats-hole="${h}" style="display:flex; justify-content:space-between; align-items:baseline; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; gap:0.5rem;">
+        <h3 style="margin:0;">Bahn ${h}</h3>
+        <span class="muted" style="font-weight:400; flex:1; text-align:right;">${sum.hits}/${sum.total} · ${Math.round(sum.hits/sum.total*100)}%</span>
+        <span style="color:#a8a29e; font-size:0.85rem;">${holeOpen ? '▾' : '▸'}</span>
+      </button>`;
+    if (!holeOpen) { html += `</div>`; return; }
+    html += `<div style="margin-top:0.5rem;">`;
     entries.forEach((e, i) => {
       const b = ballById(e.ballId);
       const best = i === 0 && entries.length > 1 && e.total >= 3;
@@ -687,7 +711,7 @@ function renderStats() {
         <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
       </div>`;
     });
-    html += `</div>`;
+    html += `</div></div>`;
   });
   return html;
 }
@@ -747,6 +771,43 @@ function wire() {
   if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
   const sy = document.getElementById('stats-year');
   if (sy) sy.addEventListener('change', () => { state.statsYear = sy.value; render(); });
+  document.querySelectorAll('[data-stats-hole]').forEach(el => {
+    el.addEventListener('click', () => {
+      const h = parseInt(el.dataset.statsHole, 10);
+      state.statsHoleOpen = state.statsHoleOpen === h ? null : h;
+      render();
+    });
+  });
+  document.querySelectorAll('[data-edit-group]').forEach(el => {
+    el.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const k = el.dataset.editGroup;
+      state.statsEditGroup = state.statsEditGroup === k ? null : k;
+      render();
+    });
+  });
+  document.querySelectorAll('[data-cancel-group]').forEach(el => {
+    el.addEventListener('click', () => { state.statsEditGroup = null; render(); });
+  });
+  document.querySelectorAll('[data-save-group]').forEach(el => {
+    el.addEventListener('click', () => {
+      const [sid, holeStr, ballId, oldBands] = el.dataset.saveGroup.split('|');
+      const sess = state.sessions.find(x => x.id === sid);
+      if (!sess) return;
+      const hole = parseInt(holeStr, 10);
+      const newBands = document.getElementById('eg-bands')?.value || '';
+      const newNote = (document.getElementById('eg-note')?.value || '').trim();
+      let n = 0;
+      sess.attempts.forEach(a => {
+        if (a.hole === hole && a.ballId === ballId && (a.bands || '') === (oldBands || '')) {
+          a.bands = newBands; a.note = newNote; n++;
+        }
+      });
+      if (n) { saveLocal(); schedulePush(); toast(`${n} Versuch(e) aktualisiert ✓`); }
+      state.statsEditGroup = null;
+      render();
+    });
+  });
   document.querySelectorAll('[data-day]').forEach(el => {
     el.addEventListener('click', () => {
       const id = el.dataset.day;
