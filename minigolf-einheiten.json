@@ -56,6 +56,18 @@
           "ballId": "tourn_kghij870",
           "holed": false,
           "ts": 1788278893390
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_kghij870",
+          "holed": true,
+          "ts": 1788278963364
+        },
+        {
+          "hole": 14,
+          "ballId": "tourn_kghij870",
+          "holed": true,
+          "ts": 1788278964132
         }
       ]
     },
