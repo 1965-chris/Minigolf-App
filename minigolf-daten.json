@@ -96092,6 +96092,13 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 3.8
+    },
+    {
+      "id": "xqaswmkl",
+      "date": "2026-09-01",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2
     }
   ],
   "tournamentPlacements": {
