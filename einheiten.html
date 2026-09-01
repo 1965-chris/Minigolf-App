@@ -90,7 +90,9 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "3";
+const APP_VERSION = "5";
+
+const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
 const WEATHER_OPTS = [
   { key: "sun",   icon: "☀️", label: "Sonne" },
@@ -106,6 +108,8 @@ let state = {
   player: "Christian",
   hole: 1,
   ballId: null,
+  bands: "",   // how the shot is played - same ball on the same hole can need a different route
+  note: "",    // type of shot, e.g. "kurz angespielt"
   date: todayISO(),
   weatherKeys: [],
   temperature: "",
@@ -114,6 +118,7 @@ let state = {
   cfg: null,
   syncError: null,
   statsYear: "",    // "" = all seasons
+  statsDayOpen: null, // session id expanded in the per-day breakdown
   weatherAuto: null, // short summary of the last automatic fetch
 };
 
@@ -375,7 +380,10 @@ function recordAttempt(holed) {
   const s = currentSession(true);
   s.weatherKeys = [...state.weatherKeys];
   s.temperature = state.temperature;
-  s.attempts.push({ hole: state.hole, ballId: state.ballId, holed: !!holed, ts: Date.now() });
+  s.attempts.push({
+    hole: state.hole, ballId: state.ballId, holed: !!holed,
+    bands: state.bands || '', note: state.note || '', ts: Date.now(),
+  });
   saveLocal();
   schedulePush();
   render();
@@ -387,7 +395,8 @@ function undoLastAttempt() {
   // Undo the last attempt for the hole/ball currently selected, which is what
   // "that one was a mistap" almost always means.
   for (let i = s.attempts.length - 1; i >= 0; i--) {
-    if (s.attempts[i].hole === state.hole && s.attempts[i].ballId === state.ballId) {
+    const a = s.attempts[i];
+    if (a.hole === state.hole && a.ballId === state.ballId && (a.bands || '') === (state.bands || '')) {
       s.attempts.splice(i, 1);
       saveLocal();
       schedulePush();
@@ -398,13 +407,17 @@ function undoLastAttempt() {
   toast('Nichts zum Zurücknehmen für diese Bahn und diesen Ball.');
 }
 
-function tallyFor(hole, ballId) {
+// A variant is hole + ball + route: the same ball on the same hole played
+// direct or over two cushions is a different thing to practise, so the tally
+// keeps them apart.
+function tallyFor(hole, ballId, bands) {
   const s = currentSession(false);
   if (!s) return { hits: 0, total: 0 };
   let hits = 0, total = 0;
   s.attempts.forEach(a => {
     if (a.hole !== hole) return;
     if (ballId && a.ballId !== ballId) return;
+    if (bands !== undefined && bands !== null && (a.bands || '') !== bands) return;
     total++;
     if (a.holed) hits++;
   });
@@ -433,7 +446,7 @@ function render() {
 
 function renderLog() {
   const usable = state.balls.filter(b => !b.archived);
-  const t = tallyFor(state.hole, state.ballId);
+  const t = tallyFor(state.hole, state.ballId, state.bands || '');
   const holeTotal = tallyFor(state.hole, null);
   const pct = t.total ? Math.round(t.hits / t.total * 100) : 0;
 
@@ -471,17 +484,22 @@ function renderLog() {
   <div class="card">
     <h3>🎱 Ball</h3>
     ${usable.length === 0 ? `<div class="muted">Keine Bälle geladen.</div>` : `
-    <select class="sel" id="sel-ball">
+    <select class="sel" id="sel-ball" style="margin-bottom:0.4rem;">
       <option value="">– Ball wählen –</option>
       ${usable.map(b => `<option value="${esc(b.id)}" ${state.ballId === b.id ? 'selected' : ''}>${esc(ballLabel(b.id))}</option>`).join('')}
-    </select>`}
+    </select>
+    <select class="sel" id="sel-bands" style="margin-bottom:0.4rem;">
+      <option value="">Banden…</option>
+      ${BANDS_OPTS.map(x => `<option value="${esc(x)}" ${state.bands === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}
+    </select>
+    <input type="text" id="sel-note" placeholder="Art des Schlages (z. B. kurz angespielt)" value="${esc(state.note)}" style="width:100%; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem;" />`}
   </div>
 
   <div class="card">
     <h3>🎯 Vom Abschlag eingelocht?</h3>
     <div style="display:flex; align-items:baseline; gap:0.5rem;">
       <span class="big">${t.hits}/${t.total}</span>
-      <span class="muted">${t.total ? pct + '% – Bahn ' + state.hole : 'noch keine Versuche'}</span>
+      <span class="muted">${t.total ? pct + '% – Bahn ' + state.hole + (state.bands ? ' · ' + esc(state.bands) : '') : 'noch keine Versuche'}</span>
     </div>
     <div class="tally">
       <button class="hit" id="btn-hit">✓ Eingelocht</button>
@@ -501,10 +519,11 @@ function renderSessionEntries() {
   const usable = state.balls.filter(b => !b.archived);
   const groups = {};
   sess.attempts.forEach(a => {
-    const k = a.hole + '|' + a.ballId;
-    if (!groups[k]) groups[k] = { hole: a.hole, ballId: a.ballId, hits: 0, total: 0 };
+    const k = a.hole + '|' + a.ballId + '|' + (a.bands || '');
+    if (!groups[k]) groups[k] = { hole: a.hole, ballId: a.ballId, bands: a.bands || '', note: a.note || '', hits: 0, total: 0 };
     groups[k].total++;
     if (a.holed) groups[k].hits++;
+    if (a.note && !groups[k].note) groups[k].note = a.note;
   });
   const list = Object.values(groups).sort((a,b) => a.hole - b.hole || ballLabel(a.ballId).localeCompare(ballLabel(b.ballId)));
 
@@ -515,11 +534,11 @@ function renderSessionEntries() {
     html += `<div class="row" style="flex-wrap:wrap;">
       <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
       <div style="flex:1; min-width:0;">
-        <div style="font-size:0.83rem; font-weight:600;">Bahn ${g.hole} · ${esc(ballLabel(g.ballId))}</div>
-        <div class="muted">${g.hits}/${g.total} eingelocht</div>
+        <div style="font-size:0.83rem; font-weight:600;">Bahn ${g.hole} · ${esc(ballLabel(g.ballId))}${g.bands ? ' · ' + esc(g.bands) : ''}</div>
+        <div class="muted">${g.hits}/${g.total} eingelocht${g.note ? ' · ' + esc(g.note) : ''}</div>
       </div>
-      <button class="btn btn-secondary" data-del-hole="${g.hole}" data-del-ball="${esc(g.ballId)}" style="flex:0; padding:0.3rem 0.55rem; font-size:0.8rem; color:#dc2626; border-color:#fca5a5;">✕</button>
-      <select class="sel" data-move-hole="${g.hole}" data-move-ball="${esc(g.ballId)}" style="flex-basis:100%; margin-top:0.35rem; font-size:0.8rem;">
+      <button class="btn btn-secondary" data-del-hole="${g.hole}" data-del-ball="${esc(g.ballId)}" data-del-bands="${esc(g.bands)}" style="flex:0; padding:0.3rem 0.55rem; font-size:0.8rem; color:#dc2626; border-color:#fca5a5;">✕</button>
+      <select class="sel" data-move-hole="${g.hole}" data-move-ball="${esc(g.ballId)}" data-move-bands="${esc(g.bands)}" style="flex-basis:100%; margin-top:0.35rem; font-size:0.8rem;">
         <option value="">Ball ändern auf…</option>
         ${usable.filter(x => x.id !== g.ballId).map(x => `<option value="${esc(x.id)}">${esc(ballLabel(x.id))}</option>`).join('')}
       </select>
@@ -530,12 +549,12 @@ function renderSessionEntries() {
 }
 
 // Reassigns every attempt of one hole/ball group to a different ball.
-function reassignGroup(hole, fromBallId, toBallId) {
+function reassignGroup(hole, fromBallId, bands, toBallId) {
   const sess = currentSession(false);
   if (!sess || !toBallId) return;
   let n = 0;
   sess.attempts.forEach(a => {
-    if (a.hole === hole && a.ballId === fromBallId) { a.ballId = toBallId; n++; }
+    if (a.hole === hole && a.ballId === fromBallId && (a.bands || '') === (bands || '')) { a.ballId = toBallId; n++; }
   });
   if (n) {
     saveLocal();
@@ -545,11 +564,11 @@ function reassignGroup(hole, fromBallId, toBallId) {
   }
 }
 
-function deleteGroup(hole, ballId) {
+function deleteGroup(hole, ballId, bands) {
   const sess = currentSession(false);
   if (!sess) return;
   const before = sess.attempts.length;
-  sess.attempts = sess.attempts.filter(a => !(a.hole === hole && a.ballId === ballId));
+  sess.attempts = sess.attempts.filter(a => !(a.hole === hole && a.ballId === ballId && (a.bands || '') === (bands || '')));
   const removed = before - sess.attempts.length;
   if (removed) {
     saveLocal();
@@ -567,10 +586,11 @@ function renderStats() {
     if (s.player !== state.player) return;
     if (state.statsYear && (s.date||'').slice(0,4) !== state.statsYear) return;
     (s.attempts || []).forEach(a => {
+      const key = a.ballId + '|' + (a.bands || '');
       if (!rows[a.hole]) rows[a.hole] = {};
-      if (!rows[a.hole][a.ballId]) rows[a.hole][a.ballId] = { hits:0, total:0 };
-      rows[a.hole][a.ballId].total++;
-      if (a.holed) rows[a.hole][a.ballId].hits++;
+      if (!rows[a.hole][key]) rows[a.hole][key] = { ballId: a.ballId, bands: a.bands || '', hits:0, total:0 };
+      rows[a.hole][key].total++;
+      if (a.holed) rows[a.hole][key].hits++;
     });
   });
 
@@ -592,9 +612,62 @@ function renderStats() {
     return html;
   }
 
+  // Single days, newest first - the aggregate above answers "which ball", this
+  // answers "how did that day actually go", including the conditions.
+  const days = state.sessions
+    .filter(s2 => s2.player === state.player)
+    .filter(s2 => !state.statsYear || (s2.date||'').slice(0,4) === state.statsYear)
+    .filter(s2 => (s2.attempts || []).length > 0)
+    .sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+  if (days.length) {
+    html += `<div class="card">
+      <h3>📅 Einzelne Tage (${days.length})</h3>`;
+    days.forEach(sess => {
+      const open = state.statsDayOpen === sess.id;
+      const hits = sess.attempts.filter(a => a.holed).length;
+      const total = sess.attempts.length;
+      const wx = (sess.weatherKeys || []).map(k => (WEATHER_OPTS.find(w => w.key === k) || {}).icon || '').join(' ');
+      const temp = sess.temperature ? `${esc(sess.temperature)} °C` : '';
+      html += `<div style="border:1px solid #e7e5e4; border-radius:0.5rem; margin-bottom:0.3rem; background:white;">
+        <button data-day="${esc(sess.id)}" style="display:flex; align-items:center; gap:0.5rem; width:100%; text-align:left; background:none; border:none; padding:0.5rem 0.6rem; cursor:pointer; font-family:inherit;">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:0.85rem; font-weight:600;">${esc(fmtDate(sess.date))} ${wx}</div>
+            <div class="muted">${hits}/${total} eingelocht${total ? ` · ${Math.round(hits/total*100)}%` : ''}${temp ? ' · ' + temp : ''}</div>
+          </div>
+          <span style="color:#a8a29e; font-size:0.85rem;">${open ? '▾' : '▸'}</span>
+        </button>`;
+      if (open) {
+        // Break the day down by hole and ball.
+        const per = {};
+        sess.attempts.forEach(a => {
+          const k = a.hole + '|' + a.ballId + '|' + (a.bands || '');
+          if (!per[k]) per[k] = { hole: a.hole, ballId: a.ballId, bands: a.bands || '', hits: 0, total: 0 };
+          per[k].total++;
+          if (a.holed) per[k].hits++;
+        });
+        const list = Object.values(per).sort((a,b) => a.hole - b.hole);
+        html += `<div style="padding:0 0.6rem 0.5rem;">`;
+        list.forEach(e2 => {
+          const b = ballById(e2.ballId);
+          html += `<div style="display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0; border-top:1px solid #f5f5f4;">
+            <div class="ballimg" style="width:1.6rem; height:1.6rem;">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span style="font-size:0.7rem;">⚪</span>'}</div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:0.78rem;">Bahn ${e2.hole} · ${esc(ballLabel(e2.ballId))}${e2.bands ? ` · ${esc(e2.bands)}` : ''}</div>
+            </div>
+            <div class="muted" style="flex-shrink:0;">${e2.hits}/${e2.total}</div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  }
+
   holes.forEach(h => {
-    const entries = Object.entries(rows[h])
-      .map(([ballId, v]) => ({ ballId, ...v, rate: v.total ? v.hits/v.total : 0 }))
+    const entries = Object.values(rows[h])
+      .map(v => ({ ...v, rate: v.total ? v.hits/v.total : 0 }))
       .sort((a,b) => b.rate - a.rate || b.total - a.total);
     const sum = entries.reduce((acc,e) => ({ hits: acc.hits+e.hits, total: acc.total+e.total }), {hits:0,total:0});
     html += `<div class="card">
@@ -608,7 +681,7 @@ function renderStats() {
       html += `<div class="row ${best ? 'best' : ''}">
         <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
         <div style="flex:1; min-width:0;">
-          <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}</div>
+          <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}${e.bands ? ` · ${esc(e.bands)}` : ''}</div>
           <div class="muted">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
         </div>
         <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
@@ -627,6 +700,10 @@ function wire() {
   if (d) d.addEventListener('change', () => { state.date = d.value || todayISO(); render(); });
   const b = document.getElementById('sel-ball');
   if (b) b.addEventListener('change', () => { state.ballId = b.value || null; render(); });
+  const bd = document.getElementById('sel-bands');
+  if (bd) bd.addEventListener('change', () => { state.bands = bd.value; render(); });
+  const nt = document.getElementById('sel-note');
+  if (nt) nt.addEventListener('change', () => { state.note = nt.value; });
   const temp = document.getElementById('temp');
   if (temp) temp.addEventListener('change', () => {
     state.temperature = temp.value;
@@ -657,12 +734,12 @@ function wire() {
 
   document.querySelectorAll('[data-move-hole]').forEach(el => {
     el.addEventListener('change', () => {
-      reassignGroup(parseInt(el.dataset.moveHole,10), el.dataset.moveBall, el.value);
+      reassignGroup(parseInt(el.dataset.moveHole,10), el.dataset.moveBall, el.dataset.moveBands || '', el.value);
     });
   });
   document.querySelectorAll('[data-del-hole]').forEach(el => {
     el.addEventListener('click', () => {
-      deleteGroup(parseInt(el.dataset.delHole,10), el.dataset.delBall);
+      deleteGroup(parseInt(el.dataset.delHole,10), el.dataset.delBall, el.dataset.delBands || '');
     });
   });
 
@@ -670,6 +747,13 @@ function wire() {
   if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
   const sy = document.getElementById('stats-year');
   if (sy) sy.addEventListener('change', () => { state.statsYear = sy.value; render(); });
+  document.querySelectorAll('[data-day]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.day;
+      state.statsDayOpen = state.statsDayOpen === id ? null : id;
+      render();
+    });
+  });
 }
 
 // ── Init ─────────────────────────────────────────────────────
