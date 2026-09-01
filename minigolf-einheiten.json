@@ -1,6 +1,23 @@
 {
   "sessions": [
     {
+      "id": "mtiuwpsqcx6kog",
+      "date": "2026-09-01",
+      "player": "Christian",
+      "weatherKeys": [
+        "cloud"
+      ],
+      "temperature": "22",
+      "attempts": [
+        {
+          "hole": 14,
+          "ballId": "tourn_kghij870",
+          "holed": false,
+          "ts": 1788278603930
+        }
+      ]
+    },
+    {
       "id": "mthfisbspszpf1",
       "date": "2026-08-31",
       "player": "Christian",
