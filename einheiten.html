@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "6";
+const APP_VERSION = "7";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -118,6 +118,7 @@ let state = {
   cfg: null,
   syncError: null,
   statsYear: "",    // "" = all seasons
+  statsDaysOpen: false, // the whole day list is collapsed by default - with many training days it would bury the holes
   statsHoleOpen: null, // hole expanded in the aggregate view
   statsEditGroup: null, // "sessionId|hole|ball|bands" being edited
   statsDayOpen: null, // session id expanded in the per-day breakdown
@@ -614,6 +615,35 @@ function renderStats() {
     return html;
   }
 
+  holes.forEach(h => {
+    const entries = Object.values(rows[h])
+      .map(v => ({ ...v, rate: v.total ? v.hits/v.total : 0 }))
+      .sort((a,b) => b.rate - a.rate || b.total - a.total);
+    const sum = entries.reduce((acc,e) => ({ hits: acc.hits+e.hits, total: acc.total+e.total }), {hits:0,total:0});
+    const holeOpen = state.statsHoleOpen === h;
+    html += `<div class="card">
+      <button data-stats-hole="${h}" style="display:flex; justify-content:space-between; align-items:baseline; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; gap:0.5rem;">
+        <h3 style="margin:0;">Bahn ${h}</h3>
+        <span class="muted" style="font-weight:400; flex:1; text-align:right;">${sum.hits}/${sum.total} · ${Math.round(sum.hits/sum.total*100)}%</span>
+        <span style="color:#a8a29e; font-size:0.85rem;">${holeOpen ? '▾' : '▸'}</span>
+      </button>`;
+    if (!holeOpen) { html += `</div>`; return; }
+    html += `<div style="margin-top:0.5rem;">`;
+    entries.forEach((e, i) => {
+      const b = ballById(e.ballId);
+      const best = i === 0 && entries.length > 1 && e.total >= 3;
+      html += `<div class="row ${best ? 'best' : ''}">
+        <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}${e.bands ? ` · ${esc(e.bands)}` : ''}</div>
+          <div class="muted">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
+        </div>
+        <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
   // Single days, newest first - the aggregate above answers "which ball", this
   // answers "how did that day actually go", including the conditions.
   const days = state.sessions
@@ -623,8 +653,14 @@ function renderStats() {
     .sort((a,b) => (b.date||'').localeCompare(a.date||''));
 
   if (days.length) {
+    const daysOpen = state.statsDaysOpen;
     html += `<div class="card">
-      <h3>📅 Einzelne Tage (${days.length})</h3>`;
+      <button data-stats-days="1" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
+        <h3 style="margin:0;">📅 Einzelne Tage (${days.length})</h3>
+        <span style="color:#a8a29e; font-size:0.85rem;">${daysOpen ? '▾' : '▸'}</span>
+      </button>`;
+    if (!daysOpen) { html += `</div>`; return html; }
+    html += `<div style="margin-top:0.5rem;">`;
     days.forEach(sess => {
       const open = state.statsDayOpen === sess.id;
       const hits = sess.attempts.filter(a => a.holed).length;
@@ -682,37 +718,9 @@ function renderStats() {
       }
       html += `</div>`;
     });
-    html += `</div>`;
+    html += `</div></div>`;
   }
 
-  holes.forEach(h => {
-    const entries = Object.values(rows[h])
-      .map(v => ({ ...v, rate: v.total ? v.hits/v.total : 0 }))
-      .sort((a,b) => b.rate - a.rate || b.total - a.total);
-    const sum = entries.reduce((acc,e) => ({ hits: acc.hits+e.hits, total: acc.total+e.total }), {hits:0,total:0});
-    const holeOpen = state.statsHoleOpen === h;
-    html += `<div class="card">
-      <button data-stats-hole="${h}" style="display:flex; justify-content:space-between; align-items:baseline; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; gap:0.5rem;">
-        <h3 style="margin:0;">Bahn ${h}</h3>
-        <span class="muted" style="font-weight:400; flex:1; text-align:right;">${sum.hits}/${sum.total} · ${Math.round(sum.hits/sum.total*100)}%</span>
-        <span style="color:#a8a29e; font-size:0.85rem;">${holeOpen ? '▾' : '▸'}</span>
-      </button>`;
-    if (!holeOpen) { html += `</div>`; return; }
-    html += `<div style="margin-top:0.5rem;">`;
-    entries.forEach((e, i) => {
-      const b = ballById(e.ballId);
-      const best = i === 0 && entries.length > 1 && e.total >= 3;
-      html += `<div class="row ${best ? 'best' : ''}">
-        <div class="ballimg">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span>⚪</span>'}</div>
-        <div style="flex:1; min-width:0;">
-          <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}${e.bands ? ` · ${esc(e.bands)}` : ''}</div>
-          <div class="muted">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
-        </div>
-        <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  });
   return html;
 }
 
@@ -771,6 +779,8 @@ function wire() {
   if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
   const sy = document.getElementById('stats-year');
   if (sy) sy.addEventListener('change', () => { state.statsYear = sy.value; render(); });
+  const daysBtn = document.querySelector('[data-stats-days]');
+  if (daysBtn) daysBtn.addEventListener('click', () => { state.statsDaysOpen = !state.statsDaysOpen; render(); });
   document.querySelectorAll('[data-stats-hole]').forEach(el => {
     el.addEventListener('click', () => {
       const h = parseInt(el.dataset.statsHole, 10);
