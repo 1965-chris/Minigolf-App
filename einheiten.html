@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "7";
+const APP_VERSION = "8";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -118,6 +118,7 @@ let state = {
   cfg: null,
   syncError: null,
   statsYear: "",    // "" = all seasons
+  setupOpen: false, // the weather/hole/ball block is collapsed by default so the tally buttons sit right at the top
   statsDaysOpen: false, // the whole day list is collapsed by default - with many training days it would bury the holes
   statsHoleOpen: null, // hole expanded in the aggregate view
   statsEditGroup: null, // "sessionId|hole|ball|bands" being edited
@@ -453,8 +454,16 @@ function renderLog() {
   const holeTotal = tallyFor(state.hole, null);
   const pct = t.total ? Math.round(t.hits / t.total * 100) : 0;
 
+  const setupOpen = state.setupOpen;
+  const ballName = state.ballId ? ballLabel(state.ballId) : 'kein Ball';
+  const summary = `Bahn ${state.hole} · ${ballName}${state.bands ? ' · ' + state.bands : ''}`;
   let html = `<div class="card">
-    <h3>📋 Einheit</h3>
+    <button data-setup-toggle="1" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; gap:0.5rem;">
+      <h3 style="margin:0;">📋 Einheit &amp; Auswahl</h3>
+      <span class="muted" style="flex:1; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(summary)}</span>
+      <span style="color:#a8a29e; font-size:0.85rem;">${setupOpen ? '▾' : '▸'}</span>
+    </button>
+    ${setupOpen ? `<div style="margin-top:0.6rem;">
     <div style="display:flex; gap:0.4rem; margin-bottom:0.5rem;">
       <select class="sel" id="sel-player" style="flex:1;">
         ${PLAYERS.map(p => `<option value="${esc(p)}" ${state.player === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
@@ -470,10 +479,8 @@ function renderLog() {
       <input type="number" id="temp" placeholder="°C" value="${esc(state.temperature)}" style="width:4.5rem; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem;" />
     </div>
     ${state.weatherAuto ? `<div class="muted" style="margin-bottom:0.5rem;">${esc(state.weatherAuto)}</div>` : '<div style="margin-bottom:0.5rem;"></div>'}
-  </div>
-
-  <div class="card">
-    <h3>⛳ Bahn</h3>
+    <div style="border-top:1px solid #f5f5f4; margin-top:0.7rem; padding-top:0.6rem;"></div>
+    <span class="label">Bahn</span>
     <div class="hole-grid">
       ${Array.from({length:18}).map((_,i) => {
         const n = i+1;
@@ -482,10 +489,8 @@ function renderLog() {
       }).join('')}
     </div>
     ${holeTotal.total ? `<div class="muted">Bahn ${state.hole} heute: ${holeTotal.hits}/${holeTotal.total} eingelocht</div>` : ''}
-  </div>
-
-  <div class="card">
-    <h3>🎱 Ball</h3>
+    <div style="border-top:1px solid #f5f5f4; margin-top:0.7rem; padding-top:0.6rem;"></div>
+    <span class="label">Ball</span>
     ${usable.length === 0 ? `<div class="muted">Keine Bälle geladen.</div>` : `
     <select class="sel" id="sel-ball" style="margin-bottom:0.4rem;">
       <option value="">– Ball wählen –</option>
@@ -496,6 +501,7 @@ function renderLog() {
       ${BANDS_OPTS.map(x => `<option value="${esc(x)}" ${state.bands === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}
     </select>
     <input type="text" id="sel-note" placeholder="Art des Schlages (z. B. kurz angespielt)" value="${esc(state.note)}" style="width:100%; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem;" />`}
+    </div>` : ''}
   </div>
 
   <div class="card">
@@ -726,6 +732,8 @@ function renderStats() {
 
 // ── Wiring ───────────────────────────────────────────────────
 function wire() {
+  const setupBtn = document.querySelector('[data-setup-toggle]');
+  if (setupBtn) setupBtn.addEventListener('click', () => { state.setupOpen = !state.setupOpen; render(); });
   const p = document.getElementById('sel-player');
   if (p) p.addEventListener('change', () => { state.player = p.value; render(); });
   const d = document.getElementById('sel-date');
