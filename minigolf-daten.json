@@ -5,6 +5,59 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-09-02",
+          "year": "2026",
+          "groupId": "jjzja4fb",
+          "time": "14:21",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "o5qtkr7l",
+          "scores": [
+            2,
+            2,
+            3,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            5,
+            2,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "tourn_kghij870",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
+        {
           "date": "2026-09-01",
           "year": "2026",
           "groupId": "hl2eac0b",
@@ -74550,6 +74603,63 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-09-02",
+          "year": "2026",
+          "groupId": "jjzja4fb",
+          "time": "14:21",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "23",
+          "windSpeed": "11",
+          "precipProbability": "0",
+          "id": "wfg0h9b4",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          },
+          "ballsByHole": [
+            "tc7hza19",
+            "tc7hza19",
+            "tc7hza19",
+            "6jdq23bi",
+            "tc7hza19",
+            "vwtdywti",
+            "tourn_j6wb1ykk",
+            "vwtdywti",
+            "tc7hza19",
+            "vwtdywti",
+            "vwtdywti",
+            "tc7hza19",
+            "f5j2vrqx",
+            "tourn_kghij870",
+            "f5j2vrqx",
+            "j0it62hd",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
         {
           "date": "2026-08-30",
           "year": "2026",
