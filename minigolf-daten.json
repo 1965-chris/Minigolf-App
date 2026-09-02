@@ -96611,13 +96611,6 @@
       "year": "2026",
       "name": "Getränke",
       "amount": 4
-    },
-    {
-      "id": "99fd1739",
-      "date": "2026-04-02",
-      "year": "2026",
-      "name": "Getränke + Eis",
-      "amount": 4.5
     }
   ],
   "tournamentPlacements": {
@@ -97431,6 +97424,8 @@
     ],
     "players": [],
     "accessories": [],
-    "gastro": []
+    "gastro": [
+      "99fd1739"
+    ]
   }
 }
