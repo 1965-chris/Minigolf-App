@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "9";
+const APP_VERSION = "10";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -119,10 +119,8 @@ let state = {
   syncError: null,
   statsYear: "",    // "" = all seasons
   setupOpen: false, // the weather/hole/ball block is collapsed by default so the tally buttons sit right at the top
-  statsDaysOpen: false, // the whole day list is collapsed by default - with many training days it would bury the holes
   statsHoleOpen: null, // hole expanded in the aggregate view
   statsEditGroup: null, // "sessionId|hole|ball|bands" being edited
-  statsDayOpen: null, // session id expanded in the per-day breakdown
   weatherAuto: null, // short summary of the last automatic fetch
 };
 
@@ -627,6 +625,22 @@ function renderStats() {
     return html;
   }
 
+  // Overall summary, so the top of the page answers "how is it going" before
+  // going hole by hole.
+  const relevant = state.sessions
+    .filter(s2 => s2.player === state.player)
+    .filter(s2 => !state.statsYear || (s2.date||'').slice(0,4) === state.statsYear)
+    .filter(s2 => (s2.attempts || []).length > 0);
+  const allAttempts = relevant.flatMap(s2 => s2.attempts);
+  const allHits = allAttempts.filter(a => a.holed).length;
+  html += `<div class="card">
+    <div style="display:flex; align-items:baseline; gap:0.6rem; flex-wrap:wrap;">
+      <span class="big">${allHits}/${allAttempts.length}</span>
+      <span class="muted">${allAttempts.length ? Math.round(allHits/allAttempts.length*100) + '% eingelocht' : ''}</span>
+    </div>
+    <div class="muted" style="margin-top:0.2rem;">${relevant.length} Trainingstag${relevant.length === 1 ? '' : 'e'} · ${holes.length} Bahn${holes.length === 1 ? '' : 'en'}</div>
+  </div>`;
+
   holes.forEach(h => {
     const entries = Object.values(rows[h])
       .map(v => ({ ...v, rate: v.total ? v.hits/v.total : 0 }))
@@ -653,85 +667,25 @@ function renderStats() {
         <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
       </div>`;
     });
+
+    // Which days this hole was practised on - with the day's own figures, so
+    // the separate day list further down isn't needed to find them.
+    const dmap = daysPerHole[h] || {};
+    const dlist = Object.entries(dmap).sort((a,b) => b[0].localeCompare(a[0]));
+    if (dlist.length) {
+      html += `<div style="margin-top:0.6rem; padding-top:0.5rem; border-top:1px solid #e7e5e4;">
+        <div class="muted" style="margin-bottom:0.3rem;">Trainiert an ${dlist.length} Tag${dlist.length === 1 ? '' : 'en'}</div>`;
+      dlist.forEach(([d, v]) => {
+        const wx = (v.weatherKeys || []).map(k => (WEATHER_OPTS.find(w => w.key === k) || {}).icon || '').join(' ');
+        html += `<div style="display:flex; justify-content:space-between; gap:0.5rem; font-size:0.78rem; color:#57534e; padding:0.2rem 0;">
+          <span>${esc(fmtDate(d))} ${wx}${v.temperature ? ` · ${esc(v.temperature)} °C` : ''}</span>
+          <span class="muted">${v.hits}/${v.total} · ${Math.round(v.hits/v.total*100)}%</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
     html += `</div></div>`;
   });
-
-  // Single days, newest first - the aggregate above answers "which ball", this
-  // answers "how did that day actually go", including the conditions.
-  const days = state.sessions
-    .filter(s2 => s2.player === state.player)
-    .filter(s2 => !state.statsYear || (s2.date||'').slice(0,4) === state.statsYear)
-    .filter(s2 => (s2.attempts || []).length > 0)
-    .sort((a,b) => (b.date||'').localeCompare(a.date||''));
-
-  if (days.length) {
-    const daysOpen = state.statsDaysOpen;
-    html += `<div class="card">
-      <button data-stats-days="1" style="display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
-        <h3 style="margin:0;">📅 Einzelne Tage (${days.length})</h3>
-        <span style="color:#a8a29e; font-size:0.85rem;">${daysOpen ? '▾' : '▸'}</span>
-      </button>`;
-    if (!daysOpen) { html += `</div>`; return html; }
-    html += `<div style="margin-top:0.5rem;">`;
-    days.forEach(sess => {
-      const open = state.statsDayOpen === sess.id;
-      const hits = sess.attempts.filter(a => a.holed).length;
-      const total = sess.attempts.length;
-      const wx = (sess.weatherKeys || []).map(k => (WEATHER_OPTS.find(w => w.key === k) || {}).icon || '').join(' ');
-      const temp = sess.temperature ? `${esc(sess.temperature)} °C` : '';
-      html += `<div style="border:1px solid #e7e5e4; border-radius:0.5rem; margin-bottom:0.3rem; background:white;">
-        <button data-day="${esc(sess.id)}" style="display:flex; align-items:center; gap:0.5rem; width:100%; text-align:left; background:none; border:none; padding:0.5rem 0.6rem; cursor:pointer; font-family:inherit;">
-          <div style="flex:1; min-width:0;">
-            <div style="font-size:0.85rem; font-weight:600;">${esc(fmtDate(sess.date))} ${wx}</div>
-            <div class="muted">${hits}/${total} eingelocht${total ? ` · ${Math.round(hits/total*100)}%` : ''}${temp ? ' · ' + temp : ''}</div>
-          </div>
-          <span style="color:#a8a29e; font-size:0.85rem;">${open ? '▾' : '▸'}</span>
-        </button>`;
-      if (open) {
-        // Break the day down by hole and ball.
-        const per = {};
-        sess.attempts.forEach(a => {
-          const k = a.hole + '|' + a.ballId + '|' + (a.bands || '');
-          if (!per[k]) per[k] = { hole: a.hole, ballId: a.ballId, bands: a.bands || '', note: a.note || '', hits: 0, total: 0 };
-          per[k].total++;
-          if (a.holed) per[k].hits++;
-          if (a.note && !per[k].note) per[k].note = a.note;
-        });
-        const list = Object.values(per).sort((a,b) => a.hole - b.hole);
-        html += `<div style="padding:0 0.6rem 0.5rem;">`;
-        list.forEach(e2 => {
-          const b = ballById(e2.ballId);
-          const gk = `${sess.id}|${e2.hole}|${e2.ballId}|${e2.bands || ''}`;
-          const editing = state.statsEditGroup === gk;
-          html += `<div style="padding:0.35rem 0; border-top:1px solid #f5f5f4;">
-            <div style="display:flex; align-items:center; gap:0.5rem;">
-              <div class="ballimg" style="width:1.6rem; height:1.6rem;">${b && b.photo ? `<img src="${b.photo}" alt="" />` : '<span style="font-size:0.7rem;">⚪</span>'}</div>
-              <div style="flex:1; min-width:0;">
-                <div style="font-size:0.78rem;">Bahn ${e2.hole} · ${esc(ballLabel(e2.ballId))}${e2.bands ? ` · ${esc(e2.bands)}` : ''}</div>
-                ${e2.note ? `<div class="muted" style="font-style:italic;">${esc(e2.note)}</div>` : ''}
-              </div>
-              <div class="muted" style="flex-shrink:0;">${e2.hits}/${e2.total}</div>
-              <button data-edit-group="${esc(gk)}" style="background:none; border:none; font-size:0.9rem; cursor:pointer; padding:0.15rem;">✏️</button>
-            </div>
-            ${editing ? `<div style="display:flex; gap:0.35rem; margin-top:0.35rem;">
-              <select class="sel" id="eg-bands" style="flex:1; font-size:0.8rem;">
-                <option value="">Banden…</option>
-                ${BANDS_OPTS.map(x => `<option value="${esc(x)}" ${e2.bands === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}
-              </select>
-            </div>
-            <input type="text" id="eg-note" placeholder="Art des Schlages" value="${esc(e2.note || '')}" style="width:100%; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-top:0.35rem;" />
-            <div class="btn-row" style="margin-top:0.35rem;">
-              <button class="btn btn-primary" style="flex:1; padding:0.4rem; font-size:0.8rem;" data-save-group="${esc(gk)}">Speichern</button>
-              <button class="btn btn-secondary" style="padding:0.4rem 0.6rem; font-size:0.8rem;" data-cancel-group="1">Abbrechen</button>
-            </div>` : ''}
-          </div>`;
-        });
-        html += `</div>`;
-      }
-      html += `</div>`;
-    });
-    html += `</div></div>`;
-  }
 
   return html;
 }
@@ -793,8 +747,6 @@ function wire() {
   if (sp) sp.addEventListener('change', () => { state.player = sp.value; render(); });
   const sy = document.getElementById('stats-year');
   if (sy) sy.addEventListener('change', () => { state.statsYear = sy.value; render(); });
-  const daysBtn = document.querySelector('[data-stats-days]');
-  if (daysBtn) daysBtn.addEventListener('click', () => { state.statsDaysOpen = !state.statsDaysOpen; render(); });
   document.querySelectorAll('[data-stats-hole]').forEach(el => {
     el.addEventListener('click', () => {
       const h = parseInt(el.dataset.statsHole, 10);
@@ -829,13 +781,6 @@ function wire() {
       });
       if (n) { saveLocal(); schedulePush(); toast(`${n} Versuch(e) aktualisiert ✓`); }
       state.statsEditGroup = null;
-      render();
-    });
-  });
-  document.querySelectorAll('[data-day]').forEach(el => {
-    el.addEventListener('click', () => {
-      const id = el.dataset.day;
-      state.statsDayOpen = state.statsDayOpen === id ? null : id;
       render();
     });
   });
