@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "10";
+const APP_VERSION = "11";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -120,6 +120,7 @@ let state = {
   statsYear: "",    // "" = all seasons
   setupOpen: false, // the weather/hole/ball block is collapsed by default so the tally buttons sit right at the top
   statsHoleOpen: null, // hole expanded in the aggregate view
+  statsDayHoleOpen: null, // "hole|date" expanded under a hole
   statsEditGroup: null, // "sessionId|hole|ball|bands" being edited
   weatherAuto: null, // short summary of the last automatic fetch
 };
@@ -596,9 +597,15 @@ function renderStats() {
     (s.attempts || []).forEach(a => {
       const dk = s.date || '';
       if (!daysPerHole[a.hole]) daysPerHole[a.hole] = {};
-      if (!daysPerHole[a.hole][dk]) daysPerHole[a.hole][dk] = { hits: 0, total: 0, weatherKeys: s.weatherKeys || [], temperature: s.temperature || '' };
-      daysPerHole[a.hole][dk].total++;
-      if (a.holed) daysPerHole[a.hole][dk].hits++;
+      if (!daysPerHole[a.hole][dk]) daysPerHole[a.hole][dk] = { hits: 0, total: 0, weatherKeys: s.weatherKeys || [], temperature: s.temperature || '', sessionId: s.id, variants: {} };
+      const dd = daysPerHole[a.hole][dk];
+      dd.total++;
+      if (a.holed) dd.hits++;
+      const vk = a.ballId + '|' + (a.bands || '');
+      if (!dd.variants[vk]) dd.variants[vk] = { ballId: a.ballId, bands: a.bands || '', note: a.note || '', hits: 0, total: 0 };
+      dd.variants[vk].total++;
+      if (a.holed) dd.variants[vk].hits++;
+      if (a.note && !dd.variants[vk].note) dd.variants[vk].note = a.note;
       const key = a.ballId + '|' + (a.bands || '');
       if (!rows[a.hole]) rows[a.hole] = {};
       if (!rows[a.hole][key]) rows[a.hole][key] = { ballId: a.ballId, bands: a.bands || '', hits:0, total:0 };
@@ -677,10 +684,35 @@ function renderStats() {
         <div class="muted" style="margin-bottom:0.3rem;">Trainiert an ${dlist.length} Tag${dlist.length === 1 ? '' : 'en'}</div>`;
       dlist.forEach(([d, v]) => {
         const wx = (v.weatherKeys || []).map(k => (WEATHER_OPTS.find(w => w.key === k) || {}).icon || '').join(' ');
-        html += `<div style="display:flex; justify-content:space-between; gap:0.5rem; font-size:0.78rem; color:#57534e; padding:0.2rem 0;">
+        const dayKey = h + '|' + d;
+        const dayOpen = state.statsDayHoleOpen === dayKey;
+        html += `<button data-day-hole="${esc(dayKey)}" style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; width:100%; text-align:left; background:none; border:none; font-size:0.78rem; color:#57534e; padding:0.25rem 0; cursor:pointer; font-family:inherit;">
           <span>${esc(fmtDate(d))} ${wx}${v.temperature ? ` · ${esc(v.temperature)} °C` : ''}</span>
-          <span class="muted">${v.hits}/${v.total} · ${Math.round(v.hits/v.total*100)}%</span>
-        </div>`;
+          <span class="muted">${v.hits}/${v.total} · ${Math.round(v.hits/v.total*100)}% ${dayOpen ? '▾' : '▸'}</span>
+        </button>`;
+        if (dayOpen) {
+          Object.values(v.variants).forEach(vr => {
+            const gk = `${v.sessionId}|${h}|${vr.ballId}|${vr.bands || ''}`;
+            const editing = state.statsEditGroup === gk;
+            html += `<div style="padding:0.25rem 0 0.25rem 0.6rem; border-left:2px solid #e7e5e4; margin-left:0.2rem;">
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <div style="flex:1; min-width:0; font-size:0.75rem;">${esc(ballLabel(vr.ballId))}${vr.bands ? ' · ' + esc(vr.bands) : ' · keine Banden-Angabe'}${vr.note ? ` · ${esc(vr.note)}` : ''}</div>
+                <span class="muted">${vr.hits}/${vr.total}</span>
+                <button data-edit-group="${esc(gk)}" style="background:none; border:none; font-size:0.85rem; cursor:pointer; padding:0.1rem;">✏️</button>
+              </div>
+              ${editing ? `
+                <select class="sel" id="eg-bands" style="width:100%; font-size:0.8rem; margin-top:0.3rem;">
+                  <option value="">Banden…</option>
+                  ${BANDS_OPTS.map(x => `<option value="${esc(x)}" ${vr.bands === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}
+                </select>
+                <input type="text" id="eg-note" placeholder="Art des Schlages" value="${esc(vr.note || '')}" style="width:100%; padding:0.4rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.8rem; margin-top:0.3rem;" />
+                <div class="btn-row" style="margin-top:0.3rem;">
+                  <button class="btn btn-primary" style="flex:1; padding:0.35rem; font-size:0.78rem;" data-save-group="${esc(gk)}">Speichern</button>
+                  <button class="btn btn-secondary" style="padding:0.35rem 0.6rem; font-size:0.78rem;" data-cancel-group="1">Abbrechen</button>
+                </div>` : ''}
+            </div>`;
+          });
+        }
       });
       html += `</div>`;
     }
@@ -751,6 +783,14 @@ function wire() {
     el.addEventListener('click', () => {
       const h = parseInt(el.dataset.statsHole, 10);
       state.statsHoleOpen = state.statsHoleOpen === h ? null : h;
+      render();
+    });
+  });
+  document.querySelectorAll('[data-day-hole]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.dayHole;
+      state.statsDayHoleOpen = state.statsDayHoleOpen === k ? null : k;
+      state.statsEditGroup = null;
       render();
     });
   });
