@@ -90,7 +90,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "8";
+const APP_VERSION = "9";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -590,11 +590,17 @@ function deleteGroup(hole, ballId, bands) {
 function renderStats() {
   // Aggregate every logged attempt by hole and ball.
   const years = Array.from(new Set(state.sessions.map(s => (s.date||'').slice(0,4)).filter(Boolean))).sort().reverse();
-  const rows = {}; // hole -> ballId -> {hits,total}
+  const rows = {}; // hole -> variant -> {hits,total}
+  const daysPerHole = {}; // hole -> date -> {hits,total}
   state.sessions.forEach(s => {
     if (s.player !== state.player) return;
     if (state.statsYear && (s.date||'').slice(0,4) !== state.statsYear) return;
     (s.attempts || []).forEach(a => {
+      const dk = s.date || '';
+      if (!daysPerHole[a.hole]) daysPerHole[a.hole] = {};
+      if (!daysPerHole[a.hole][dk]) daysPerHole[a.hole][dk] = { hits: 0, total: 0, weatherKeys: s.weatherKeys || [], temperature: s.temperature || '' };
+      daysPerHole[a.hole][dk].total++;
+      if (a.holed) daysPerHole[a.hole][dk].hits++;
       const key = a.ballId + '|' + (a.bands || '');
       if (!rows[a.hole]) rows[a.hole] = {};
       if (!rows[a.hole][key]) rows[a.hole][key] = { ballId: a.ballId, bands: a.bands || '', hits:0, total:0 };
