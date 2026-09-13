@@ -102639,7 +102639,7 @@
     }
   ],
   "aceStreakSettings": {
-    "speechEnabled": true,
+    "speechEnabled": false,
     "whatsappNumber": "",
     "googleVoiceName": "de-DE-Neural2-C",
     "messageTemplate": "4 Asse in Folge! {name} gibt eine Runde aus!",
