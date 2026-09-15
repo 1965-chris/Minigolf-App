@@ -102548,11 +102548,6 @@
           "roundNumber": 1
         }
       ]
-    },
-    {
-      "id": "bf39yvo6",
-      "name": "Einballturnier Birgt",
-      "rounds": []
     }
   ],
   "pricing": {
@@ -103688,7 +103683,9 @@
       "4n6d00b9",
       "ux8ehh3o"
     ],
-    "players": [],
+    "players": [
+      "bf39yvo6"
+    ],
     "accessories": [],
     "gastro": [
       "99fd1739"
