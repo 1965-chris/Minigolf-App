@@ -97139,7 +97139,12 @@
             2,
             1
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            "tourn_kghij870",
+            "tourn_kghij870"
+          ],
+          "ballsUpdatedAt": 1789497147131
         },
         {
           "date": "2025-05-24",
