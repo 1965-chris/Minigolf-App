@@ -97630,6 +97630,40 @@
           "roundNumber": 1
         }
       ]
+    },
+    {
+      "id": "bf39yvo6",
+      "name": "Einballturnier Birgt",
+      "rounds": [
+        {
+          "date": "2026-09-15",
+          "year": "2026",
+          "groupId": "etz0lilv",
+          "time": "20:26",
+          "id": "ux8ehh3o",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "roundNumber": 1
+        }
+      ]
     }
   ],
   "pricing": {
