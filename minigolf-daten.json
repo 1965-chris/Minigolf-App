@@ -97029,7 +97029,28 @@
             2,
             3
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "tourn_7yjndnum"
+          ],
+          "ballsUpdatedAt": 1789496866554
         },
         {
           "date": "2026-06-21",
@@ -97063,7 +97084,28 @@
             2,
             1
           ],
-          "roundNumber": 1
+          "roundNumber": 1,
+          "ballsByHole": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "tourn_7yjndnum"
+          ],
+          "ballsUpdatedAt": 1789496862539
         },
         {
           "date": "2025-05-24",
