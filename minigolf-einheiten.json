@@ -72,6 +72,14 @@
           "bands": "1 Bande",
           "note": "",
           "ts": 1789467827128
+        },
+        {
+          "hole": 9,
+          "ballId": "rgd0ywr3",
+          "holed": false,
+          "bands": "1 Bande",
+          "note": "",
+          "ts": 1789467860652
         }
       ]
     },
