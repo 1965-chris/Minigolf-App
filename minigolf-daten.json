@@ -102171,7 +102171,28 @@
             2,
             1
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v"
+          ],
+          "ballsUpdatedAt": 1789564976635
         },
         {
           "date": "2024-09-29",
@@ -102205,7 +102226,28 @@
             3,
             2
           ],
-          "roundNumber": 1
+          "roundNumber": 1,
+          "ballsByHole": [
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v",
+            "tourn_8wvlxx9v"
+          ],
+          "ballsUpdatedAt": 1789564976635
         },
         {
           "date": "2023-08-13",
