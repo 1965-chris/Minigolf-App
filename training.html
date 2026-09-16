@@ -90,7 +90,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "17";
+const APP_VERSION    = "18";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -225,6 +225,66 @@ function utf8ToBase64(str) {
 
 // Downscale + re-compress a photo before storing it, so a raw iPhone photo
 // (often 3-6 MB) becomes a small JPEG (~100-150 KB). Keeps EXIF orientation.
+
+// Photos saved before compression existed are still full-size. Shrinking them
+// once brings the training file back in line with the ball photos and keeps
+// the sync payload small. Runs at most once per device; failures are ignored
+// so a stubborn image can never block startup.
+const PHOTO_MIGRATION_KEY = "minigolf-photos-compressed";
+const LARGE_PHOTO_BYTES = 200 * 1024; // roughly: anything clearly un-compressed
+
+function compressDataUrl(dataUrl, maxDim = 1000, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const scale = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      try { resolve(canvas.toDataURL("image/jpeg", quality)); }
+      catch (e) { reject(e); }
+    };
+    img.onerror = reject;
+    img.src = dataUrl;
+  });
+}
+
+async function compressLegacyPhotos() {
+  try { if (localStorage.getItem(PHOTO_MIGRATION_KEY)) return; } catch(e) { return; }
+  let changed = 0;
+  const shrink = async (obj, key) => {
+    const v = obj[key];
+    if (typeof v !== "string" || !v.startsWith("data:image")) return;
+    if (v.length < LARGE_PHOTO_BYTES) return; // already small enough
+    try {
+      const out = await compressDataUrl(v);
+      if (out && out.length < v.length) { obj[key] = out; changed++; }
+    } catch(e) { /* leave this one as it is */ }
+  };
+
+  for (const setup of Object.values(state.setups || {})) {
+    if (!setup || typeof setup !== "object") continue;
+    if (Array.isArray(setup)) continue; // video lists live here too
+    await shrink(setup, "photo");
+    for (const alt of (setup.altPhotos || [])) await shrink(alt, "photo");
+  }
+
+  try { localStorage.setItem(PHOTO_MIGRATION_KEY, "1"); } catch(e) {}
+  if (changed > 0) {
+    saveLocalSetups();
+    toast(`${changed} Foto(s) verkleinert`);
+    syncToGitHub().then(r => {
+      if (r && !r.ok) { state.syncError = r.reason || "Nicht gespeichert"; renderSyncBanner(); }
+    });
+    renderMain();
+  }
+}
+
 function compressImage(file, maxDim = 1000, quality = 0.72) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
@@ -415,6 +475,8 @@ async function init() {
   renderStatsFilterBar();
   renderHoleGrid();
   renderMain();
+
+  compressLegacyPhotos(); // one-time shrink of pre-compression photos
 }
 
 // ── Render ────────────────────────────────────────────────────
