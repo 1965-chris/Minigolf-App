@@ -102556,64 +102556,7 @@
     {
       "id": "n0hk5t17",
       "name": "Einballturnier Birgt",
-      "rounds": [
-        {
-          "date": "2026-09-16",
-          "year": "2026",
-          "groupId": "gkh8nvam",
-          "time": "08:06",
-          "id": "gk0levu2",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
-          ],
-          "roundNumber": 2
-        },
-        {
-          "date": "2026-09-16",
-          "year": "2026",
-          "groupId": "gkh8nvam",
-          "time": "08:06",
-          "id": "3clxpzih",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
-          ],
-          "roundNumber": 1
-        }
-      ]
+      "rounds": []
     }
   ],
   "pricing": {
@@ -103747,7 +103690,9 @@
       "0uwf95lh",
       "f5mmu6lu",
       "4n6d00b9",
-      "ux8ehh3o"
+      "ux8ehh3o",
+      "gk0levu2",
+      "3clxpzih"
     ],
     "players": [
       "bf39yvo6"
