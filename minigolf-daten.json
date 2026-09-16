@@ -102615,7 +102615,28 @@
             1,
             1
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u"
+          ],
+          "ballsUpdatedAt": 1789565090239
         },
         {
           "date": "2018-05-06",
@@ -102649,7 +102670,28 @@
             2,
             1
           ],
-          "roundNumber": 1
+          "roundNumber": 1,
+          "ballsByHole": [
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u",
+            "tourn_esr7rs3u"
+          ],
+          "ballsUpdatedAt": 1789565090239
         },
         {
           "date": "2017-05-21",
