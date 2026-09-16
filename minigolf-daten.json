@@ -102725,7 +102725,28 @@
             6,
             2
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk"
+          ],
+          "ballsUpdatedAt": 1789565146727
         },
         {
           "date": "2017-05-21",
@@ -102759,7 +102780,28 @@
             2,
             1
           ],
-          "roundNumber": 1
+          "roundNumber": 1,
+          "ballsByHole": [
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk",
+            "tourn_j6wb1ykk"
+          ],
+          "ballsUpdatedAt": 1789565146727
         }
       ]
     }
