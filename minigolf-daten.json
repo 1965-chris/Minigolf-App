@@ -102282,7 +102282,28 @@
             2,
             1
           ],
-          "roundNumber": 2
+          "roundNumber": 2,
+          "ballsByHole": [
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl"
+          ],
+          "ballsUpdatedAt": 1789565007516
         },
         {
           "date": "2023-08-13",
@@ -102317,7 +102338,28 @@
             1,
             2
           ],
-          "roundNumber": 1
+          "roundNumber": 1,
+          "ballsByHole": [
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl",
+            "tourn_ukku6ktl"
+          ],
+          "ballsUpdatedAt": 1789565007516
         },
         {
           "date": "2022-09-25",
