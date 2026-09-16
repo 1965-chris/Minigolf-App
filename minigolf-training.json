@@ -110,7 +110,7 @@
       "ballId": "hjsp1un4",
       "ballX": 23,
       "ballY": 46,
-      "ballLocked": false,
+      "ballLocked": true,
       "clubAngle": -78,
       "clubSide": 16,
       "clubFwd": -26,
