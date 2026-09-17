@@ -103200,6 +103200,13 @@
       "year": "2026",
       "name": "Getränke + Eis",
       "amount": 6.5
+    },
+    {
+      "id": "gpy3gy9c",
+      "date": "2026-09-17",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 7
     }
   ],
   "tournamentPlacements": {
