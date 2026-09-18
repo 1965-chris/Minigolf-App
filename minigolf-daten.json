@@ -5,6 +5,116 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-09-18",
+          "year": "2026",
+          "groupId": "xeydvfkz",
+          "time": "13:13",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "18",
+          "windSpeed": "13",
+          "precipProbability": "24",
+          "id": "q4tfuhhz",
+          "scores": [
+            1,
+            2,
+            1,
+            7,
+            1,
+            1,
+            1,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
+        {
+          "date": "2026-09-17",
+          "year": "2026",
+          "groupId": "hnwo50eq",
+          "time": "18:16",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "19",
+          "windSpeed": "13",
+          "precipProbability": "2",
+          "id": "jveue15f",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "8": true,
+            "15": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
+        {
           "date": "2026-09-17",
           "year": "2026",
           "groupId": "ukkkjswp",
@@ -98834,6 +98944,39 @@
       "name": "Matthias",
       "rounds": [
         {
+          "date": "2026-09-17",
+          "year": "2026",
+          "groupId": "hnwo50eq",
+          "time": "18:16",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "19",
+          "windSpeed": "13",
+          "precipProbability": "2",
+          "id": "vfujk9ex",
+          "scores": [
+            1,
+            4,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
           "date": "2026-09-15",
           "year": "2026",
           "groupId": "v9n0j3f6",
@@ -102983,6 +103126,90 @@
             "tourn_j6wb1ykk"
           ],
           "ballsUpdatedAt": 1789565146727
+        }
+      ]
+    },
+    {
+      "id": "q68g7ezb",
+      "name": "Petra",
+      "rounds": [
+        {
+          "date": "2026-09-18",
+          "year": "2026",
+          "groupId": "xeydvfkz",
+          "time": "13:13",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "18",
+          "windSpeed": "13",
+          "precipProbability": "24",
+          "id": "0n7tfb2t",
+          "scores": [
+            1,
+            3,
+            1,
+            5,
+            2,
+            2,
+            2,
+            2,
+            6,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "qgklscaq",
+      "name": "Jens",
+      "rounds": [
+        {
+          "date": "2026-09-18",
+          "year": "2026",
+          "groupId": "xeydvfkz",
+          "time": "13:13",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "18",
+          "windSpeed": "13",
+          "precipProbability": "24",
+          "id": "9kyswa2r",
+          "scores": [
+            1,
+            2,
+            4,
+            3,
+            2,
+            3,
+            1,
+            2,
+            3,
+            3,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "2": true
+          }
         }
       ]
     }
