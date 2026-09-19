@@ -104631,7 +104631,81 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [],
+  "pausedRounds": [
+    {
+      "pauseId": "1i9zov84",
+      "pausedAt": "2026-09-19T15:47:23.448Z",
+      "phase": "play",
+      "selectedIds": [
+        "gccblctp",
+        "p2"
+      ],
+      "saveIds": [
+        "gccblctp",
+        "p2"
+      ],
+      "date": "2026-09-19",
+      "time": "17:45",
+      "currentHole": 6,
+      "tournamentRound": 1,
+      "weatherKeys": [
+        "cloud"
+      ],
+      "temperature": "23",
+      "windSpeed": "19",
+      "precipProbability": "0",
+      "scoresByPlayer": {
+        "gccblctp": [
+          "2",
+          "1",
+          "2",
+          "2",
+          "1",
+          "2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "p2": [
+          "1",
+          "1",
+          "1",
+          "2",
+          "1",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "notesByPlayer": {
+        "gccblctp": {},
+        "p2": {}
+      },
+      "starsByPlayer": {
+        "gccblctp": {},
+        "p2": {}
+      }
+    }
+  ],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
