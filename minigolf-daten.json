@@ -103837,6 +103837,13 @@
       "year": "2026",
       "name": "Getränke + Eis",
       "amount": 8.5
+    },
+    {
+      "id": "zludfi75",
+      "date": "2026-09-20",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 7
     }
   ],
   "tournamentPlacements": {
