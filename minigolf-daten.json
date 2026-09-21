@@ -7,6 +7,62 @@
         {
           "date": "2026-09-21",
           "year": "2026",
+          "groupId": "s6kgp33r",
+          "time": "15:53",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "21",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "0vctv9l4",
+          "scores": [
+            2,
+            3,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2
+          ],
+          "stars": {
+            "5": true
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ]
+        },
+        {
+          "date": "2026-09-21",
+          "year": "2026",
           "groupId": "lk5aju1s",
           "time": "14:59",
           "weather": [
@@ -73401,6 +73457,42 @@
         {
           "date": "2026-09-21",
           "year": "2026",
+          "groupId": "s6kgp33r",
+          "time": "15:53",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "21",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "mktkjw2f",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ],
+          "stars": {
+            "3": true
+          }
+        },
+        {
+          "date": "2026-09-21",
+          "year": "2026",
           "groupId": "lk5aju1s",
           "time": "14:59",
           "weather": [
@@ -98758,6 +98850,39 @@
       "id": "bkc9viw0",
       "name": "Sylvia",
       "rounds": [
+        {
+          "date": "2026-09-21",
+          "year": "2026",
+          "groupId": "s6kgp33r",
+          "time": "15:53",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "21",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "m5h649qz",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            1
+          ]
+        },
         {
           "date": "2026-09-21",
           "year": "2026",
