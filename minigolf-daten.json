@@ -5,74 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2026-09-22",
-          "year": "2026",
-          "groupId": "mj2d2qjx",
-          "time": "11:10",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "15",
-          "windSpeed": "1",
-          "precipProbability": "0",
-          "id": "ms5uyjfj",
-          "scores": [
-            2,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            1,
-            1,
-            1,
-            1,
-            2,
-            1,
-            1,
-            1
-          ],
-          "stars": {
-            "2": true
-          },
-          "runs": {
-            "2": "rueck",
-            "3": "vor",
-            "4": "rueck",
-            "5": "rueck",
-            "7": "vor",
-            "10": "vor",
-            "11": "vor",
-            "12": "rueck",
-            "13": "vor",
-            "16": "rueck"
-          },
-          "ballsByHole": [
-            "065e3gmu",
-            "ix4d3uey",
-            "tc7hza19",
-            "1gv8aex4",
-            "1vngy8w0",
-            "6uibvdb6",
-            "x32ummcu",
-            "xtikckii",
-            "hjsp1un4",
-            "fq6w76oa",
-            "vwtdywti",
-            "1vngy8w0",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "w63zosuf",
-            "f21n5mzh",
-            "kqri4khp",
-            "7ugiklv4"
-          ]
-        },
-        {
           "date": "2026-09-21",
           "year": "2026",
           "groupId": "s6kgp33r",
@@ -97384,39 +97316,6 @@
       "name": "Gerd",
       "rounds": [
         {
-          "date": "2026-09-22",
-          "year": "2026",
-          "groupId": "mj2d2qjx",
-          "time": "11:10",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "15",
-          "windSpeed": "1",
-          "precipProbability": "0",
-          "id": "uej0z0sd",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1
-          ]
-        },
-        {
           "date": "2026-09-21",
           "year": "2026",
           "groupId": "s6kgp33r",
@@ -104301,7 +104200,205 @@
       "amount": 26.9
     }
   ],
-  "gastro": [],
+  "gastro": [
+    {
+      "id": "bfziz29z",
+      "date": "2026-07-21",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 9
+    },
+    {
+      "id": "45wr3c05",
+      "date": "2026-07-16",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "aoqflfja",
+      "date": "2026-07-19",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    },
+    {
+      "id": "0r0dhwus",
+      "date": "2026-07-24",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 8
+    },
+    {
+      "id": "52a44ipz",
+      "date": "2026-07-26",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "65iwxb31",
+      "date": "2026-07-27",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 15.8
+    },
+    {
+      "id": "37x532md",
+      "date": "2026-08-02",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "i7jidyo1",
+      "date": "2026-08-03",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 5.8
+    },
+    {
+      "id": "gynyhrp2",
+      "date": "2026-08-04",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 3.8
+    },
+    {
+      "id": "3snnfh8z",
+      "date": "2026-08-05",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 15
+    },
+    {
+      "id": "cwl1ew2b",
+      "date": "2026-08-06",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 5.8
+    },
+    {
+      "id": "y43rh6zz",
+      "date": "2026-08-08",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    },
+    {
+      "id": "mtx65cff",
+      "date": "2026-08-24",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 7.6
+    },
+    {
+      "id": "qo3g47ff",
+      "date": "2026-08-25",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 10.8
+    },
+    {
+      "id": "til60elm",
+      "date": "2026-08-26",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 3.8
+    },
+    {
+      "id": "abub2v1k",
+      "date": "2026-08-27",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 3.8
+    },
+    {
+      "id": "1ds0k2nl",
+      "date": "2026-09-02",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    },
+    {
+      "id": "lm4hnj71",
+      "date": "2026-09-01",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4
+    },
+    {
+      "id": "s9paqkbi",
+      "date": "2026-09-03",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 7
+    },
+    {
+      "id": "svxg34wv",
+      "date": "2026-09-09",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 4.5
+    },
+    {
+      "id": "i0cti2xb",
+      "date": "2026-09-14",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2
+    },
+    {
+      "id": "yjcmweqw",
+      "date": "2026-09-15",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 6.5
+    },
+    {
+      "id": "gpy3gy9c",
+      "date": "2026-09-17",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 9
+    },
+    {
+      "id": "qvcfguu5",
+      "date": "2026-09-18",
+      "year": "2026",
+      "name": "Getränke + Eis",
+      "amount": 8.5
+    },
+    {
+      "id": "zludfi75",
+      "date": "2026-09-20",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 7
+    },
+    {
+      "id": "i0lec2ac",
+      "date": "2026-09-21",
+      "year": "2026",
+      "name": "Getränke + Eis + Snacks",
+      "amount": 11.5
+    },
+    {
+      "id": "0ja7q11o",
+      "date": "2026-09-22",
+      "year": "2026",
+      "name": "Eis",
+      "amount": 2.5,
+      "items": [
+        {
+          "cat": "Eis",
+          "amount": 2.5,
+          "time": "12:29"
+        }
+      ],
+      "updatedAt": 1790073359593
+    }
+  ],
   "tournamentPlacements": {
     "7yjndnum": {
       "place": "2",
@@ -105239,7 +105336,9 @@
       "gk0levu2",
       "3clxpzih",
       "njulh4sh",
-      "e2qgt3g5"
+      "e2qgt3g5",
+      "ms5uyjfj",
+      "uej0z0sd"
     ],
     "players": [
       "bf39yvo6",
