@@ -104393,26 +104393,6 @@
       "year": "2026",
       "name": "Getränke + Eis + Snacks",
       "amount": 11.5
-    },
-    {
-      "id": "0ja7q11o",
-      "date": "2026-09-22",
-      "year": "2026",
-      "name": "Getränke + Eis",
-      "amount": 4.5,
-      "items": [
-        {
-          "cat": "Getränke",
-          "amount": 2,
-          "time": "12:28"
-        },
-        {
-          "cat": "Eis",
-          "amount": 2.5,
-          "time": "12:29"
-        }
-      ],
-      "updatedAt": 1790072944488
     }
   ],
   "tournamentPlacements": {
@@ -105363,7 +105343,8 @@
     "accessories": [],
     "gastro": [
       "99fd1739",
-      "mpdz4dsy"
+      "mpdz4dsy",
+      "0ja7q11o"
     ]
   }
 }
