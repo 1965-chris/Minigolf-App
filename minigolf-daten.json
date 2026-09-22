@@ -104494,6 +104494,20 @@
       "year": "2026",
       "name": "Getränke + Eis + Snacks",
       "amount": 11.5
+    },
+    {
+      "id": "mpdz4dsy",
+      "date": "2026-09-22",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "12:08"
+        }
+      ]
     }
   ],
   "tournamentPlacements": {
@@ -105411,7 +105425,8 @@
     "1i9zov84",
     "2qjuuvxx",
     "ixnnfrhm",
-    "r0vnmagg"
+    "r0vnmagg",
+    "oxzzjeb0"
   ],
   "deletedIds": {
     "rounds": [
