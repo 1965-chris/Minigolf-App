@@ -104500,7 +104500,7 @@
       "date": "2026-09-22",
       "year": "2026",
       "name": "Getränke + Eis",
-      "amount": 4.5,
+      "amount": 6.5,
       "items": [
         {
           "cat": "Getränke",
@@ -104510,6 +104510,11 @@
         {
           "cat": "Eis",
           "amount": 2.5,
+          "time": "12:08"
+        },
+        {
+          "cat": "Getränke",
+          "amount": 2,
           "time": "12:08"
         }
       ]
