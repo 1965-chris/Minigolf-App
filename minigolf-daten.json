@@ -5,74 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2026-09-22",
-          "year": "2026",
-          "groupId": "mj2d2qjx",
-          "time": "11:10",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "15",
-          "windSpeed": "1",
-          "precipProbability": "0",
-          "id": "ms5uyjfj",
-          "scores": [
-            2,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            1,
-            1,
-            1,
-            1,
-            2,
-            1,
-            1,
-            1
-          ],
-          "stars": {
-            "2": true
-          },
-          "runs": {
-            "2": "rueck",
-            "3": "vor",
-            "4": "rueck",
-            "5": "rueck",
-            "7": "vor",
-            "10": "vor",
-            "11": "vor",
-            "12": "rueck",
-            "13": "vor",
-            "16": "rueck"
-          },
-          "ballsByHole": [
-            "065e3gmu",
-            "ix4d3uey",
-            "tc7hza19",
-            "1gv8aex4",
-            "1vngy8w0",
-            "6uibvdb6",
-            "x32ummcu",
-            "xtikckii",
-            "hjsp1un4",
-            "fq6w76oa",
-            "vwtdywti",
-            "1vngy8w0",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "w63zosuf",
-            "f21n5mzh",
-            "kqri4khp",
-            "7ugiklv4"
-          ]
-        },
-        {
           "date": "2026-09-21",
           "year": "2026",
           "groupId": "s6kgp33r",
@@ -73523,39 +73455,6 @@
       "name": "Gerd",
       "rounds": [
         {
-          "date": "2026-09-22",
-          "year": "2026",
-          "groupId": "mj2d2qjx",
-          "time": "11:10",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "15",
-          "windSpeed": "1",
-          "precipProbability": "0",
-          "id": "uej0z0sd",
-          "scores": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1
-          ]
-        },
-        {
           "date": "2026-09-21",
           "year": "2026",
           "groupId": "s6kgp33r",
@@ -105453,7 +105352,9 @@
       "gk0levu2",
       "3clxpzih",
       "njulh4sh",
-      "e2qgt3g5"
+      "e2qgt3g5",
+      "ms5uyjfj",
+      "uej0z0sd"
     ],
     "players": [
       "bf39yvo6",
