@@ -48,13 +48,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif
 .tabs { display: flex; gap: 0.35rem; margin-bottom: 0.75rem; }
 .tabs button { flex: 1; padding: 0.5rem; border-radius: 0.6rem; border: 1px solid #d6d3d1; background: white; font-size: 0.85rem; cursor: pointer; font-family: inherit; }
 .tabs button.on { background: #2D6A4F; color: white; border-color: #2D6A4F; font-weight: 700; }
+
+#info-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 400; }
+#info-box { background: #F7F4ED; border-radius: 0.9rem; padding: 1rem; max-width: 26rem; width: 100%; max-height: 80vh; overflow-y: auto; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;">
-    <h1>🏌️ Trainingseinheiten <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span></h1>
+    <h1>🏌️ Trainingseinheiten <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span> <button id="info-btn" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:0 0.15rem;">ℹ️</button></h1>
     <div style="display:flex; align-items:center; gap:0.5rem;">
       <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
       <a href="training.html" title="Zum Training" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🎯</a>
@@ -66,6 +69,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif
 
 <div id="sync-banner" style="display:none;"></div>
 
+<div id="info-overlay" style="display:none;"></div>
 <div class="content">
   <div class="tabs">
     <button id="tab-log" class="on">Erfassen</button>
@@ -90,7 +94,7 @@ const PLAYERS = ["Christian", "Birgit"];
 // Same key as the main app, so the location configured there is reused here.
 const WEATHER_LOCATION_KEY = "minigolf-weather-location";
 const DEFAULT_WEATHER_LOCATION = { name: "City Minigolf, Krippstr. 3, 40229 Düsseldorf", lat: 51.2105, lon: 6.8259 };
-const APP_VERSION = "11";
+const APP_VERSION = "12";
 
 const BANDS_OPTS = ['direkt', '1 Bande', '2 Banden', '3 Banden'];
 
@@ -129,6 +133,64 @@ function todayISO() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
+
+// ── Info ─────────────────────────────────────────────────────
+const CHANGELOG = [
+  { v: "12", items: [
+      "Erfassen mit drei Knöpfen: Vorlauf, Rücklauf oder Daneben.",
+      "Info-Fenster mit Versionsverlauf."
+  ]},
+  { v: "11", items: [
+      "Tage unter einer Bahn aufklappbar, Banden und Notiz nachträglich bearbeiten."
+  ]},
+  { v: "10", items: [
+      "Auswertung neu: Gesamtzusammenfassung, Bahnen mit ihren Trainingstagen."
+  ]},
+  { v: "8", items: [
+      "Einheit, Bahn und Ball in einer aufklappbaren Karte."
+  ]},
+  { v: "5", items: [
+      "Banden und Notiz je Versuch; gleicher Ball mit anderer Spielweise wird getrennt gezählt."
+  ]},
+  { v: "3", items: [
+      "Erfasste Posten korrigieren: Ball ändern oder Gruppe löschen."
+  ]},
+  { v: "2", items: [
+      "Wetter wird automatisch übernommen."
+  ]},
+  { v: "1", items: [
+      "Erste Version: Versuche je Bahn und Ball erfassen und auswerten."
+  ]},
+];
+
+function renderInfo() {
+  const el = document.getElementById('info-overlay');
+  if (!el) return;
+  if (!state.showInfo) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const sel = state.infoVersion || APP_VERSION;
+  const entry = CHANGELOG.find(c => c.v === sel);
+  el.style.display = 'flex';
+  el.innerHTML = `<div id="info-box">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+      <h3 style="margin:0; font-size:1rem; color:#2D6A4F;">ℹ️ Info</h3>
+      <button id="info-close" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:#78716c;">✕</button>
+    </div>
+    <p style="font-size:0.9rem; color:#44403c; margin:0 0 0.2rem;">Entwickelt von <strong>Christian Mättig</strong></p>
+    <p style="font-size:0.85rem; color:#78716c; margin:0 0 0.8rem;">in Kooperation mit Claude</p>
+    <p style="font-size:0.85rem; color:#44403c; margin:0 0 1rem;">Aktuelle Version: <strong>v${esc(APP_VERSION)}</strong></p>
+    <label style="display:block; font-size:0.75rem; font-weight:600; color:#78716c; margin-bottom:0.3rem;">Änderungen anzeigen</label>
+    <select id="info-version" style="width:100%; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white; margin-bottom:0.6rem;">
+      ${CHANGELOG.map(c => `<option value="${esc(c.v)}" ${c.v === sel ? 'selected' : ''}>v${esc(c.v)}${c.v === APP_VERSION ? ' (aktuell)' : ''}</option>`).join('')}
+    </select>
+    ${entry
+      ? entry.items.map(it => `<div style="font-size:0.85rem; color:#44403c; padding:0.2rem 0; display:flex; gap:0.4rem;"><span>•</span><span>${esc(it)}</span></div>`).join('')
+      : '<div style="font-size:0.82rem; color:#a8a29e;">Für diese Version sind keine Änderungen hinterlegt.</div>'}
+  </div>`;
+  el.querySelector('#info-close').addEventListener('click', () => { state.showInfo = false; renderInfo(); });
+  el.addEventListener('click', (ev) => { if (ev.target === el) { state.showInfo = false; renderInfo(); } });
+  el.querySelector('#info-version').addEventListener('change', (ev) => { state.infoVersion = ev.target.value; renderInfo(); });
+}
+
 function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
 function fmtDate(iso) {
@@ -378,13 +440,16 @@ function currentSession(createIfMissing) {
   return s || null;
 }
 
-function recordAttempt(holed) {
+function recordAttempt(holed, run) {
   if (!state.ballId) { toast('Bitte zuerst einen Ball wählen.'); return; }
   const s = currentSession(true);
   s.weatherKeys = [...state.weatherKeys];
   s.temperature = state.temperature;
   s.attempts.push({
     hole: state.hole, ballId: state.ballId, holed: !!holed,
+    // Direction is recorded with the hit itself, so it is never missing -
+    // a separate, optional marker stayed half-empty in the rounds.
+    run: holed ? (run || "") : "",
     bands: state.bands || '', note: state.note || '', ts: Date.now(),
   });
   saveLocal();
@@ -415,16 +480,18 @@ function undoLastAttempt() {
 // keeps them apart.
 function tallyFor(hole, ballId, bands) {
   const s = currentSession(false);
-  if (!s) return { hits: 0, total: 0 };
-  let hits = 0, total = 0;
+  if (!s) return { hits: 0, total: 0, vor: 0, rueck: 0 };
+  let hits = 0, total = 0, vor = 0, rueck = 0;
   s.attempts.forEach(a => {
     if (a.hole !== hole) return;
     if (ballId && a.ballId !== ballId) return;
     if (bands !== undefined && bands !== null && (a.bands || '') !== bands) return;
     total++;
     if (a.holed) hits++;
+    if (a.run === "vor") vor++;
+    else if (a.run === "rueck") rueck++;
   });
-  return { hits, total };
+  return { hits, total, vor, rueck };
 }
 
 function ballById(id) { return state.balls.find(b => b.id === id) || null; }
@@ -508,10 +575,12 @@ function renderLog() {
     <div style="display:flex; align-items:baseline; gap:0.5rem;">
       <span class="big">${t.hits}/${t.total}</span>
       <span class="muted">${t.total ? pct + '% – Bahn ' + state.hole + (state.bands ? ' · ' + esc(state.bands) : '') : 'noch keine Versuche'}</span>
+      ${t.vor || t.rueck ? `<span class="muted" style="margin-left:auto;"><span style="color:#16a34a;">${t.vor}× V</span> · <span style="color:#b45309;">${t.rueck}× R</span></span>` : ''}
     </div>
     <div class="tally">
-      <button class="hit" id="btn-hit">✓ Eingelocht</button>
-      <button class="miss" id="btn-miss">✗ Daneben</button>
+      <button class="hit" id="btn-vor" style="font-size:0.9rem;">✓ Vorlauf</button>
+      <button class="hit" id="btn-rueck" style="font-size:0.9rem; background:#b45309;">✓ Rücklauf</button>
+      <button class="miss" id="btn-miss" style="font-size:0.9rem;">✗ Daneben</button>
     </div>
     <button class="btn btn-secondary btn-full" id="btn-undo" style="margin-top:0.5rem;">↺ Letzten Versuch zurücknehmen</button>
   </div>` + renderSessionEntries();
@@ -608,9 +677,11 @@ function renderStats() {
       if (a.note && !dd.variants[vk].note) dd.variants[vk].note = a.note;
       const key = a.ballId + '|' + (a.bands || '');
       if (!rows[a.hole]) rows[a.hole] = {};
-      if (!rows[a.hole][key]) rows[a.hole][key] = { ballId: a.ballId, bands: a.bands || '', hits:0, total:0 };
+      if (!rows[a.hole][key]) rows[a.hole][key] = { ballId: a.ballId, bands: a.bands || '', hits:0, total:0, vor:0, rueck:0 };
       rows[a.hole][key].total++;
       if (a.holed) rows[a.hole][key].hits++;
+      if (a.run === "vor") rows[a.hole][key].vor++;
+      else if (a.run === "rueck") rows[a.hole][key].rueck++;
     });
   });
 
@@ -670,6 +741,7 @@ function renderStats() {
         <div style="flex:1; min-width:0;">
           <div style="font-size:0.83rem; font-weight:600;">${esc(ballLabel(e.ballId))}${e.bands ? ` · ${esc(e.bands)}` : ''}</div>
           <div class="muted">${e.hits}/${e.total} eingelocht${e.total < 3 ? ' · noch wenig Daten' : ''}</div>
+          ${(e.vor || e.rueck) ? `<div class="muted"><span style="color:#16a34a;">${e.vor}× Vorlauf</span> · <span style="color:#b45309;">${e.rueck}× Rücklauf</span></div>` : ''}
         </div>
         <div style="font-size:0.9rem; font-weight:800; color:${e.rate >= 0.5 ? '#16a34a' : '#78716c'};">${Math.round(e.rate*100)}%</div>
       </div>`;
@@ -757,8 +829,10 @@ function wire() {
   });
   const wbtn = document.getElementById('btn-weather');
   if (wbtn) wbtn.addEventListener('click', () => applyCurrentWeather(false));
-  const hit = document.getElementById('btn-hit');
-  if (hit) hit.addEventListener('click', () => recordAttempt(true));
+  const bv = document.getElementById('btn-vor');
+  if (bv) bv.addEventListener('click', () => recordAttempt(true, "vor"));
+  const br = document.getElementById('btn-rueck');
+  if (br) br.addEventListener('click', () => recordAttempt(true, "rueck"));
   const miss = document.getElementById('btn-miss');
   if (miss) miss.addEventListener('click', () => recordAttempt(false));
   const undo = document.getElementById('btn-undo');
@@ -833,6 +907,8 @@ async function init() {
 
   const ver = document.getElementById('app-version');
   if (ver) ver.textContent = 'v' + APP_VERSION;
+  const infoBtn = document.getElementById('info-btn');
+  if (infoBtn) infoBtn.addEventListener('click', () => { state.showInfo = true; state.infoVersion = APP_VERSION; renderInfo(); });
 
   document.getElementById('tab-log').addEventListener('click', () => { state.tab = 'log'; render(); });
   document.getElementById('tab-stats').addEventListener('click', () => { state.tab = 'stats'; render(); });
