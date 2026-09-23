@@ -48,13 +48,16 @@ textarea { width: 100%; min-height: 3rem; resize: vertical; padding: 0.5rem; bor
 .empty-state .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
 .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1c1917; color: white; padding: 0.6rem 1.2rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 500; z-index: 999; white-space: nowrap; }
 select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius: 0.5rem; font-size: 0.875rem; background: white; margin-bottom: 0.75rem; }
+
+#info-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 400; }
+#info-box { background: #F7F4ED; border-radius: 0.9rem; padding: 1rem; max-width: 26rem; width: 100%; max-height: 80vh; overflow-y: auto; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;">
-    <h1>🎯 Minigolf Training <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span></h1>
+    <h1>🎯 Minigolf Training <span id="app-version" style="font-size:0.6rem; opacity:0.6; font-family:'SF Mono',Menlo,Consolas,monospace; font-weight:400;"></span> <button id="info-btn" style="background:none; border:none; cursor:pointer; font-size:0.8rem; padding:0 0.15rem;">ℹ️</button></h1>
     <div style="display:flex; align-items:center; gap:0.5rem;">
       <button id="manual-sync-btn" title="Mit GitHub synchronisieren" style="background:rgba(255,255,255,0.15); color:white; border:none; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;">🔄</button>
       <a href="einheiten.html" title="Trainingseinheiten" style="text-decoration:none; background:rgba(255,255,255,0.15); color:white; width:2.3rem; height:2.3rem; min-width:2.3rem; border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">🏌️</a>
@@ -66,6 +69,7 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
 
 <div id="sync-banner" style="display:none;"></div>
 
+<div id="info-overlay" style="display:none;"></div>
 <div class="content">
   <!-- Season / player selector - applies to the whole page -->
   <div id="stats-filter-bar" style="display:flex; gap:0.4rem; margin-bottom:0.75rem;"></div>
@@ -90,7 +94,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "18";
+const APP_VERSION    = "19";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -103,6 +107,8 @@ let state = {
   sessions: [],  // from minigolf-einheiten.json, for the training-practice statistics
   statsYear: String(new Date().getFullYear()),
   statsPlayer: "Christian",
+  showInfo: false,
+  infoVersion: null,
   statsBallOpen: null, // ball whose rounds are expanded in the Ball-Statistik card
   videoDraft: null,  // {file, link, ballId, bands, notes} while adding/editing an entry
   videoEditIndex: null, // index being edited, null when adding a new one
@@ -124,6 +130,70 @@ let state = {
 function setupKey(hole, playerName) {
   const pn = playerName || state.statsPlayer || "Christian";
   return pn === "Christian" ? ('hole_' + hole) : (pn + '::hole_' + hole);
+}
+
+
+// ── Info ─────────────────────────────────────────────────────
+const CHANGELOG = [
+  { v: "19", items: [
+      "Vorlauf/Rücklauf pro Ball in der Ball-Statistik je Bahn.",
+      "Info-Fenster mit Versionsverlauf."
+  ]},
+  { v: "18", items: [
+      "Alte Abschlagsfotos werden einmalig verkleinert."
+  ]},
+  { v: "17", items: [
+      "Bahnen mit Trainingsversuchen sind im Raster mit einem grünen Punkt markiert."
+  ]},
+  { v: "15", items: [
+      "Rücksprung aus einer Runde landet wieder bei Bahn, Ball, Saison und Spieler."
+  ]},
+  { v: "13", items: [
+      "Ball-Statistik: Bälle aufklappbar, Sprung in die jeweilige Runde."
+  ]},
+  { v: "12", items: [
+      "Videos bearbeiten, Bahn zuordnen und nach Namen sortiert."
+  ]},
+  { v: "9", items: [
+      "Videos pro Bahn mit eigenem Link, Ball, Banden und Notiz."
+  ]},
+  { v: "7", items: [
+      "Alle Karten aufklappbar, standardmäßig geschlossen."
+  ]},
+  { v: "5", items: [
+      "Eigene Setups für Birgit, Foto wird vom Hauptspieler übernommen."
+  ]},
+  { v: "1", items: [
+      "Erste Version mit Setups, Fotos und Ball-Statistik pro Bahn."
+  ]},
+];
+
+function renderInfo() {
+  const el = document.getElementById('info-overlay');
+  if (!el) return;
+  if (!state.showInfo) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const sel = state.infoVersion || APP_VERSION;
+  const entry = CHANGELOG.find(c => c.v === sel);
+  el.style.display = 'flex';
+  el.innerHTML = `<div id="info-box">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+      <h3 style="margin:0; font-size:1rem; color:#2D6A4F;">ℹ️ Info</h3>
+      <button id="info-close" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:#78716c;">✕</button>
+    </div>
+    <p style="font-size:0.9rem; color:#44403c; margin:0 0 0.2rem;">Entwickelt von <strong>Christian Mättig</strong></p>
+    <p style="font-size:0.85rem; color:#78716c; margin:0 0 0.8rem;">in Kooperation mit Claude</p>
+    <p style="font-size:0.85rem; color:#44403c; margin:0 0 1rem;">Aktuelle Version: <strong>v${esc(APP_VERSION)}</strong></p>
+    <label style="display:block; font-size:0.75rem; font-weight:600; color:#78716c; margin-bottom:0.3rem;">Änderungen anzeigen</label>
+    <select id="info-version" style="width:100%; padding:0.5rem; border:1px solid #d6d3d1; border-radius:0.5rem; font-size:0.85rem; background:white; margin-bottom:0.6rem;">
+      ${CHANGELOG.map(c => `<option value="${esc(c.v)}" ${c.v === sel ? 'selected' : ''}>v${esc(c.v)}${c.v === APP_VERSION ? ' (aktuell)' : ''}</option>`).join('')}
+    </select>
+    ${entry
+      ? entry.items.map(it => `<div style="font-size:0.85rem; color:#44403c; padding:0.2rem 0; display:flex; gap:0.4rem;"><span>•</span><span>${esc(it)}</span></div>`).join('')
+      : '<div style="font-size:0.82rem; color:#a8a29e;">Für diese Version sind keine Änderungen hinterlegt.</div>'}
+  </div>`;
+  el.querySelector('#info-close').addEventListener('click', () => { state.showInfo = false; renderInfo(); });
+  el.addEventListener('click', (ev) => { if (ev.target === el) { state.showInfo = false; renderInfo(); } });
+  el.querySelector('#info-version').addEventListener('change', (ev) => { state.infoVersion = ev.target.value; renderInfo(); });
 }
 
 function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -471,6 +541,8 @@ async function init() {
 
   const ver = document.getElementById('app-version');
   if (ver) ver.textContent = 'v' + APP_VERSION;
+  const infoBtn = document.getElementById('info-btn');
+  if (infoBtn) infoBtn.addEventListener('click', () => { state.showInfo = true; state.infoVersion = APP_VERSION; renderInfo(); });
 
   renderStatsFilterBar();
   renderHoleGrid();
@@ -798,12 +870,16 @@ function getHoleBallStats(holeNum, year, playerName) {
       const ballId = r.ballsByHole && r.ballsByHole[idx];
       const score = r.scores && parseInt(r.scores[idx]);
       if (!ballId || !score || isNaN(score)) return;
-      if (!byBall[ballId]) byBall[ballId] = { ballId, plays: 0, total: 0, aces: 0, best: null };
+      if (!byBall[ballId]) byBall[ballId] = { ballId, plays: 0, total: 0, aces: 0, best: null, vor: 0, rueck: 0 };
       (roundsByBall[ballId] = roundsByBall[ballId] || []).push({
         roundId: r.id, playerId: pl.id, date: r.date || '', score,
       });
       const e = byBall[ballId];
       e.plays++; e.total += score;
+      // Where the ball dropped, if it was marked in the main app
+      const run = r.runs && r.runs[idx];
+      if (run === "vor") e.vor++;
+      else if (run === "rueck") e.rueck++;
       if (score === 1) e.aces++;
       if (e.best === null || score < e.best) e.best = score;
     });
@@ -953,6 +1029,13 @@ function renderBallStatsCard() {
           <div style="flex:1; min-width:0;">
             <div style="font-size:0.83rem; font-weight:600; color:#1c1917;">${esc(ballLabelById(e.ballId))}</div>
             <div style="font-size:0.72rem; color:#78716c;">${e.plays}× · Ø ${e.avg.toFixed(2)} · beste ${e.best}${e.aces ? ` · ${e.aces} Ass${e.aces === 1 ? '' : 'e'}` : ''}</div>
+            ${(e.vor || e.rueck) ? `<div style="display:flex; align-items:center; gap:0.35rem; margin-top:0.15rem;">
+              <span style="flex:0 0 3.2rem; height:0.4rem; border-radius:0.2rem; overflow:hidden; display:flex; background:#f5f5f4;">
+                <span style="width:${Math.round(e.vor / (e.vor + e.rueck) * 100)}%; background:#15803d;"></span>
+                <span style="width:${100 - Math.round(e.vor / (e.vor + e.rueck) * 100)}%; background:#b45309;"></span>
+              </span>
+              <span style="font-size:0.68rem; color:#a8a29e;">${e.vor}× Vorlauf · ${e.rueck}× Rücklauf</span>
+            </div>` : ''}
           </div>
           ${e.aces ? `<div style="font-size:0.78rem; font-weight:700; color:#b45309; flex-shrink:0;">${Math.round(e.aceRate * 100)}%</div>` : ''}
           <span style="color:#a8a29e; font-size:0.8rem; flex-shrink:0;">${open ? '▾' : '▸'}</span>
