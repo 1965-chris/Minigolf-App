@@ -105292,11 +105292,11 @@
       "weight": ""
     },
     "1zql3apt": {
-      "place": "",
-      "totalPlayers": "",
+      "place": "2",
+      "totalPlayers": "10",
       "img1": null,
       "img2": null,
-      "locked": false,
+      "locked": true,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
@@ -106023,6 +106023,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2019",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_1zql3apt",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2023",
       "color": "",
       "notes": "",
       "photo": null,
