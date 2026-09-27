@@ -105204,11 +105204,11 @@
       "weight": ""
     },
     "wwn11xum": {
-      "place": "",
-      "totalPlayers": "",
+      "place": "7",
+      "totalPlayers": "15",
       "img1": null,
       "img2": null,
-      "locked": false,
+      "locked": true,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
@@ -105932,6 +105932,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2018",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_wwn11xum",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2019",
       "color": "",
       "notes": "",
       "photo": null,
