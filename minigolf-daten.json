@@ -105045,6 +105045,16 @@
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
+    },
+    "dpw2lxdy": {
+      "place": "8",
+      "totalPlayers": "12",
+      "img1": null,
+      "img2": null,
+      "locked": false,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
     }
   },
   "balls": [
@@ -105736,6 +105746,19 @@
       "weight": "47",
       "color": "Dunkelbraun",
       "notes": ""
+    },
+    {
+      "id": "tourn_dpw2lxdy",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2018",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
     }
   ],
   "aceStreakSettings": {
