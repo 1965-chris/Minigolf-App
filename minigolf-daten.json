@@ -104525,6 +104525,74 @@
       "name": "Einballturnier Birgit",
       "rounds": [
         {
+          "date": "2024-09-29",
+          "year": "2024",
+          "groupId": "fn72fd17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "7",
+          "precipProbability": "3",
+          "id": "tmldlf3z",
+          "scores": [
+            2,
+            1,
+            2,
+            7,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "roundNumber": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2024-09-29",
+          "year": "2024",
+          "groupId": "fn72fd17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "26",
+          "windSpeed": "7",
+          "precipProbability": "3",
+          "id": "2ufun727",
+          "scores": [
+            2,
+            2,
+            2,
+            7,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            5
+          ],
+          "roundNumber": 1,
+          "orderTracked": true
+        },
+        {
           "date": "2023-08-13",
           "year": "2023",
           "groupId": "1zql3apt",
@@ -105297,6 +105365,16 @@
       "img1": null,
       "img2": null,
       "locked": true,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    "fn72fd17": {
+      "place": "",
+      "totalPlayers": "",
+      "img1": null,
+      "img2": null,
+      "locked": false,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
