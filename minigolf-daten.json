@@ -104508,6 +104508,80 @@
           }
         }
       ]
+    },
+    {
+      "id": "pplb810d",
+      "name": "Einballturnier Birgit",
+      "rounds": [
+        {
+          "date": "2018-05-06",
+          "year": "2018",
+          "groupId": "dpw2lxdy",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "8",
+          "precipProbability": "4",
+          "id": "bp41e9ts",
+          "scores": [
+            3,
+            2,
+            1,
+            4,
+            7,
+            2,
+            2,
+            2,
+            3,
+            5,
+            3,
+            1,
+            2,
+            2,
+            5,
+            3,
+            2,
+            4
+          ],
+          "roundNumber": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2018-05-06",
+          "year": "2018",
+          "groupId": "dpw2lxdy",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "27",
+          "windSpeed": "8",
+          "precipProbability": "4",
+          "id": "c17n0tus",
+          "scores": [
+            1,
+            2,
+            3,
+            2,
+            7,
+            2,
+            1,
+            4,
+            5,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            7
+          ],
+          "roundNumber": 1,
+          "orderTracked": true
+        }
+      ]
     }
   ],
   "pricing": {
