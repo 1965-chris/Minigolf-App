@@ -104525,6 +104525,74 @@
       "name": "Einballturnier Birgit",
       "rounds": [
         {
+          "date": "2026-06-21",
+          "year": "2026",
+          "groupId": "vwqzhq8z",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "3",
+          "id": "oekf0pqk",
+          "scores": [
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            1,
+            5,
+            4,
+            3,
+            1,
+            2,
+            2,
+            4,
+            5,
+            2,
+            2,
+            7
+          ],
+          "roundNumber": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-06-21",
+          "year": "2026",
+          "groupId": "vwqzhq8z",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "3",
+          "id": "a72dm2mn",
+          "scores": [
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            2,
+            4,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "roundNumber": 1,
+          "orderTracked": true
+        },
+        {
           "date": "2025-05-24",
           "year": "2025",
           "groupId": "7y20oevz",
@@ -105453,6 +105521,16 @@
       "img1": null,
       "img2": null,
       "locked": true,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    "vwqzhq8z": {
+      "place": "",
+      "totalPlayers": "",
+      "img1": null,
+      "img2": null,
+      "locked": false,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
