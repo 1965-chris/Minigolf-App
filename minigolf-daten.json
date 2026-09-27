@@ -105526,11 +105526,11 @@
       "weight": ""
     },
     "vwqzhq8z": {
-      "place": "",
-      "totalPlayers": "",
+      "place": "9",
+      "totalPlayers": "15",
       "img1": null,
       "img2": null,
-      "locked": false,
+      "locked": true,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
@@ -106296,6 +106296,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2025",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_vwqzhq8z",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2026",
       "color": "",
       "notes": "",
       "photo": null,
