@@ -105214,11 +105214,11 @@
       "weight": ""
     },
     "dpw2lxdy": {
-      "place": "",
-      "totalPlayers": "",
+      "place": "8",
+      "totalPlayers": "12",
       "img1": null,
       "img2": null,
-      "locked": false,
+      "locked": true,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
@@ -105919,6 +105919,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2022",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_dpw2lxdy",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2018",
       "color": "",
       "notes": "",
       "photo": null,
