@@ -7,6 +7,60 @@
         {
           "date": "2026-09-27",
           "year": "2026",
+          "groupId": "i0mmxpjl",
+          "time": "15:35",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "hil6vct5",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-09-27",
+          "year": "2026",
           "groupId": "ygqpa4ic",
           "time": "15:29",
           "weather": [
@@ -73837,6 +73891,40 @@
         {
           "date": "2026-09-27",
           "year": "2026",
+          "groupId": "i0mmxpjl",
+          "time": "15:35",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "27",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "y1p25guy",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-09-27",
+          "year": "2026",
           "groupId": "ygqpa4ic",
           "time": "15:29",
           "weather": [
@@ -106047,87 +106135,7 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [
-    {
-      "pauseId": "b8oe2hvp",
-      "pausedAt": "2026-09-27T13:36:14.639Z",
-      "phase": "play",
-      "selectedIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "saveIds": [
-        "p2",
-        "gccblctp"
-      ],
-      "date": "2026-09-27",
-      "time": "15:35",
-      "currentHole": 2,
-      "tournamentRound": 1,
-      "weatherKeys": [
-        "sun"
-      ],
-      "temperature": "27",
-      "windSpeed": "7",
-      "precipProbability": "0",
-      "scoresByPlayer": {
-        "p2": [
-          "2",
-          "2",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ],
-        "gccblctp": [
-          "2",
-          "2",
-          "1",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "notesByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      },
-      "starsByPlayer": {
-        "p2": {},
-        "gccblctp": {}
-      },
-      "runByPlayer": {},
-      "holeOrder": [
-        0,
-        1,
-        2
-      ]
-    }
-  ],
+  "pausedRounds": [],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
@@ -106147,7 +106155,8 @@
     "2qjuuvxx",
     "ixnnfrhm",
     "r0vnmagg",
-    "oxzzjeb0"
+    "oxzzjeb0",
+    "b8oe2hvp"
   ],
   "deletedIds": {
     "rounds": [
