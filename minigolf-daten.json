@@ -104525,6 +104525,74 @@
       "name": "Einballturnier Birgit",
       "rounds": [
         {
+          "date": "2025-05-24",
+          "year": "2025",
+          "groupId": "7y20oevz",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "3",
+          "id": "rwt0wyuo",
+          "scores": [
+            2,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            2,
+            2,
+            2,
+            2,
+            7,
+            2,
+            4,
+            1
+          ],
+          "roundNumber": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2025-05-24",
+          "year": "2025",
+          "groupId": "7y20oevz",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "25",
+          "windSpeed": "8",
+          "precipProbability": "3",
+          "id": "rre40euc",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            4
+          ],
+          "roundNumber": 1,
+          "orderTracked": true
+        },
+        {
           "date": "2024-09-29",
           "year": "2024",
           "groupId": "fn72fd17",
