@@ -105446,6 +105446,16 @@
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
+    },
+    "7y20oevz": {
+      "place": "4",
+      "totalPlayers": "13",
+      "img1": null,
+      "img2": null,
+      "locked": true,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
     }
   },
   "balls": [
@@ -106195,6 +106205,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2024",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_7y20oevz",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2025",
       "color": "",
       "notes": "",
       "photo": null,
