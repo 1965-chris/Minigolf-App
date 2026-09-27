@@ -105370,11 +105370,11 @@
       "weight": ""
     },
     "fn72fd17": {
-      "place": "",
-      "totalPlayers": "",
+      "place": "5",
+      "totalPlayers": "17",
       "img1": null,
       "img2": null,
-      "locked": false,
+      "locked": true,
       "jumpHeight": "",
       "hardness": "",
       "weight": ""
@@ -106114,6 +106114,19 @@
       "manufacturer": "City Minigolf Düsseldorf",
       "series": "Einballturnier",
       "name": "2023",
+      "color": "",
+      "notes": "",
+      "photo": null,
+      "photo2": null,
+      "jumpHeight": "",
+      "hardness": "",
+      "weight": ""
+    },
+    {
+      "id": "tourn_fn72fd17",
+      "manufacturer": "City Minigolf Düsseldorf",
+      "series": "Einballturnier",
+      "name": "2024",
       "color": "",
       "notes": "",
       "photo": null,
