@@ -46,7 +46,7 @@
           "ballsByHole": [
             "065e3gmu",
             "ix4d3uey",
-            "tc7hza19",
+            "065e3gmu",
             "1gv8aex4",
             "1vngy8w0",
             "6uibvdb6",
@@ -63,7 +63,8 @@
             "kqri4khp",
             "7ugiklv4"
           ],
-          "orderTracked": true
+          "orderTracked": true,
+          "ballsUpdatedAt": 1790607452951
         },
         {
           "date": "2026-09-27",
@@ -103,7 +104,7 @@
           "ballsByHole": [
             "065e3gmu",
             "ix4d3uey",
-            "tc7hza19",
+            "065e3gmu",
             "1gv8aex4",
             "1vngy8w0",
             "6uibvdb6",
@@ -119,7 +120,8 @@
             "f21n5mzh",
             "kqri4khp",
             "7ugiklv4"
-          ]
+          ],
+          "ballsUpdatedAt": 1790607475206
         },
         {
           "date": "2026-09-27",
@@ -156,7 +158,7 @@
           "ballsByHole": [
             "065e3gmu",
             "ix4d3uey",
-            "tc7hza19",
+            "065e3gmu",
             "1gv8aex4",
             "1vngy8w0",
             "6uibvdb6",
@@ -172,7 +174,8 @@
             "f21n5mzh",
             "kqri4khp",
             "7ugiklv4"
-          ]
+          ],
+          "ballsUpdatedAt": 1790607490086
         },
         {
           "date": "2026-09-22",
@@ -105537,6 +105540,21 @@
         }
       ],
       "updatedAt": 1790507001200
+    },
+    {
+      "id": "192oi0xz",
+      "date": "2026-09-28",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "16:31"
+        }
+      ],
+      "updatedAt": 1790605877053
     }
   ],
   "tournamentPlacements": {
