@@ -106382,6 +106382,21 @@
         }
       ],
       "updatedAt": 1790611660814
+    },
+    {
+      "id": "mks2fhoe",
+      "date": "2026-09-29",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 4,
+          "time": "19:14"
+        }
+      ],
+      "updatedAt": 1790702048196
     }
   ],
   "tournamentPlacements": {
