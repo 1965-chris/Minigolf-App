@@ -7,6 +7,66 @@
         {
           "date": "2026-09-29",
           "year": "2026",
+          "groupId": "0anjyt2f",
+          "time": "18:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "nygyoygy",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1
+          ],
+          "runs": {
+            "2": "rueck",
+            "3": "vor",
+            "11": "vor",
+            "13": "vor"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-09-29",
+          "year": "2026",
           "groupId": "11b7sgga",
           "time": "16:55",
           "weather": [
@@ -100591,6 +100651,40 @@
       "name": "Matthias",
       "rounds": [
         {
+          "date": "2026-09-29",
+          "year": "2026",
+          "groupId": "0anjyt2f",
+          "time": "18:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "9u8i8t7b",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1
+          ],
+          "orderTracked": true
+        },
+        {
           "date": "2026-09-28",
           "year": "2026",
           "groupId": "an4ur4jq",
@@ -101135,6 +101229,40 @@
       "id": "yc6i458y",
       "name": "Anette",
       "rounds": [
+        {
+          "date": "2026-09-29",
+          "year": "2026",
+          "groupId": "0anjyt2f",
+          "time": "18:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "26",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "pd1rw4w1",
+          "scores": [
+            2,
+            2,
+            5,
+            7,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            4,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2
+          ],
+          "orderTracked": true
+        },
         {
           "date": "2026-09-28",
           "year": "2026",
