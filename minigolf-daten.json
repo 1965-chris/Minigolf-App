@@ -107316,6 +107316,21 @@
         }
       ],
       "updatedAt": 1790785650200
+    },
+    {
+      "id": "lf8nna6o",
+      "date": "2026-10-03",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 4,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 4,
+          "time": "16:02"
+        }
+      ],
+      "updatedAt": 1791036160778
     }
   ],
   "tournamentPlacements": {
