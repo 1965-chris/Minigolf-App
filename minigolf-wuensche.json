@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "id": "emrt12fc",
+      "text": "Testen",
+      "author": "Andreas",
+      "createdAt": 1791025772336,
+      "updatedAt": 1791025845734,
+      "done": false,
+      "comments": [
+        {
+          "id": "ens4mozf",
+          "author": "Andreas",
+          "text": "Nur so",
+          "at": 1791025784193
+        },
+        {
+          "id": "q68zlzs8",
+          "author": "Christian",
+          "text": "Kein thema",
+          "at": 1791025825977
+        }
+      ],
+      "deleted": true
+    },
+    {
+      "id": "acn8th0k",
+      "text": "Weitergabe testen",
+      "author": "Christian",
+      "createdAt": 1791024735775,
+      "updatedAt": 1791025186706,
+      "done": true,
+      "doneAt": 1791025169774,
+      "doneBy": "Andreas",
+      "deleted": true
+    }
+  ]
+}
