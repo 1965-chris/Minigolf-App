@@ -5,60 +5,6 @@
       "name": "Christian",
       "rounds": [
         {
-          "date": "2026-10-04",
-          "year": "2026",
-          "groupId": "g6lkiriz",
-          "time": "12:06",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "18",
-          "windSpeed": "3",
-          "precipProbability": "0",
-          "id": "5tct5tjv",
-          "scores": [
-            1,
-            2,
-            1,
-            2,
-            1,
-            1,
-            1,
-            2,
-            2,
-            1,
-            1,
-            1,
-            2,
-            1,
-            2,
-            1,
-            1,
-            1
-          ],
-          "ballsByHole": [
-            "065e3gmu",
-            "ix4d3uey",
-            "065e3gmu",
-            "1gv8aex4",
-            "1vngy8w0",
-            "6uibvdb6",
-            "x32ummcu",
-            "xtikckii",
-            "hjsp1un4",
-            "fq6w76oa",
-            "vwtdywti",
-            "1vngy8w0",
-            "6jdq23bi",
-            "lvjwkt2c",
-            "w63zosuf",
-            "f21n5mzh",
-            "kqri4khp",
-            "7ugiklv4"
-          ],
-          "orderTracked": true
-        },
-        {
           "date": "2026-10-03",
           "year": "2026",
           "groupId": "dtlxgh2e",
@@ -74590,40 +74536,6 @@
       "name": "Gerd",
       "rounds": [
         {
-          "date": "2026-10-04",
-          "year": "2026",
-          "groupId": "g6lkiriz",
-          "time": "12:06",
-          "weather": [
-            "cloud"
-          ],
-          "temperature": "18",
-          "windSpeed": "3",
-          "precipProbability": "0",
-          "id": "8nhbata2",
-          "scores": [
-            2,
-            2,
-            1,
-            1,
-            2,
-            2,
-            1,
-            2,
-            1,
-            2,
-            1,
-            2,
-            2,
-            1,
-            2,
-            2,
-            1,
-            1
-          ],
-          "orderTracked": true
-        },
-        {
           "date": "2026-10-03",
           "year": "2026",
           "groupId": "dtlxgh2e",
@@ -107723,7 +107635,9 @@
       "7cnyn38r",
       "fdaoj22m",
       "846816td",
-      "qcfm85yu"
+      "qcfm85yu",
+      "5tct5tjv",
+      "8nhbata2"
     ],
     "players": [
       "bf39yvo6",
