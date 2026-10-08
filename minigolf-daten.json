@@ -107763,7 +107763,7 @@
       "date": "2026-10-08",
       "year": "2026",
       "name": "Getränke",
-      "amount": 6,
+      "amount": 10,
       "items": [
         {
           "cat": "Getränke",
@@ -107774,9 +107774,14 @@
           "cat": "Getränke",
           "amount": 2,
           "time": "15:51"
+        },
+        {
+          "cat": "Getränke",
+          "amount": 4,
+          "time": "17:02"
         }
       ],
-      "updatedAt": 1791467489098
+      "updatedAt": 1791471745334
     }
   ],
   "aceStreakSettings": {
