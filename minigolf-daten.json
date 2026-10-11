@@ -107970,15 +107970,20 @@
       "date": "2026-10-11",
       "year": "2026",
       "name": "Getränke",
-      "amount": 2,
+      "amount": 4,
       "items": [
         {
           "cat": "Getränke",
           "amount": 2,
           "time": "12:31"
+        },
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "13:02"
         }
       ],
-      "updatedAt": 1791714680664
+      "updatedAt": 1791716568895
     }
   ],
   "aceStreakSettings": {
