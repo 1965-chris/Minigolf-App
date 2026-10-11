@@ -41,7 +41,7 @@ body{background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--f-body);-web
 @media (min-width:900px){.game{grid-template-columns:minmax(0,1.3fr) minmax(330px,1fr);align-items:start}}
 .stage{position:relative;background:var(--stage);border-radius:14px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 .stage canvas{display:block;width:100%;cursor:crosshair}
-.status{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font:600 13px/1 var(--f-body);font-variant-numeric:tabular-nums;pointer-events:none;max-width:calc(100% - 150px)}
+.status{position:absolute;right:10px;bottom:10px;display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font:600 13px/1 var(--f-body);font-variant-numeric:tabular-nums;pointer-events:none;max-width:calc(100% - 110px)}
 .status .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
 .status #statusText{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .status[data-state="run"] .dot{background:var(--accent)}
@@ -183,7 +183,7 @@ body{margin:0;-webkit-tap-highlight-color:transparent}
       </div>
       <p class="help">Ball im Abschlagkreis mit dem Finger verschieben. Tippen auf die Bahn setzt den Zielpunkt, zum Beispiel den Punkt an der Bande oder die Höhe in der Steilkurve. ↺ und ↻ drehen fein in Zehntelgrad. Die Stärke zeigt, wie weit der Ball auf ebener Bahn rollen würde. Banden, Steine, Rampen, Hügel und Steilkurven werden berechnet, jeder Ball springt nach seiner Sprunghöhe ab. Beim Anlagenball ist die Sprunghöhe geschätzt. Wie in echt ist keine Bahn ganz eben und kein Schlag ganz genau: Jede Bahn hat ihr eigenes leichtes Gefälle, und jeder Schlag weicht ein wenig in Richtung und Stärke ab und bekommt etwas Effet, der den Ball auf langen freien Strecken seitlich wegzieht. Ein Bandenkontakt nimmt den Effet größtenteils heraus und dämpft Richtungsfehler. Deshalb sind Wege über die Bande meist sicherer als gerade Schläge. Im Training lässt sich die Streuung abschalten. Am Loch zählt das Tempo: Ein langsamer Ball fällt, ein zu schneller springt über das Loch, prallt an der gegenüberliegenden Kante zurück oder läuft um die Kante herum wieder heraus.</p>
       <p class="help">Mehrere Spieler: Unter „Spieler“ bei der Spielkarte Namen eintragen, bis zu sechs. Wie auf der Anlage spielt jeder die Bahn zu Ende, dann ist der Nächste dran; jeder behält seinen Ball und seine Stärke.</p>
-      <p class="help">Spiel v1.4 · Bahnen nach dem Pistenplan Abteilung 1</p>
+      <p class="help">Spiel v1.5 · Bahnen nach dem Pistenplan Abteilung 1</p>
     </div>
   </div>
 </div>
@@ -270,16 +270,29 @@ const LANES = [
  ways:[{label:'VL', pts:[[6.05,0],[6.2,0],[6.2,0.68,'h'],[6.2,4.55]]},
        {label:'RL links', pts:[[6.05,0],[6.2,0],[6.2,0.68,'h'],{rl:-1}]},
        {label:'RL rechts', pts:[[6.05,0],[6.2,0],[6.2,0.68,'h'],{rl:1}]}]},
-{n:5, name:'Radrennbahn', ball:'Ball 7', ab:'12 Uhr', note:'RL beide Seiten', d:[0,-1], tee:[-2,1.8],
- shapes:[rect(-2.625,0,-1.375,2.2), {an:[0,0,1.375,2.625,PI,2*PI]}, rect(1.375,0,2.625,2.27), circ(2,2.27,-PI/2)],
- deco:[{t:'bank', an:[0,0,2.15,2.625,PI,2*PI]}, {t:'solid', e:[-1.028,-1.226,0.24,0.15,-0.698]}, {t:'solid', e:[0.918,-1.311,0.24,0.15,0.611]}],
- grenz:[[1.053,-0.884],[2.011,-1.687]], hole:[2,2.27],
- ways:(() => {
-   const A = cr([[-2.6,0.25],[-2.343,-0.718],[-1.645,-1.385],[-0.917,-1.8],[0,-1.98],[0.646,-1.893],[1.012,-1.748],[1.79,-1.07],[2.571,-0.389]], 8);
-   const B = cr([[-2.521,-0.635],[-2.231,-1.103],[-1.55,-1.6],[-0.917,-1.8],[0,-1.98],[0.646,-1.893],[1.012,-1.748],[1.79,-1.07],[2.571,-0.389]], 8);
-   A[0][2] = 'b'; A[A.length-1][2] = 'b'; B[0][2] = 'b'; B[B.length-1][2] = 'b';
-   return [{label:'3 Uhr · direkt', ab:'3 Uhr', pts:[...A, [2,2.27]]},
-           {label:'2 Uhr · RL links', ab:'2 Uhr', pts:[...B, {rl:-1}]}]; })()},
+(() => {
+ /* Shape digitised from the WMF norm drawing of this lane (74 px per metre, origin at the tee, y to the player's right): a long right-hand
+    curve whose outer side is banked (the bank grows from nothing to about 45 cm at the top of the curve and runs out before the circle),
+    two stones on the inner wall, the border line right after the second stone, then a short run into the target circle. */
+ const OUT = [[-0.73, -0.115], [-0.506, -0.448], [-0.261, -0.766], [0.004, -1.066], [0.289, -1.349], [0.591, -1.613], [0.91, -1.857], [1.242, -2.082], [1.587, -2.286], [1.944, -2.471], [2.31, -2.634], [2.685, -2.778], [3.067, -2.9], [3.455, -3.002], [3.848, -3.084], [4.244, -3.144], [4.644, -3.184], [5.044, -3.203], [5.446, -3.2], [5.846, -3.176], [6.245, -3.131], [6.64, -3.064], [7.031, -2.974], [7.417, -2.862], [7.795, -2.728], [8.164, -2.571], [8.523, -2.392], [8.87, -2.19], [9.203, -1.966]];
+ const INN = [[0.338, 0.662], [0.569, 0.334], [0.824, 0.023], [1.1, -0.269], [1.396, -0.54], [1.71, -0.791], [2.04, -1.02], [2.384, -1.226], [2.742, -1.408], [3.112, -1.566], [3.491, -1.699], [3.878, -1.805], [4.272, -1.885], [4.67, -1.936], [5.071, -1.959], [5.473, -1.953], [5.873, -1.919], [6.27, -1.857], [6.661, -1.767], [7.045, -1.648], [7.419, -1.502], [7.781, -1.328], [8.129, -1.126], [8.459, -0.899]];
+ const INC = [[0.554, -1.572], [0.932, -1.737], [1.315, -1.894], [1.701, -2.04], [2.091, -2.177], [2.485, -2.301], [2.882, -2.413], [3.283, -2.512], [3.687, -2.596], [4.095, -2.665], [4.504, -2.718], [4.916, -2.753], [5.329, -2.771], [5.742, -2.772], [6.154, -2.758], [6.566, -2.729], [6.977, -2.686], [7.386, -2.629], [7.793, -2.556], [8.196, -2.466], [8.595, -2.358]];
+ const outer = cr(OUT, 6), inner = cr(INN, 6), incline = cr(INC, 6), C = [9.574,-1.041];
+ const nearOn = (pl, p) => { let best = 1e9, q = pl[0];
+   for (let i=0;i<pl.length-1;i++){ const a = pl[i], b = pl[i+1], vx = b[0]-a[0], vy = b[1]-a[1], t = Math.max(0, Math.min(1, ((p[0]-a[0])*vx + (p[1]-a[1])*vy)/(vx*vx+vy*vy)));
+     const x = a[0]+vx*t, y = a[1]+vy*t, d = Math.hypot(p[0]-x, p[1]-y); if (d < best){ best = d; q = [x,y]; } }
+   return q; };
+ const idx = p => outer.reduce((bi, q, i) => Math.hypot(q[0]-p[0], q[1]-p[1]) < Math.hypot(outer[bi][0]-p[0], outer[bi][1]-p[1]) ? i : bi, 0);
+ const wallPart = outer.slice(idx(incline[0]), idx(incline[incline.length-1]) + 1).reverse();
+ const half = incline.map(p => { const q = nearOn(outer, p); return [(p[0]+q[0])/2, (p[1]+q[1])/2]; });
+ return {n:5, name:'Radrennbahn', ball:'Ball 7', ab:'12 Uhr', note:'RL beide Seiten', d:[0.5885,-0.8086], tee:[0,0],
+ shapes:[{p:outer.concat(inner.slice().reverse())}, circ(C[0],C[1],Math.atan2(-0.547,-0.925))],
+ deco:[{t:'bankband', p:incline.concat(wallPart), a:0.2}, {t:'bankband', p:half.concat(wallPart), a:0.22},
+       {t:'solid', e:[3.27,-1.62,0.26,0.25,-0.338]}, {t:'solid', e:[5.77,-1.928,0.26,0.19,0.085]}],
+ grenz:[[6.264,-3.128],[6.027,-1.885]], hole:C, bank:{outer, incline},
+ /* Ways found with the game's physics (Ball 7): both ride the banked curve and use two bands before the hole. */
+ ways:[{label:'3 Uhr · früh an die Bande', ab:'3 Uhr', pts:[[0.138,-0.252],[0.203,-0.557],[0.267,-0.863],[0.331,-1.168],[0.381,-1.403,'b'],[0.683,-1.47],[0.988,-1.534],[1.292,-1.599],[1.598,-1.663],[1.903,-1.728],[2.208,-1.792],[2.513,-1.856],[2.817,-1.921],[3.122,-1.985],[3.428,-2.049],[3.733,-2.114],[4.038,-2.178],[4.343,-2.243],[4.648,-2.307],[4.953,-2.371],[5.259,-2.435],[5.564,-2.499],[5.867,-2.562],[6.173,-2.626],[6.478,-2.689],[6.783,-2.752],[7.088,-2.808],[7.397,-2.842],[7.42,-2.838,'b'],[7.66,-2.646],[7.886,-2.449],[8.118,-2.245],[8.354,-2.04],[8.59,-1.836],[8.829,-1.631],[9.061,-1.433],[9.303,-1.23],[9.574,-1.041]]},
+       {label:'2 Uhr · gerade in die Steilkurve', ab:'2 Uhr', pts:[[0.269,-0.246],[0.447,-0.502],[0.626,-0.757],[0.805,-1.013],[0.983,-1.269],[1.161,-1.525],[1.339,-1.779],[1.517,-2.035],[1.699,-2.288],[1.742,-2.346,'b'],[2.043,-2.375],[2.355,-2.387],[2.667,-2.388],[2.976,-2.386],[3.288,-2.384],[3.6,-2.382],[3.912,-2.379],[4.224,-2.376],[4.533,-2.374],[4.845,-2.371],[5.157,-2.368],[5.469,-2.365],[5.777,-2.362],[6.089,-2.359],[6.401,-2.356],[6.713,-2.353],[7.021,-2.35],[7.333,-2.346],[7.645,-2.342],[7.957,-2.338],[8.268,-2.334],[8.576,-2.33],[8.597,-2.327,'b'],[8.787,-2.077],[8.979,-1.827],[9.163,-1.587],[9.356,-1.338],[9.574,-1.041]]}]}; })(),
 {n:6, name:'Gerade Schanze', ball:'Ball 1', ab:'', note:'', d:[1,0], tee:[0.4,0],
  /* From the video: the ramp climbs between brick walls to a raised flat top, the ball jumps off its edge over a gravel bed. */
  shapes:straight(), deco:[{t:'ramp', r:[2.8,-H,4.1,H]}, {t:'raised', r:[4.1,-H,4.63,H]}, {t:'gravel', r:[4.63,-H,5.39,H]}],
@@ -440,7 +453,7 @@ LANES.forEach(L => { L.W = L.ways.map(w => buildWay(L,w)); L.bb = bboxLane(L); }
 /* ---------- view ---------- */
 const cv = document.getElementById('cv'), ctx = cv.getContext('2d'), stage = document.getElementById('stage');
 let W = 360, HC = 520, DPR = 1, S = 40, view = null;
-const TOP = 48, BOT = 30, ZF = 3;
+const TOP = 48, BOT = 46, ZF = 3;
 const px = n => n / S;
 
 function layout(){
@@ -640,8 +653,7 @@ const PHYS = {
   4: {h:(x,y) => { if (y > H) return 0; if (x >= 5.575){ const r = Math.hypot(x-6.2, y); return 0.10 - (r < 0.15 ? 0.02*(1-r/0.15)**2 : 0); } return x > 2.4 ? 0.10*(x-2.4)/3.175 : 0; },
       portals:[{c:[6.2,0,0.045], t:0.6, out:(x,y,vx,vy,vin) => { const e = entryOff(x-6.2, y, vx, vy, vin, 0.045), a = (e*3.5 + Math.max(-3, Math.min(3, (vin-1.8)*2.5)))*PI/180, v = 1.95 + 0.6*Math.min(1, vin/2.2);
         return {p:[6.2 - e*0.03, 0.73], v:[-v*Math.sin(a), v*Math.cos(a)]}; }}]},
-  5: {h:(x,y) => { if (y >= 0) return 0; const r = Math.hypot(x,y); if (r <= 2.15) return 0; const th = Math.atan2(y,x), e = Math.min(th+PI, -th);
-      return 0.14*clamp01((r-2.15)/0.475)**2*sstep(0,0.35,e); }},
+  5: {h:null},
   /* Lane 6 as in the video: ramp up to a raised flat top (estimate 35 cm), edge at 4.63, gravel bed behind it. */
   6: {h:(x,y) => x <= 4.63 ? rampUp(x, 2.8, 4.1, 0.35, 0.2, 0.3) : 0, water:[[4.63,-H,5.39,H]], hazard:'Kiesbett'},
   7: {h:(x,y) => { const r = Math.hypot(x-XC, y); if (r < RC) return -0.03 - 0.17*clamp01(1 - (r-0.06)/(RC-0.06)); return bump(x,3.2,4.8,0.18); }, funnel:true},
@@ -656,6 +668,25 @@ const PHYS = {
         return {p:[-0.43, 5.0 + e*0.04], v:[-v*Math.cos(a), v*Math.sin(a)]}; }}]},
   18:{h:(x,y) => { if (x >= 8.82 && x < 11.37) return 0.22*(x-8.82)/2.55; if (x >= 11.37) return 0.21; return 0; }, box:{r:[11.40,-0.25,12.1,0.25], vmax:0.6}}
 };
+/* Lane 5: the bank between the incline line and the outer wall, worked out once on a 2 cm grid. It rises quadratically from the
+   incline line to the wall; where the bank is 45 cm wide it is 14 cm high at the wall. */
+(() => { const L5 = LANES.find(L => L.n === 5), O = L5.bank.outer, I = L5.bank.incline;
+  const near = (pl, x, y) => { let best = 1e9, bi = 0, bt = 0;
+    for (let i=0;i<pl.length-1;i++){ const a = pl[i], b = pl[i+1], vx = b[0]-a[0], vy = b[1]-a[1], t = clamp01(((x-a[0])*vx + (y-a[1])*vy)/(vx*vx+vy*vy));
+      const d = Math.hypot(x-a[0]-vx*t, y-a[1]-vy*t); if (d < best){ best = d; bi = i; bt = t; } }
+    return {d:best, i:bi, t:bt}; };
+  const bw = O.map(p => { const q = near(I, p[0], p[1]); return (q.i === 0 && q.t === 0) || (q.i === I.length-2 && q.t === 1) ? 0 : q.d; });
+  let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9; O.forEach(p => { x0 = Math.min(x0,p[0]); x1 = Math.max(x1,p[0]); y0 = Math.min(y0,p[1]); y1 = Math.max(y1,p[1]); });
+  x0 -= 0.7; y0 -= 0.7; x1 += 0.7; y1 += 0.7;
+  const cs = 0.02, nx = Math.ceil((x1-x0)/cs) + 2, ny = Math.ceil((y1-y0)/cs) + 2, grid = new Float32Array(nx*ny);
+  for (let j=0;j<ny;j++) for (let i=0;i<nx;i++){
+    const q = near(O, x0 + i*cs, y0 + j*cs); if (q.d > 0.6) continue;
+    const b = bw[q.i]*(1-q.t) + bw[q.i+1]*q.t; if (b > 0.005) grid[j*nx+i] = 0.14*clamp01((b - q.d)/0.45)**2;
+  }
+  PHYS[5].h = (x,y) => { const gx = (x-x0)/cs, gy = (y-y0)/cs, i = Math.floor(gx), j = Math.floor(gy);
+    if (i < 0 || j < 0 || i >= nx-1 || j >= ny-1) return 0; const fx = gx-i, fy = gy-j, k = j*nx+i;
+    return (grid[k]*(1-fx) + grid[k+1]*fx)*(1-fy) + (grid[k+nx]*(1-fx) + grid[k+nx+1]*fx)*fy; };
+})();
 (() => { const L13 = LANES.find(L => L.n === 13), cs = L13.cs;
   PHYS[13].h = (x,y) => { if (x < 7.8 || x > 10.1) return 0; const o = lateral(cs,x,y); if (o <= 0.30) return 0;
     return 0.10*clamp01((o-0.30)/0.325)**2*sstep(7.8,8.2,x)*(1-sstep(9.7,10.1,x)); }; })();
