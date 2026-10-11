@@ -71,6 +71,13 @@ input[type=range]{width:100%;accent-color:var(--accent);height:34px;margin:0}
 .btn:disabled{opacity:.42;cursor:not-allowed}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-size:16px}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.arcstate{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:12px}
+.arcbest{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+.arcbest strong{font-size:20px;font-family:var(--f-display);color:var(--accent)}
+.arcrow{display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:14px;font-variant-numeric:tabular-nums}
+.arcrow .d{flex:1;color:var(--muted)}
+.arcrow .a{color:var(--good);font-size:12px}
+.arcempty{font-size:13px;color:var(--muted);padding:4px 0}
 .msg{margin:0;min-height:1.4em;font-weight:500}
 .msg[data-tone="good"]{color:var(--good)}
 .msg[data-tone="warn"]{color:var(--warn)}
@@ -152,8 +159,13 @@ body{margin:0;-webkit-tap-highlight-color:transparent}
         <p class="lbl">Spielkarte</p>
         <div class="card" id="card"></div>
       </div>
+      <div class="box">
+        <p class="lbl">Archiv <span id="arcState" class="arcstate"></span></p>
+        <div id="archive"></div>
+        <button type="button" class="btn" id="arcSync" style="width:100%; margin-top:0.5rem;">Mit GitHub abgleichen</button>
+      </div>
       <p class="help">Ball im Abschlagkreis mit dem Finger verschieben. Tippen auf die Bahn setzt den Zielpunkt, zum Beispiel den Punkt an der Bande oder die Höhe in der Steilkurve. ↺ und ↻ drehen fein in Zehntelgrad. Die Stärke zeigt, wie weit der Ball auf ebener Bahn rollen würde. Banden, Steine, Rampen, Hügel und Steilkurven werden berechnet, jeder Ball springt nach seiner Sprunghöhe ab. Beim Anlagenball ist die Sprunghöhe geschätzt.</p>
-      <p class="help">Spiel v1.0 · Bahnen nach dem Pistenplan Abteilung 1</p>
+      <p class="help">Spiel v1.1 · Bahnen nach dem Pistenplan Abteilung 1</p>
     </div>
   </div>
 </div>
@@ -848,6 +860,7 @@ function nextAction(){
   GM.phase = 'over';
   const tot = GM.scores.reduce((a,b) => a + (b||0), 0), aces = GM.scores.filter(v => v === 1).length;
   setMsg('Runde beendet: ' + tot + ' Punkte, ' + aces + (aces === 1 ? ' Ass.' : ' Asse.'), 'good'); save(); updateUI();
+  archiveRound();
 }
 function undo(){
   if (GM.mode !== 'train' || GM.phase !== 'aim' || !GM.undo) return;
@@ -1060,6 +1073,166 @@ window.__mg = {
 load(); layout();
 initLane(GM.mode === 'round' ? GM.roundLane : GM.lane);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+
+/* ---------- Archiv: fertige Runden, lokal und auf GitHub ----------
+   Eigene Datei minigolf-spiel.json im selben Repository wie die Scorecard.
+   Den GitHub-Zugang teilt sich die Seite mit der Haupt-App - sie liegt unter
+   derselben Adresse, liest also denselben gespeicherten Zugang.
+   Geschrieben wird nur, wenn eine Runde fertig ist oder von Hand angestossen.
+   Die laufende Runde bleibt bewusst auf dem Geraet: sonst muesste nach jeder
+   Bahn hochgeladen werden, und das ist es nicht wert. */
+const ARC_KEY = 'minigolf-abteilung1-archiv';
+const GH_CFG_KEY = 'minigolf-github-config';
+const SPIEL_PATH = 'minigolf-spiel.json';
+const ARC_FP_KEY = 'minigolf-abteilung1-archiv-stand';
+const ARC_MAX = 200;
+let ARC = [];
+let arcBusy = false;
+
+function ghCfg(){ try { return JSON.parse(localStorage.getItem(GH_CFG_KEY) || 'null'); } catch(e) { return null; } }
+function arcLoadLocal(){ try { const d = JSON.parse(localStorage.getItem(ARC_KEY) || 'null'); ARC = Array.isArray(d && d.rounds) ? d.rounds : []; } catch(e) { ARC = []; } }
+function arcSaveLocal(){ try { localStorage.setItem(ARC_KEY, JSON.stringify({rounds: ARC})); } catch(e) {} }
+function arcFingerprint(){
+  const s = JSON.stringify(ARC.map(r => r.id).sort());
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619) >>> 0;
+  return ARC.length + '-' + h.toString(36);
+}
+/* Vereinigung nach Kennung - was ein Geraet kennt, geht nie verloren. */
+function arcMerge(a, b){
+  const byId = {};
+  (a || []).concat(b || []).forEach(r => { if (r && r.id) byId[r.id] = r; });
+  return Object.values(byId)
+    .sort((x, y) => ((y.date || '') + (y.time || '')).localeCompare((x.date || '') + (x.time || '')))
+    .slice(0, ARC_MAX);
+}
+
+async function ghFetchRetry(url, options = {}, retries = 3){
+  let last;
+  for (let i = 0; i < retries; i++){
+    try { return await fetch(url, options); }
+    catch(e){ last = e; if (i < retries - 1) await new Promise(r => setTimeout(r, 400 * (i + 1))); }
+  }
+  throw last;
+}
+async function arcGet(cfg){
+  // Kein Cache-Control-Kopf - den weist GitHubs CORS-Regel ab. Das ?t= reicht.
+  const url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + SPIEL_PATH + '?ref=' + (cfg.branch || 'main') + '&t=' + Date.now();
+  const res = await ghFetchRetry(url, { headers: { Authorization: 'token ' + cfg.token, Accept: 'application/vnd.github.object+json' } });
+  if (res.status === 404) return { ok: true, sha: null, rounds: [] };
+  if (!res.ok) return { ok: false, reason: 'HTTP ' + res.status };
+  const d = await res.json();
+  let rounds = [];
+  try { rounds = JSON.parse(decodeURIComponent(escape(atob((d.content || '').replace(/\n/g, ''))))).rounds || []; } catch(e) { rounds = []; }
+  return { ok: true, sha: d.sha || null, rounds: Array.isArray(rounds) ? rounds : [] };
+}
+async function arcPut(cfg, sha){
+  const url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + SPIEL_PATH;
+  const payload = { rounds: ARC, updatedAt: new Date().toISOString() };
+  const body = { message: 'Spiel-Archiv ' + new Date().toLocaleDateString('de-DE'),
+                 content: btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2)))),
+                 branch: cfg.branch || 'main' };
+  if (sha) body.sha = sha;
+  const res = await ghFetchRetry(url, { method: 'PUT', headers: { Authorization: 'token ' + cfg.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (res.ok) return { ok: true };
+  let reason = 'HTTP ' + res.status;
+  try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
+  return { ok: false, reason };
+}
+function arcState(txt){ const el = $('arcState'); if (el) el.textContent = txt ? '· ' + txt : ''; }
+
+async function arcSync(opts){
+  const o = opts || {};
+  if (arcBusy) return false;
+  const cfg = ghCfg();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.token){
+    arcState('ohne GitHub-Zugang nur auf diesem Gerät');
+    return false;
+  }
+  arcBusy = true; arcState('gleiche ab …'); renderArchive();
+  try {
+    const got = await arcGet(cfg);
+    if (!got.ok){ arcState('GitHub nicht erreichbar'); return false; }
+    const vorher = arcFingerprint();
+    ARC = arcMerge(ARC, got.rounds);
+    arcSaveLocal();
+    const jetzt = arcFingerprint();
+    // Nur schreiben, wenn diese Seite etwas beizusteuern hat.
+    let gemerkt = ''; try { gemerkt = localStorage.getItem(ARC_FP_KEY) || ''; } catch(e) {}
+    const fremdGleich = JSON.stringify(arcMerge([], got.rounds).map(r => r.id).sort()) === JSON.stringify(ARC.map(r => r.id).sort());
+    if (!fremdGleich || o.force){
+      const put = await arcPut(cfg, got.sha);
+      if (!put.ok){ arcState('Schreiben fehlgeschlagen'); return false; }
+      try { localStorage.setItem(ARC_FP_KEY, jetzt); } catch(e) {}
+      arcState('gesichert · ' + ARC.length + ' Runden');
+    } else {
+      arcState('aktuell · ' + ARC.length + ' Runden');
+    }
+    return true;
+  } catch(e){
+    arcState('Fehler beim Abgleich');
+    return false;
+  } finally {
+    arcBusy = false; renderArchive();
+  }
+}
+
+/* Eine fertige Runde ins Archiv. Nur ganze Runden, kein Training. */
+function archiveRound(){
+  const scores = GM.scores.slice();
+  if (scores.some(v => v == null)) return;
+  const now = new Date();
+  const eintrag = {
+    id: 's' + now.getTime().toString(36) + Math.random().toString(36).slice(2, 6),
+    date: now.toISOString().slice(0, 10),
+    time: now.toTimeString().slice(0, 5),
+    scores,
+    balls: GM.ballByLane.slice(),
+    total: scores.reduce((a, b) => a + b, 0),
+    aces: scores.filter(v => v === 1).length,
+  };
+  ARC = arcMerge([eintrag], ARC);
+  arcSaveLocal();
+  renderArchive();
+  arcSync({});
+}
+
+function renderArchive(){
+  const el = $('archive'); if (!el) return;
+  el.textContent = '';
+  if (!ARC.length){
+    const p = document.createElement('p'); p.className = 'arcempty';
+    p.textContent = 'Noch keine beendete Runde. Eine Runde über alle 18 Bahnen landet hier automatisch.';
+    el.append(p); return;
+  }
+  const best = ARC.reduce((m, r) => (r.total < m.total ? r : m), ARC[0]);
+  const schnitt = ARC.reduce((a, r) => a + r.total, 0) / ARC.length;
+  const b = document.createElement('div'); b.className = 'arcbest';
+  const bs = document.createElement('strong'); bs.textContent = best.total;
+  const bt = document.createElement('span');
+  bt.textContent = 'beste Runde · ' + best.date.slice(8,10) + '.' + best.date.slice(5,7) + '.' + best.date.slice(0,4)
+    + ' · Schnitt ' + schnitt.toFixed(1).replace('.', ',') + ' aus ' + ARC.length;
+  b.append(bs, bt); el.append(b);
+  ARC.slice(0, 8).forEach(r => {
+    const d = document.createElement('div'); d.className = 'arcrow';
+    const dd = document.createElement('span'); dd.className = 'd';
+    dd.textContent = r.date.slice(8,10) + '.' + r.date.slice(5,7) + '. ' + (r.time || '');
+    const aa = document.createElement('span'); aa.className = 'a'; aa.textContent = r.aces ? r.aces + (r.aces === 1 ? ' Ass' : ' Asse') : '';
+    const tt = document.createElement('strong'); tt.textContent = r.total;
+    d.append(dd, aa, tt); el.append(d);
+  });
+  if (ARC.length > 8){
+    const p = document.createElement('p'); p.className = 'arcempty';
+    p.textContent = '… und ' + (ARC.length - 8) + ' weitere';
+    el.append(p);
+  }
+}
+
+arcLoadLocal();
+renderArchive();
+$('arcSync').addEventListener('click', () => arcSync({ manual: true }));
+setTimeout(() => arcSync({}), 1200);
+
 })();
 </script>
 
