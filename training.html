@@ -75,6 +75,8 @@ select { width: 100%; padding: 0.5rem; border: 1px solid #e7e5e4; border-radius:
   <div id="stats-filter-bar" style="display:flex; gap:0.4rem; margin-bottom:0.75rem;"></div>
   <!-- Hole selector -->
   <div class="hole-grid" id="hole-grid"></div>
+  <!-- Pistenplan der gerade gewaehlten Bahn -->
+  <div id="plan-link" style="margin:-0.5rem 0 1rem;"></div>
   <!-- Main content -->
   <div id="main"></div>
 </div>
@@ -94,7 +96,7 @@ const EINHEITEN_RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRAN
 const BALL_PLAYERS = ["Christian", "Birgit"];
 const GITHUB_CFG_KEY = "minigolf-github-config";
 const TRAINING_KEY   = "minigolf-training";
-const APP_VERSION    = "19";
+const APP_VERSION    = "20";
 
 // ── State ────────────────────────────────────────────────────
 let state = {
@@ -135,6 +137,10 @@ function setupKey(hole, playerName) {
 
 // ── Info ─────────────────────────────────────────────────────
 const CHANGELOG = [
+  { v: "20", items: [
+      "Unter dem Bahnraster führt ein Knopf zum Pistenplan der gewählten Bahn – animierte Draufsicht mit Ballweg, Hindernissen und den Angaben aus dem Pistenplan.",
+      "Von dort führt der 🎯-Knopf wieder hierher zurück, auf dieselbe Bahn."
+  ]},
   { v: "19", items: [
       "Vorlauf/Rücklauf pro Ball in der Ball-Statistik je Bahn.",
       "Info-Fenster mit Versionsverlauf."
@@ -571,6 +577,10 @@ function renderHoleGrid() {
     html += `<button class="hole-btn${cls}" onclick="selectHole(${i})" style="position:relative;">${badge || i}${hasPractice ? '<span style="position:absolute; top:2px; right:3px; width:6px; height:6px; border-radius:50%; background:#16a34a;"></span>' : ''}</button>`;
   }
   grid.innerHTML = html;
+  // Der Pistenplan derselben Bahn ist einen Tipp entfernt - und fuehrt auch
+  // wieder hierher zurueck.
+  const plan = document.getElementById('plan-link');
+  if (plan) plan.innerHTML = `<a href="pistenplan.html?back=training&hole=${state.hole}#bahn${state.hole}" style="display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none; background:white; border:1px solid #e7e5e4; border-radius:0.65rem; padding:0.5rem 0.8rem; font-size:0.85rem; font-weight:600; color:#2D6A4F; box-shadow:0 1px 3px rgba(0,0,0,0.06);">🗺️ Pistenplan Bahn ${state.hole} <span style="color:#a8a29e; font-weight:400;">ansehen →</span></a>`;
 }
 
 function clubSVG(bx, by, cSide, cFwd, cAngle, ballColor) {
