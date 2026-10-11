@@ -43,6 +43,7 @@ body{background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--f-body);-web
 .stage canvas{display:block;width:100%;cursor:crosshair}
 .status{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font:600 13px/1 var(--f-body);font-variant-numeric:tabular-nums;pointer-events:none;max-width:calc(100% - 150px)}
 .status .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.status #statusText{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .status[data-state="run"] .dot{background:var(--accent)}
 .status[data-state="done"] .dot{background:var(--good)}
 .tools{position:absolute;right:8px;top:8px;display:flex;gap:6px}
@@ -77,14 +78,31 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .picker{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:5px}
 .picker button{height:34px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:600 17px/1 var(--f-display);cursor:pointer}
 .picker button[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.card{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;font-variant-numeric:tabular-nums}
-.card div{display:grid;grid-template-rows:auto auto;text-align:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-.card div:nth-child(10n){border-right:0}
-.card span{font-size:11px;color:var(--muted);padding-top:3px}
-.card strong{font:600 18px/1.4 var(--f-display)}
-.card .cur{background:var(--soft)}
-.card .ace strong{color:var(--good)}
-.card .tot{background:var(--soft)}
+.boxhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mini{height:32px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);font:600 13px/1 var(--f-body);cursor:pointer}
+.mini:disabled{opacity:.42;cursor:not-allowed}
+.card{display:grid;gap:8px}
+/* Score card: one block for lanes 1–9 and one for 10–18; a row per player, name on the left, half total on the right. */
+.sc{display:grid;grid-template-columns:76px repeat(9,minmax(0,1fr)) 40px;border:1px solid var(--line);border-bottom:0;border-radius:10px;overflow:hidden;font-variant-numeric:tabular-nums}
+.sc > span{display:grid;place-items:center;min-height:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font:600 18px/1 var(--f-display)}
+.sc > span:nth-child(11n){border-right:0}
+.sc > .hd{min-height:22px;font:500 11px/1 var(--f-body);color:var(--muted)}
+.sc > .nm{justify-items:start;padding:0 6px;font:600 13px/1.1 var(--f-body);min-width:0}
+.sc > .nm i{font-style:normal;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.sc > .me{background:var(--soft)}
+.sc > .cur{background:var(--soft)}
+.sc > .now{box-shadow:inset 0 0 0 2px var(--accent)}
+.sc > .ace{color:var(--good)}
+.sc > .tot{background:var(--soft)}
+.sctot{margin:0;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sctot b{color:var(--ink);font-weight:600}
+.ped{display:grid;gap:8px}
+.pact{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px}
+.pact .btn{font-size:15px}
+.prow{display:grid;grid-template-columns:22px minmax(0,1fr) 44px;align-items:center;gap:8px}
+.prow span{font:600 15px/1 var(--f-display);color:var(--muted);text-align:center}
+.pin{height:44px;min-width:0;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:500 16px/1 var(--f-body)}
+.pin:focus{outline:2px solid var(--accent);outline-offset:1px}
 .help{margin:0;font-size:13px;line-height:1.5;color:var(--muted);max-width:62ch}
 
 /* Standalone in the Scorecard app: safe areas on the iPhone and a way back to the app. */
@@ -150,11 +168,22 @@ body{margin:0;-webkit-tap-highlight-color:transparent}
       <p class="msg" id="msg" role="status" aria-live="polite"></p>
       <nav class="picker" id="picker" aria-label="Bahn wählen" hidden></nav>
       <div class="box">
-        <p class="lbl">Spielkarte</p>
+        <div class="boxhead"><p class="lbl">Spielkarte</p><button type="button" class="mini" id="pEdit" aria-expanded="false">Spieler</button></div>
+        <div class="ped" id="ped" hidden>
+          <div class="ped" id="prows"></div>
+          <div class="pact">
+            <button type="button" class="btn" id="pAdd">+ Spieler</button>
+            <button type="button" class="btn" id="pCancel">Abbrechen</button>
+            <button type="button" class="btn primary" id="pOk">Übernehmen</button>
+          </div>
+          <p class="binfo" id="pHint"></p>
+        </div>
+        <datalist id="pnames"></datalist>
         <div class="card" id="card"></div>
       </div>
-      <p class="help">Ball im Abschlagkreis mit dem Finger verschieben. Tippen auf die Bahn setzt den Zielpunkt, zum Beispiel den Punkt an der Bande oder die Höhe in der Steilkurve. ↺ und ↻ drehen fein in Zehntelgrad. Die Stärke zeigt, wie weit der Ball auf ebener Bahn rollen würde. Banden, Steine, Rampen, Hügel und Steilkurven werden berechnet, jeder Ball springt nach seiner Sprunghöhe ab. Beim Anlagenball ist die Sprunghöhe geschätzt. Wie in echt ist keine Bahn ganz eben und kein Schlag ganz genau: Jede Bahn hat ihr eigenes leichtes Gefälle, und jeder Schlag weicht ein wenig in Richtung und Stärke ab und bekommt etwas Effet, der den Ball auf langen freien Strecken seitlich wegzieht. Ein Bandenkontakt nimmt den Effet größtenteils heraus und dämpft Richtungsfehler. Deshalb sind Wege über die Bande meist sicherer als gerade Schläge. Im Training lässt sich die Streuung abschalten.</p>
-      <p class="help">Spiel v1.2 · Bahnen nach dem Pistenplan Abteilung 1</p>
+      <p class="help">Ball im Abschlagkreis mit dem Finger verschieben. Tippen auf die Bahn setzt den Zielpunkt, zum Beispiel den Punkt an der Bande oder die Höhe in der Steilkurve. ↺ und ↻ drehen fein in Zehntelgrad. Die Stärke zeigt, wie weit der Ball auf ebener Bahn rollen würde. Banden, Steine, Rampen, Hügel und Steilkurven werden berechnet, jeder Ball springt nach seiner Sprunghöhe ab. Beim Anlagenball ist die Sprunghöhe geschätzt. Wie in echt ist keine Bahn ganz eben und kein Schlag ganz genau: Jede Bahn hat ihr eigenes leichtes Gefälle, und jeder Schlag weicht ein wenig in Richtung und Stärke ab und bekommt etwas Effet, der den Ball auf langen freien Strecken seitlich wegzieht. Ein Bandenkontakt nimmt den Effet größtenteils heraus und dämpft Richtungsfehler. Deshalb sind Wege über die Bande meist sicherer als gerade Schläge. Im Training lässt sich die Streuung abschalten. Am Loch zählt das Tempo: Ein langsamer Ball fällt, ein zu schneller springt über das Loch, prallt an der gegenüberliegenden Kante zurück oder läuft um die Kante herum wieder heraus.</p>
+      <p class="help">Mehrere Spieler: Unter „Spieler“ bei der Spielkarte Namen eintragen, bis zu sechs. Wie auf der Anlage spielt jeder die Bahn zu Ende, dann ist der Nächste dran; jeder behält seinen Ball und seine Stärke.</p>
+      <p class="help">Spiel v1.4 · Bahnen nach dem Pistenplan Abteilung 1</p>
     </div>
   </div>
 </div>
@@ -252,7 +281,8 @@ const LANES = [
    return [{label:'3 Uhr · direkt', ab:'3 Uhr', pts:[...A, [2,2.27]]},
            {label:'2 Uhr · RL links', ab:'2 Uhr', pts:[...B, {rl:-1}]}]; })()},
 {n:6, name:'Gerade Schanze', ball:'Ball 1', ab:'', note:'', d:[1,0], tee:[0.4,0],
- shapes:straight(), deco:[{t:'ramp', r:[2.8,-H,4.63,H]}, {t:'water', r:[4.63,-H,5.39,H]}],
+ /* From the video: the ramp climbs between brick walls to a raised flat top, the ball jumps off its edge over a gravel bed. */
+ shapes:straight(), deco:[{t:'ramp', r:[2.8,-H,4.1,H]}, {t:'raised', r:[4.1,-H,4.63,H]}, {t:'gravel', r:[4.63,-H,5.39,H]}],
  grenz:G(5.42), hole:[XC,0],
  ways:[{label:'Gerader Schlag', pts:[[4.63,0],[5.55,0,'a'],[XC,0]]},
        {label:'RL links', pts:[[4.43,-0.6,'b'],[4.63,-0.5867],[5.55,-0.5256,'a'],{rl:-1}]},
@@ -263,7 +293,8 @@ const LANES = [
  grenz:G(4.12), hole:[XC,0],
  ways:[{label:'Weg', pts:[[3.1,0],[4.9,0,'a'],[XC,0]]}]},
 {n:8, name:'Pudding', ball:'Ball 1, Ball 4', ab:'12 Uhr', note:'zieht etwas nach links', d:[1,0], tee:[0.4,0],
- shapes:straight(), deco:[{t:'hump', r:[3.27,-H,5.07,H]}, {t:'volcano', c:[XC,0,0.45]}],
+ /* From the video: a brick block across the lane; the ball runs up onto its flat top and drops off the vertical front. */
+ shapes:straight(), deco:[{t:'ramp', r:[3.27,-H,4.3,H]}, {t:'raised', r:[4.3,-H,5.07,H]}, {t:'volcano', c:[XC,0,0.45]}],
  grenz:G(5.14), hole:[XC,0],
  ways:[{label:'Weg', pts:[[3.27,0.02],[5.07,0.04,'a'],[8.2,0.03],[10.3,0.01],[XC,0,'v']]}]},
 (() => {
@@ -283,10 +314,12 @@ const LANES = [
  grenz:G(7.32), hole:[XC,0],
  ways:[{label:'Weg', pts:[[2.37,-0.08],[3.03,-0.08,'a'],[4.33,-0.075],[5.04,-0.075,'a'],[6.99,-0.07],[7.25,-0.07,'a'],{rl:-1}]}]},
 (() => { const cs = cr([[0,0],[3.14,-0.24],[6.42,-0.38],[8.25,-0.33],[9.5,-0.15],[10.75,0]], 12);
- const RAIL = -H + 0.42, X0 = 2.3, X1 = 9.2;
- const rail = offsetRange(cs, RAIL, X0, X1), wall = offsetRange(cs, -H, X0, X1);
+ const RAIL = -H + 0.42, X0 = 2.3, X1 = 9.2, XB = 8.3, KB = 0.029;
+ /* The last metre of the rail bends gently toward the hole (about 2.5 cm), so a ball running along the rail leaves it heading for the hole. */
+ const bend = pts => pts.map(p => p[0] > XB ? [p[0], p[1] + KB*(p[0]-XB)**2, ...p.slice(2)] : p);
+ const rail = bend(offsetRange(cs, RAIL, X0, X1, 0.05)), wall = offsetRange(cs, -H, X0, X1, 0.05);
  const s0 = alongX(cs, X0, -H + 0.21), s1 = alongX(cs, X1, -H + 0.21);
- const line = offsetRange(cs, RAIL + 0.035, 2.75, X1); line[0][2] = 'b';
+ const line = bend(offsetRange(cs, RAIL + 0.035, 2.75, X1)); line[0][2] = 'b';
  return {n:11, name:'Banane', ball:'Ball 1', ab:'12 Uhr', note:'nur Vorlauf', d:[1,0], tee:[0.4,0], cs,
  shapes:[strip(cs,H), circ(10.75,0,Math.atan2(-0.15,-1.25))],
  deco:[{t:'closed', p:wall.concat(rail.slice().reverse())}, {t:'rail', pts:rail},
@@ -478,6 +511,12 @@ function drawDeco(o){
   if (t==='box'){const [a,b,c,d] = o.r, i = 0.06; shapePath(o); ctx.fillStyle = COL.solid; ctx.fill(); ctx.fillStyle = '#34302C'; ctx.fillRect(a+i,b+i,c-a-2*i,d-b-2*i); return;}
   if (t==='tunnel'){shapePath(o); ctx.fillStyle = COL.solidDark; ctx.fill(); ctx.fillStyle = COL.hole; ctx.fillRect(o.r[0]-0.005,-0.13,0.09,0.26); return;}
   if (t==='beam'){shapePath(o); ctx.fillStyle = '#F4F1EA'; ctx.fill(); ctx.strokeStyle = '#3E3A36'; ctx.lineWidth = px(1.5); ctx.stroke(); return;}
+  if (t==='gravel'){
+    const [a,b,c,d] = o.r; shapePath(o); ctx.fillStyle = '#DAD6CC'; ctx.fill();
+    for (let i=1;i<160;i++){ ctx.beginPath(); ctx.arc(a+rnd(i*3)*(c-a), b+rnd(i*7+1)*(d-b), 0.012 + 0.012*rnd(i*11+2), 0, 2*PI);
+      ctx.fillStyle = rnd(i*13+5) > 0.5 ? '#F4F2EC' : '#B9B4A8'; ctx.fill(); }
+    return;
+  }
   if (t==='water'){
     const [a,b,c,d] = o.r; shapePath(o); ctx.fillStyle = '#4F86B3'; ctx.fill();
     ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = px(1);
@@ -573,6 +612,15 @@ const ballById = id => BALLS.find(b => b.id === id) || BALLS[2];
 const clamp01 = t => t < 0 ? 0 : t > 1 ? 1 : t;
 const sstep = (a,b,x) => { const t = clamp01((x-a)/(b-a)); return t*t*(3-2*t); };
 const bump = (x,a,c,h) => { if (x <= a || x >= c) return 0; const s = Math.sin(PI*(x-a)/(c-a)); return h*s*s; };
+/* Straight ramp from x0 up to height Hh at x1, with rounded foot (length r0) and rounded crest (length r1); flat after x1. */
+function rampUp(x, x0, x1, Hh, r0, r1){
+  const k = Hh/((x1-x0) - r0/2 - r1/2);
+  if (x <= x0) return 0;
+  if (x < x0 + r0) return k*(x-x0)*(x-x0)/(2*r0);
+  if (x <= x1 - r1) return k*r0/2 + k*(x-x0-r0);
+  if (x < x1) return Hh - k*(x1-x)*(x1-x)/(2*r1);
+  return Hh;
+}
 const inRect = (x,y,r) => x >= r[0] && x <= r[2] && y >= r[1] && y <= r[3];
 function lateral(cs, x, y){
   let best = 1e9, off = 0;
@@ -594,15 +642,17 @@ const PHYS = {
         return {p:[6.2 - e*0.03, 0.73], v:[-v*Math.sin(a), v*Math.cos(a)]}; }}]},
   5: {h:(x,y) => { if (y >= 0) return 0; const r = Math.hypot(x,y); if (r <= 2.15) return 0; const th = Math.atan2(y,x), e = Math.min(th+PI, -th);
       return 0.14*clamp01((r-2.15)/0.475)**2*sstep(0,0.35,e); }},
-  6: {h:(x,y) => { if (x >= 2.8 && x <= 4.63) return 0.16*(x-2.8)/1.83; if (x > 4.63 && x < 5.39) return -0.04; return 0; }, water:[[4.63,-H,5.39,H]]},
+  /* Lane 6 as in the video: ramp up to a raised flat top (estimate 35 cm), edge at 4.63, gravel bed behind it. */
+  6: {h:(x,y) => x <= 4.63 ? rampUp(x, 2.8, 4.1, 0.35, 0.2, 0.3) : 0, water:[[4.63,-H,5.39,H]], hazard:'Kiesbett'},
   7: {h:(x,y) => { const r = Math.hypot(x-XC, y); if (r < RC) return -0.03 - 0.17*clamp01(1 - (r-0.06)/(RC-0.06)); return bump(x,3.2,4.8,0.18); }, funnel:true},
-  8: {h:(x,y) => bump(x,3.27,5.07,0.12) + 0.05*(1-sstep(0.06,0.45,Math.hypot(x-XC,y))) + 0.004*y*sstep(5.1,5.6,x)*(1-sstep(9.0,9.5,x))},
+  /* Lane 8 as in the video: a brick block across the lane, ramp up to its flat top (estimate 25 cm), the ball drops off the front at 5.07. */
+  8: {h:(x,y) => (x <= 5.07 ? rampUp(x, 3.27, 4.3, 0.25, 0.15, 0.25) : 0) + 0.05*(1-sstep(0.06,0.45,Math.hypot(x-XC,y))) + 0.004*y*sstep(5.1,5.6,x)*(1-sstep(9.0,9.5,x))},
   10:{h:(x,y) => bump(x,2.37,3.03,0.06) + bump(x,4.33,5.04,0.06) + bump(x,6.99,7.25,0.04)},
   13:{h:null},
   15:{h:(x,y) => { if (x >= 3.1 && x < 3.69 && Math.abs(y) <= 0.125) return 0.12*(x-3.1)/0.59;
       if (x >= 5.06 && x <= 6.79){ if (x > 6.44 && Math.abs(y) <= 0.07) return 0.12*(1-(x-6.44)/0.35); return 0.12; } return 0; },
       portals:[{r:[3.665,-0.115,3.76,0.115], zmin:0.10, keepY:0.6, toX:5.12, dir:[1,0], v:vin => vin*0.85, z:0.12, t:0.45}]},
-  16:{portals:[{r:[-0.12,4.55,0.12,4.62], t:0.4, out:(x,y,vx,vy,vin) => { const e = Math.max(-1, Math.min(1, x/0.11)), a = (20 + e*6)*PI/180, v = Math.max(0.6, vin*0.85);
+  16:{portals:[{r:[-0.12,4.55,0.12,4.62], t:0.4, out:(x,y,vx,vy,vin) => { const e = Math.max(-1, Math.min(1, x/0.11)), a = (22 + e*8)*PI/180, v = Math.max(0.6, vin*0.85);
         return {p:[-0.43, 5.0 + e*0.04], v:[-v*Math.cos(a), v*Math.sin(a)]}; }}]},
   18:{h:(x,y) => { if (x >= 8.82 && x < 11.37) return 0.22*(x-8.82)/2.55; if (x >= 11.37) return 0.21; return 0; }, box:{r:[11.40,-0.25,12.1,0.25], vmax:0.6}}
 };
@@ -623,7 +673,8 @@ const wobH = (w,x,y) => w[0][0]*Math.sin(w[0][1]*x + w[0][2]*y + w[0][3]) + w[1]
 const hAt = (P,x,y) => (P.h ? P.h(x,y) : 0) + (P.wob && GM.terrain ? wobH(P.wob,x,y) : 0);
 /* Vertical speed of a rolling ball, taken from the surface just behind it, so an edge in front of it does not distort the take-off. */
 function backVz(P,x,y,vx,vy){ const sp = Math.hypot(vx,vy); if (sp < 1e-9) return 0; const d = 0.01, ux = vx/sp, uy = vy/sp;
-  return sp*Math.max(-0.7, Math.min(0.7, (hAt(P,x,y) - hAt(P,x-ux*d,y-uy*d))/d)); }
+  const k = (hAt(P,x,y) - hAt(P,x-ux*d,y-uy*d))/d;
+  return Math.abs(k) > 0.7 ? 0 : sp*k; }   /* steeper than 35° is an edge or step, not a slope to take off from */
 function gradH(P,x,y){ const d = 0.004; return [(hAt(P,x+d,y)-hAt(P,x-d,y))/(2*d), (hAt(P,x,y+d)-hAt(P,x,y-d))/(2*d)]; }
 
 /* Walls and stones: rasterise the lane at 1 cm, then a signed distance field (positive inside the playing surface). */
@@ -680,7 +731,65 @@ function getMask(L){
   for (let i=0;i<w*h;i++){ const on = img[i*4] > 127; inside[i] = on ? 1 : 0; outside[i] = on ? 0 : 1; }
   const dIn = edt(outside, w, h), dOut = edt(inside, w, h), sdf = new Float32Array(w*h);
   for (let i=0;i<w*h;i++) sdf[i] = inside[i] ? (Math.sqrt(dIn[i]) - 0.5)/res : -(Math.sqrt(dOut[i]) - 0.5)/res;
-  return (MASKS[L.n] = {x0, y0, w, h, res, sdf});
+  const M = {x0, y0, w, h, res, sdf};
+  M.walls = buildWalls(L, M);
+  return (MASKS[L.n] = M);
+}
+/* Exact walls. The raster above is only accurate to about a centimetre and turns a slanted band into small steps; a ball running
+   flat along a band or rail would bounce off those steps. So every edge of the shapes becomes a short line segment, kept where the
+   raster shows playing surface on one side and wall on the other. The rail is a chain of 3 cm thick segments. */
+function ringsOf(sh){
+  if (sh.r){ const [a,b,c,d] = sh.r; return [[[a,b],[c,b],[c,d],[a,d]]]; }
+  if (sh.c){ const [cx,cy,r] = sh.c, n = Math.max(32, Math.ceil(2*PI*r/0.01)); return [Array.from({length:n}, (_,k) => [cx + r*Math.cos(2*PI*k/n), cy + r*Math.sin(2*PI*k/n)])]; }
+  if (sh.p) return [sh.p];
+  if (sh.an){ const [cx,cy,ri,ro,a0,a1] = sh.an, n = Math.max(16, Math.ceil(Math.abs(a1-a0)*ro/0.01)), o = [];
+    for (let k=0;k<=n;k++){ const a = a0+(a1-a0)*k/n; o.push([cx+ro*Math.cos(a), cy+ro*Math.sin(a)]); }
+    for (let k=n;k>=0;k--){ const a = a0+(a1-a0)*k/n; o.push([cx+ri*Math.cos(a), cy+ri*Math.sin(a)]); }
+    return [o]; }
+  if (sh.e){ const [cx,cy,rx,ry,rot] = sh.e, c = Math.cos(rot||0), sn = Math.sin(rot||0), n = Math.max(48, Math.ceil(2*PI*Math.max(rx,ry)/0.005));
+    return [Array.from({length:n}, (_,k) => { const t = 2*PI*k/n, ex = rx*Math.cos(t), ey = ry*Math.sin(t); return [cx + ex*c - ey*sn, cy + ex*sn + ey*c]; })]; }
+  if (sh.rr){ const [cx,cy,w,h,a] = sh.rr, co = Math.cos(a), si = Math.sin(a);
+    return [[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]].map(([x,y]) => [cx+x*co-y*si, cy+x*si+y*co])]; }
+  return [];
+}
+function buildWalls(L, M){
+  const els = [], probe = 0.012, onLane = (x,y) => sdfAt(M,x,y) > 0;
+  const rings = [];
+  L.shapes.forEach(sh => rings.push(...ringsOf(sh)));
+  L.deco.forEach(o => { if (o.t==='solid' || o.t==='beam' || o.t==='tunnel' || o.t==='closed' || o.t==='cut') rings.push(...ringsOf(o)); });
+  for (const ring of rings){
+    for (let i=0;i<ring.length;i++){
+      const a = ring[i], b = ring[(i+1)%ring.length], len = Math.hypot(b[0]-a[0], b[1]-a[1]); if (len < 1e-6) continue;
+      const n = Math.ceil(len/0.02), tx = (b[0]-a[0])/len, ty = (b[1]-a[1])/len;
+      for (let k=0;k<n;k++){
+        const p0 = [a[0]+(b[0]-a[0])*k/n, a[1]+(b[1]-a[1])*k/n], p1 = [a[0]+(b[0]-a[0])*(k+1)/n, a[1]+(b[1]-a[1])*(k+1)/n];
+        const mx = (p0[0]+p1[0])/2, my = (p0[1]+p1[1])/2;
+        if (onLane(mx - ty*probe, my + tx*probe) !== onLane(mx + ty*probe, my - tx*probe)) els.push([p0[0], p0[1], p1[0], p1[1], 0]);
+      }
+    }
+  }
+  L.deco.forEach(o => { if (o.t==='rail') for (let i=0;i<o.pts.length-1;i++) els.push([o.pts[i][0], o.pts[i][1], o.pts[i+1][0], o.pts[i+1][1], 0.015]); });
+  const cs = 0.05, nx = Math.ceil(M.w/M.res/cs) + 1, ny = Math.ceil(M.h/M.res/cs) + 1, cells = new Array(nx*ny);
+  for (const e of els){
+    const pad = e[4] + BR + 0.04;
+    const i0 = Math.max(0, Math.floor((Math.min(e[0],e[2]) - pad - M.x0)/cs)), i1 = Math.min(nx-1, Math.floor((Math.max(e[0],e[2]) + pad - M.x0)/cs));
+    const j0 = Math.max(0, Math.floor((Math.min(e[1],e[3]) - pad - M.y0)/cs)), j1 = Math.min(ny-1, Math.floor((Math.max(e[1],e[3]) + pad - M.y0)/cs));
+    for (let j=j0;j<=j1;j++) for (let i=i0;i<=i1;i++) (cells[j*nx+i] || (cells[j*nx+i] = [])).push(e);
+  }
+  return {cs, nx, ny, cells, n:els.length};
+}
+/* Nearest wall to a point: distance to the wall surface and the unit normal pointing away from it. */
+function wallHit(M, x, y){
+  const W = M.walls, i = Math.floor((x-M.x0)/W.cs), j = Math.floor((y-M.y0)/W.cs);
+  if (i < 0 || j < 0 || i >= W.nx || j >= W.ny) return null;
+  const list = W.cells[j*W.nx+i]; if (!list) return null;
+  let best = 1e9, nx = 0, ny = 0;
+  for (const e of list){
+    const vx = e[2]-e[0], vy = e[3]-e[1], l2 = vx*vx + vy*vy, t = l2 > 0 ? clamp01(((x-e[0])*vx + (y-e[1])*vy)/l2) : 0;
+    const dx = x - e[0] - vx*t, dy = y - e[1] - vy*t, dd = Math.hypot(dx,dy), d = dd - e[4];
+    if (d < best && dd > 1e-9){ best = d; nx = dx/dd; ny = dy/dd; }
+  }
+  return best < 1e9 ? {d:best, n:[nx,ny]} : null;
 }
 function sdfAt(M,x,y){
   const gx = (x-M.x0)*M.res - 0.5, gy = (y-M.y0)*M.res - 0.5, i = Math.floor(gx), j = Math.floor(gy);
@@ -709,13 +818,55 @@ function newSim(L, b, p0, dir, v0, curl = 0){
 }
 function holeCheck(s, x, y, sp){
   const L = s.L, P = s.P;
-  if (L.hole){ const d = Math.hypot(x-L.hole[0], y-L.hole[1]); if (d < RH && (P.funnel || sp < 2*Math.sqrt(RH*RH-d*d)/0.07 + 0.03)){ s.done = 'holed'; return true; } }
+  if (L.hole){ const d = Math.hypot(x-L.hole[0], y-L.hole[1]); if (d < RH && (P.funnel || sp === 0)){ s.done = 'holed'; return true; } }
   if (P.box && inRect(x,y,P.box.r) && sp < P.box.vmax){ s.done = 'holed'; return true; }
   return false;
+}
+/* The hole: a sharp edge of radius RH. Over the hole the ball has no floor; it falls and meets the edge in 3D, and its spin is tracked
+   while it is there. That gives the real variety: a slow ball drops, a rolling ball's topspin lets a fast one climb the far edge and
+   hop over, a medium one hits the far edge and bounces back a bit, an off-centre one runs round the edge and leaves in a new direction
+   (Lochreißer). h is the height of the ball centre above the edge, w the spin vector. */
+const RIM_MU = 0.25, HOLE_IN = -0.012;
+function enterHole(s){
+  const L = s.L, [vx,vy] = s.v, rz = hAt(s.P, L.hole[0], L.hole[1]);
+  s.hole = {rz, h:s.z + BR - rz, vz:s.air ? s.vz : backVz(s.P, s.p[0], s.p[1], vx, vy), w:[-vy/BR, vx/BR, 0]};
+  s.air = false;
+}
+function holeStep(s, dt){
+  const L = s.L, c = L.hole, o = s.hole, w = o.w;
+  let [x,y] = s.p, [vx,vy] = s.v;
+  o.vz -= g*dt; x += vx*dt; y += vy*dt; o.h += o.vz*dt;
+  for (let it=0; it<2; it++){
+    const dx = x-c[0], dy = y-c[1], d = Math.hypot(dx,dy) || 1e-9;
+    const ex = dx - dx/d*RH, ey = dy - dy/d*RH, ez = o.h, dist = Math.hypot(ex, ey, ez);
+    if (dist >= BR || dist < 1e-9) break;
+    const nx = ex/dist, ny = ey/dist, nz = ez/dist;
+    x += nx*(BR-dist); y += ny*(BR-dist); o.h += nz*(BR-dist);
+    const vn = vx*nx + vy*ny + o.vz*nz;
+    if (vn >= 0) continue;
+    const Jn = -(1 + (-vn > 0.08 ? s.b.e : 0))*vn;
+    /* Friction at the edge acts on the slip of the contact point (centre velocity plus spin), at most RIM_MU times the push. */
+    const rx = -BR*nx, ry = -BR*ny, rz = -BR*nz;
+    let ux = vx + w[1]*rz - w[2]*ry, uy = vy + w[2]*rx - w[0]*rz, uz = o.vz + w[0]*ry - w[1]*rx;
+    const un = ux*nx + uy*ny + uz*nz; ux -= un*nx; uy -= un*ny; uz -= un*nz;
+    const us = Math.hypot(ux,uy,uz), Jt = us > 1e-6 ? Math.min(RIM_MU*Jn, us/3.5) : 0, tx = Jt ? -ux/us : 0, ty = Jt ? -uy/us : 0, tz = Jt ? -uz/us : 0;
+    vx += Jn*nx + Jt*tx; vy += Jn*ny + Jt*ty; o.vz += Jn*nz + Jt*tz;
+    const k = Jt/(0.4*BR*BR); w[0] += k*(ry*tz - rz*ty); w[1] += k*(rz*tx - rx*tz); w[2] += k*(rx*ty - ry*tx);
+    if (-vn > 0.15) s.ev.push({k:'bump', p:[x,y]});
+  }
+  s.p = [x,y]; s.v = [vx,vy];
+  const lt = s.trace[s.trace.length-1]; if (Math.hypot(x-lt[0], y-lt[1]) > 0.01) s.trace.push([x,y, o.h > BR + 0.003 ? 'a' : '']);
+  const d = Math.hypot(x-c[0], y-c[1]);
+  if (o.h < HOLE_IN && d < RH){ s.done = 'holed'; return; }
+  if (d >= RH && o.h <= BR){
+    const kl = 1 - Math.min(0.08, 0.03*Math.abs(o.vz));
+    s.v = [vx*kl, vy*kl]; s.z = hAt(s.P,x,y); s.air = false; s.vz = 0; s.hole = null;
+  } else if (d > RH + 0.25){ s.air = true; s.z = o.rz + o.h - BR; s.vz = o.vz; s.hole = null; }
 }
 function step(s, dt){
   const L = s.L, P = s.P, b = s.b; s.t += dt;
   if (s.t > 60){ s.done = 'rest'; return; }
+  if (s.hole){ holeStep(s, dt); return; }
   if (s.hid > 0){
     s.hid -= dt;
     if (s.hid <= 0){ const q = s.port; s.p = q.p; s.v = q.v; s.z = q.z; s.air = false; s.trace.push([q.p[0], q.p[1], 'h']); s.ev.push({k:'out', p:q.p.slice()}); }
@@ -759,10 +910,15 @@ function step(s, dt){
     }
   }
   for (let it=0; it<3; it++){
-    const d = sdfAt(s.M,x,y); if (d >= BR) break;
-    let gr = sdfGrad(s.M,x,y), l = Math.hypot(gr[0],gr[1]);
-    if (l < 1e-6){ const v0 = Math.hypot(vx,vy) || 1; gr = [-vx/v0, -vy/v0]; l = 1; }
-    const n = [gr[0]/l, gr[1]/l]; x += n[0]*(BR-d); y += n[1]*(BR-d);
+    const dr = sdfAt(s.M,x,y); if (dr > BR + 0.025) break;
+    const c = dr > -0.01 ? wallHit(s.M,x,y) : null;
+    let d, n;
+    if (c){ d = c.d; n = c.n; }
+    else { let gr = sdfGrad(s.M,x,y), l = Math.hypot(gr[0],gr[1]);
+      if (l < 1e-6){ const v0 = Math.hypot(vx,vy) || 1; gr = [-vx/v0, -vy/v0]; l = 1; }
+      d = dr; n = [gr[0]/l, gr[1]/l]; }
+    if (d >= BR) break;
+    x += n[0]*(BR-d); y += n[1]*(BR-d);
     const vn = vx*n[0] + vy*n[1];
     if (vn < 0){
       vx -= (1+b.e)*vn*n[0]; vy -= (1+b.e)*vn*n[1];
@@ -774,6 +930,7 @@ function step(s, dt){
   s.p = [x,y]; s.v = [vx,vy];
   if (L.grenz && segX([x0,y0],[x,y],L.grenz[0],L.grenz[1])) s.net += side(L.grenz,[x,y]) === L.gAfter ? 1 : -1;
   const lt = s.trace[s.trace.length-1]; if (Math.hypot(x-lt[0], y-lt[1]) > 0.02) s.trace.push([x,y, s.air ? 'a' : '']);
+  if (L.hole && !P.funnel && Math.hypot(x-L.hole[0], y-L.hole[1]) < RH){ enterHole(s); return; }
   if (s.air) return;
   if (P.water && P.water.some(r => inRect(x,y,r))){ s.trace.push([x,y,'']); s.done = 'water'; return; }
   if (P.portals) for (const q of P.portals){
@@ -797,32 +954,46 @@ function runSim(s, T){
 
 /* ---------- game state ---------- */
 const STORE = 'minigolf-abteilung1-v1';
-const GM = {mode:'round', lane:0, roundLane:0, scores:Array(18).fill(null), ballByLane:Array(18).fill(null), ball:'6', power:45,
+const newPlayer = name => ({name, scores:Array(18).fill(null), balls:Array(18).fill(null), ball:'6', power:45});
+const GM = {mode:'round', lane:0, roundLane:0, players:[newPlayer('Spieler 1')], cur:0, names:[], edit:null, ball:'6', power:45,
            pos:[0.4,0], atTee:true, beyond:false, strokes:0, aim:[3.9,0], teeBy:{}, aimBy:{}, phase:'aim', sim:null, traces:[],
            zoom:false, zc:null, tip:false, fast:false, noise:true, terrain:true, err:null, undo:null, ripples:[], anim:null, raf:0, lastT:0};
 /* Nobody hits exactly: each stroke strays a little in direction and strength, and the ball picks up a little side spin (normal distribution).
    SIG_C is the sideways pull in m/s²: on a free run of 10 m it moves a slow ball by several centimetres; a band contact takes most of it out. */
 const SIG_A = 0.35, SIG_P = 0.02, SIG_C = 0.02;
 function gauss(){ let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*PI*v); }
-function save(){ try { localStorage.setItem(STORE, JSON.stringify({mode:GM.mode, roundLane:GM.roundLane, scores:GM.scores, ballByLane:GM.ballByLane, ball:GM.ball, power:GM.power, lane:GM.lane})); } catch (e) {} }
+function save(){ try { localStorage.setItem(STORE, JSON.stringify({v:2, mode:GM.mode, roundLane:GM.roundLane, players:GM.players, cur:GM.cur, names:GM.names, ball:GM.ball, power:GM.power, lane:GM.lane})); } catch (e) {} }
 function load(){ try { const d = JSON.parse(localStorage.getItem(STORE) || 'null'); if (!d) return;
-  if (Array.isArray(d.scores) && d.scores.length === 18) GM.scores = d.scores; if (Array.isArray(d.ballByLane) && d.ballByLane.length === 18) GM.ballByLane = d.ballByLane;
-  if (d.roundLane >= 0 && d.roundLane < 18) GM.roundLane = d.roundLane; if (BALLS.some(b => b.id === d.ball)) GM.ball = d.ball;
+  const okBall = id => BALLS.some(b => b.id === id), arr = a => Array.isArray(a) && a.length === 18;
+  const fix = p => ({name:String(p.name || 'Spieler').slice(0,14), scores:arr(p.scores) ? p.scores.map(v => v >= 1 && v <= 7 ? v : null) : Array(18).fill(null),
+    balls:arr(p.balls) ? p.balls.map(b => okBall(b) ? b : null) : Array(18).fill(null), ball:okBall(p.ball) ? p.ball : '6', power:p.power >= 1 && p.power <= 100 ? p.power : 45});
+  if (Array.isArray(d.players) && d.players.length >= 1 && d.players.length <= 6) GM.players = d.players.map(fix);
+  else if (arr(d.scores)) GM.players = [fix({name:'Spieler 1', scores:d.scores, balls:d.ballByLane, ball:d.ball, power:d.power})];
+  if (d.cur >= 0 && d.cur < GM.players.length) GM.cur = d.cur;
+  if (Array.isArray(d.names)) GM.names = d.names.filter(n => typeof n === 'string').slice(0, 20);
+  if (d.roundLane >= 0 && d.roundLane < 18) GM.roundLane = d.roundLane; if (okBall(d.ball)) GM.ball = d.ball;
   if (d.power >= 1 && d.power <= 100) GM.power = d.power; if (d.mode === 'train' || d.mode === 'round') GM.mode = d.mode; if (d.lane >= 0 && d.lane < 18) GM.lane = d.lane; } catch (e) {} }
 
 const $ = id => document.getElementById(id);
 const fmt = (x, n=1) => x.toFixed(n).replace('.', ',');
 const L0 = () => LANES[GM.lane];
+const PL = () => GM.players[GM.cur];
+const multi = () => GM.players.length > 1;
+const sumOf = a => a.reduce((t,v) => t + (v || 0), 0);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+/* Tee spot and aim are remembered per player and lane (training has its own). */
+const mk = i => (GM.mode === 'round' ? GM.cur : 't') + ':' + i;
+const who = () => GM.mode === 'round' && multi() ? PL().name + ': ' : '';
 
 function initLane(i){
   GM.lane = i; const L = LANES[i];
-  GM.pos = (GM.teeBy[i] || L.tee).slice(); GM.atTee = true; GM.beyond = false; GM.strokes = 0; GM.traces = []; GM.sim = null;
+  GM.pos = (GM.teeBy[mk(i)] || L.tee).slice(); GM.atTee = true; GM.beyond = false; GM.strokes = 0; GM.traces = []; GM.sim = null;
   GM.phase = 'aim'; GM.undo = null; GM.anim = null; GM.ripples = []; GM.zc = GM.pos.slice();
-  GM.aim = (GM.aimBy[i] || [L.tee[0] + L.d[0]*3.5, L.tee[1] + L.d[1]*3.5]).slice();
-  if (GM.mode === 'round'){ GM.roundLane = i; if (GM.ballByLane[i]) GM.ball = GM.ballByLane[i]; }
+  GM.aim = (GM.aimBy[mk(i)] || [L.tee[0] + L.d[0]*3.5, L.tee[1] + L.d[1]*3.5]).slice();
+  if (GM.mode === 'round'){ GM.roundLane = i; const pl = PL(); GM.ball = pl.balls[i] || pl.ball || GM.ball; GM.power = pl.power || GM.power; }
   getMask(L); setMsg(''); save(); updateUI(); draw();
 }
-function toTee(text){ const L = L0(); GM.pos = (GM.teeBy[GM.lane] || L.tee).slice(); GM.atTee = true; GM.beyond = false; setMsg(text, 'warn'); }
+function toTee(text){ const L = L0(); GM.pos = (GM.teeBy[mk(GM.lane)] || L.tee).slice(); GM.atTee = true; GM.beyond = false; setMsg(text, 'warn'); }
 function setMsg(t, tone){ const m = $('msg'); m.textContent = t || ''; if (tone) m.dataset.tone = tone; else delete m.dataset.tone; }
 
 function shoot(){
@@ -831,10 +1002,10 @@ function shoot(){
   const dx = GM.aim[0]-GM.pos[0], dy = GM.aim[1]-GM.pos[1], l = Math.hypot(dx,dy);
   if (l < 0.03){ setMsg('Tipp zuerst auf die Bahn, um einen Zielpunkt zu setzen.', 'warn'); return; }
   GM.undo = {pos:GM.pos.slice(), atTee:GM.atTee, beyond:GM.beyond, strokes:GM.strokes};
-  if (GM.atTee) GM.teeBy[GM.lane] = GM.pos.slice();
-  GM.aimBy[GM.lane] = GM.aim.slice();
+  if (GM.atTee) GM.teeBy[mk(GM.lane)] = GM.pos.slice();
+  GM.aimBy[mk(GM.lane)] = GM.aim.slice();
   GM.strokes++;
-  if (GM.mode === 'round') GM.ballByLane[GM.lane] = GM.ball;
+  if (GM.mode === 'round'){ PL().balls[GM.lane] = GM.ball; PL().ball = GM.ball; }
   let ang = Math.atan2(dy, dx), v = powerToV(GM.power);
   let curl = 0;
   if (GM.noise){ const ea = Math.max(-1, Math.min(1, gauss()*SIG_A)), ep = Math.max(-0.06, Math.min(0.06, gauss()*SIG_P)), ec = Math.max(-2.5, Math.min(2.5, gauss()));
@@ -857,11 +1028,11 @@ function finishShot(){
   GM.sim = null;
   if (s.done === 'holed'){
     GM.pos = s.p.slice(); GM.phase = 'post'; GM.anim = {k:'hole', t0:now, p:s.p.slice()};
-    if (GM.mode === 'round') GM.scores[GM.lane] = GM.strokes;
-    setMsg(GM.strokes === 1 ? 'Ass! Mit einem Schlag im Loch.' : 'Im Loch mit ' + GM.strokes + ' Schlägen.', 'good');
+    if (GM.mode === 'round') PL().scores[GM.lane] = GM.strokes;
+    setMsg(who() + (GM.strokes === 1 ? 'Ass! Mit einem Schlag im Loch.' : 'Im Loch mit ' + GM.strokes + ' Schlägen.'), 'good');
   } else if (s.done === 'water'){
     GM.anim = {k:'splash', t0:now, p:s.p.slice()};
-    toTee('Wasser! Der Schlag zählt, weiter vom Abschlag.'); GM.phase = 'aim';
+    toTee((s.P.hazard ? 'Ins ' + s.P.hazard : 'Wasser') + '! Der Schlag zählt, weiter vom Abschlag.'); GM.phase = 'aim';
   } else {
     GM.beyond = GM.beyond ? s.net >= 0 : s.net > 0;
     GM.pos = s.p.slice(); GM.atTee = false; GM.phase = 'aim'; GM.zc = GM.pos.slice();
@@ -870,18 +1041,32 @@ function finishShot(){
     else setMsg(errText());
   }
   if (GM.mode === 'round' && s.done !== 'holed' && GM.strokes >= 6){
-    GM.scores[GM.lane] = 7; GM.phase = 'post'; setMsg('Nach 6 Schlägen nicht im Loch: 7 Punkte.', 'warn');
+    PL().scores[GM.lane] = 7; GM.phase = 'post'; setMsg(who() + 'Nach 6 Schlägen nicht im Loch: 7 Punkte.', 'warn');
   }
   save(); updateUI();
 }
+/* Like on the course: each player plays the lane to the end, then the next player; after the last one everybody moves on. */
 function nextAction(){
   if (GM.mode === 'train'){ initLane(GM.lane); return; }
-  if (GM.phase === 'over'){ GM.scores = Array(18).fill(null); GM.ballByLane = Array(18).fill(null); initLane(0); return; }
-  if (GM.lane < 17){ initLane(GM.lane + 1); return; }
+  if (GM.phase === 'over'){ newRound(); return; }
+  if (GM.cur < GM.players.length - 1){ GM.cur++; initLane(GM.lane); setMsg(PL().name + ' ist dran.'); return; }
+  if (GM.lane < 17){ GM.cur = 0; initLane(GM.lane + 1); if (multi()) setMsg(PL().name + ' beginnt Bahn ' + L0().n + '.'); return; }
   GM.phase = 'over';
-  const tot = GM.scores.reduce((a,b) => a + (b||0), 0), aces = GM.scores.filter(v => v === 1).length;
-  setMsg('Runde beendet: ' + tot + ' Punkte, ' + aces + (aces === 1 ? ' Ass.' : ' Asse.'), 'good'); save(); updateUI();
+  if (multi()){
+    const rank = GM.players.map(p => ({n:p.name, t:sumOf(p.scores)})).sort((a,b) => a.t - b.t);
+    setMsg('Runde beendet. ' + rank.map(r => (rank.findIndex(q => q.t === r.t) + 1) + '. ' + r.n + ' ' + r.t).join(' · '), 'good');
+  } else {
+    const sc = PL().scores, aces = sc.filter(v => v === 1).length;
+    setMsg('Runde beendet: ' + sumOf(sc) + ' Punkte, ' + aces + (aces === 1 ? ' Ass.' : ' Asse.'), 'good');
+  }
+  save(); updateUI();
 }
+function newRound(){
+  GM.players.forEach(p => { p.scores = Array(18).fill(null); p.balls = Array(18).fill(null); });
+  GM.cur = 0; GM.roundLane = 0;
+  if (GM.mode === 'round'){ initLane(0); if (multi()) setMsg(PL().name + ' beginnt.'); } else { save(); updateUI(); }
+}
+const roundStarted = () => GM.players.some(p => p.scores.some(v => v != null)) || (GM.mode === 'round' && GM.strokes > 0);
 function undo(){
   if (GM.mode !== 'train' || GM.phase !== 'aim' || !GM.undo) return;
   Object.assign(GM, {pos:GM.undo.pos.slice(), atTee:GM.undo.atTee, beyond:GM.undo.beyond, strokes:GM.undo.strokes}); GM.undo = null; GM.zc = GM.pos.slice();
@@ -936,10 +1121,11 @@ function draw(now = performance.now()){
     ctx.beginPath(); ctx.arc(sx, sy, 5 + 16*k, 0, 2*PI); ctx.strokeStyle = r.k === 'in' ? 'rgba(20,20,20,' + (1-k).toFixed(2) + ')' : 'rgba(255,255,255,' + (1-k).toFixed(2) + ')'; ctx.lineWidth = 1.8; ctx.stroke(); }
   let state = 'idle', txt = '';
   if (GM.sim){
-    const s = GM.sim, lift = s.air ? Math.max(0, s.z - hAt(s.P, s.p[0], s.p[1])) : 0;
-    if (s.hid <= 0) drawBall(s.p, 1, lift);
+    const s = GM.sim, o = s.hole, lift = o ? Math.max(0, o.h - BR) : s.air ? Math.max(0, s.z - hAt(s.P, s.p[0], s.p[1])) : 0;
+    const sink = o && o.h < BR ? 1 - 0.35*clamp01((BR - o.h)/(BR - HOLE_IN)) : 1;
+    if (s.hid <= 0) drawBall(s.p, sink, lift);
     const sp = Math.hypot(s.v[0], s.v[1]);
-    txt = s.hid > 0 ? 'Im Hindernis' : s.air ? 'In der Luft' : 'Rollt · ' + fmt(sp) + ' m/s'; state = 'run';
+    txt = s.hid > 0 ? 'Im Hindernis' : o ? 'Am Loch' : s.air ? 'In der Luft' : 'Rollt · ' + fmt(sp) + ' m/s'; state = 'run';
   } else if (GM.anim && GM.anim.k === 'hole'){
     const k = clamp01((now - GM.anim.t0)/380); drawBall(GM.anim.p, 1-k, 0); if (k >= 1) GM.anim = null;
   } else if (GM.phase !== 'post' && GM.phase !== 'over'){ drawBall(GM.pos, 1, 0); }
@@ -951,7 +1137,7 @@ function draw(now = performance.now()){
   if (!GM.sim){
     if (GM.phase === 'post'){ txt = GM.last === 'holed' ? (GM.strokes === 1 ? 'Ass' : 'Im Loch') : '7 Punkte'; state = 'done'; }
     else if (GM.phase === 'over'){ txt = 'Runde beendet'; state = 'done'; }
-    else txt = 'Schlag ' + (GM.strokes + 1) + (GM.atTee ? ' · Abschlag' : '');
+    else txt = (GM.mode === 'round' && multi() ? PL().name + ' · ' : '') + 'Schlag ' + (GM.strokes + 1) + (GM.atTee ? ' · Abschlag' : '');
   }
   const st = $('status'); if ($('statusText').textContent !== txt) $('statusText').textContent = txt; st.dataset.state = state;
   const mut = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#556', x0 = 14, y0 = HC - 13;
@@ -980,9 +1166,9 @@ function dirInfo(){
 function updateUI(){
   const L = L0(), b = ballById(GM.ball), lockBall = GM.mode === 'round' && GM.strokes > 0;
   $('hNum').textContent = L.n; $('hName').textContent = L.name;
-  const tot = GM.scores.reduce((a,v) => a + (v||0), 0);
+  const tot = sumOf(PL().scores);
   const parts = [];
-  if (GM.mode === 'round') parts.push('<b>Schlag ' + Math.min(GM.strokes + (GM.phase === 'aim' ? 1 : 0), 6) + ' von 6</b>', 'Gesamt ' + tot);
+  if (GM.mode === 'round') parts.push((multi() ? '<b>' + esc(PL().name) + '</b> · ' : '') + '<b>Schlag ' + Math.min(GM.strokes + (GM.phase === 'aim' ? 1 : 0), 6) + ' von 6</b>', 'Gesamt ' + tot);
   else parts.push('<b>Training</b>', GM.strokes + (GM.strokes === 1 ? ' Schlag' : ' Schläge'));
   parts.push('Pistenplan: ' + L.ball + (L.ab ? ' · ' + L.ab : '') + (L.note ? ' · ' + L.note : ''));
   $('meta').innerHTML = parts.join(' · ');
@@ -994,7 +1180,7 @@ function updateUI(){
   const di = dirInfo(), a = Math.abs(di.a) < 0.05 ? 0 : di.a;
   $('dirOut').innerHTML = (a === 0 ? 'Geradeaus' : fmt(Math.abs(a)) + '° ' + (a > 0 ? 'rechts' : 'links')) + '<small>Zielpunkt ' + fmt(di.dist,2) + ' m vor dem Ball</small>';
   const aimOK = GM.phase === 'aim';
-  $('shootBtn').textContent = GM.phase === 'roll' ? 'Rollt …' : GM.phase === 'over' ? 'Neue Runde' : GM.phase === 'post' ? (GM.mode === 'train' ? 'Nochmal' : GM.lane < 17 ? 'Nächste Bahn' : 'Runde beenden') : 'Schlagen';
+  $('shootBtn').textContent = GM.phase === 'roll' ? 'Rollt …' : GM.phase === 'over' ? 'Neue Runde' : GM.phase === 'post' ? (GM.mode === 'train' ? 'Nochmal' : GM.cur < GM.players.length - 1 ? 'Weiter: ' + GM.players[GM.cur+1].name : GM.lane < 17 ? 'Nächste Bahn' : 'Runde beenden') : 'Schlagen';
   $('shootBtn').disabled = GM.phase === 'roll';
   $('placeBtn').disabled = !canPlace();
   $('undoBtn').hidden = GM.mode !== 'train'; $('undoBtn').disabled = !(aimOK && GM.undo);
@@ -1003,14 +1189,71 @@ function updateUI(){
   [...$('picker').children].forEach((el,i) => el.setAttribute('aria-current', i === GM.lane));
   $('zoomBtn').setAttribute('aria-pressed', GM.zoom); $('tipBtn').setAttribute('aria-pressed', GM.tip); $('fastBtn').setAttribute('aria-pressed', GM.fast);
   $('noiseBtn').setAttribute('aria-pressed', GM.noise); $('noiseBtn').hidden = GM.mode !== 'train';
-  const card = $('card'); card.textContent = '';
-  LANES.forEach((ln,i) => { const d = document.createElement('div'), v = GM.scores[i];
-    if (GM.mode === 'round' && i === GM.lane) d.className = 'cur'; if (v === 1) d.classList.add('ace');
-    const s1 = document.createElement('span'); s1.textContent = ln.n; const s2 = document.createElement('strong'); s2.textContent = v == null ? '·' : v;
-    d.append(s1, s2); card.append(d);
-    if (i === 8){ const t = document.createElement('div'); t.className = 'tot'; const a1 = document.createElement('span'); a1.textContent = '1–9'; const a2 = document.createElement('strong');
-      a2.textContent = GM.scores.slice(0,9).reduce((a,v) => a + (v||0), 0); t.append(a1,a2); card.append(t); } });
-  const t2 = document.createElement('div'); t2.className = 'tot'; const b1 = document.createElement('span'); b1.textContent = 'Σ'; const b2 = document.createElement('strong'); b2.textContent = tot; t2.append(b1,b2); card.append(t2);
+  $('pEdit').disabled = GM.phase === 'roll';
+  renderCard();
+}
+function renderCard(){
+  const card = $('card'), round = GM.mode === 'round'; card.textContent = '';
+  const cell = (grid, txt, cls, label) => { const c = document.createElement('span'); if (cls) c.className = cls;
+    if (cls && cls.includes('nm')){ const i = document.createElement('i'); i.textContent = txt; c.append(i); } else c.textContent = txt;
+    if (label) c.setAttribute('aria-label', label); grid.append(c); };
+  for (const h of [0, 9]){
+    const grid = document.createElement('div'); grid.className = 'sc';
+    cell(grid, '', 'hd');
+    for (let i=h;i<h+9;i++) cell(grid, LANES[i].n, 'hd' + (round && i === GM.lane ? ' cur' : ''));
+    cell(grid, h ? '10–18' : '1–9', 'hd tot');
+    GM.players.forEach((p, pi) => {
+      cell(grid, p.name, 'nm' + (round && pi === GM.cur ? ' me' : ''));
+      for (let i=h;i<h+9;i++){ const v = p.scores[i];
+        cell(grid, v == null ? '·' : v, (v === 1 ? 'ace' : '') + (round && i === GM.lane ? ' cur' : '') + (round && pi === GM.cur && i === GM.lane && GM.phase !== 'over' ? ' now' : ''), p.name + ', Bahn ' + LANES[i].n + ': ' + (v == null ? 'offen' : v)); }
+      cell(grid, sumOf(p.scores.slice(h, h+9)), 'tot');
+    });
+    card.append(grid);
+  }
+  const t = document.createElement('p'); t.className = 'sctot';
+  t.innerHTML = GM.players.map(p => { const a = p.scores.filter(v => v === 1).length; return esc(p.name) + ': <b>' + sumOf(p.scores) + '</b>' + (a ? ' (' + a + (a === 1 ? ' Ass)' : ' Asse)') : ''); }).join(' · ');
+  card.append(t);
+}
+
+/* Player editor: up to six names. Renaming never touches the scores; adding, removing or reordering players starts a new round once the round has begun. */
+function openEditor(){ GM.edit = GM.players.map((p,i) => ({name:p.name, src:i})); renderEditor(); $('ped').hidden = false; $('pEdit').setAttribute('aria-expanded', 'true'); }
+function closeEditor(){ GM.edit = null; $('ped').hidden = true; $('pEdit').setAttribute('aria-expanded', 'false'); }
+const structural = () => GM.edit.length !== GM.players.length || GM.edit.some((e,i) => e.src !== i);
+function editorState(){
+  const restart = structural() && roundStarted();
+  $('pOk').textContent = restart ? 'Neue Runde starten' : 'Übernehmen';
+  $('pHint').textContent = restart ? 'Die laufende Runde wird dabei neu begonnen.' : 'Reihenfolge wie eingetragen. Namen ändern lässt die Punkte stehen.';
+  $('pAdd').disabled = GM.edit.length >= 6;
+}
+function renderEditor(){
+  const box = $('prows'); box.textContent = '';
+  GM.edit.forEach((e,i) => {
+    const row = document.createElement('div'); row.className = 'prow';
+    const nr = document.createElement('span'); nr.textContent = i + 1;
+    const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'pin'; inp.maxLength = 14; inp.value = e.name; inp.placeholder = 'Spieler ' + (i+1);
+    inp.setAttribute('list', 'pnames'); inp.setAttribute('aria-label', 'Name Spieler ' + (i+1)); inp.autocomplete = 'off';
+    inp.addEventListener('input', () => { e.name = inp.value; });
+    const del = document.createElement('button'); del.type = 'button'; del.className = 'sq'; del.textContent = '×'; del.setAttribute('aria-label', 'Spieler ' + (i+1) + ' entfernen');
+    del.disabled = GM.edit.length <= 1; del.addEventListener('click', () => { GM.edit.splice(i, 1); renderEditor(); });
+    row.append(nr, inp, del); box.append(row);
+  });
+  const dl = $('pnames'); dl.textContent = ''; GM.names.forEach(n => { const o = document.createElement('option'); o.value = n; dl.append(o); });
+  editorState();
+}
+function applyEditor(){
+  if (GM.phase === 'roll') return;
+  const names = GM.edit.map((e,i) => (e.name || '').trim().slice(0,14) || 'Spieler ' + (i+1));
+  const restart = structural() && roundStarted(), changed = structural();
+  if (changed){
+    GM.players = GM.edit.map((e,i) => e.src != null && !restart ? Object.assign(GM.players[e.src], {name:names[i]}) : newPlayer(names[i]));
+    GM.cur = 0;
+  } else GM.players.forEach((p,i) => { p.name = names[i]; });
+  names.forEach(n => { if (!/^Spieler \d$/.test(n)){ GM.names = [n, ...GM.names.filter(m => m !== n)].slice(0, 20); } });
+  closeEditor();
+  if (restart) newRound();
+  else if (changed && GM.mode === 'round') initLane(GM.roundLane);
+  else { save(); updateUI(); draw(); }
+  if (multi() && GM.mode === 'round' && GM.phase === 'aim') setMsg(PL().name + ' ist dran.');
 }
 
 BALLS.forEach(b => {
@@ -1018,7 +1261,7 @@ BALLS.forEach(b => {
   const dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = b.ring ? 'radial-gradient(circle, ' + b.ring + ' 0 45%, ' + b.col + ' 49%)' : b.col; dot.style.color = b.ring ? b.txt : b.txt; dot.textContent = b.lab || b.id;
   const nm = document.createElement('span'); nm.textContent = b.name;
   const sm = document.createElement('small'); sm.textContent = b.id === 'A' ? 'Sprung ?' : (b.jump || Math.round(b.e*b.e*100)) + ' cm';
-  el.append(dot, nm, sm); el.addEventListener('click', () => { if (el.disabled) return; GM.ball = b.id; save(); updateUI(); draw(); }); $('balls').append(el);
+  el.append(dot, nm, sm); el.addEventListener('click', () => { if (el.disabled) return; GM.ball = b.id; if (GM.mode === 'round') PL().ball = b.id; save(); updateUI(); draw(); }); $('balls').append(el);
 });
 LANES.forEach((L,i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = L.n; b.setAttribute('aria-label', 'Bahn ' + L.n + ', ' + L.name);
   b.addEventListener('click', () => { if (GM.phase === 'roll') return; initLane(i); }); $('picker').append(b); });
@@ -1034,7 +1277,7 @@ function rotate(deg){
   if (GM.phase !== 'aim') return; const a = deg*PI/180, c = Math.cos(a), s = Math.sin(a), dx = GM.aim[0]-GM.pos[0], dy = GM.aim[1]-GM.pos[1];
   GM.aim = [GM.pos[0] + dx*c - dy*s, GM.pos[1] + dx*s + dy*c]; updateUI(); draw();
 }
-const setPow = p => { GM.power = Math.max(1, Math.min(100, Math.round(p))); save(); updateUI(); };
+const setPow = p => { GM.power = Math.max(1, Math.min(100, Math.round(p))); if (GM.mode === 'round') PL().power = GM.power; save(); updateUI(); };
 hold($('rotL'), () => rotate(-0.1)); hold($('rotR'), () => rotate(0.1));
 hold($('powMinus'), () => setPow(GM.power - 1)); hold($('powPlus'), () => setPow(GM.power + 1));
 $('pow').addEventListener('input', e => setPow(+e.target.value));
@@ -1047,6 +1290,11 @@ $('fastBtn').addEventListener('click', () => { GM.fast = !GM.fast; updateUI(); }
 $('noiseBtn').addEventListener('click', () => { if (GM.mode !== 'train') return; GM.noise = !GM.noise; setMsg(GM.noise ? 'Streuung an: jeder Schlag weicht ein wenig ab und bekommt etwas Effet, wie in echt.' : 'Streuung aus: der Ball läuft genau so, wie du ihn einstellst.'); updateUI(); });
 $('mRound').addEventListener('click', () => { if (GM.phase === 'roll' || GM.mode === 'round') return; GM.mode = 'round'; GM.noise = true; initLane(GM.roundLane); });
 $('mTrain').addEventListener('click', () => { if (GM.phase === 'roll' || GM.mode === 'train') return; GM.mode = 'train'; initLane(GM.lane); });
+$('pEdit').addEventListener('click', () => { if (GM.edit) closeEditor(); else openEditor(); });
+$('pAdd').addEventListener('click', () => { if (GM.edit.length >= 6) return; GM.edit.push({name:'', src:null}); renderEditor(); const ins = $('prows').querySelectorAll('.pin'); ins[ins.length-1].focus(); });
+$('pCancel').addEventListener('click', closeEditor);
+$('pOk').addEventListener('click', applyEditor);
+$('prows').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.classList.contains('pin')){ e.preventDefault(); applyEditor(); } });
 
 let drag = null;
 cv.addEventListener('pointerdown', e => {
@@ -1066,7 +1314,7 @@ cv.addEventListener('pointermove', e => {
   } else GM.aim = p;
   updateUI(); draw();
 });
-['pointerup','pointercancel'].forEach(ev => cv.addEventListener(ev, () => { if (drag === 'ball') GM.teeBy[GM.lane] = GM.pos.slice(); drag = null; }));
+['pointerup','pointercancel'].forEach(ev => cv.addEventListener(ev, () => { if (drag === 'ball') GM.teeBy[mk(GM.lane)] = GM.pos.slice(); drag = null; }));
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.altKey || e.metaKey || e.ctrlKey) return;
   if (e.key === 'ArrowLeft'){ rotate(e.shiftKey ? -1 : -0.1); e.preventDefault(); }
