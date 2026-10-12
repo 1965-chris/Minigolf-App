@@ -108169,6 +108169,21 @@
         }
       ],
       "updatedAt": 1791716568895
+    },
+    {
+      "id": "484xxh09",
+      "date": "2026-10-12",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "16:23"
+        }
+      ],
+      "updatedAt": 1791815012624
     }
   ],
   "aceStreakSettings": {
