@@ -108434,6 +108434,21 @@
         }
       ],
       "updatedAt": 1791815012624
+    },
+    {
+      "id": "lzado858",
+      "date": "2026-10-14",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "15:29"
+        }
+      ],
+      "updatedAt": 1791984594879
     }
   ],
   "aceStreakSettings": {
