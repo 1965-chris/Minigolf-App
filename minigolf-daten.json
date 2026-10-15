@@ -7,6 +7,69 @@
         {
           "date": "2026-10-15",
           "year": "2026",
+          "groupId": "x5latq4y",
+          "time": "17:03",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "66ld895k",
+          "scores": [
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            2,
+            4,
+            2,
+            2,
+            4
+          ],
+          "stars": {
+            "2": true,
+            "3": true
+          },
+          "runs": {
+            "0": "rueck",
+            "2": "vor",
+            "3": "rueck"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-15",
+          "year": "2026",
           "groupId": "an59c990",
           "time": "16:19",
           "weather": [
@@ -103642,6 +103705,43 @@
       "id": "2v122fi8",
       "name": "Andreas",
       "rounds": [
+        {
+          "date": "2026-10-15",
+          "year": "2026",
+          "groupId": "x5latq4y",
+          "time": "17:03",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "20",
+          "windSpeed": "10",
+          "precipProbability": "0",
+          "id": "5ss0ii7i",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "stars": {
+            "3": true
+          },
+          "orderTracked": true
+        },
         {
           "date": "2026-10-15",
           "year": "2026",
