@@ -7,6 +7,65 @@
         {
           "date": "2026-10-16",
           "year": "2026",
+          "groupId": "ike89e9l",
+          "time": "17:17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "10",
+          "precipProbability": "16",
+          "id": "677z2ttb",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            6,
+            2,
+            1,
+            3
+          ],
+          "runs": {
+            "6": "rueck",
+            "10": "vor",
+            "16": "rueck"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-16",
+          "year": "2026",
           "groupId": "6kyr21yd",
           "time": "15:59",
           "weather": [
@@ -75404,6 +75463,44 @@
         {
           "date": "2026-10-16",
           "year": "2026",
+          "groupId": "ike89e9l",
+          "time": "17:17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "10",
+          "precipProbability": "16",
+          "id": "w5kv6vsy",
+          "scores": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "2": true,
+            "4": true
+          },
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-16",
+          "year": "2026",
           "groupId": "6kyr21yd",
           "time": "15:59",
           "weather": [
@@ -78570,6 +78667,60 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-10-16",
+          "year": "2026",
+          "groupId": "ike89e9l",
+          "time": "17:17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "10",
+          "precipProbability": "16",
+          "id": "ia8ljnl9",
+          "scores": [
+            1,
+            1,
+            1,
+            4,
+            2,
+            4,
+            1,
+            2,
+            5,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            7
+          ],
+          "ballsByHole": [
+            "tc7hza19",
+            "tc7hza19",
+            "tc7hza19",
+            "6jdq23bi",
+            "tc7hza19",
+            "vwtdywti",
+            "tourn_j6wb1ykk",
+            "vwtdywti",
+            "tc7hza19",
+            "vwtdywti",
+            "vwtdywti",
+            "tc7hza19",
+            "f5j2vrqx",
+            "tc7hza19",
+            "f5j2vrqx",
+            "j0it62hd",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
         {
           "date": "2026-10-16",
           "year": "2026",
@@ -103983,6 +104134,43 @@
       "id": "2v122fi8",
       "name": "Andreas",
       "rounds": [
+        {
+          "date": "2026-10-16",
+          "year": "2026",
+          "groupId": "ike89e9l",
+          "time": "17:17",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "22",
+          "windSpeed": "10",
+          "precipProbability": "16",
+          "id": "z93pyyvw",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "stars": {
+            "8": true
+          },
+          "orderTracked": true
+        },
         {
           "date": "2026-10-15",
           "year": "2026",
