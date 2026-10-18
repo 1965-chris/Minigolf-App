@@ -109381,6 +109381,21 @@
         }
       ],
       "updatedAt": 1792161142837
+    },
+    {
+      "id": "sy66t38p",
+      "date": "2026-10-18",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "15:16"
+        }
+      ],
+      "updatedAt": 1792329412584
     }
   ],
   "aceStreakSettings": {
