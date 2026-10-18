@@ -7,6 +7,61 @@
         {
           "date": "2026-10-18",
           "year": "2026",
+          "groupId": "465y57y2",
+          "time": "17:28",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "10",
+          "precipProbability": "4",
+          "id": "qe7y3vxd",
+          "scores": [
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            2,
+            2,
+            1
+          ],
+          "seq": 0,
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-18",
+          "year": "2026",
           "groupId": "gn6pvsvn",
           "time": "16:08",
           "weather": [
@@ -99983,6 +100038,41 @@
         {
           "date": "2026-10-18",
           "year": "2026",
+          "groupId": "465y57y2",
+          "time": "17:28",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "10",
+          "precipProbability": "4",
+          "id": "w33zdnr0",
+          "scores": [
+            2,
+            3,
+            1,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            1
+          ],
+          "seq": 1,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-18",
+          "year": "2026",
           "groupId": "gn6pvsvn",
           "time": "16:08",
           "weather": [
@@ -109854,7 +109944,8 @@
     "h578sp9s",
     "rqg4acf9",
     "n0qsxifs",
-    "71pqlx63"
+    "71pqlx63",
+    "nq1qenqm"
   ],
   "deletedIds": {
     "rounds": [
