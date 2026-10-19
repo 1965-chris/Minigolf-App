@@ -109841,6 +109841,26 @@
         }
       ],
       "updatedAt": 1792335054805
+    },
+    {
+      "id": "olvwlyz2",
+      "date": "2026-10-19",
+      "year": "2026",
+      "name": "Getränke + Snacks",
+      "amount": 5,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 4,
+          "time": "15:04"
+        },
+        {
+          "cat": "Snacks",
+          "amount": 1,
+          "time": "15:04"
+        }
+      ],
+      "updatedAt": 1792415067991
     }
   ],
   "aceStreakSettings": {
