@@ -110623,7 +110623,63 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [],
+  "pausedRounds": [
+    {
+      "pauseId": "iapclce2",
+      "pausedAt": "2026-10-19T18:06:26.227Z",
+      "phase": "play",
+      "selectedIds": [
+        "gccblctp"
+      ],
+      "saveIds": [
+        "gccblctp"
+      ],
+      "date": "2026-10-19",
+      "time": "20:02",
+      "currentHole": 0,
+      "tournamentRound": 1,
+      "weatherKeys": [
+        "cloud"
+      ],
+      "temperature": "12",
+      "windSpeed": "17",
+      "precipProbability": "0",
+      "scoresByPlayer": {
+        "gccblctp": [
+          "2",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "notesByPlayer": {
+        "gccblctp": {}
+      },
+      "starsByPlayer": {
+        "gccblctp": {}
+      },
+      "runByPlayer": {},
+      "joinedAtHole": {},
+      "holeOrder": [
+        0,
+        1
+      ]
+    }
+  ],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
