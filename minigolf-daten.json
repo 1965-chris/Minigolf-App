@@ -7,6 +7,61 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "psawhimz",
+          "time": "20:06",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "17",
+          "precipProbability": "0",
+          "id": "ksmsz4w7",
+          "scores": [
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1
+          ],
+          "seq": 1,
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "jsn4oe4y",
           "time": "19:57",
           "weather": [
@@ -75876,6 +75931,41 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "psawhimz",
+          "time": "20:06",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "17",
+          "precipProbability": "0",
+          "id": "gya1m6d5",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            3,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "seq": 0,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "jsn4oe4y",
           "time": "19:57",
           "weather": [
@@ -103979,6 +104069,41 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "psawhimz",
+          "time": "20:06",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "17",
+          "precipProbability": "0",
+          "id": "ffcec8qr",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "seq": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "jsn4oe4y",
           "time": "19:57",
           "weather": [
@@ -110489,6 +110614,27 @@
     "voiceName": "Anna"
   },
   "treats": [
+    {
+      "id": "tzefcafk",
+      "date": "2026-10-19",
+      "giverId": "p2",
+      "giverName": "Christian",
+      "reason": "4 Asse in Folge · Bahn 8",
+      "recipients": [
+        {
+          "id": "gccblctp",
+          "name": "Gerd",
+          "done": false
+        },
+        {
+          "id": "f2efl6m2",
+          "name": "Matthias",
+          "done": false
+        }
+      ],
+      "doneAt": null,
+      "updatedAt": 1792433431005
+    },
     {
       "id": "si23f3ch",
       "date": "2026-10-19",
