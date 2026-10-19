@@ -110400,32 +110400,6 @@
   },
   "treats": [
     {
-      "id": "74kf6lhk",
-      "date": "2026-10-19",
-      "giverId": "p2",
-      "giverName": "Christian",
-      "reason": "4 Asse in Folge · Bahn 9",
-      "recipients": [
-        {
-          "id": "gccblctp",
-          "name": "Gerd",
-          "done": true
-        },
-        {
-          "id": "f2efl6m2",
-          "name": "Matthias",
-          "done": false
-        }
-      ],
-      "doneAt": null,
-      "updatedAt": 1792435817268,
-      "roundIds": [
-        "wmqc1xdd",
-        "4z8303sk",
-        "aqn36eyn"
-      ]
-    },
-    {
       "id": "ckd1d9s3",
       "date": "2026-10-19",
       "giverId": "gccblctp",
