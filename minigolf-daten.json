@@ -110275,6 +110275,42 @@
   },
   "treats": [
     {
+      "id": "obg8zp4o",
+      "date": "2026-10-19",
+      "giverId": "p2",
+      "giverName": "Christian",
+      "reason": "Nur so",
+      "recipients": [
+        {
+          "id": "f2efl6m2",
+          "name": "Matthias",
+          "done": false
+        },
+        {
+          "id": "yc6i458y",
+          "name": "Anette",
+          "done": false
+        },
+        {
+          "id": "p1",
+          "name": "Birgit",
+          "done": false
+        },
+        {
+          "id": "2v122fi8",
+          "name": "Andreas",
+          "done": false
+        },
+        {
+          "id": "gccblctp",
+          "name": "Gerd",
+          "done": false
+        }
+      ],
+      "doneAt": null,
+      "updatedAt": 1792434219235
+    },
+    {
       "id": "tzefcafk",
       "date": "2026-10-19",
       "giverId": "p2",
