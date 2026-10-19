@@ -109752,85 +109752,7 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [
-    {
-      "pauseId": "e8mfz943",
-      "pausedAt": "2026-10-19T12:08:15.355Z",
-      "phase": "play",
-      "selectedIds": [
-        "f2efl6m2",
-        "p2"
-      ],
-      "saveIds": [
-        "f2efl6m2",
-        "p2"
-      ],
-      "date": "2026-10-19",
-      "time": "14:03",
-      "currentHole": 0,
-      "tournamentRound": 1,
-      "weatherKeys": [
-        "cloud"
-      ],
-      "temperature": "16",
-      "windSpeed": "7",
-      "precipProbability": "0",
-      "scoresByPlayer": {
-        "f2efl6m2": [
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ],
-        "p2": [
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "notesByPlayer": {
-        "f2efl6m2": {},
-        "p2": {}
-      },
-      "starsByPlayer": {
-        "f2efl6m2": {},
-        "p2": {}
-      },
-      "runByPlayer": {},
-      "holeOrder": [
-        0
-      ]
-    }
-  ],
+  "pausedRounds": [],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
@@ -109860,7 +109782,8 @@
     "n0qsxifs",
     "71pqlx63",
     "nq1qenqm",
-    "tvwr73wd"
+    "tvwr73wd",
+    "e8mfz943"
   ],
   "deletedIds": {
     "rounds": [
