@@ -110398,34 +110398,7 @@
     "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
     "voiceName": "Anna"
   },
-  "treats": [
-    {
-      "id": "ckd1d9s3",
-      "date": "2026-10-19",
-      "giverId": "gccblctp",
-      "giverName": "Gerd",
-      "reason": "4 Asse in Folge · Bahn 4",
-      "recipients": [
-        {
-          "id": "p2",
-          "name": "Christian",
-          "done": false
-        },
-        {
-          "id": "f2efl6m2",
-          "name": "Matthias",
-          "done": true
-        }
-      ],
-      "doneAt": null,
-      "updatedAt": 1792435819371,
-      "roundIds": [
-        "wmqc1xdd",
-        "4z8303sk",
-        "aqn36eyn"
-      ]
-    }
-  ],
+  "treats": [],
   "holeDefaultBalls": {
     "2024": [
       "065e3gmu",
