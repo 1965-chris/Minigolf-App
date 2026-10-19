@@ -7,15 +7,15 @@
         {
           "date": "2026-10-19",
           "year": "2026",
-          "groupId": "mi7wje52",
+          "groupId": "23ga9pvr",
           "time": "15:19",
           "weather": [
             "cloud"
           ],
           "temperature": "17",
-          "windSpeed": "8",
+          "windSpeed": "9",
           "precipProbability": "0",
-          "id": "vkihp8ha",
+          "id": "57ffyci8",
           "scores": [
             2,
             1,
@@ -42,17 +42,18 @@
           },
           "runs": {
             "2": "vor",
-            "3": "vor",
+            "3": "rueck",
             "5": "rueck",
+            "6": "rueck",
             "10": "vor",
             "11": "rueck",
             "12": "vor",
-            "13": "rueck"
+            "13": "vor"
           },
           "ballsByHole": [
             "065e3gmu",
             "ix4d3uey",
-            "tc7hza19",
+            "065e3gmu",
             "1gv8aex4",
             "1vngy8w0",
             "6uibvdb6",
@@ -75755,15 +75756,15 @@
         {
           "date": "2026-10-19",
           "year": "2026",
-          "groupId": "mi7wje52",
+          "groupId": "23ga9pvr",
           "time": "15:19",
           "weather": [
             "cloud"
           ],
           "temperature": "17",
-          "windSpeed": "8",
+          "windSpeed": "9",
           "precipProbability": "0",
-          "id": "t717463a",
+          "id": "plrx3uv7",
           "scores": [
             2,
             3,
@@ -75785,9 +75786,6 @@
             4
           ],
           "seq": 2,
-          "stars": {
-            "2": true
-          },
           "orderTracked": true
         },
         {
@@ -79151,15 +79149,15 @@
         {
           "date": "2026-10-19",
           "year": "2026",
-          "groupId": "mi7wje52",
+          "groupId": "23ga9pvr",
           "time": "15:19",
           "weather": [
             "cloud"
           ],
           "temperature": "17",
-          "windSpeed": "8",
+          "windSpeed": "9",
           "precipProbability": "0",
-          "id": "2y27v3de",
+          "id": "x87x3z0t",
           "scores": [
             2,
             1,
@@ -102595,6 +102593,41 @@
       "name": "Sylvia",
       "rounds": [
         {
+          "date": "2026-10-19",
+          "year": "2026",
+          "groupId": "23ga9pvr",
+          "time": "15:19",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "17",
+          "windSpeed": "9",
+          "precipProbability": "0",
+          "id": "iq3utmy7",
+          "scores": [
+            2,
+            2,
+            1,
+            3,
+            2,
+            1,
+            1,
+            3,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            2
+          ],
+          "seq": 3,
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-16",
           "year": "2026",
           "groupId": "6kyr21yd",
@@ -110010,7 +110043,7 @@
       "date": "2026-10-19",
       "year": "2026",
       "name": "Getränke + Snacks",
-      "amount": 5,
+      "amount": 9,
       "items": [
         {
           "cat": "Getränke",
@@ -110021,9 +110054,14 @@
           "cat": "Snacks",
           "amount": 1,
           "time": "15:04"
+        },
+        {
+          "cat": "Getränke",
+          "amount": 4,
+          "time": "17:00"
         }
       ],
-      "updatedAt": 1792415067991
+      "updatedAt": 1792422034216
     }
   ],
   "aceStreakSettings": {
@@ -110207,7 +110245,10 @@
       "qe7y3vxd",
       "w33zdnr0",
       "ihm523ol",
-      "m2g1wrev"
+      "m2g1wrev",
+      "vkihp8ha",
+      "t717463a",
+      "2y27v3de"
     ],
     "players": [
       "bf39yvo6",
