@@ -110409,7 +110409,7 @@
         {
           "id": "gccblctp",
           "name": "Gerd",
-          "done": false
+          "done": true
         },
         {
           "id": "f2efl6m2",
@@ -110418,7 +110418,7 @@
         }
       ],
       "doneAt": null,
-      "updatedAt": 1792435797461,
+      "updatedAt": 1792435817268,
       "roundIds": [
         "wmqc1xdd",
         "4z8303sk",
