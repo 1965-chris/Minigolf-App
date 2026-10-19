@@ -7,6 +7,61 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "sezzjfk9",
+          "time": "20:39",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "11",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "wmqc1xdd",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "seq": 0,
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "065e3gmu",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "qbjcblz0",
           "time": "17:00",
           "weather": [
@@ -75821,6 +75876,41 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "sezzjfk9",
+          "time": "20:39",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "11",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "4z8303sk",
+          "scores": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "seq": 1,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "qbjcblz0",
           "time": "17:00",
           "weather": [
@@ -103834,6 +103924,41 @@
         {
           "date": "2026-10-19",
           "year": "2026",
+          "groupId": "sezzjfk9",
+          "time": "20:39",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "11",
+          "windSpeed": "13",
+          "precipProbability": "0",
+          "id": "aqn36eyn",
+          "scores": [
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "seq": 2,
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-19",
+          "year": "2026",
           "groupId": "dzdp4f9b",
           "time": "14:08",
           "weather": [
@@ -110273,7 +110398,60 @@
     "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
     "voiceName": "Anna"
   },
-  "treats": [],
+  "treats": [
+    {
+      "id": "74kf6lhk",
+      "date": "2026-10-19",
+      "giverId": "p2",
+      "giverName": "Christian",
+      "reason": "4 Asse in Folge · Bahn 9",
+      "recipients": [
+        {
+          "id": "gccblctp",
+          "name": "Gerd",
+          "done": false
+        },
+        {
+          "id": "f2efl6m2",
+          "name": "Matthias",
+          "done": false
+        }
+      ],
+      "doneAt": null,
+      "updatedAt": 1792435797461,
+      "roundIds": [
+        "wmqc1xdd",
+        "4z8303sk",
+        "aqn36eyn"
+      ]
+    },
+    {
+      "id": "ckd1d9s3",
+      "date": "2026-10-19",
+      "giverId": "gccblctp",
+      "giverName": "Gerd",
+      "reason": "4 Asse in Folge · Bahn 4",
+      "recipients": [
+        {
+          "id": "p2",
+          "name": "Christian",
+          "done": false
+        },
+        {
+          "id": "f2efl6m2",
+          "name": "Matthias",
+          "done": false
+        }
+      ],
+      "doneAt": null,
+      "updatedAt": 1792435797461,
+      "roundIds": [
+        "wmqc1xdd",
+        "4z8303sk",
+        "aqn36eyn"
+      ]
+    }
+  ],
   "holeDefaultBalls": {
     "2024": [
       "065e3gmu",
