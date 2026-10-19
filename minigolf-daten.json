@@ -110309,37 +110309,6 @@
       ],
       "doneAt": null,
       "updatedAt": 1792434219235
-    },
-    {
-      "id": "si23f3ch",
-      "date": "2026-10-19",
-      "giverId": "gccblctp",
-      "giverName": "Gerd",
-      "reason": "4 Asse in Folge · Bahn 4",
-      "recipients": [
-        {
-          "id": "p2",
-          "name": "Christian",
-          "done": true
-        },
-        {
-          "id": "bkc9viw0",
-          "name": "Sylvia",
-          "done": false
-        },
-        {
-          "id": "f2efl6m2",
-          "name": "Matthias",
-          "done": false
-        },
-        {
-          "id": "2v122fi8",
-          "name": "Andreas",
-          "done": false
-        }
-      ],
-      "doneAt": null,
-      "updatedAt": 1792434168047
     }
   ],
   "holeDefaultBalls": {
