@@ -110311,27 +110311,6 @@
       "updatedAt": 1792434219235
     },
     {
-      "id": "tzefcafk",
-      "date": "2026-10-19",
-      "giverId": "p2",
-      "giverName": "Christian",
-      "reason": "4 Asse in Folge · Bahn 8",
-      "recipients": [
-        {
-          "id": "gccblctp",
-          "name": "Gerd",
-          "done": true
-        },
-        {
-          "id": "f2efl6m2",
-          "name": "Matthias",
-          "done": true
-        }
-      ],
-      "doneAt": "2026-10-19",
-      "updatedAt": 1792434182691
-    },
-    {
       "id": "si23f3ch",
       "date": "2026-10-19",
       "giverId": "gccblctp",
