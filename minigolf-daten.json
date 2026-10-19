@@ -110051,6 +110051,13 @@
       "extraRoundPerDay": 2.8,
       "seasonPass": 350,
       "hasSeasonPass": true
+    },
+    "2026": {
+      "firstRoundPerDay": 4,
+      "extraRoundPerDay": 2.8,
+      "seasonPass": 350,
+      "hasSeasonPass": true,
+      "seasonPassType": "weekdays"
     }
   },
   "accessories": [
