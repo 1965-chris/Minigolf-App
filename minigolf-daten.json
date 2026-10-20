@@ -5,6 +5,66 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-10-20",
+          "year": "2026",
+          "groupId": "qv2lwxyy",
+          "time": "13:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "14",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "fhhlr2ql",
+          "scores": [
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1
+          ],
+          "seq": 2,
+          "runs": {
+            "2": "vor",
+            "3": "vor",
+            "10": "vor"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-19",
           "year": "2026",
           "groupId": "qbjcblz0",
@@ -75819,6 +75879,44 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-10-20",
+          "year": "2026",
+          "groupId": "qv2lwxyy",
+          "time": "13:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "14",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "idbtdxyx",
+          "scores": [
+            1,
+            4,
+            2,
+            1,
+            2,
+            2,
+            1,
+            4,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            1
+          ],
+          "seq": 1,
+          "stars": {
+            "4": true
+          },
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-19",
           "year": "2026",
           "groupId": "qbjcblz0",
@@ -102753,6 +102851,41 @@
       "id": "bkc9viw0",
       "name": "Sylvia",
       "rounds": [
+        {
+          "date": "2026-10-20",
+          "year": "2026",
+          "groupId": "qv2lwxyy",
+          "time": "13:25",
+          "weather": [
+            "sun"
+          ],
+          "temperature": "14",
+          "windSpeed": "14",
+          "precipProbability": "0",
+          "id": "6ecyawrq",
+          "scores": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            4,
+            2,
+            1,
+            1
+          ],
+          "seq": 0,
+          "orderTracked": true
+        },
         {
           "date": "2026-10-19",
           "year": "2026",
