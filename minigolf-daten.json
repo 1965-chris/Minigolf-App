@@ -110711,21 +110711,6 @@
         }
       ],
       "updatedAt": 1792422034216
-    },
-    {
-      "id": "i6s4bq60",
-      "date": "2026-10-20",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 2,
-      "items": [
-        {
-          "cat": "Getränke",
-          "amount": 2,
-          "time": "13:25"
-        }
-      ],
-      "updatedAt": 1792512748268
     }
   ],
   "aceStreakSettings": {
@@ -110949,7 +110934,8 @@
       "99fd1739",
       "mpdz4dsy",
       "0ja7q11o",
-      "wq0d3x94"
+      "wq0d3x94",
+      "i6s4bq60"
     ]
   }
 }
