@@ -5,6 +5,67 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-10-24",
+          "year": "2026",
+          "groupId": "megkuvba",
+          "time": "13:05",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "11",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "kpze19lb",
+          "scores": [
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1
+          ],
+          "seq": 1,
+          "runs": {
+            "2": "rueck",
+            "3": "vor",
+            "10": "vor",
+            "16": "rueck"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-21",
           "year": "2026",
           "groupId": "qe9f01ef",
@@ -76102,6 +76163,41 @@
       "id": "gccblctp",
       "name": "Gerd",
       "rounds": [
+        {
+          "date": "2026-10-24",
+          "year": "2026",
+          "groupId": "megkuvba",
+          "time": "13:05",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "11",
+          "windSpeed": "21",
+          "precipProbability": "0",
+          "id": "11bbtecp",
+          "scores": [
+            4,
+            2,
+            1,
+            1,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            3,
+            2,
+            1,
+            1
+          ],
+          "seq": 0,
+          "orderTracked": true
+        },
         {
           "date": "2026-10-21",
           "year": "2026",
