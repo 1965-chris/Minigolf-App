@@ -7,6 +7,68 @@
         {
           "date": "2026-10-25",
           "year": "2026",
+          "groupId": "scdupihf",
+          "time": "13:43",
+          "weather": [
+            "rain"
+          ],
+          "temperature": "13",
+          "windSpeed": "26",
+          "precipProbability": "12",
+          "id": "z77nrdfn",
+          "scores": [
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "seq": 2,
+          "runs": {
+            "3": "vor",
+            "6": "rueck",
+            "8": "vor",
+            "11": "vor",
+            "16": "rueck"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-25",
+          "year": "2026",
           "groupId": "crt3e5id",
           "time": "12:24",
           "weather": [
@@ -76310,6 +76372,44 @@
         {
           "date": "2026-10-25",
           "year": "2026",
+          "groupId": "scdupihf",
+          "time": "13:43",
+          "weather": [
+            "rain"
+          ],
+          "temperature": "13",
+          "windSpeed": "26",
+          "precipProbability": "12",
+          "id": "7rpq0s7k",
+          "scores": [
+            1,
+            2,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1
+          ],
+          "seq": 1,
+          "stars": {
+            "16": true
+          },
+          "orderTracked": true
+        },
+        {
+          "date": "2026-10-25",
+          "year": "2026",
           "groupId": "crt3e5id",
           "time": "12:24",
           "weather": [
@@ -104736,6 +104836,44 @@
       "name": "Matthias",
       "rounds": [
         {
+          "date": "2026-10-25",
+          "year": "2026",
+          "groupId": "scdupihf",
+          "time": "13:43",
+          "weather": [
+            "rain"
+          ],
+          "temperature": "13",
+          "windSpeed": "26",
+          "precipProbability": "12",
+          "id": "x7xmfaio",
+          "scores": [
+            2,
+            1,
+            3,
+            2,
+            3,
+            2,
+            1,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1
+          ],
+          "seq": 3,
+          "stars": {
+            "3": true
+          },
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-24",
           "year": "2026",
           "groupId": "8dlbecer",
@@ -105532,6 +105670,41 @@
       "id": "yc6i458y",
       "name": "Anette",
       "rounds": [
+        {
+          "date": "2026-10-25",
+          "year": "2026",
+          "groupId": "scdupihf",
+          "time": "13:43",
+          "weather": [
+            "rain"
+          ],
+          "temperature": "13",
+          "windSpeed": "26",
+          "precipProbability": "12",
+          "id": "yb2zhy45",
+          "scores": [
+            2,
+            2,
+            4,
+            7,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            2,
+            2,
+            1
+          ],
+          "seq": 0,
+          "orderTracked": true
+        },
         {
           "date": "2026-10-20",
           "year": "2026",
