@@ -416,7 +416,13 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 const DOUBLE_ROUND_PREFIX = "Einballturnier";
 const DOUBLE_ROUND_PLAYER_NAME = "Einballturnier Christian";
 // Whose scorecard this is - used where the owner should come before the others.
-const OWNER_PLAYER = "Christian";
+// Wem diese App gehört. Normalerweise Christian; eine über den Einladungslink
+// eingerichtete Fassung trägt hier den Namen ihres Besitzers.
+const OWNER_KEY = "minigolf-besitzer";
+const OWNER_PLAYER = (() => {
+  try { return (localStorage.getItem(OWNER_KEY) || "").trim() || "Christian"; }
+  catch (e) { return "Christian"; }
+})();
 function isDoubleRoundPlayer(name) {
   return typeof name === "string" && name.startsWith(DOUBLE_ROUND_PREFIX);
 }
@@ -1370,7 +1376,7 @@ const DEFAULT_SEASON_PRICES = {
 };
 
 // Players for whom the season card is shown
-const SEASON_PLAYER_NAMES = ["Christian"];
+const SEASON_PLAYER_NAMES = [OWNER_PLAYER];
 
 const PRICING_KEY = "minigolf-pricing"; // { "2026": {firstRoundPerDay, extraRoundPerDay, seasonPass}, ... }
 
@@ -1582,7 +1588,9 @@ const HOLE_COUNT = 18;
 // Players whose per-hole ball choices are tracked. Was Christian-only; Birgit
 // records balls too now, so anything ball-related iterates this list instead
 // of hardcoding a name.
-const BALL_PLAYERS = ["Christian", "Birgit", "Einballturnier Christian"];
+const BALL_PLAYERS = OWNER_PLAYER === "Christian"
+  ? ["Christian", "Birgit", "Einballturnier Christian"]
+  : [OWNER_PLAYER];
 function isBallPlayer(name) { return BALL_PLAYERS.includes(name); }
 function getBallPlayers() { return state.players.filter(p => isBallPlayer(p.name)); }
 // Season defaults are stored per player and year. Christian's existing entries
@@ -1804,14 +1812,67 @@ function saveGoogleTtsApiKey(k) { try { localStorage.setItem(GOOGLE_TTS_API_KEY_
 // Optional: rounds that include a given player are additionally written to
 // that player's own repository, so they don't have to enter the same round a
 // second time. Uses the same token, which must have access to both repos.
+// ============================================================
+// Mitspieler mit eigener App ("Partner")
+// ============================================================
+// Früher gab es genau einen - Andreas. Jetzt eine Liste: jeder mit eigenem
+// Repository, eigener Kachel und eigenem Nachrichtenfach. Die alte Einzel-
+// einstellung wird beim ersten Start übernommen, damit nichts verloren geht.
+const PARTNERS_KEY = "minigolf-partner";
+function loadPartners() {
+  try {
+    const d = JSON.parse(localStorage.getItem(PARTNERS_KEY) || "[]");
+    if (Array.isArray(d)) return d;
+  } catch (e) {}
+  return [];
+}
+function persistPartners() {
+  try { localStorage.setItem(PARTNERS_KEY, JSON.stringify(state.partners)); } catch (e) {}
+}
+function partnerById(id) {
+  return (state.partners || []).find(p => p.id === id) || null;
+}
+// Die Textfelder des Partner-Formulars laufen über den Entwurfsspeicher.
+// Beim Öffnen, Abbrechen und Speichern müssen sie leer sein, sonst stünde
+// beim nächsten Mal noch das Vorige darin.
+function partnerDraftFelderLeeren() {
+  ["partner-repo", "partner-token", "partner-url"].forEach(k => { delete state.formDraft[k]; });
+  persistFormDraft();
+}
+function partnerByName(name) {
+  if (!name) return null;
+  return (state.partners || []).find(p => p.name === name) || null;
+}
+// Die Zugangsdaten eines Partners: eigener Schlüssel, sonst meiner.
+function partnerRepoConfig(p) {
+  const cfg = loadGithubConfig();
+  if (!p || !p.repo || !cfg || !cfg.owner) return null;
+  const token = p.token || cfg.token;
+  if (!token) return null;
+  return { owner: p.owner || cfg.owner, repo: p.repo, token,
+           branch: cfg.branch || "main", path: p.path || "minigolf-daten.json" };
+}
+function activePartners() {
+  return (state.partners || []).filter(p => p && p.enabled !== false && p.repo && p.name);
+}
+// Einmalige Übernahme der alten Einzeleinstellung.
+function migrateMirrorToPartners() {
+  if (loadPartners().length) return;
+  let m = null;
+  try { m = JSON.parse(localStorage.getItem(MIRROR_KEY) || "null"); } catch (e) {}
+  if (!m || !m.playerName || !m.repo) return;
+  let info = {};
+  try { info = JSON.parse(localStorage.getItem(ANDREAS_KEY) || "{}") || {}; } catch (e) {}
+  const liste = [{
+    id: uid(), name: m.playerName, repo: m.repo, path: m.path || "minigolf-daten.json",
+    token: "", enabled: m.enabled !== false, appUrl: info.appUrl || "",
+    lastActive: info.lastActive || null, checkedAt: info.checkedAt || null,
+    lastSha: info.lastSha || null, ownRounds: info.ownRounds || [], seenIds: info.seenIds || [],
+  }];
+  try { localStorage.setItem(PARTNERS_KEY, JSON.stringify(liste)); } catch (e) {}
+}
+
 const MIRROR_KEY = "minigolf-mirror-config";
-function loadMirrorConfig() {
-  try { const r = localStorage.getItem(MIRROR_KEY); if (r) return JSON.parse(r); } catch(e) {}
-  return { enabled: false, playerName: "", repo: "", path: "minigolf-daten.json" };
-}
-function persistMirrorConfig() {
-  try { localStorage.setItem(MIRROR_KEY, JSON.stringify(state.mirrorConfig)); } catch(e) {}
-}
 
 // Adds the given rounds to the target repo's data file. Purely additive and
 // keyed by round id, so it can never remove anything that is already there -
@@ -1820,16 +1881,19 @@ function persistMirrorConfig() {
 // verschwinden - sonst steht sie in seiner App als Runde, die es nicht gibt.
 // Entfernt wird ausschließlich, was genau diese Kennung trägt; seine eigenen
 // Runden bleiben unberührt.
+// Nimmt die Runden bei jedem Partner zurück, der sie bekommen hat.
 async function unmirrorRoundsFromRepo(roundIds) {
-  const m = state.mirrorConfig;
-  const cfg = loadGithubConfig();
   const ids = (roundIds || []).filter(Boolean);
   if (!ids.length) return 0;
-  if (!m || !m.enabled || !m.repo || !m.playerName) return 0;
-  if (!cfg || !cfg.token || !cfg.owner) return 0;
-  const branch = cfg.branch || "main";
-  const path = m.path || "minigolf-daten.json";
-  const targetCfg = { owner: cfg.owner, repo: m.repo, token: cfg.token, branch, path };
+  let summe = 0;
+  for (const p of activePartners()) summe += await unmirrorRoundsFromPartner(p, ids);
+  return summe;
+}
+
+async function unmirrorRoundsFromPartner(partner, ids) {
+  const targetCfg = partnerRepoConfig(partner);
+  if (!targetCfg) return 0;
+  const branch = targetCfg.branch, path = targetCfg.path;
   try {
     const remote = await githubFetchJson(targetCfg, branch, path);
     if (!remote || !Array.isArray(remote.players)) return 0;
@@ -1850,9 +1914,9 @@ async function unmirrorRoundsFromRepo(roundIds) {
     delete shaCache[shaKey(targetCfg, path)];
     const shaRes = await githubGetSha(targetCfg, branch, path);
     if (!shaRes.ok) { addSyncEntry("save", "⚠️ Rücknahme: " + (shaRes.reason || "?").substring(0,50)); return 0; }
-    const res = await githubApiRequest(`https://api.github.com/repos/${cfg.owner}/${m.repo}/contents/${path}`, {
+    const res = await githubApiRequest(`https://api.github.com/repos/${targetCfg.owner}/${targetCfg.repo}/contents/${path}`, {
       method: "PUT",
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+      headers: { Authorization: `token ${targetCfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
       body: JSON.stringify({
         message: `Gelöschte Runde zurückgenommen`,
         content: utf8ToBase64(JSON.stringify(remote, null, 2)),
@@ -1861,7 +1925,7 @@ async function unmirrorRoundsFromRepo(roundIds) {
       }),
     });
     if (res.ok) {
-      addSyncEntry("save", `Rücknahme: ${entfernt} Runde(n) aus ${m.repo} entfernt`);
+      addSyncEntry("save", `Rücknahme: ${entfernt} Runde(n) aus ${targetCfg.repo} entfernt`);
       return entfernt;
     }
     addSyncEntry("save", "⚠️ Rücknahme fehlgeschlagen");
@@ -1872,21 +1936,37 @@ async function unmirrorRoundsFromRepo(roundIds) {
   }
 }
 
+// Gibt die Runden an jeden Partner weiter, der darin mitgespielt hat.
+// Wer nicht dabei war, bekommt nichts - geprüft wird je Partner.
 async function mirrorRoundsToRepo(entries) {
-  const m = state.mirrorConfig;
-  const cfg = loadGithubConfig();
-  if (!m.enabled || !m.repo || !m.playerName) return;
-  if (!cfg || !cfg.token || !cfg.owner) return;
-  if (!entries.some(en => en.playerName === m.playerName)) return; // not their round
+  const liste = activePartners().filter(p => entries.some(en => en.playerName === p.name));
+  if (!liste.length) return;
+  for (const p of liste) await mirrorRoundsToPartner(p, entries);
+}
 
-  const branch = cfg.branch || "main";
-  const path = m.path || "minigolf-daten.json";
-  const targetCfg = { owner: cfg.owner, repo: m.repo, token: cfg.token, branch, path };
+async function mirrorRoundsToPartner(partner, entries) {
+  const targetCfg = partnerRepoConfig(partner);
+  if (!targetCfg) return;
+  if (!entries.some(en => en.playerName === partner.name)) return; // not their round
+  const branch = targetCfg.branch, path = targetCfg.path;
   try {
-    const remote = await githubFetchJson(targetCfg, branch, path);
+    let remote = null;
+    try { remote = await githubFetchJson(targetCfg, branch, path); } catch (e) {}
     if (!remote || !Array.isArray(remote.players)) {
-      addSyncEntry("save", "⚠️ Weitergabe: Zieldatei nicht lesbar");
-      return;
+      // Ein frisch angelegtes Repository ist leer: die Datendatei entsteht
+      // erst, wenn er seine App zum ersten Mal öffnet. Vorher ging die
+      // Weitergabe ins Leere. Jetzt legen wir sie an - aber nur, wenn es sie
+      // wirklich noch nicht gibt. Ein Lesefehler aus anderem Grund darf eine
+      // vorhandene Datei niemals überschreiben.
+      const probe = await githubGetSha(targetCfg, branch, path);
+      if (probe.ok && !probe.sha) {
+        remote = { players: [] };
+        addSyncEntry("save", `Weitergabe: ${path} in ${targetCfg.repo} neu angelegt`);
+      } else {
+        addSyncEntry("save", "⚠️ Weitergabe: Zieldatei nicht lesbar");
+        showToast(`${partner.name}: Datei nicht lesbar – später erneut versuchen`);
+        return;
+      }
     }
     let added = 0;
     entries.forEach(en => {
@@ -1906,8 +1986,8 @@ async function mirrorRoundsToRepo(entries) {
       }
     });
     if (added === 0) {
-      addSyncEntry("save", "Weitergabe: bereits vorhanden");
-      showToast("Alles bereits übertragen.");
+      addSyncEntry("save", `Weitergabe an ${partner.name}: bereits vorhanden`);
+      showToast(`Bei ${partner.name} bereits vorhanden.`);
       return;
     }
 
@@ -1916,9 +1996,9 @@ async function mirrorRoundsToRepo(entries) {
     delete shaCache[shaKey(targetCfg, path)];
     const shaRes = await githubGetSha(targetCfg, branch, path);
     if (!shaRes.ok) { addSyncEntry("save", "⚠️ Weitergabe: " + (shaRes.reason || "?").substring(0,50)); return; }
-    const res = await githubApiRequest(`https://api.github.com/repos/${cfg.owner}/${m.repo}/contents/${path}`, {
+    const res = await githubApiRequest(`https://api.github.com/repos/${targetCfg.owner}/${targetCfg.repo}/contents/${path}`, {
       method: "PUT",
-      headers: { Authorization: `token ${cfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+      headers: { Authorization: `token ${targetCfg.token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
       body: JSON.stringify({
         message: `Runde von ${new Date().toLocaleDateString("de-DE")} übernommen`,
         content: utf8ToBase64(JSON.stringify(remote, null, 2)),
@@ -1927,8 +2007,8 @@ async function mirrorRoundsToRepo(entries) {
       }),
     });
     if (res.ok) {
-      addSyncEntry("save", `Weitergabe an ${m.repo}: ${added} Runde(n) ✓`);
-      showToast(`Runde auch an ${m.playerName} übertragen ✓`);
+      addSyncEntry("save", `Weitergabe an ${targetCfg.repo}: ${added} Runde(n) ✓`);
+      showToast(`Runde auch an ${partner.name} übertragen ✓`);
     } else {
       let reason = `HTTP ${res.status}`;
       try { const j = await res.json(); if (j && j.message) reason = j.message; } catch(e) {}
@@ -1945,63 +2025,93 @@ async function mirrorRoundsToRepo(entries) {
 // Runden, bei denen die Weitergabe beim Speichern bewusst abgewählt wurde -
 // weil der andere sie selbst eingetragen hat. Ohne diese Liste hätte der
 // Knopf "Fehlende Runden jetzt übertragen" sie doch noch hinübergeschoben.
+// Der Haken gilt je Partner: in einer Runde mit zwei Mitspielern kann der
+// eine sie bekommen und der andere nicht, weil er sie selbst eingetragen hat.
+// Die alte Fassung kannte nur eine Liste für alle - die gilt weiter für alle.
 const MIRROR_SKIP_KEY = "minigolf-weitergabe-ausgenommen";
-function loadMirrorSkipped() {
+function loadMirrorSkipMap() {
   try {
     const d = JSON.parse(localStorage.getItem(MIRROR_SKIP_KEY) || "[]");
-    return Array.isArray(d) ? d : [];
-  } catch(e) { return []; }
+    if (Array.isArray(d)) return { all: d, byPartner: {} };          // alte Fassung
+    return { all: Array.isArray(d.all) ? d.all : [],
+             byPartner: (d.byPartner && typeof d.byPartner === "object") ? d.byPartner : {} };
+  } catch(e) { return { all: [], byPartner: {} }; }
 }
-function persistMirrorSkipped(ids) {
-  try { localStorage.setItem(MIRROR_SKIP_KEY, JSON.stringify(ids)); } catch(e) {}
+// Alle ausgenommenen Runden-Kennungen, unabhängig von wem - für die Zählung
+// in den Einstellungen.
+function loadMirrorSkipped() {
+  const m = loadMirrorSkipMap();
+  const alle = new Set(m.all);
+  Object.values(m.byPartner).forEach(l => (l || []).forEach(id => alle.add(id)));
+  return [...alle];
 }
-function addMirrorSkipped(ids) {
-  const alle = loadMirrorSkipped();
-  (ids || []).forEach(id => { if (id && !alle.includes(id)) alle.push(id); });
-  persistMirrorSkipped(alle);
-  state.mirrorSkipped = alle;
+function isMirrorSkipped(partnerName, roundId) {
+  const m = loadMirrorSkipMap();
+  if (m.all.includes(roundId)) return true;
+  return !!(m.byPartner[partnerName] || []).includes(roundId);
+}
+function persistMirrorSkipMap(m) {
+  try { localStorage.setItem(MIRROR_SKIP_KEY, JSON.stringify(m)); } catch(e) {}
+}
+// Der Schlüssel ist der Name, nicht die Geräte-Kennung: nur so gilt die
+// Entscheidung auch auf dem anderen Gerät.
+function addMirrorSkipped(partnerName, ids) {
+  const m = loadMirrorSkipMap();
+  if (!partnerName) {
+    (ids || []).forEach(id => { if (id && !m.all.includes(id)) m.all.push(id); });
+  } else {
+    if (!Array.isArray(m.byPartner[partnerName])) m.byPartner[partnerName] = [];
+    (ids || []).forEach(id => { if (id && !m.byPartner[partnerName].includes(id)) m.byPartner[partnerName].push(id); });
+  }
+  persistMirrorSkipMap(m);
+  state.mirrorSkipped = loadMirrorSkipped();
 }
 function clearMirrorSkipped() {
-  persistMirrorSkipped([]);
+  persistMirrorSkipMap({ all: [], byPartner: {} });
   state.mirrorSkipped = [];
 }
 
-async function mirrorAllMissingRounds() {
-  const m = state.mirrorConfig;
-  if (!m.enabled || !m.repo || !m.playerName) {
+async function mirrorAllMissingRounds(partnerId) {
+  const liste = partnerId ? [partnerById(partnerId)].filter(Boolean) : activePartners();
+  if (!liste.length) {
     showToast("Weitergabe ist nicht eingerichtet.");
     return;
   }
-  const target = state.players.find(p => p.name === m.playerName);
-  if (!target) { showToast(`Spieler "${m.playerName}" nicht gefunden.`); return; }
+  // Was beim Speichern bewusst ausgenommen wurde, bleibt ausgenommen - und
+  // zwar für den, bei dem der Haken aus war. Mitspieler-Einträge derselben
+  // Runde gehören dazu, sonst käme sie halb drüben an.
+  const karte = loadMirrorSkipMap();
 
-  // Every round of that player, plus the co-players sharing its group, so the
-  // round arrives complete.
-  const groupIds = new Set((target.rounds || []).map(r => r.groupId).filter(Boolean));
-  // Was beim Speichern bewusst ausgenommen wurde, bleibt ausgenommen - auch
-  // die Mitspieler-Einträge derselben Runde, sonst käme sie halb drüben an.
-  const ausgenommen = new Set(loadMirrorSkipped());
-  const ausgenommeneGruppen = new Set();
-  state.players.forEach(p => (p.rounds || []).forEach(r => {
-    if (r && r.id && ausgenommen.has(r.id) && r.groupId) ausgenommeneGruppen.add(r.groupId);
-  }));
-  const entries = [];
-  let uebersprungen = 0;
-  state.players.forEach(p => {
-    (p.rounds || []).forEach(r => {
-      const mine = p.name === m.playerName;
-      if (!(mine || (r.groupId && groupIds.has(r.groupId)))) return;
-      if (ausgenommen.has(r.id) || (r.groupId && ausgenommeneGruppen.has(r.groupId))) { uebersprungen++; return; }
-      entries.push({ playerName: p.name, playerId: p.id, round: r });
+  let gesamt = 0, fehlend = [];
+  for (const partner of liste) {
+    const target = state.players.find(p => p.name === partner.name);
+    if (!target) { fehlend.push(partner.name); continue; }
+    const ausgenommen = new Set([...karte.all, ...(karte.byPartner[partner.name] || [])]);
+    const ausgenommeneGruppen = new Set();
+    state.players.forEach(p => (p.rounds || []).forEach(r => {
+      if (r && r.id && ausgenommen.has(r.id) && r.groupId) ausgenommeneGruppen.add(r.groupId);
+    }));
+    // Jede Runde dieses Partners, dazu die Mitspieler derselben Gruppe, damit
+    // die Runde vollständig ankommt.
+    const groupIds = new Set((target.rounds || []).map(r => r.groupId).filter(Boolean));
+    const entries = [];
+    let uebersprungen = 0;
+    state.players.forEach(p => {
+      (p.rounds || []).forEach(r => {
+        const mine = p.name === partner.name;
+        if (!(mine || (r.groupId && groupIds.has(r.groupId)))) return;
+        if (ausgenommen.has(r.id) || (r.groupId && ausgenommeneGruppen.has(r.groupId))) { uebersprungen++; return; }
+        entries.push({ playerName: p.name, playerId: p.id, round: r });
+      });
     });
-  });
-  if (entries.length === 0) {
-    showToast(uebersprungen ? "Nur ausgenommene Runden – nichts zu übertragen." : "Keine Runden zum Übertragen.");
-    return;
+    if (uebersprungen) addSyncEntry("save", `Weitergabe ${partner.name}: ${uebersprungen} ausgenommene Runde(n) übersprungen`);
+    if (!entries.length) continue;
+    gesamt++;
+    showToast(`Übertrage an ${partner.name} …`);
+    await mirrorRoundsToPartner(partner, entries);
   }
-  if (uebersprungen) addSyncEntry("save", `Weitergabe: ${uebersprungen} ausgenommene Runde(n) übersprungen`);
-  showToast("Übertrage …");
-  await mirrorRoundsToRepo(entries);
+  if (fehlend.length) showToast(`Spieler nicht gefunden: ${fehlend.join(", ")}`);
+  else if (!gesamt) showToast("Keine Runden zum Übertragen.");
 }
 
 const WEATHER_LOCATION_KEY = "minigolf-weather-location"; // {name, lat, lon}
@@ -2161,7 +2271,13 @@ function buildExportBundle() {
     balls: state.balls,
     aceStreakSettings: state.aceStreakSettings,
     treats: state.treats,
-    mirrorSkipped: loadMirrorSkipped(),
+    mirrorSkipped: loadMirrorSkipped(),   // flach, für ältere Fassungen
+    mirrorSkipMap: loadMirrorSkipMap(),   // je Mitspieler
+    // Die Mitspieler-Liste gilt für alle meine Geräte - ohne die Schlüssel.
+    // Die bleiben auf dem Gerät, auf dem sie eingetragen wurden.
+    partners: (state.partners || []).map(x => ({
+      id: x.id, name: x.name, repo: x.repo, path: x.path, appUrl: x.appUrl, enabled: x.enabled,
+    })),
     holeDefaultBalls: state.holeDefaultBalls,
     pausedRounds: loadPausedRounds(),
     retiredPauseIds: loadRetiredPauseIds(),
@@ -2211,11 +2327,37 @@ function applyImportedBundle(data) {
       state.gastro = mergeById(state.gastro, data.gastro, (data.deletedIds||{}).gastro);
     }
     // Die Entscheidung "nicht weitergeben" gilt für beide Geräte.
-    if (Array.isArray(data.mirrorSkipped)) {
-      const zusammen = loadMirrorSkipped();
-      data.mirrorSkipped.forEach(id => { if (id && !zusammen.includes(id)) zusammen.push(id); });
-      persistMirrorSkipped(zusammen);
-      state.mirrorSkipped = zusammen;
+    if (data.mirrorSkipMap && typeof data.mirrorSkipMap === "object") {
+      const m = loadMirrorSkipMap();
+      (data.mirrorSkipMap.all || []).forEach(id => { if (id && !m.all.includes(id)) m.all.push(id); });
+      Object.entries(data.mirrorSkipMap.byPartner || {}).forEach(([name, ids]) => {
+        if (!Array.isArray(m.byPartner[name])) m.byPartner[name] = [];
+        (ids || []).forEach(id => { if (id && !m.byPartner[name].includes(id)) m.byPartner[name].push(id); });
+      });
+      persistMirrorSkipMap(m);
+      state.mirrorSkipped = loadMirrorSkipped();
+    } else if (Array.isArray(data.mirrorSkipped)) {
+      addMirrorSkipped(null, data.mirrorSkipped);
+    }
+    // Mitspieler-Liste zusammenführen, nach Namen. Was hier schon steht,
+    // behält seinen Schlüssel und seine Merkposten - die Gegenseite schickt
+    // beides absichtlich nicht mit.
+    if (Array.isArray(data.partners)) {
+      data.partners.forEach(fremd => {
+        if (!fremd || !fremd.name) return;
+        const mein = partnerByName(fremd.name);
+        if (mein) {
+          if (fremd.repo && !mein.repo) mein.repo = fremd.repo;
+          if (fremd.appUrl && !mein.appUrl) mein.appUrl = fremd.appUrl;
+        } else {
+          state.partners.push({ id: fremd.id || uid(), name: fremd.name, repo: fremd.repo || "",
+            token: "", path: fremd.path || "minigolf-daten.json", appUrl: fremd.appUrl || "",
+            enabled: fremd.enabled !== false, lastActive: null, checkedAt: null, lastSha: null,
+            ownRounds: [], seenIds: [], messages: [], seenMsgIds: [] });
+        }
+      });
+      persistPartners();
+      ensurePartnerTiles();
     }
     if (Array.isArray(data.treats)) {
       state.treats = mergeById(state.treats, data.treats, (data.deletedIds||{}).treats);
@@ -2632,8 +2774,87 @@ function persist() {
 // GitHub sync
 // ============================================================
 const GITHUB_CONFIG_KEY = "minigolf-github-config";
-const APP_VERSION = "109.44";
+const APP_VERSION = "109.48";
 const EINTRAGEN_ICON = "data:image/png;base64,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";
+
+// ============================================================
+// App weitergeben - Einladungslink
+// ============================================================
+// Der Empfänger öffnet dieselbe Adresse wie ich, bekommt aber ein eigenes
+// Repository: Seine Daten liegen dort, meine bleiben, wo sie sind. Zugang und
+// Voreinstellungen stecken verschleiert im Link - kein echter Schutz, aber
+// nichts davon steht lesbar in der Adresszeile oder im Verlauf.
+const EINLADUNG_MUSTER = new TextEncoder().encode("Minigolf-Scorecard-Bahn18-Ass");
+function einladungVerschleiern(bytes) {
+  return bytes.map((b, i) => b ^ EINLADUNG_MUSTER[i % EINLADUNG_MUSTER.length] ^ ((i * 7) & 255));
+}
+function bytesZuB64(by) {
+  let bin = ""; by.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+function b64ZuBytes(b) {
+  const bin = atob(b); const by = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) by[i] = bin.charCodeAt(i);
+  return by;
+}
+function einladungErzeugen(d) {
+  const roh = new TextEncoder().encode(JSON.stringify(d));
+  const code = "1" + bytesZuB64(einladungVerschleiern(roh))
+    .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const basis = location.protocol.startsWith("http")
+    ? location.origin + location.pathname
+    : `https://${d.o}.github.io/${(loadGithubConfig() || {}).repo || "Minigolf-App"}/`;
+  return `${basis}#einladung=${code}`;
+}
+function einladungLesen(code) {
+  try {
+    if (!code || code[0] !== "1") return null;
+    const b = code.slice(1).replace(/-/g, "+").replace(/_/g, "/");
+    const roh = einladungVerschleiern(b64ZuBytes(b + "===".slice((b.length + 3) % 4)));
+    const d = JSON.parse(new TextDecoder().decode(roh));
+    return (d && d.o && d.r && d.t) ? d : null;
+  } catch (e) { return null; }
+}
+
+// Eine weitergegebene App soll schlank starten: eintragen, Runden, Statistik.
+// Alles, was mit meiner Ball-Datenbank, meinen Kosten oder meinen Seiten zu
+// tun hat, ist zunächst aus - zuschalten kann er es jederzeit selbst.
+// Beim Start: Steckt eine Einladung in der Adresse? Dann merken und die
+// Adresse säubern - angewendet wird sie weiter unten, wenn alle Schlüssel und
+// Vorgaben geladen sind.
+let __einladung = null;
+(function einladungAusAdresse() {
+  try {
+    const h = location.hash || "";
+    const m = h.match(/einladung=([A-Za-z0-9\-_]+)/);
+    if (!m) return;
+    __einladung = einladungLesen(m[1]);
+    history.replaceState(null, "", location.pathname + location.search);
+  } catch (e) {}
+})();
+
+function giveAwayStandardHidden() {
+  const aus = {};
+  DASH_TILES.filter(t => !t.always).forEach(t => {
+    if (!["rounds", "stats", "messages"].includes(t.id)) aus[t.id] = true;
+  });
+  return aus;
+}
+function giveAwayStandardFlags() {
+  const f = {};
+  VIEW_FLAGS.forEach(x => { f[x.id] = false; });
+  // Das lohnt sich auch in der schlanken Fassung.
+  f.statsProblem = true; f.statsDist = true; f.statsMonthly = true; f.statsTrend = true;
+  return f;
+}
+function giveAwayEntwurf() {
+  if (!state.giveAway) {
+    state.giveAway = { name: "", repo: "", hidden: giveAwayStandardHidden(), flags: giveAwayStandardFlags(), link: "" };
+  }
+  if (!state.giveAway.hidden) state.giveAway.hidden = giveAwayStandardHidden();
+  if (!state.giveAway.flags) state.giveAway.flags = giveAwayStandardFlags();
+  return state.giveAway;
+}
 
 function loadGithubConfig() {
   try {
@@ -4092,16 +4313,56 @@ const HELP_TOPICS = {
       "Alle Zeiten gelten bei passendem Wetter. Ob bei Regen geöffnet ist, steht auf Instagram oder der Website.",
     ],
   },
-  mirror: {
-    title: "Runden weitergeben",
+  giveAway: {
+    title: "App weitergeben",
     body: [
-      "Trägst du eine Runde ein, die du mit einem anderen Spieler gedreht hast, kann die App diese Runde zusätzlich in dessen eigenes Repository schreiben. Er muss sie dann nicht selbst erfassen.",
-      "Dafür brauchst du von ihm Benutzernamen und Repository sowie einen Token mit Schreibrecht auf dieses eine Repository.",
+      "Erzeugt einen Link, mit dem jemand anders diese App als <strong>eigene, leere Scorecard</strong> bekommt. Er öffnet dieselbe Adresse wie du, seine Runden landen aber in <em>seinem</em> Repository – deine Daten sieht er nie.",
+      "Was du vorher brauchst: ein leeres Repository auf GitHub für ihn und einen Schlüssel, der <strong>nur</strong> darauf schreiben darf. Nimm nicht deinen eigenen – der Schlüssel steckt im Link, verschleiert, aber nicht sicher verschlossen. Schick den Link deshalb nur an Leute, denen du vertraust.",
+      "In sein Repository musst du nichts hineinlegen – die App legt alles selbst an: <strong>minigolf-daten.json</strong> mit seinen Runden, dazu eine Tagessicherung unter <strong>sicherung/</strong>. Die App-Datei selbst bleibt bei dir; er öffnet ja deine Adresse. Das Repository darf privat sein.",
+      "Mit den Haken bestimmst du, was er zu sehen bekommt. Vorausgewählt ist eine schlanke Fassung: eintragen, Runden, Statistik. Ball-Datenbank, Wetter, Kosten, Training und die übrigen Seiten bleiben aus – zuschalten kann er sie später selbst unter Einstellungen → Ansicht.",
+      "Er öffnet den Link auf seinem Handy und legt die Seite auf den Home-Bildschirm. Mehr ist nicht nötig: Name, Zugang und Ansicht sind dann schon eingerichtet.",
+      "Lädst du später eine neue Fassung der App hoch, bekommt er sie automatisch mit – es ist dieselbe Datei.",
+      "Sein eigenes Symbol kann er sich selbst machen: in seiner App unter Einstellungen → <strong>App-Symbol</strong> ein Foto wählen und die Seite danach neu auf den Home-Bildschirm legen. Beim ersten Start weist ihn ein Hinweis auf dem Dashboard darauf hin.",
+      "Sobald der Link erzeugt ist, steht er auf deiner Liste <strong>Mitspieler mit eigener App</strong> – mit eigener Kachel im Dashboard. Runden, an denen er mitspielt, gehen von da an auch in seine App, und über die Kachel siehst du, was er selbst eingetragen hat und was er dir schreibt.",
+      "In seiner App ist die Kachel <strong>Nachricht</strong> von vornherein an. Darüber erreicht er dich, wenn etwas hakt.",
+      "Öffnest du den Link versehentlich auf deinem eigenen Gerät, fragt die App erst nach. „Nicht übernehmen“ lässt alles, wie es ist.",
+    ],
+  },
+  mirror: {
+    title: "Mitspieler mit eigener App",
+    body: [
+      "Hier stehen alle, die eine eigene Scorecard haben – früher war das nur Andreas, jetzt beliebig viele. Jeder bekommt eine eigene Kachel im Dashboard und sein eigenes Nachrichtenfach.",
+      "Trägst du eine Runde ein, an der einer von ihnen mitgespielt hat, schreibt die App diese Runde zusätzlich in sein Repository. Er muss sie dann nicht selbst erfassen. Spielen zwei Mitspieler mit, bekommt sie jeder von beiden.",
+      "Dafür brauchst du sein Repository und einen Schlüssel mit Schreibrecht darauf. Das Feld <strong>Schlüssel</strong> bleibt leer, wenn dein eigener dort schon schreiben darf; sonst trägst du den ein, der nur auf dieses eine Repository passt. Wer die App über <strong>App weitergeben</strong> von dir bekommt, landet samt Schlüssel automatisch auf dieser Liste.",
       "Weitergegeben werden nur die Runden – seine Bälle, Kosten und Einstellungen bleiben seine Sache.",
-      "<strong>Es geht nur in eine Richtung.</strong> Trägt <em>er</em> eine Runde mit dir ein, kommt sie nicht zu dir – seine App schreibt nichts in dein Repository. Du müsstest sie bei dir selbst eintragen.",
-      "Genau dafür steht in der Ergebnisübersicht der Schalter <strong>„An ihn weitergeben“</strong>. Er ist normalerweise an. Hat er die Runde schon selbst eingetragen, hak ihn ab – sonst stünde sie bei ihm zweimal: einmal seine eigene und einmal deine.",
-      "Eine so ausgenommene Runde bleibt ausgenommen: Auch „Fehlende Runden jetzt übertragen“ lässt sie aus. Wie viele das sind, steht hier in den Einstellungen – dort lässt sich die Entscheidung auch wieder aufheben.",
-      "Löschst du eine weitergegebene Runde später, verschwindet sie auch bei ihm.",
+      "<strong>Runden gehen nur in eine Richtung.</strong> Trägt <em>er</em> eine Runde mit dir ein, kommt sie nicht zu dir – seine App schreibt nichts in dein Repository. Du müsstest sie bei dir selbst eintragen. Was er eingetragen hat, siehst du aber auf seiner Kachel.",
+      "Genau dafür steht in der Ergebnisübersicht je Mitspieler der Schalter <strong>„An ihn weitergeben“</strong>. Er ist normalerweise an. Hat er die Runde schon selbst eingetragen, hak ihn ab – sonst stünde sie bei ihm zweimal: einmal seine eigene und einmal deine.",
+      "Eine so ausgenommene Runde bleibt ausgenommen: Auch „Fehlende Runden übertragen“ lässt sie aus. Wie viele das sind, steht hier in den Einstellungen – dort lässt sich die Entscheidung auch wieder aufheben.",
+      "Löschst du eine weitergegebene Runde später, verschwindet sie bei jedem, der sie bekommen hat.",
+      "<strong>Aus der Liste entfernen</strong> löscht nur den Eintrag bei dir: seine App, seine Daten und seine Runden bleiben unangetastet. <strong>Aus</strong> statt entfernen pausiert ihn – Kachel und Weitergabe ruhen, der Eintrag bleibt.",
+    ],
+  },
+  appIcon: {
+    title: "App-Symbol",
+    body: [
+      "Ein eigenes Foto als Symbol auf dem Home-Bildschirm. Gedacht vor allem für eine App, die jemand weitergegeben bekommen hat: Sie liegt unter der Adresse des Besitzers und trägt deshalb zunächst dessen Symbol.",
+      "Foto wählen, Namen eintragen, speichern. Das Bild wird mittig quadratisch zugeschnitten und auf Symbolgröße verkleinert – es bleibt auf dem Gerät und wird nirgends hochgeladen.",
+      "<strong>Das Telefon merkt sich das Symbol genau in dem Moment, in dem die App auf den Home-Bildschirm kommt.</strong> Liegt sie dort schon, ändert sich nichts von allein: einmal entfernen und neu hinzufügen, dann ist das neue Bild da.",
+      "Der Name unter dem Symbol ist ebenfalls frei wählbar. Mehr als etwa zwölf Zeichen zeigt das Telefon nicht an.",
+      "„Zurücksetzen“ nimmt das Foto wieder weg; beim nächsten Hinzufügen gilt dann wieder das mitgelieferte Symbol.",
+      "Auf dem iPhone funktioniert das über die Angabe <em>apple-touch-icon</em>, auf Android über ein eigenes Manifest. Sollte dein Gerät das Foto beim Hinzufügen nicht übernehmen, liegt es daran – dann bleibt es schlicht beim alten Symbol, kaputt geht nichts.",
+    ],
+  },
+  messages: {
+    title: "Nachrichten",
+    body: [
+      "Der Rückkanal: Wer die App von dir bekommen hat, kann dir darin schreiben – wenn etwas hakt, wenn ihm etwas fehlt, wenn er sich etwas wünscht.",
+      "Bei ihm steht die Kachel <strong>Nachricht</strong> im Dashboard. Bei dir landet alles auf seiner Mitspieler-Kachel, Reiter <strong>Nachrichten</strong> – dort steht der ganze Faden, und von dort antwortest du.",
+      "Technisch liegt der Faden als Datei in <em>seinem</em> Repository. Er schreibt hinein, du liest sie und antwortest darin. Schreiben beide gleichzeitig, bleibt beides stehen – zusammengeführt wird nach Kennung.",
+      "<strong>Es gibt keine Benachrichtigung.</strong> Er sieht deine Antwort, wenn er seine App öffnet; du seine Nachricht, wenn du deine öffnest. Nachgesehen wird beim Start und jedes Mal, wenn du seine Kachel antippst.",
+      "Ist die Kachel ausgeblendet, erscheint die rote Zahl auf der Kachel <strong>Einstellungen</strong> – so geht keine Nachricht verloren.",
+      "Was nicht im Faden untergehen soll, wandert mit <strong>„als Wunsch“</strong> auf die Wunschliste. Dort bleibt es stehen, bis du es abhakst.",
+      "Hast du diese App von jemandem bekommen, ist der Faden dein Draht zu ihm: Du schreibst hier hinein, er liest es in seiner App und antwortet darin. Deine Nachrichten stehen rechts, seine Antworten links; was seit deinem letzten Blick dazukam, ist gelb hinterlegt.",
     ],
   },
   aceStreak: {
@@ -4154,6 +4415,7 @@ const HELP_TOPICS = {
     body: [
       "Ausgaben für Getränke, Snacks und Eis, getrennt nach Posten. Sie fließen in die Kostenübersicht ein, bleiben dort aber von den Rundenkosten getrennt.",
       "Die Ausgaben des laufenden Tages stehen direkt im Erfassungsfenster und lassen sich einzeln wieder löschen.",
+      "Jeder Eintrag lässt sich mit dem Kästchen links als <strong>erledigt</strong> abhaken – wenn du ihn abgerechnet oder verbucht hast. Der Betrag zählt weiter zur Summe; es geht nur um den Überblick. Im Monatskopf steht, wie viele noch offen sind.",
     ],
   },
   query: {
@@ -4232,7 +4494,8 @@ const HELP_TOPICS = {
   wishes: {
     title: "Wunschliste",
     body: [
-      "Eine gemeinsame Liste beider Apps: Was fehlt, was stört, was wäre schön. Sie liegt im gemeinsamen Repository, in dem auch die weitergegebenen Runden landen.",
+      "Deine Liste: Was fehlt, was stört, was wäre schön. Sie liegt in deinem eigenen Repository und folgt dir damit auf alle deine Geräte.",
+      "Was deine Mitspieler dir schreiben, kommt über <strong>Nachrichten</strong> – und lässt sich dort mit einem Tipp auf „als Wunsch“ hierher übernehmen, damit es nicht im Faden untergeht.",
       "Abhaken, zurückholen und endgültig löschen kann nur, wer die App auch ändert – bei dir also du. Alle anderen tragen Wünsche ein und kommentieren.",
       "Abgehakte Punkte wandern nach „Erledigt“ – dort bleibt nachvollziehbar, was wann umgesetzt wurde.",
       "💬 an jedem Punkt öffnet die Kommentare. Die stehen beiden offen, damit man nachfragen oder ergänzen kann, ohne den Punkt zu schließen.",
@@ -4314,15 +4577,16 @@ const HELP_TOPICS = {
     ],
   },
   andreas: {
-    title: "Andreas im Blick",
+    title: "Mitspieler im Blick",
     body: [
-      "Zeigt zwei Dinge über die App deines Mitspielers – ohne dass an seiner App etwas geändert werden musste.",
+      "Zeigt drei Dinge über die App deines Mitspielers: wann er zuletzt dran war, was er selbst eingetragen hat, und was er dir geschrieben hat.",
       "<strong>Zuletzt in seiner App:</strong> Seine App hinterlässt beim Start Spuren in seinem Repository (Tagessicherung, Auto-Sync). Aus deren Zeitstempel ergibt sich, wann er zuletzt dran war. Was deine App in sein Repository schreibt – weitergegebene Runden und die Wunschliste – zählt dabei ausdrücklich nicht.",
       "<strong>Eigene Runden:</strong> Eine weitergegebene Runde behält ihre Kennung. Was in seiner Datei eine Kennung trägt, die diese App nicht kennt, hat er selbst eingetragen. Deine geteilten Runden tauchen hier also nie auf – auch nicht, wenn du sie bei dir später gelöscht hast.",
       "Angezeigt werden seine <strong>letzten fünf</strong> Runden; darunter steht, wie viele er sonst noch hat. Die Liste ist kein Posteingang: Sie zeigt, was bei ihm steht, und bleibt, bis er selbst etwas löscht. „Alles gesehen“ nimmt nur die roten Punkte weg, also die Markierung „neu seit deinem letzten Blick“.",
       "Beim ersten Abruf gilt alles als gesehen – sonst stünden auf einen Schlag alle seine alten Runden als „neu“ da. Ab dann wird nur noch gezählt, was dazukommt.",
       "Nachgesehen wird beim Start der App und jedes Mal, wenn du das Fenster öffnest. Seine Datendatei wird dabei nur geholt, wenn sich in seinem Repository überhaupt etwas getan hat.",
-      "Die Adresse seiner App steht unter Einstellungen → Runden weitergeben. Leer heißt: die übliche GitHub-Pages-Adresse seines Repositorys.",
+      "Der Reiter <strong>Nachrichten</strong> ist der Rückkanal: Was er in seiner App schreibt, steht hier – und hier antwortest du ihm. Mehr dazu in der Hilfe zu „Mitspieler mit eigener App“.",
+      "Die Adresse seiner App steht unter Einstellungen → Mitspieler mit eigener App. Leer heißt: die übliche GitHub-Pages-Adresse seines Repositorys.",
     ],
   },
   seasonReview: {
@@ -4822,7 +5086,7 @@ const DASH_TILES = [
   { id: "costs",    label: "Kosten" },
   { id: "settings", label: "Einstellungen",  always: true },
   { id: "wishes",   label: "Wunschliste" },
-  { id: "andreas",  label: "Andreas" },
+  { id: "messages", label: "Nachricht an den Besitzer" },
   { id: "gastro",   label: "Gastronomie" },
   { id: "treats",   label: "Ausgeben-Liste" },
   { id: "pistenplan", label: "Pistenplan" },
@@ -4837,6 +5101,7 @@ const VIEW_FLAGS = [
   { id: "ballRecs",    label: "Ball-Empfehlung in der Runde" },
   { id: "runMarks",    label: "Vorlauf / Rücklauf erfassen", note: "Bereits erfasste Markierungen bleiben erhalten. Runden, die ohne sie gespielt werden, tragen sie nicht nach." },
   { id: "hoursPopup",  label: "Öffnungszeiten beim Start zeigen" },
+  { id: "weather",     label: "Wetter in der Runde erfassen", note: "Schon erfasstes Wetter bleibt erhalten und wird weiter angezeigt." },
   { id: "acesCard",    label: "Asse pro Bahn (in Runden)" },
   { id: "statsProblem",label: "Statistik: Problem-Bahnen" },
   { id: "statsDist",   label: "Statistik: Verteilung der Schläge" },
@@ -4863,7 +5128,9 @@ const STATS_SECTIONS = [
 function loadViewPrefs() {
   let p = {};
   try { p = JSON.parse(localStorage.getItem(VIEW_PREFS_KEY) || "{}") || {}; } catch(e) {}
-  const order = Array.isArray(p.order) ? p.order.filter(id => DASH_TILES.some(t => t.id === id)) : [];
+  const order = Array.isArray(p.order)
+    ? p.order.filter(id => DASH_TILES.some(t => t.id === id) || String(id).startsWith("partner:"))
+    : [];
   DASH_TILES.forEach(t => { if (!order.includes(t.id)) order.push(t.id); });
   const statsOrder = Array.isArray(p.statsOrder) ? p.statsOrder.filter(id => STATS_SECTIONS.some(s => s.id === id)) : [];
   STATS_SECTIONS.forEach(s => { if (!statsOrder.includes(s.id)) statsOrder.push(s.id); });
@@ -4876,13 +5143,68 @@ function persistViewPrefs() {
 }
 // Everything is on unless it was explicitly switched off.
 function viewOn(flagId) { return state.viewPrefs.flags[flagId] !== false; }
+// Je Partner eine Kachel. Die Liste wächst mit den Partnern, darum stehen
+// diese Kacheln nicht in DASH_TILES, sondern kommen hier dazu.
+function partnerTiles() {
+  return (state.partners || [])
+    .filter(p => p && p.name && p.repo)
+    .map(p => ({ id: "partner:" + p.id, label: p.name, partner: p }));
+}
+function allDashTiles() {
+  return [...DASH_TILES, ...partnerTiles()];
+}
+function tileById(id) {
+  return allDashTiles().find(t => t.id === id) || null;
+}
+// Neue Partner bekommen ihre Kachel dort, wo früher die eine Andreas-Kachel
+// stand - damit sie nicht unten am Ende auftaucht. Der alte Ausblend-Zustand
+// gilt weiter für den ersten Partner.
+function ensurePartnerTiles() {
+  const order = state.viewPrefs.order;
+  const fehlend = partnerTiles().map(t => t.id).filter(id => !order.includes(id));
+  let geaendert = false;
+  if (fehlend.length) {
+    const alteStelle = order.indexOf("andreas");
+    const stelle = alteStelle >= 0 ? alteStelle : Math.max(0, order.indexOf("wishes") + 1);
+    order.splice(stelle, alteStelle >= 0 ? 1 : 0, ...fehlend);
+    if (state.viewPrefs.hidden.andreas === true && fehlend.length === 1) {
+      state.viewPrefs.hidden[fehlend[0]] = true;
+    }
+    geaendert = true;
+  } else if (order.includes("andreas")) {
+    order.splice(order.indexOf("andreas"), 1);
+    geaendert = true;
+  }
+  // Kacheln von Partnern, die es nicht mehr gibt, fallen weg.
+  const gueltig = new Set(partnerTiles().map(t => t.id));
+  for (let i = order.length - 1; i >= 0; i--) {
+    if (String(order[i]).startsWith("partner:") && !gueltig.has(order[i])) {
+      order.splice(i, 1); geaendert = true;
+    }
+  }
+  if (geaendert) persistViewPrefs();
+}
 function tileVisible(id) {
+  if (String(id).startsWith("partner:")) {
+    const pa = partnerById(String(id).slice(8));
+    if (!pa || !pa.name || !pa.repo || pa.enabled === false) return false;
+    return state.viewPrefs.hidden[id] !== true;
+  }
+  // Die Nachrichten-Kachel gibt es nur in einer weitergegebenen App - bei mir
+  // läuft der Rückkanal über die Partner-Kacheln.
+  if (id === "messages" && !istWeitergegebeneApp()) return false;
   const t = DASH_TILES.find(x => x.id === id);
   if (t && t.always) return true;
   return state.viewPrefs.hidden[id] !== true;
 }
 
 function renderDashTile(id) {
+  if (String(id).startsWith("partner:")) {
+    const pa = partnerById(String(id).slice(8));
+    if (!pa || !partnerRepoConfig(pa)) return "";
+    const neu = partnerBadgeCount(pa);
+    return `<button class="btn btn-secondary" data-action="open-partner" data-id="${esc(pa.id)}" style="position:relative;">👥 ${esc(pa.name)}${neu ? `<span style="position:absolute; top:0.35rem; right:0.6rem; min-width:1.05rem; height:1.05rem; background:#dc2626; color:white; border-radius:0.6rem; font-size:0.65rem; line-height:1.05rem; padding:0 0.2rem;">${neu}</span>` : ""}</button>`;
+  }
   switch (id) {
     case "entry":
       return `<button class="btn btn-primary" data-action="set-view" data-view="entry" style="display:flex; align-items:center; justify-content:center; gap:0.4rem;"><img src="${EINTRAGEN_ICON}" alt="" style="width:1.3em; height:1.3em; border-radius:50%; flex-shrink:0;" /> Eintragen</button>`;
@@ -4908,11 +5230,10 @@ function renderDashTile(id) {
       const neu = newWishCount();
       return `<button class="btn btn-secondary" data-action="set-view" data-view="wishes" style="position:relative;">📝 Wünsche${neu ? ` <span style="color:#dc2626;">•</span>` : ""}${open ? `<span style="position:absolute; top:0.35rem; right:0.6rem; min-width:1.05rem; height:1.05rem; background:${neu ? "#dc2626" : "#a8a29e"}; color:white; border-radius:0.6rem; font-size:0.65rem; line-height:1.05rem; padding:0 0.2rem;">${open}</span>` : ""}</button>`;
     }
-    case "andreas": {
-      if (!andreasConfigured()) return "";
-      const neu = andreasNewCount();
-      const name = (state.mirrorConfig && state.mirrorConfig.playerName) || "Andreas";
-      return `<button class="btn btn-secondary" data-action="open-andreas" style="position:relative;">👥 ${esc(name)}${neu ? `<span style="position:absolute; top:0.35rem; right:0.6rem; min-width:1.05rem; height:1.05rem; background:#dc2626; color:white; border-radius:0.6rem; font-size:0.65rem; line-height:1.05rem; padding:0 0.2rem;">${neu}</span>` : ""}</button>`;
+    case "messages": {
+      if (!istWeitergegebeneApp()) return "";
+      const neu = newMessageCount();
+      return `<button class="btn btn-secondary" data-action="set-view" data-view="messages" style="position:relative;">✉️ Nachricht${neu ? `<span style="position:absolute; top:0.35rem; right:0.6rem; min-width:1.05rem; height:1.05rem; background:#dc2626; color:white; border-radius:0.6rem; font-size:0.65rem; line-height:1.05rem; padding:0 0.2rem;">${neu}</span>` : ""}</button>`;
     }
     case "gastro":
       return `<button class="btn btn-secondary" data-action="open-gastro-quick">🍴 Gastronomie</button>`;
@@ -4953,13 +5274,15 @@ function renderViewSettings() {
       <p style="font-size:0.78rem; color:#78716c; margin:0 0 0.6rem;">Hier bestimmst du, was die App zeigt. Ausblenden löscht nichts – erfasste Daten bleiben erhalten und sind beim Wiedereinschalten vollständig da.</p>
       <div style="font-weight:600; font-size:0.85rem; margin:0.2rem 0 0.4rem;">Kacheln im Dashboard</div>`;
     v.order.forEach((id, i) => {
-      const t = DASH_TILES.find(x => x.id === id);
+      const t = tileById(id);
       if (!t) return;
+      // Die Nachrichten-Kachel gibt es nur in einer weitergegebenen App.
+      if (id === "messages" && !istWeitergegebeneApp()) return;
       const vis = tileVisible(id);
-      // Die Weitergabe an Andreas ist eine Geraete-Einstellung und wird nicht
+      // Ein Partner ist eine Geraete-Einstellung und wird nicht
       // mitsynchronisiert. Auf einem Geraet ohne sie bleibt die Kachel weg,
       // auch wenn hier "sichtbar" steht - also sagen wir das auch.
-      const nochNicht = id === "andreas" && vis && !andreasConfigured();
+      const nochNicht = t.partner && !partnerRepoConfig(t.partner);
       // Die Ausgeben-Kachel zeigt sich nur bei offenen Einträgen. Damit die
       // Liste trotzdem erreichbar bleibt, steht hier ein Weg hinein.
       const nurBeiBedarf = id === "treats";
@@ -5021,7 +5344,7 @@ function renderViewSettings() {
 // seen the next time the other app is opened.
 // Christians App schreibt in das Repository, in das sie Runden weitergibt;
 // Andreas' App nutzt ihr eigenes - und das ist genau dieses.
-const WISH_REPO_FROM_MIRROR = true;
+const WISH_REPO_FROM_MIRROR = false;
 // Only the person who actually changes the app can tick something off.
 // Everyone else contributes wishes and comments.
 const WISH_ADMIN = true;
@@ -5070,6 +5393,16 @@ function markWishesSeen() {
 //            bis es wirklich erledigt ist, ohne weiter rot zu mahnen.
 function hiddenTileAlerts() {
   const liste = [];
+  // Partner-Kacheln: steht etwas Neues an und ist die Kachel aus, muss es
+  // trotzdem irgendwo auffallen.
+  (state.partners || []).forEach(pa => {
+    const kid = "partner:" + pa.id;
+    if (tileVisible(kid) || !partnerRepoConfig(pa)) return;
+    const n = partnerBadgeCount(pa);
+    if (n) liste.push({ id: kid, label: pa.name, icon: "👥", neu: n, offen: n,
+      text: n === 1 ? "1 neuer Eintrag" : `${n} neue Einträge`,
+      action: `data-action="open-partner" data-id="${esc(pa.id)}"` });
+  });
   if (!tileVisible("wishes")) {
     const neu = newWishCount();
     const offen = openWishCount();
@@ -5089,7 +5422,15 @@ function hiddenTileAlerts() {
       text: offen === 1 ? "1 offener Eintrag" : `${offen} offene Einträge`,
       action: `data-action="open-treats"` });
   }
+  hiddenMessageAlert(liste);
   return liste;
+}
+function hiddenMessageAlert(liste) {
+  if (!istWeitergegebeneApp() || tileVisible("messages")) return;
+  const n = newMessageCount();
+  if (n) liste.push({ id: "messages", label: "Nachricht", icon: "✉️", neu: n, offen: n,
+    text: n === 1 ? "1 neue Antwort" : `${n} neue Antworten`,
+    action: `data-action="set-view" data-view="messages"` });
 }
 function hiddenAlertCount() {
   return hiddenTileAlerts().reduce((n, a) => n + (a.neu || 0), 0);
@@ -5104,9 +5445,13 @@ function hiddenOpenCount() {
 function wishRepoConfig() {
   const cfg = loadGithubConfig();
   if (!cfg || !cfg.owner || !cfg.token) return null;
-  const repo = WISH_REPO_FROM_MIRROR
-    ? ((state.mirrorConfig && state.mirrorConfig.repo) || cfg.repo)
-    : cfg.repo;
+  // Die Wunschliste ist eine Sache zwischen zwei Apps. Gibt es keine
+  // Gegenstelle und auch noch keinen Wunsch, wird nichts abgeglichen - sonst
+  // legte eine frisch weitergegebene App eine Datei an, die niemand liest.
+  // Die Liste ist jetzt meine eigene: der Rückkanal zu den Mitspielern läuft
+  // über Nachrichten. Steht noch nichts drauf, wird auch nichts angelegt.
+  if (!(state.wishes || []).length) return null;
+  const repo = cfg.repo;
   if (!repo) return null;
   return { owner: cfg.owner, repo, token: cfg.token, branch: cfg.branch || "main", path: WISHES_PATH };
 }
@@ -5192,6 +5537,18 @@ function renderWishComments(w) {
 // neu war - nicht die Zeichenfunktion. Die läuft mehrfach, und beim zweiten
 // Mal wäre alles schon als gesehen vermerkt und die Hervorhebung verschwunden.
 function enterView(view) {
+  if (view === "messages" && state.view !== "messages") {
+    // Was beim Öffnen neu war, bleibt hervorgehoben, solange die Ansicht offen
+    // ist - auch über ein zwischenzeitliches Neuzeichnen hinweg.
+    const gesehen = new Set(loadMsgSeen());
+    state.msgHighlight = (state.messages || [])
+      .filter(m => m && m.id && m.from !== OWNER_PLAYER && !gesehen.has(m.id))
+      .map(m => m.id);
+    markMessagesSeen();
+    syncMessages({ silent: true });
+  } else if (view !== "messages") {
+    state.msgHighlight = [];
+  }
   if (view === "wishes" && state.view !== "wishes") {
     const gesehen = new Set(loadWishesSeen());
     state.wishHighlight = (state.wishes || [])
@@ -5219,8 +5576,8 @@ function renderWishesView() {
     <div class="card" style="margin-bottom:0.8rem;">
       <input type="text" id="wish-text" data-draft="wish-text" value="${esc(state.formDraft["wish-text"] || "")}" placeholder="Was fehlt dir? Was stört?" style="width:100%; margin-bottom:0.5rem;" />
       <button class="btn btn-primary btn-full" data-action="wish-add">Eintragen</button>
-      <button class="btn btn-secondary btn-full" data-action="wish-sync" ${state.wishSyncing ? "disabled" : ""} style="margin-top:0.4rem;">${state.wishSyncing ? "⏳ Abgleichen…" : "🔄 Mit der anderen App abgleichen"}</button>
-      <p style="font-size:0.72rem; color:#a8a29e; margin:0.4rem 0 0;">Die Liste liegt im gemeinsamen Repository. Es gibt keine Benachrichtigung – der andere sieht einen Eintrag, wenn er die App öffnet.</p>
+      <button class="btn btn-secondary btn-full" data-action="wish-sync" ${state.wishSyncing ? "disabled" : ""} style="margin-top:0.4rem;">${state.wishSyncing ? "⏳ Abgleichen…" : "🔄 Mit deinen anderen Geräten abgleichen"}</button>
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0.4rem 0 0;">Deine eigene Liste – sie liegt in deinem Repository und steht auf all deinen Geräten. Was dir deine Mitspieler schreiben, kommt über ✉️ Nachrichten und lässt sich dort mit einem Tipp hierher übernehmen.</p>
     </div>`;
 
   html += `<div style="font-size:0.78rem; font-weight:600; color:#78716c; text-transform:uppercase; letter-spacing:0.04em; margin:0 0 0.4rem;">Offen (${open.length})</div>`;
@@ -5429,37 +5786,30 @@ const ANDREAS_KEY = "minigolf-andreas-info";
 // Repository - die zaehlen nicht als seine Aktivitaet.
 const ANDREAS_COMMIT_PREFIXES = ["Auto-Sync", "Minigolf Daten aktualisiert", "Sicherung", "Baelle-Sync", "Turnierdaten"];
 
-function loadAndreasInfo() {
-  try { const r = localStorage.getItem(ANDREAS_KEY); if (r) return JSON.parse(r); } catch(e) {}
-  return { lastActive: null, checkedAt: null, lastSha: null, ownRounds: [], seenIds: [], appUrl: "" };
-}
-function persistAndreasInfo() {
-  try { localStorage.setItem(ANDREAS_KEY, JSON.stringify(state.andreas)); } catch(e) {}
-}
-function andreasConfigured() {
-  const m = state.mirrorConfig;
-  const cfg = loadGithubConfig();
-  return !!(m && m.enabled && m.repo && m.playerName && cfg && cfg.token && cfg.owner);
-}
-function andreasRepoConfig() {
-  const m = state.mirrorConfig;
-  const cfg = loadGithubConfig();
-  if (!andreasConfigured()) return null;
-  return { owner: cfg.owner, repo: m.repo, token: cfg.token,
-           branch: cfg.branch || "main", path: m.path || "minigolf-daten.json" };
+function partnersConfigured() {
+  return activePartners().length > 0;
 }
 // Voreinstellung ist die uebliche GitHub-Pages-Adresse seines Repositorys;
 // in den Einstellungen laesst sie sich ueberschreiben.
-function andreasAppUrl() {
-  if (state.andreas.appUrl) return state.andreas.appUrl;
-  const t = andreasRepoConfig();
+function partnerAppUrl(partner) {
+  if (!partner) return "";
+  if (partner.appUrl) return partner.appUrl;
+  const t = partnerRepoConfig(partner);
   return t ? `https://${t.owner}.github.io/${t.repo}/` : "";
 }
 // Ueber diesen Knopf geoeffnet, schaltet sich seine App auf diesem Geraet
 // still: sie liest, schreibt aber nichts. Sonst saehe mein Nachsehen in der
 // Commit-Liste aus wie ein Besuch von ihm.
-function andreasAppUrlQuiet() {
-  const u = andreasAppUrl();
+// Liegen beide Apps auf derselben Adresse (zwei Ordner unter derselben
+// github.io-Adresse), teilen sie sich den Speicher des Browsers. Dann zeigt
+// seine App auf meinem Gerät meine Daten - verwirrend, aber harmlos, denn
+// still geöffnet schreibt sie nichts. Gesagt werden muss es trotzdem.
+function gleicheHerkunft(u) {
+  try { return new URL(u, location.href).origin === location.origin && location.protocol.startsWith("http"); }
+  catch (e) { return false; }
+}
+function partnerAppUrlQuiet(partner) {
+  const u = partnerAppUrl(partner);
   if (!u) return "";
   return u + (u.includes("?") ? "&" : "?") + "still=1";
 }
@@ -5473,8 +5823,8 @@ function myRoundIds() {
 }
 
 // Ein Aufruf, ein paar Kilobyte: die letzten Commits seines Repositorys.
-async function fetchAndreasActivity() {
-  const t = andreasRepoConfig();
+async function fetchPartnerActivity(partner) {
+  const t = partnerRepoConfig(partner);
   if (!t) return null;
   const url = `https://api.github.com/repos/${t.owner}/${t.repo}/commits?sha=${t.branch}&per_page=30&t=${Date.now()}`;
   try {
@@ -5498,13 +5848,13 @@ async function fetchAndreasActivity() {
 // Seine Datendatei holen und die eigenen Runden heraussuchen. Wird nur
 // angefasst, wenn sich in seinem Repository seit dem letzten Mal etwas getan
 // hat - sonst waere es jedes Mal ein Download fuer nichts.
-async function fetchAndreasRounds() {
-  const t = andreasRepoConfig();
+async function fetchPartnerRounds(partner) {
+  const t = partnerRepoConfig(partner);
   if (!t) return null;
   try {
     const data = await githubFetchJson(t, t.branch, t.path);
     if (!data || !Array.isArray(data.players)) return null;
-    const p = data.players.find(x => x && x.name === state.mirrorConfig.playerName);
+    const p = data.players.find(x => x && x.name === partner.name);
     if (!p) return [];
     // Auch das zählt als "von mir": eine Runde, die ich weitergegeben und
     // später bei mir gelöscht habe. Ohne das fiel sie aus meiner Liste und
@@ -5519,35 +5869,368 @@ async function fetchAndreasRounds() {
   } catch(e) { return null; }
 }
 
-function andreasNewCount() {
-  const seen = new Set(state.andreas.seenIds || []);
-  return (state.andreas.ownRounds || []).filter(r => !seen.has(r.id)).length;
+function partnerNewCount(partner) {
+  if (!partner) return 0;
+  const seen = new Set(partner.seenIds || []);
+  return (partner.ownRounds || []).filter(r => !seen.has(r.id)).length;
+}
+// Was auf der Kachel steht: eigene Runden plus ungelesene Nachrichten.
+function partnerBadgeCount(partner) {
+  return partnerNewCount(partner) + partnerUnreadMessages(partner);
+}
+function partnersBadgeCount() {
+  return activePartners().reduce((n, p) => n + partnerBadgeCount(p), 0);
 }
 
 // Ein Durchgang: erst die billige Commit-Abfrage, die Datendatei nur bei
 // Bedarf. force=true holt sie in jedem Fall.
-async function refreshAndreas(opts) {
+async function refreshPartner(partner, opts) {
   const o = opts || {};
-  if (!andreasConfigured()) return false;
-  const akt = await fetchAndreasActivity();
-  if (!akt) { if (o.manual) showToast("Andreas' Repository nicht erreichbar"); return false; }
-  const etwasNeues = o.force || akt.lastSha !== state.andreas.lastSha || !(state.andreas.ownRounds || []).length;
-  state.andreas.lastActive = akt.lastActive || state.andreas.lastActive;
-  state.andreas.lastSha = akt.lastSha;
-  state.andreas.checkedAt = new Date().toISOString();
+  if (!partner || !partnerRepoConfig(partner)) return false;
+  const akt = await fetchPartnerActivity(partner);
+  if (!akt) { if (o.manual) showToast(`${partner.name}: Repository nicht erreichbar`); return false; }
+  const etwasNeues = o.force || akt.lastSha !== partner.lastSha || !(partner.ownRounds || []).length;
+  partner.lastActive = akt.lastActive || partner.lastActive;
+  partner.lastSha = akt.lastSha;
+  partner.checkedAt = new Date().toISOString();
   if (etwasNeues) {
-    const runden = await fetchAndreasRounds();
+    const runden = await fetchPartnerRounds(partner);
     if (runden) {
       // Beim allerersten Abruf gilt alles als gesehen - sonst stuenden dort
       // auf einen Schlag alle alten Runden als "neu".
-      const ersterAbruf = !state.andreas.seenIds || !state.andreas.seenIds.length;
-      state.andreas.ownRounds = runden;
-      if (ersterAbruf && !o.markNew) state.andreas.seenIds = runden.map(r => r.id);
+      const ersterAbruf = !partner.seenIds || !partner.seenIds.length;
+      partner.ownRounds = runden;
+      if (ersterAbruf && !o.markNew) partner.seenIds = runden.map(r => r.id);
     }
   }
-  persistAndreasInfo();
-  if (o.manual) showToast(andreasNewCount() ? `${andreasNewCount()} neue Runde(n) von ${esc(state.mirrorConfig.playerName)}` : "Nichts Neues");
+  await fetchPartnerMessages(partner);
+  persistPartners();
+  if (o.manual) {
+    const n = partnerBadgeCount(partner);
+    showToast(n ? `${n} neu von ${esc(partner.name)}` : "Nichts Neues");
+  }
   return true;
+}
+
+// Alle Partner der Reihe nach - einer nach dem anderen, damit nicht fünf
+// Abfragen gleichzeitig an GitHub gehen.
+async function refreshAllPartners(opts) {
+  let ok = false;
+  for (const p of activePartners()) {
+    if (await refreshPartner(p, opts)) ok = true;
+  }
+  return ok;
+}
+
+// ============================================================
+// Nachrichten
+// ============================================================
+// Der Rückkanal: wer die App von mir bekommen hat, kann mir schreiben - wenn
+// etwas hakt, wenn ihm etwas fehlt. Technisch dasselbe Muster wie überall
+// hier: eine JSON-Datei im Repository des anderen, zusammengeführt nach
+// Kennung. Er schreibt in seine eigene Datei, ich lese sie und antworte
+// darin. Keine Benachrichtigung, kein Server - der andere sieht die Antwort,
+// wenn er seine App öffnet.
+const MESSAGES_PATH = "minigolf-nachrichten.json";
+const MSG_KEY = "minigolf-nachrichten";
+const MSG_SEEN_KEY = "minigolf-nachrichten-gesehen";
+const OWNER_NAME_KEY = "minigolf-besitzer-name"; // nur in weitergegebenen Apps
+
+function mergeMessages(a, b) {
+  const by = {};
+  [...(a || []), ...(b || [])].forEach(m => {
+    if (!m || !m.id) return;
+    const alt = by[m.id];
+    if (!alt || (m.at || 0) > (alt.at || 0)) by[m.id] = m;
+  });
+  return Object.values(by).sort((x, y) => (x.at || 0) - (y.at || 0));
+}
+
+// --- Besitzer-Seite: je Partner ein Faden -------------------------------
+function partnerUnreadMessages(partner) {
+  if (!partner) return 0;
+  const gesehen = new Set(partner.seenMsgIds || []);
+  return (partner.messages || []).filter(m =>
+    m && m.id && !m.deleted && m.from !== OWNER_PLAYER && !gesehen.has(m.id)).length;
+}
+function markPartnerMessagesSeen(partner) {
+  if (!partner) return;
+  partner.seenMsgIds = (partner.messages || []).filter(m => m && m.id).map(m => m.id);
+  persistPartners();
+}
+async function fetchPartnerMessages(partner) {
+  const t = partnerRepoConfig(partner);
+  if (!t) return false;
+  try {
+    const d = await githubFetchJson(t, t.branch, MESSAGES_PATH);
+    const remote = (d && Array.isArray(d.items)) ? d.items : [];
+    partner.messages = mergeMessages(partner.messages, remote);
+    return true;
+  } catch (e) { return false; } // Datei gibt es noch nicht - kein Fehler
+}
+// Antwort schreiben: zusammenführen, dann zurückschreiben. Hat er in der
+// Zwischenzeit etwas geschrieben, bleibt es stehen.
+async function sendPartnerMessage(partner, text) {
+  const t = partnerRepoConfig(partner);
+  if (!t) { showToast("Dafür fehlt der Zugang zu seinem Repository"); return false; }
+  const eintrag = { id: uid(), from: OWNER_PLAYER, text, at: Date.now() };
+  try {
+    let remote = [];
+    try {
+      const d = await githubFetchJson(t, t.branch, MESSAGES_PATH);
+      if (d && Array.isArray(d.items)) remote = d.items;
+    } catch (e) {}
+    const merged = mergeMessages([...(partner.messages || []), eintrag], remote);
+    await githubPutFileWithRetry(t, t.branch, MESSAGES_PATH, { items: merged }, "Nachricht");
+    partner.messages = merged;
+    markPartnerMessagesSeen(partner);
+    persistPartners();
+    return true;
+  } catch (e) {
+    showToast("Nachricht: " + (e.message || "nicht gesendet").substring(0, 40));
+    return false;
+  }
+}
+
+// --- Gast-Seite: diese App wurde weitergegeben --------------------------
+// Dann liegt der Faden in meinem eigenen Repository, und der Besitzer liest
+// ihn dort. Ich brauche von ihm nichts zu wissen außer seinem Namen.
+function istWeitergegebeneApp() {
+  try { return localStorage.getItem("minigolf-eingerichtet-per-einladung") === "1"; }
+  catch (e) { return false; }
+}
+function besitzerName() {
+  try { return (localStorage.getItem(OWNER_NAME_KEY) || "").trim() || "Christian"; }
+  catch (e) { return "Christian"; }
+}
+function eigenerNachrichtenPfad() {
+  const cfg = loadGithubConfig();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) return null;
+  return { owner: cfg.owner, repo: cfg.repo, token: cfg.token,
+           branch: cfg.branch || "main", path: MESSAGES_PATH };
+}
+function loadMessages() {
+  try {
+    const d = JSON.parse(localStorage.getItem(MSG_KEY) || "{}");
+    return Array.isArray(d.items) ? d.items : [];
+  } catch (e) { return []; }
+}
+function persistMessages() {
+  try { localStorage.setItem(MSG_KEY, JSON.stringify({ items: state.messages })); } catch (e) {}
+}
+function loadMsgSeen() {
+  try {
+    const d = JSON.parse(localStorage.getItem(MSG_SEEN_KEY) || "[]");
+    return Array.isArray(d) ? d : [];
+  } catch (e) { return []; }
+}
+function newMessageCount() {
+  const gesehen = new Set(loadMsgSeen());
+  return (state.messages || []).filter(m =>
+    m && m.id && !m.deleted && m.from !== OWNER_PLAYER && !gesehen.has(m.id)).length;
+}
+function markMessagesSeen() {
+  try {
+    const ids = (state.messages || []).filter(m => m && m.id).map(m => m.id);
+    localStorage.setItem(MSG_SEEN_KEY, JSON.stringify(ids));
+  } catch (e) {}
+}
+async function syncMessages(opts) {
+  const t = eigenerNachrichtenPfad();
+  if (!t) {
+    if (!(opts && opts.silent)) showToast("Dafür fehlt der GitHub-Zugang – siehe Einstellungen");
+    return false;
+  }
+  state.msgSyncing = true;
+  if (!(opts && opts.silent)) render();
+  let ok = false;
+  try {
+    let remote = [];
+    try {
+      const d = await githubFetchJson(t, t.branch, MESSAGES_PATH);
+      if (d && Array.isArray(d.items)) remote = d.items;
+    } catch (e) {}
+    const merged = mergeMessages(state.messages, remote);
+    const changed = JSON.stringify(merged) !== JSON.stringify(remote);
+    state.messages = merged;
+    persistMessages();
+    if (changed) await githubPutFileWithRetry(t, t.branch, MESSAGES_PATH, { items: merged }, "Nachricht");
+    ok = true;
+  } catch (e) {
+    if (!(opts && opts.silent)) showToast("Nachrichten: " + (e.message || "Abgleich fehlgeschlagen").substring(0, 40));
+  }
+  state.msgSyncing = false;
+  if (!(opts && opts.silent)) render();
+  else renderIfIdle();
+  return ok;
+}
+
+function renderMessagesView() {
+  const wer = besitzerName();
+  const liste = (state.messages || []).filter(m => m && !m.deleted);
+  const gesehen = new Set(state.msgHighlight || []);
+  markMessagesSeen();
+  let html = `<div style="padding:1rem 0;">
+    <h2 class="section-title">✉️ Nachricht an ${esc(wer)}${helpBtn("messages")}</h2>
+    <div class="card" style="margin-bottom:0.8rem;">
+      <textarea id="msg-text" data-draft="msg-text" placeholder="Was hakt? Was fehlt dir?" style="width:100%; min-height:4.5rem; margin-bottom:0.5rem;">${esc(state.formDraft["msg-text"] || "")}</textarea>
+      <button class="btn btn-primary btn-full" data-action="msg-send">Senden</button>
+      <button class="btn btn-secondary btn-full" data-action="msg-sync" ${state.msgSyncing ? "disabled" : ""} style="margin-top:0.4rem;">${state.msgSyncing ? "⏳ Abgleichen…" : "🔄 Nachsehen, ob es Antwort gibt"}</button>
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0.4rem 0 0;">Es gibt keine Benachrichtigung: ${esc(wer)} sieht deine Nachricht, wenn er seine App öffnet – und du seine Antwort, wenn du diese hier öffnest.</p>
+    </div>`;
+  if (!liste.length) {
+    html += `<div class="card-dashed">Noch nichts geschrieben.</div>`;
+  } else {
+    liste.forEach(m => {
+      const vonMir = m.from === OWNER_PLAYER;
+      const neu = gesehen.has(m.id);
+      html += `<div style="display:flex; justify-content:${vonMir ? "flex-end" : "flex-start"}; margin-bottom:0.4rem;">
+        <div style="max-width:85%; background:${vonMir ? "#dcfce7" : neu ? "#fef9c3" : "#fafaf9"}; border:1px solid ${neu ? "#fde047" : "#f0ede6"}; border-radius:0.6rem; padding:0.45rem 0.6rem;">
+          <div style="font-size:0.84rem; color:#44403c; white-space:pre-wrap; word-break:break-word;">${esc(m.text)}</div>
+          <div style="font-size:0.66rem; color:#a8a29e; margin-top:0.2rem;">${esc(vonMir ? "du" : m.from || wer)} · ${m.at ? new Date(m.at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : ""}</div>
+        </div>
+      </div>`;
+    });
+  }
+  html += `<button class="btn btn-secondary btn-full" data-action="set-view" data-view="dashboard" style="margin-top:0.8rem;">← Zurück</button></div>`;
+  return html;
+}
+
+// ============================================================
+// Eigenes App-Symbol
+// ============================================================
+// Eine weitergegebene App liegt unter meiner Adresse - also trägt sie beim
+// Hinzufügen zum Home-Bildschirm auch mein Symbol. Wer sie bekommen hat,
+// kann hier sein eigenes Foto hinterlegen: zugeschnitten, verkleinert und
+// als Verweis im Kopf der Seite eingehängt. iOS liest diesen Verweis genau
+// in dem Moment, in dem jemand "Zum Home-Bildschirm" tippt.
+const APP_ICON_KEY = "minigolf-eigenes-symbol";
+function loadAppIcon() {
+  try {
+    const d = JSON.parse(localStorage.getItem(APP_ICON_KEY) || "null");
+    return (d && d.icon180) ? d : null;
+  } catch (e) { return null; }
+}
+function persistAppIcon(d) {
+  try {
+    if (d) localStorage.setItem(APP_ICON_KEY, JSON.stringify(d));
+    else localStorage.removeItem(APP_ICON_KEY);
+    return true;
+  } catch (e) {
+    // Ein großes Bild kann den Speicher sprengen - dann lieber sagen als
+    // stillschweigend nichts tun.
+    return false;
+  }
+}
+
+// Foto -> quadratisches Symbol. Mittig zugeschnitten, auf weißem Grund,
+// als JPEG - ein Foto in PNG wäre ein Vielfaches groß und der Speicher des
+// Browsers ist knapp bemessen.
+function fotoZuSymbol(datei, kante) {
+  return new Promise((fertig, schiefgegangen) => {
+    const leser = new FileReader();
+    leser.onerror = () => schiefgegangen(new Error("Bild nicht lesbar"));
+    leser.onload = () => {
+      const bild = new Image();
+      bild.onerror = () => schiefgegangen(new Error("Bild nicht lesbar"));
+      bild.onload = () => {
+        try {
+          const c = document.createElement("canvas");
+          c.width = kante; c.height = kante;
+          const g = c.getContext("2d");
+          g.fillStyle = "#ffffff";
+          g.fillRect(0, 0, kante, kante);
+          const seite = Math.min(bild.width, bild.height);
+          g.drawImage(bild, (bild.width - seite) / 2, (bild.height - seite) / 2, seite, seite,
+                      0, 0, kante, kante);
+          fertig(c.toDataURL("image/jpeg", 0.85));
+        } catch (e) { schiefgegangen(e); }
+      };
+      bild.src = leser.result;
+    };
+    leser.readAsDataURL(datei);
+  });
+}
+
+// Den Verweis im Kopf der Seite austauschen. Muss vor dem Hinzufügen zum
+// Home-Bildschirm geschehen - danach ist das Symbol dort festgeschrieben.
+function applyAppIcon() {
+  const d = loadAppIcon();
+  if (!d) return;
+  let l = document.querySelector('link[rel="apple-touch-icon"]');
+  if (!l) { l = document.createElement("link"); l.rel = "apple-touch-icon"; document.head.appendChild(l); }
+  l.href = d.icon180;
+  // Ältere iOS-Fassungen bevorzugen diese Schreibweise.
+  let lp = document.querySelector('link[rel="apple-touch-icon-precomposed"]');
+  if (!lp) { lp = document.createElement("link"); lp.rel = "apple-touch-icon-precomposed"; document.head.appendChild(lp); }
+  lp.href = d.icon180;
+  if (d.name) {
+    const m = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    if (m) m.content = d.name;
+  }
+  // Für Android dasselbe über ein eigenes Manifest. Nur wenn ein eigenes
+  // Symbol gesetzt ist - sonst bleibt das mitgelieferte unangetastet.
+  try {
+    const man = {
+      name: d.name || "Minigolf Scorecard",
+      short_name: d.name || "Scorecard",
+      start_url: location.pathname + location.search,
+      display: "standalone",
+      background_color: "#F7F4ED",
+      theme_color: "#2D6A4F",
+      icons: [
+        { src: d.icon512, sizes: "512x512", type: "image/jpeg", purpose: "any" },
+        { src: d.icon512, sizes: "512x512", type: "image/jpeg", purpose: "maskable" },
+        { src: d.icon180, sizes: "180x180", type: "image/jpeg" },
+      ],
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(man)], { type: "application/manifest+json" }));
+    const ml = document.querySelector('link[rel="manifest"]');
+    if (ml) ml.href = url;
+  } catch (e) { /* ohne Manifest bleibt wenigstens das iOS-Symbol */ }
+}
+
+function renderAppIconSettings() {
+  const d = loadAppIcon();
+  const gast = istWeitergegebeneApp();
+  const vorschau = state.iconEntwurf || (d ? d.icon180 : null);
+  let html = `<div class="collapsible-card">
+    <div class="collapsible-head" data-action="toggle-appicon-section">
+      <h3>📱 App-Symbol${helpBtn("appIcon")}</h3>
+      <span class="collapsible-arrow ${state.collapsed.appIcon ? 'collapsed' : ''}">${ICONS.chevron(16)}</span>
+    </div>`;
+  if (!state.collapsed.appIcon) {
+    html += `<div class="collapsible-body">
+      <p style="font-size:0.78rem; color:#78716c; margin:0 0 0.6rem;">${gast
+        ? `Diese App liegt unter der Adresse von ${esc(besitzerName())} – darum trägt sie auf dem Home-Bildschirm zunächst sein Symbol. Hier machst du dein eigenes daraus: Foto wählen, speichern, App neu auf den Home-Bildschirm legen.`
+        : `Ein eigenes Foto als Symbol auf dem Home-Bildschirm. Ohne Foto bleibt das mitgelieferte Symbol.`}</p>
+      <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:0.7rem;">
+        <div style="width:4.5rem; height:4.5rem; border-radius:1.1rem; overflow:hidden; background:#fafaf9; border:1px solid #e7e5e4; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+          ${vorschau ? `<img src="${esc(vorschau)}" alt="" style="width:100%; height:100%; object-fit:cover;" />`
+                     : `<span style="font-size:1.6rem;">⛳</span>`}
+        </div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:0.78rem; color:#78716c;">${state.iconEntwurf ? "Noch nicht gespeichert" : d ? "Eigenes Symbol gesetzt" : "Mitgeliefertes Symbol"}</div>
+          <label class="btn btn-secondary" style="display:block; text-align:center; margin-top:0.35rem; font-size:0.8rem; padding:0.4rem; cursor:pointer;">
+            ${vorschau ? "Anderes Foto" : "Foto wählen"}
+            <input type="file" accept="image/*" data-action="appicon-pick" style="display:none;" />
+          </label>
+        </div>
+      </div>
+      <label class="field-label">Name unter dem Symbol</label>
+      <input type="text" id="appicon-name" data-draft="appicon-name" value="${esc(state.formDraft["appicon-name"] !== undefined ? state.formDraft["appicon-name"] : (d && d.name) || "")}" placeholder="Minigolf" maxlength="20" style="width:100%; margin-bottom:0.2rem;" />
+      <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.7rem;">Höchstens etwa zwölf Zeichen passen unter das Symbol; längere kürzt das Telefon selbst.</p>
+      <div style="display:flex; gap:0.4rem;">
+        <button class="btn btn-primary" data-action="appicon-save" style="flex:1;" ${state.iconEntwurf || d ? "" : "disabled"}>Speichern</button>
+        ${d || state.iconEntwurf ? `<button class="btn btn-secondary" data-action="appicon-reset" style="flex:0; padding:0.5rem 0.8rem;">Zurücksetzen</button>` : ""}
+      </div>
+      <div class="card" style="margin-top:0.7rem; padding:0.55rem 0.7rem; background:#fffbeb; border:1px solid #fde68a;">
+        <div style="font-size:0.76rem; color:#78716c;"><strong>Wichtig:</strong> Das Telefon merkt sich das Symbol in dem Moment, in dem die App auf den Home-Bildschirm kommt. Liegt sie schon dort, musst du sie einmal entfernen und über ${gast ? "den Link" : "die Adresse"} neu hinzufügen – sonst bleibt das alte Bild stehen.</div>
+      </div>
+    </div>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 function relativeTimeDe(iso) {
@@ -5565,60 +6248,99 @@ function relativeTimeDe(iso) {
   return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-function renderAndreasModal() {
-  if (!state.showAndreas) return "";
-  const name = (state.mirrorConfig && state.mirrorConfig.playerName) || "Andreas";
-  const seen = new Set(state.andreas.seenIds || []);
-  const runden = state.andreas.ownRounds || [];
-  const neue = andreasNewCount();
-  const url = andreasAppUrl();
+function renderPartnerModal() {
+  const partner = partnerById(state.showPartner);
+  if (!partner) return "";
+  const name = partner.name || "Mitspieler";
+  const seen = new Set(partner.seenIds || []);
+  const runden = partner.ownRounds || [];
+  const neue = partnerNewCount(partner);
+  const url = partnerAppUrl(partner);
+  const nachrichten = (partner.messages || []).filter(m => m && !m.deleted);
+  const ungelesen = partnerUnreadMessages(partner);
+  const tab = state.partnerTab || "runden";
   let body = "";
-  body += `<div class="stat-card" style="text-align:left; padding:0.6rem 0.75rem; margin-bottom:0.6rem;">
-    <div class="stat-label">Zuletzt in seiner App</div>
-    <div style="font-size:1rem; font-weight:600; color:#44403c;">${esc(relativeTimeDe(state.andreas.lastActive))}</div>
-    ${state.andreas.lastActive ? `<div class="stat-sub">${esc(new Date(state.andreas.lastActive).toLocaleString("de-DE"))}</div>` : `<div class="stat-sub">Noch keine Spur gefunden</div>`}
+
+  body += `<div style="display:flex; gap:0.3rem; margin-bottom:0.6rem;">
+    <button class="chip ${tab === "runden" ? "selected" : ""}" data-action="partner-tab" data-tab="runden" style="flex:1;">Runden${neue ? ` (${neue})` : ""}</button>
+    <button class="chip ${tab === "nachrichten" ? "selected" : ""}" data-action="partner-tab" data-tab="nachrichten" style="flex:1;">Nachrichten${ungelesen ? ` <span style="color:#dc2626;">•</span>` : ""}</button>
   </div>`;
-  body += `<div style="font-weight:600; font-size:0.85rem; margin:0.8rem 0 0.3rem; display:flex; align-items:baseline; gap:0.4rem;">
-      <span style="flex:1;">Eigene Runden von ${esc(name)}</span>
-      ${neue ? `<span style="font-size:0.72rem; color:#dc2626; font-weight:700;">${neue} neu</span>` : ""}
-    </div>
-    <p style="font-size:0.7rem; color:#a8a29e; margin:0 0 0.5rem;">Runden, die er selbst eingetragen hat – ohne die, die ich ihm weitergegeben habe.</p>`;
-  if (!runden.length) {
-    body += `<div class="card-dashed" style="font-size:0.8rem;">Keine eigenen Runden gefunden.</div>`;
-  } else {
-    runden.slice(0, 5).forEach(r => {
-      const neu = !seen.has(r.id);
-      body += `<div style="display:flex; align-items:baseline; gap:0.5rem; padding:0.32rem 0; border-bottom:1px solid #fafaf9;">
-        ${neu ? `<span style="width:0.5rem; height:0.5rem; background:#dc2626; border-radius:50%; flex-shrink:0;"></span>` : `<span style="width:0.5rem; flex-shrink:0;"></span>`}
-        <span style="flex:1; font-size:0.85rem; color:${neu ? "#44403c" : "#78716c"}; font-weight:${neu ? "600" : "400"};">${esc(formatDate(r.date))}${r.time ? ` <span style="font-size:0.72rem; color:#a8a29e;">${esc(r.time)}</span>` : ""}</span>
-        <span class="font-mono" style="font-weight:600; color:#44403c;">${r.total === null ? "–" : r.total}</span>
+
+  if (tab === "runden") {
+    body += `<div class="stat-card" style="text-align:left; padding:0.6rem 0.75rem; margin-bottom:0.6rem;">
+      <div class="stat-label">Zuletzt in seiner App</div>
+      <div style="font-size:1rem; font-weight:600; color:#44403c;">${esc(relativeTimeDe(partner.lastActive))}</div>
+      ${partner.lastActive ? `<div class="stat-sub">${esc(new Date(partner.lastActive).toLocaleString("de-DE"))}</div>` : `<div class="stat-sub">Noch keine Spur gefunden</div>`}
+    </div>`;
+    body += `<div style="font-weight:600; font-size:0.85rem; margin:0.8rem 0 0.3rem; display:flex; align-items:baseline; gap:0.4rem;">
+        <span style="flex:1;">Eigene Runden von ${esc(name)}</span>
+        ${neue ? `<span style="font-size:0.72rem; color:#dc2626; font-weight:700;">${neue} neu</span>` : ""}
+      </div>
+      <p style="font-size:0.7rem; color:#a8a29e; margin:0 0 0.5rem;">Runden, die er selbst eingetragen hat – ohne die, die ich ihm weitergegeben habe.</p>`;
+    if (!runden.length) {
+      body += `<div class="card-dashed" style="font-size:0.8rem;">Keine eigenen Runden gefunden.</div>`;
+    } else {
+      runden.slice(0, 5).forEach(r => {
+        const neu = !seen.has(r.id);
+        body += `<div style="display:flex; align-items:baseline; gap:0.5rem; padding:0.32rem 0; border-bottom:1px solid #fafaf9;">
+          ${neu ? `<span style="width:0.5rem; height:0.5rem; background:#dc2626; border-radius:50%; flex-shrink:0;"></span>` : `<span style="width:0.5rem; flex-shrink:0;"></span>`}
+          <span style="flex:1; font-size:0.85rem; color:${neu ? "#44403c" : "#78716c"}; font-weight:${neu ? "600" : "400"};">${esc(formatDate(r.date))}${r.time ? ` <span style="font-size:0.72rem; color:#a8a29e;">${esc(r.time)}</span>` : ""}</span>
+          <span class="font-mono" style="font-weight:600; color:#44403c;">${r.total === null ? "–" : r.total}</span>
+        </div>`;
+      });
+      if (runden.length > 5) body += `<div style="font-size:0.72rem; color:#a8a29e; padding-top:0.3rem;">… und ${runden.length - 5} weitere in seiner App</div>`;
+    }
+    // Hat eine ältere Fassung eine Runde drüben stehen lassen, die ich bei mir
+    // längst gelöscht habe, lässt sie sich hier nachträglich zurücknehmen.
+    const offeneGrabsteine = (loadDeletedIds().rounds || []).length;
+    if (offeneGrabsteine) {
+      body += `<div style="border-top:1px solid #f0ede6; margin-top:0.6rem; padding-top:0.5rem;">
+        <button data-action="cleanup-mirror" style="background:none; border:none; color:#78716c; font-size:0.76rem; text-decoration:underline; cursor:pointer; padding:0.2rem 0;">Von mir gelöschte Runden auch drüben entfernen</button>
       </div>`;
-    });
-    if (runden.length > 5) body += `<div style="font-size:0.72rem; color:#a8a29e; padding-top:0.3rem;">… und ${runden.length - 5} weitere in seiner App</div>`;
-  }
-  // Hat eine ältere Fassung eine Runde drüben stehen lassen, die ich bei mir
-  // längst gelöscht habe, lässt sie sich hier nachträglich zurücknehmen.
-  const offeneGrabsteine = (loadDeletedIds().rounds || []).length;
-  if (offeneGrabsteine) {
-    body += `<div style="border-top:1px solid #f0ede6; margin-top:0.6rem; padding-top:0.5rem;">
-      <button data-action="cleanup-mirror" style="background:none; border:none; color:#78716c; font-size:0.76rem; text-decoration:underline; cursor:pointer; padding:0.2rem 0;">Von mir gelöschte Runden auch drüben entfernen</button>
+    }
+    body += `<div style="font-size:0.68rem; color:#a8a29e; margin-top:0.6rem;">Zuletzt nachgesehen: ${esc(relativeTimeDe(partner.checkedAt))}</div>`;
+  } else {
+    // Nachrichtenfaden. Was er schreibt, steht links; was ich antworte, rechts.
+    body += `<p style="font-size:0.7rem; color:#a8a29e; margin:0 0 0.5rem;">Was ${esc(name)} in seiner App schreibt, landet hier. Antworten sieht er, wenn er seine App das nächste Mal öffnet.</p>`;
+    if (!nachrichten.length) {
+      body += `<div class="card-dashed" style="font-size:0.8rem;">Noch keine Nachricht.</div>`;
+    } else {
+      const gesehenIds = new Set(partner.seenMsgIds || []);
+      nachrichten.forEach(m => {
+        const vonMir = m.from === OWNER_PLAYER;
+        const neu = !vonMir && !gesehenIds.has(m.id);
+        body += `<div style="display:flex; justify-content:${vonMir ? "flex-end" : "flex-start"}; margin-bottom:0.4rem;">
+          <div style="max-width:85%; background:${vonMir ? "#dcfce7" : neu ? "#fef9c3" : "#fafaf9"}; border:1px solid ${neu ? "#fde047" : "#f0ede6"}; border-radius:0.6rem; padding:0.45rem 0.6rem;">
+            <div style="font-size:0.84rem; color:#44403c; white-space:pre-wrap; word-break:break-word;">${esc(m.text)}</div>
+            <div style="font-size:0.66rem; color:#a8a29e; margin-top:0.2rem; display:flex; gap:0.4rem; align-items:baseline;">
+              <span style="flex:1;">${esc(vonMir ? "ich" : name)} · ${m.at ? new Date(m.at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : ""}</span>
+              ${vonMir ? "" : `<button data-action="msg-to-wish" data-id="${esc(m.id)}" style="background:none; border:none; padding:0; color:#2D6A4F; font-size:0.66rem; text-decoration:underline; cursor:pointer;">als Wunsch</button>`}
+            </div>
+          </div>
+        </div>`;
+      });
+    }
+    body += `<div style="margin-top:0.6rem;">
+      <textarea id="partner-reply" data-draft="partner-reply-${esc(partner.id)}" placeholder="Antwort an ${esc(name)}…" style="width:100%; min-height:3.2rem;">${esc(state.formDraft["partner-reply-" + partner.id] || "")}</textarea>
+      <button class="btn btn-primary btn-full" data-action="partner-reply" data-id="${esc(partner.id)}" style="margin-top:0.35rem;" ${state.partnerSending ? "disabled" : ""}>${state.partnerSending ? "Sende…" : "Antwort senden"}</button>
     </div>`;
   }
-  body += `<div style="font-size:0.68rem; color:#a8a29e; margin-top:0.6rem;">Zuletzt nachgesehen: ${esc(relativeTimeDe(state.andreas.checkedAt))}</div>`;
 
-  return `<div class="modal-overlay" data-action="close-andreas">
+  return `<div class="modal-overlay" data-action="close-partner">
     <div class="modal-box" style="max-width:26rem; max-height:84vh; display:flex; flex-direction:column;" onclick="event.stopPropagation()">
       <div class="modal-head" style="flex-shrink:0;">
         <h3 class="font-display">👥 ${esc(name)}${helpBtn("andreas")}</h3>
-        <button class="modal-close" data-action="close-andreas" title="Schließen">${ICONS.x(20)}</button>
+        <button class="modal-close" data-action="close-partner" title="Schließen">${ICONS.x(20)}</button>
       </div>
       <div style="flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; min-height:0;">${body}</div>
       <div style="flex-shrink:0; margin-top:0.6rem; display:flex; flex-direction:column; gap:0.4rem;">
-        ${url ? `<a class="btn btn-primary btn-full" href="${esc(andreasAppUrlQuiet())}" target="_blank" rel="noopener" style="text-decoration:none; display:block; text-align:center;">🔗 Seine App öffnen</a>
-        <div style="font-size:0.66rem; color:#a8a29e; text-align:center; margin-top:-0.1rem;">öffnet still – hinterlässt keine Spur, die wie seine aussieht</div>` : ""}
+        ${url ? `<a class="btn btn-secondary btn-full" href="${esc(partnerAppUrlQuiet(partner))}" target="_blank" rel="noopener" style="text-decoration:none; display:block; text-align:center;">🔗 Seine App öffnen</a>
+        <div style="font-size:0.66rem; color:#a8a29e; text-align:center; margin-top:-0.1rem;">${gleicheHerkunft(url)
+          ? "öffnet still – zeigt auf diesem Gerät aber <strong>deine</strong> Daten, weil beide Apps unter derselben Adresse liegen"
+          : "öffnet still – hinterlässt keine Spur, die wie seine aussieht"}</div>` : ""}
         <div style="display:flex; gap:0.4rem;">
-          <button class="btn btn-secondary" data-action="andreas-refresh" style="flex:1;" ${state.andreasLoading ? "disabled" : ""}>${state.andreasLoading ? "Sehe nach…" : "Nachsehen"}</button>
-          <button class="btn btn-secondary" data-action="andreas-seen" style="flex:1;">${neue ? "Alles gesehen" : "Schließen"}</button>
+          <button class="btn btn-secondary" data-action="partner-refresh" data-id="${esc(partner.id)}" style="flex:1;" ${state.partnerLoading ? "disabled" : ""}>${state.partnerLoading ? "Sehe nach…" : "Nachsehen"}</button>
+          <button class="btn btn-secondary" data-action="partner-seen" data-id="${esc(partner.id)}" style="flex:1;">${partnerBadgeCount(partner) ? "Alles gesehen" : "Schließen"}</button>
         </div>
       </div>
     </div>
@@ -5838,6 +6560,10 @@ function renderSeasonReviewModal() {
   </div>`;
 }
 
+// Einmalige Übernahme der alten Einzel-Weitergabe (Andreas) in die Liste.
+// Muss vor dem Anlegen von state laufen, sonst stünde die Liste leer da.
+migrateMirrorToPartners();
+
 const state = {
   players: loadFromStorage() || getSeedData(),
   activePlayerId: null,
@@ -5850,16 +6576,25 @@ const state = {
   exportData: null,
   detailRound: null, // {playerId, roundId}
   statsCollapsed: { problem: true, dist: true, monthly: true, trend: true, holes: true, query: true, season: true },
-  mirrorConfig: loadMirrorConfig(), // optional hand-off of shared rounds to another app
+  partners: loadPartners(),        // Mitspieler mit eigener App
+  showPartner: null,               // Kennung des Partners, dessen Fenster offen ist
+  partnerTab: "runden",            // "runden" | "nachrichten"
+  partnerLoading: false,
+  partnerSending: false,
+  partnerTabGewaehlt: false,       // Reiter von Hand gewechselt?
+  iconEntwurf: null,               // gewähltes, noch nicht gespeichertes Symbol
+  iconEntwurf512: null,
+  iconHinweisWeg: false,           // Hinweis auf dem Dashboard weggetippt
+  partnerDraft: null,              // neuer oder bearbeiteter Partner in den Einstellungen
   pausedCatchUp: null,             // {pauseId, hole} - offene Bahn einer pausierten Runde
   midRoundAdd: null,               // Fenster "Mitspieler dazunehmen"
   pausedCatchUpValues: {},         // slotId -> Schlagzahl im Nachtrage-Fenster
   pausedCatchUpStars: {},          // slotId -> vom Abschlag eingelocht
   pausedCatchUpRuns: {},           // slotId -> "vor" | "rueck"
   pausedCatchUpNotes: {},          // slotId -> Notiz
-  andreas: loadAndreasInfo(),      // was der Mitspieler in seiner App treibt
-  showAndreas: false,
-  andreasLoading: false,
+  messages: loadMessages(),        // Rückkanal einer weitergegebenen App
+  msgSyncing: false,
+  msgHighlight: [],
   changelogPending: null, // entries to show once after an update
   showHours: false,       // opening-hours window - at start, and via the header button
   helpTopic: null,        // key of the explanation currently open
@@ -5926,12 +6661,13 @@ const state = {
   showTreats: false,               // Fenster der Ausgeben-Liste
   showOrder: false,                // Fenster der Spielreihenfolge
   wishHighlight: [],               // Wünsche, die beim Öffnen neu waren
-  skipMirrorThisRound: false,      // diese eine Runde nicht weitergeben
+  skipMirrorThisRound: {},         // Partner-Kennung -> diese Runde nicht weitergeben
   mirrorSkipped: loadMirrorSkipped(), // dauerhaft von der Weitergabe ausgenommen
+  giveAway: null,                  // Entwurf für den Einladungslink
   googleTtsApiKey: loadGoogleTtsApiKey(), // local-only, never synced to GitHub
   aceStreakTestResult: null, // persistent diagnostic text shown under "Stimme testen"
   lastSavedResult: null, // {winnerName, total, diff} - shown once after saving a round
-  collapsed: { season: true, holidays: true, accessoryForm: true, gastroForm: true, players: true, pricing: true, data: true, weatherLoc: true, merge: true, claudeApi: true, aceStreak: true, defaultBall: true, mirror: true, ballTasks: false, dupes: true, countCheck: true, compare: true, ferien: true, acesPerHole: false, viewPrefs: true, wishesDone: true },
+  collapsed: { season: true, holidays: true, accessoryForm: true, gastroForm: true, players: true, pricing: true, data: true, weatherLoc: true, merge: true, claudeApi: true, aceStreak: true, defaultBall: true, mirror: true, giveAway: true, appIcon: true, ballTasks: false, dupes: true, countCheck: true, compare: true, ferien: true, acesPerHole: false, viewPrefs: true, wishesDone: true },
   showCostSummary: false, // "Kostenaufstellung" overlay window
   query: {
     mode: "total", // 'total' | 'hole'
@@ -6106,6 +6842,7 @@ function render() {
         <option value="balls" ${state.view === "balls" ? "selected" : ""}>🎱 Ball-Datenbank</option>
         <option value="costs" ${state.view === "costs" ? "selected" : ""}>💶 Kosten-Übersicht</option>
         ${tileVisible("wishes") || state.view === "wishes" ? `<option value="wishes" ${state.view === "wishes" ? "selected" : ""}>📝 Wunschliste</option>` : ""}
+        ${istWeitergegebeneApp() ? `<option value="messages" ${state.view === "messages" ? "selected" : ""}>✉️ Nachricht an ${esc(besitzerName())}</option>` : ""}
         <option value="settings" ${state.view === "settings" ? "selected" : ""}>⚙️ Einstellungen</option>
       </select>
     </div>`;
@@ -6181,8 +6918,8 @@ function render() {
   }
 
   // Andreas im Blick
-  if (state.showAndreas) {
-    html += renderAndreasModal();
+  if (state.showPartner) {
+    html += renderPartnerModal();
   }
 
   // Offene Bahn einer pausierten Runde nachtragen
@@ -6198,6 +6935,21 @@ function render() {
   // Spielreihenfolge ändern
   if (state.showOrder) {
     html += renderOrderModal();
+  }
+
+  // Einladung auf einem Gerät, auf dem schon etwas steht
+  if (state.einladungFrage) {
+    const d = state.einladungFrage;
+    html += `<div class="modal-overlay" style="z-index:200;">
+      <div class="modal-box" style="max-width:24rem;" onclick="event.stopPropagation()">
+        <div class="modal-head"><h3 class="font-display">📤 Einladung geöffnet</h3></div>
+        <p style="font-size:0.85rem; color:#44403c; margin:0 0 0.6rem;">Dieser Link richtet eine <strong>eigene Scorecard für ${esc(d.n || "einen Spieler")}</strong> ein – mit dem Repository <strong>${esc(d.r)}</strong>.</p>
+        <p style="font-size:0.8rem; color:#b45309; margin:0 0 0.8rem;">Auf diesem Gerät stehen aber schon Daten. Übernimmst du die Einladung, zeigt die App ab sofort <em>seine</em> Scorecard – deine bleibt in deinem Repository, aber dieses Gerät sieht sie nicht mehr.</p>
+        <p style="font-size:0.78rem; color:#a8a29e; margin:0 0 0.9rem;">Wolltest du den Link nur prüfen, wähle „Nicht übernehmen“ und schick ihn weiter.</p>
+        <button class="btn btn-secondary btn-full" data-action="einladung-ablehnen">Nicht übernehmen</button>
+        <button class="btn btn-secondary btn-full" data-action="einladung-annehmen" style="margin-top:0.5rem; color:#b45309;">Trotzdem übernehmen</button>
+      </div>
+    </div>`;
   }
 
   // Wer schuldet wem eine Runde
@@ -6242,6 +6994,7 @@ function render() {
     else if (state.view === "balls") html += renderBallsView();
     else if (state.view === "costs") html += renderCostsView();
     else if (state.view === "wishes") html += renderWishesView();
+    else if (state.view === "messages") html += renderMessagesView();
     else if (state.view === "settings") html += renderSettingsView();
     html += `</main>`;
   }
@@ -6613,6 +7366,33 @@ function findBulkBallMatches() {
 // What's new: shown once after an update, so changes don't go unnoticed.
 // Add a new entry at the top with each release that is worth mentioning.
 const CHANGELOG = [
+  { v: "109.48", items: [
+      "<strong>Neu: 📱 App-Symbol.</strong> Ein eigenes Foto als Symbol auf dem Home-Bildschirm, in den Einstellungen. Vor allem für weitergegebene Apps gedacht: Die liegen unter deiner Adresse und trugen deshalb bisher zwangsläufig dein Symbol. Wer die App von dir bekommt, sieht beim ersten Start einen Hinweis darauf.",
+      "Das Foto wird mittig zugeschnitten und verkleinert, bleibt auf dem Gerät und wird nirgends hochgeladen. Der Name unter dem Symbol lässt sich ebenfalls eintragen. Wichtig: Das Telefon übernimmt beides erst, wenn die App neu auf den Home-Bildschirm gelegt wird.",
+      "Ein frisch angelegtes, leeres Repository bekommt die Datendatei jetzt beim ersten Übertragen selbst angelegt – vorher ging die erste Runde ins Leere, wenn der andere seine App noch nie geöffnet hatte. Ein Lesefehler aus anderem Grund schreibt weiterhin nichts, damit eine Störung niemals vorhandene Runden überbügelt.",
+      "Wunschliste: Knopf und Hinweis sagen jetzt richtig, dass abgeglichen wird, was zwischen deinen eigenen Geräten steht.",
+  ]},
+  { v: "109.47", items: [
+      "<strong>Mehrere Mitspieler mit eigener App.</strong> Aus „Runden weitergeben“ ist eine Liste geworden: jeder mit eigenem Repository, eigenem Schlüssel und eigener Kachel im Dashboard. Andreas stand schon drauf, als diese Fassung zum ersten Mal startete – nichts geht verloren.",
+      "Spielen zwei Mitspieler mit eigener App in einer Runde mit, bekommt sie jeder von beiden. Der Haken <strong>„An ihn weitergeben“</strong> in der Zusammenfassung steht jetzt je Mitspieler da – so lässt sich einem die Runde schicken und dem anderen nicht, weil er sie selbst schon eingetragen hat.",
+      "Wer die App über <strong>App weitergeben</strong> von dir bekommt, landet samt Schlüssel automatisch auf der Liste – mit Kachel, ohne weiteres Zutun.",
+      "<strong>Neu: Nachrichten.</strong> Wer deine App hat, kann dir darin schreiben, wenn etwas hakt oder ihm etwas fehlt. Bei ihm heißt die Kachel <strong>Nachricht</strong>, bei dir steht der Faden auf seiner Mitspieler-Kachel im Reiter <strong>Nachrichten</strong> – dort antwortest du ihm auch.",
+      "Was nicht im Faden untergehen soll, wandert mit einem Tipp auf <strong>„als Wunsch“</strong> auf die Wunschliste.",
+      "Die rote Zahl auf der Kachel <strong>Einstellungen</strong> zählt neue Nachrichten und neue Runden der Mitspieler mit – auch wenn deren Kacheln ausgeblendet sind.",
+      "Die <strong>Wunschliste</strong> ist jetzt deine eigene und liegt in deinem Repository, nicht mehr in dem des Mitspielers. Sie folgt dir damit auf alle deine Geräte; der Austausch läuft über Nachrichten.",
+  ]},
+  { v: "109.46", items: [
+      "Eine frisch weitergegebene App legt keine Wunschlisten-Datei mehr in das Repository des Empfängers – die Liste ist eine Sache zwischen zwei Apps und bleibt aus, solange es keine Gegenstelle und keinen Wunsch gibt.",
+  ]},
+  { v: "109.45", items: [
+      "Neu: <strong>📤 App weitergeben</strong> in den Einstellungen. Erzeugt einen Link, mit dem jemand anders diese App als <strong>eigene, leere Scorecard</strong> bekommt – eigener Name, eigenes Repository, deine Daten sieht er nie. Er öffnet den Link, legt die Seite auf den Home-Bildschirm, fertig.",
+      "Mit Haken bestimmst du, was er zu sehen bekommt. Vorausgewählt ist eine schlanke Fassung: eintragen, Runden, Statistik – ohne Ball-Datenbank, Wetter, Kosten, Training und die übrigen Seiten. Zuschalten kann er alles später selbst.",
+      "Zugang und Voreinstellungen stecken verschleiert im Link. Nimm dafür einen Schlüssel, der nur auf <em>sein</em> Repository schreiben darf, nicht deinen eigenen.",
+      "Öffnest du so einen Link versehentlich auf deinem eigenen Gerät, fragt die App erst nach, statt etwas zu überschreiben.",
+      "Neuer Schalter unter Ansicht → Funktionen: <strong>Wetter in der Runde erfassen</strong>. Schon erfasstes Wetter bleibt erhalten.",
+      "Gastronomie: Jeder Eintrag in der Kostenübersicht lässt sich jetzt als <strong>erledigt</strong> abhaken – im Monatskopf steht, wie viele noch offen sind.",
+      "Die Frage nach den Saisonpreisen erscheint erst, wenn überhaupt eine Runde erfasst ist.",
+  ]},
   { v: "109.44", items: [
       "<strong>Nachgezogen:</strong> Der Knopf „Fehlende Runden jetzt übertragen“ wusste nichts davon, dass du bei einer Runde den Haken „An Andreas weitergeben“ entfernt hattest – und hätte sie später doch noch hinübergeschoben. Solche Runden werden jetzt dauerhaft vermerkt und bleiben ausgenommen, auch die Mitspieler-Einträge derselben Runde.",
       "In den Einstellungen unter „Runden weitergeben“ steht, wie viele Runden ausgenommen sind, und dort hebst du die Entscheidung bei Bedarf wieder auf.",
@@ -7404,6 +8184,9 @@ const PRICING_HINT_KEY = "minigolf-preis-hinweis-gesehen";
 function seasonPricesMissing() {
   const jetzt = new Date();
   if (!inSeason(jetzt)) return null;
+  // Ohne eine einzige Runde gibt es auch keine Kosten - die Frage hätte noch
+  // nichts zu bedeuten und stünde einem frisch eingerichteten Gerät im Weg.
+  if (!state.players.some(p => (p.rounds || []).length)) return null;
   const jahr = String(jetzt.getFullYear());
   if (state.pricing && state.pricing[jahr]) return null;      // schon eingetragen
   let weg = "";
@@ -7446,10 +8229,31 @@ function renderPricingReminderCard() {
   </div>`;
 }
 
+// Ohne diesen Hinweis findet das Symbol niemand: Er steckt in den
+// Einstellungen, und dort sucht keiner danach. Einmal gesetzt oder einmal
+// weggetippt, ist er für immer weg.
+function renderAppIconHintCard() {
+  if (!istWeitergegebeneApp() || state.iconHinweisWeg || loadAppIcon()) return "";
+  return `<div class="card" style="margin-bottom:0.8rem; padding:0.6rem 0.75rem; background:#fffbeb; border:1px solid #fde68a;">
+    <div style="display:flex; gap:0.6rem; align-items:flex-start;">
+      <span style="font-size:1.2rem; line-height:1.2;">📱</span>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:0.82rem; font-weight:600; color:#44403c;">Eigenes App-Symbol</div>
+        <div style="font-size:0.76rem; color:#78716c; margin-top:0.1rem;">Auf dem Home-Bildschirm trägt die App zunächst das Symbol von ${esc(besitzerName())}. Mit einem Foto machst du dein eigenes daraus.</div>
+        <div style="display:flex; gap:0.4rem; margin-top:0.45rem;">
+          <button class="chip selected" data-action="appicon-open" style="font-size:0.74rem; padding:0.25rem 0.7rem;">Einrichten</button>
+          <button class="chip" data-action="appicon-hint-off" style="font-size:0.74rem; padding:0.25rem 0.7rem;">Später</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderDashboardView() {
   return `
     <div style="padding: 1rem 0;">
       <h2 class="section-title">🏠 Dashboard</h2>
+      ${renderAppIconHintCard()}
       ${renderPricingReminderCard()}
       ${renderPausedRoundsCard()}
       ${renderBallTasksCard()}
@@ -8235,6 +9039,7 @@ function renderEntryView() {
     </div>`;
 
     // --- Wetter Symbole ---
+    if (viewOn("weather")) {
     html += `<div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.6rem;">
       ${WEATHER_OPTIONS.map(w => `<button class="chip ${e.weatherKeys.includes(w.key) ? 'selected' : ''}" data-action="toggle-weather" data-key="${w.key}" style="font-size:1.1rem;" title="${w.label}">${w.icon}</button>`).join("")}
       ${state.weatherLocation && e.date === todayISO()
@@ -8259,6 +9064,7 @@ function renderEntryView() {
         <input type="text" inputMode="numeric" id="entry-precip" value="${esc(e.precipProbability || '')}" placeholder="%" style="width:100%; min-width:0;" />
       </div>
     </div>`;
+    }
 
     // --- Wer spielt? Aufklapp ---
     // Collapsed by default once players are picked - the names stay visible in
@@ -8685,28 +9491,26 @@ function renderEntryView() {
     </div>`;
   });
 
-  // Weitergabe an den Mitspieler: Steht sein Name auf der Liste, geht die
+  // Weitergabe an die Mitspieler: Steht sein Name auf der Liste, geht die
   // Runde nach dem Speichern auch in seine App. Hat er sie selbst schon
   // eingetragen, stünde sie bei ihm doppelt - dafür dieser Schalter.
   {
-    const m = state.mirrorConfig;
-    const name = (m && m.playerName) || "";
-    const betroffen = name && e.saveIds.some(sid => {
+    const betroffene = activePartners().filter(pa => e.saveIds.some(sid => {
       const r = resolveSlot(sid);
-      return r && r.player && r.player.name === name;
-    });
-    if (betroffen && typeof andreasConfigured === "function" && andreasConfigured()) {
-      const an = !state.skipMirrorThisRound;
+      return r && r.player && r.player.name === pa.name;
+    }));
+    betroffene.forEach(pa => {
+      const an = !(state.skipMirrorThisRound || {})[pa.id];
       html += `<div class="card" style="margin-top:0.75rem; padding:0.65rem 0.8rem;">
-        <button data-action="toggle-skip-mirror" style="display:flex; align-items:center; gap:0.6rem; width:100%; text-align:left; background:none; border:none; padding:0; cursor:pointer;">
+        <button data-action="toggle-skip-mirror" data-id="${esc(pa.id)}" style="display:flex; align-items:center; gap:0.6rem; width:100%; text-align:left; background:none; border:none; padding:0; cursor:pointer;">
           <span style="width:1.3rem; height:1.3rem; border-radius:0.35rem; border:1.5px solid ${an ? "#2D6A4F" : "#d6d3d1"}; background:${an ? "#2D6A4F" : "white"}; color:white; font-size:0.8rem; line-height:1.2rem; text-align:center; flex-shrink:0;">${an ? "✓" : ""}</span>
-          <span style="flex:1; font-size:0.85rem; color:#44403c;">An ${esc(name)} weitergeben</span>
+          <span style="flex:1; font-size:0.85rem; color:#44403c;">An ${esc(pa.name)} weitergeben</span>
         </button>
         <p style="font-size:0.72rem; color:#a8a29e; margin:0.35rem 0 0 1.9rem;">${an
           ? `Die Runde landet nach dem Speichern auch in seiner App. Hat er sie dort schon selbst eingetragen, hak das hier ab – sonst steht sie bei ihm zweimal.`
-          : `Diese Runde bleibt bei dir. Richtig so, wenn ${esc(name)} sie selbst eingetragen hat.`}</p>
+          : `Diese Runde bleibt bei dir. Richtig so, wenn ${esc(pa.name)} sie selbst eingetragen hat.`}</p>
       </div>`;
-    }
+    });
   }
 
   html += `<button class="btn btn-secondary" data-action="back-to-play" style="width:100%; margin-top:0.75rem;">← Zurück zur Eingabe</button>
@@ -9635,35 +10439,70 @@ function renderSettingsView() {
   }
   html += `</div>`;
 
-  // --- Hand-off of shared rounds to another app ---
+  // --- Mitspieler mit eigener App ------------------------------------
+  // Früher war das ein einziger Empfänger. Jetzt eine Liste: jeder mit
+  // eigenem Repository, eigener Kachel und eigenem Nachrichtenfach.
   {
-    const m = state.mirrorConfig;
+    const liste = state.partners || [];
+    const d = state.partnerDraft;
+    const cfg = loadGithubConfig() || {};
     html += `<div class="collapsible-card">
       <div class="collapsible-head" data-action="toggle-mirror-section">
-        <h3>🔀 Runden weitergeben${helpBtn("mirror")}</h3>
+        <h3>🔀 Mitspieler mit eigener App${helpBtn("mirror")}</h3>
         <span class="collapsible-arrow ${state.collapsed.mirror ? 'collapsed' : ''}">${ICONS.chevron(16)}</span>
       </div>`;
     if (!state.collapsed.mirror) {
       html += `<div class="collapsible-body">
-        <p style="font-size:0.78rem; color:#78716c; margin:0 0 0.6rem;">Runden, an denen der gewählte Spieler teilnimmt, werden zusätzlich in dessen eigene App übertragen. Nutzt denselben GitHub-Zugang – der Token braucht Zugriff auf beide Repositories.</p>
-        <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; font-size:0.85rem;">
-          <input type="checkbox" data-action="toggle-mirror-enabled" ${m.enabled ? "checked" : ""} style="width:1.05rem; height:1.05rem;" />
-          Weitergabe aktiv
-        </label>
-        <span class="label" style="font-size:0.75rem; color:#78716c;">Spieler</span>
-        <select class="sel" data-action="mirror-field" data-field="playerName" style="width:100%; margin-bottom:0.5rem; background:white; color:var(--ink); border:1px solid #d6d3d1;">
-          <option value="">– keiner –</option>
-          ${state.players.filter(p => !isDoubleRoundPlayer(p.name)).map(p =>
-            `<option value="${esc(p.name)}" ${m.playerName === p.name ? "selected" : ""}>${esc(p.name)}</option>`).join("")}
-        </select>
-        <span class="label" style="font-size:0.75rem; color:#78716c;">Ziel-Repository</span>
-        <input type="text" class="sel" data-action="mirror-field" data-field="repo" value="${esc(m.repo || "")}" placeholder="z. B. Andreas-Scorecard" style="width:100%; margin-bottom:0.5rem; background:white; color:var(--ink); border:1px solid #d6d3d1;" />
-        <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.6rem;">Übertragen wird nur die Runde selbst – Bälle bleiben in dieser App, da sie sich auf deine Ball-Datenbank beziehen.</div>
-        <span class="label" style="font-size:0.75rem; color:#78716c;">Adresse seiner App</span>
-        <input type="text" class="sel" data-action="andreas-url" value="${esc(state.andreas.appUrl || "")}" placeholder="${esc(andreasAppUrl())}" style="width:100%; margin-bottom:0.3rem; background:white; color:var(--ink); border:1px solid #d6d3d1;" />
-        <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.6rem;">Nur nötig, wenn seine App nicht unter der üblichen Adresse liegt. Leer lassen heißt: ${esc(andreasAppUrl() || "noch nicht bekannt")}</div>
-        <button class="btn btn-secondary btn-full" data-action="mirror-catch-up" ${m.enabled && m.repo && m.playerName ? "" : "disabled"}>Fehlende Runden jetzt übertragen</button>
-        ${(() => {
+        <p style="font-size:0.78rem; color:#78716c; margin:0 0 0.6rem;">Wer eine eigene Scorecard hat, steht hier. Runden, an denen er mitspielt, gehen nach dem Speichern auch in seine App – und er bekommt eine eigene Kachel im Dashboard mit Nachrichtenfach.</p>`;
+      if (!liste.length) {
+        html += `<div class="card-dashed" style="font-size:0.8rem; margin-bottom:0.6rem;">Noch niemand eingetragen. Wer eine App per Link bekommt (weiter unten), landet automatisch hier.</div>`;
+      }
+      liste.forEach(pa => {
+        const bereit = !!partnerRepoConfig(pa);
+        const an = pa.enabled !== false;
+        html += `<div class="card" style="padding:0.55rem 0.7rem; margin-bottom:0.5rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="flex:1; font-weight:600; font-size:0.9rem; color:${an ? "#44403c" : "#a8a29e"};">👥 ${esc(pa.name)}</span>
+            <button class="chip ${an ? "selected" : ""}" data-action="partner-toggle" data-id="${esc(pa.id)}" style="font-size:0.72rem; padding:0.2rem 0.6rem;">${an ? "aktiv" : "aus"}</button>
+            <button class="chip" data-action="partner-edit" data-id="${esc(pa.id)}" style="font-size:0.72rem; padding:0.2rem 0.6rem;">ändern</button>
+          </div>
+          <div style="font-size:0.72rem; color:#a8a29e; margin-top:0.2rem;">${esc(pa.repo || "– kein Repository –")}${pa.token ? " · eigener Schlüssel" : ""}${bereit ? "" : ` <span style="color:#dc2626;">· Zugang fehlt</span>`}</div>
+          <div style="display:flex; gap:0.4rem; margin-top:0.45rem;">
+            <button class="btn btn-secondary" data-action="mirror-catch-up" data-id="${esc(pa.id)}" style="flex:1; font-size:0.78rem; padding:0.35rem;" ${bereit && an ? "" : "disabled"}>Fehlende Runden übertragen</button>
+            <button class="btn btn-secondary" data-action="open-partner" data-id="${esc(pa.id)}" style="flex:0; font-size:0.78rem; padding:0.35rem 0.6rem;" ${bereit ? "" : "disabled"}>Ansehen</button>
+          </div>
+        </div>`;
+      });
+      if (d) {
+        const neuer = !d.id;
+        html += `<div class="card" style="padding:0.6rem 0.75rem; margin-bottom:0.5rem; border:1.5px solid #2D6A4F;">
+          <div style="font-weight:600; font-size:0.85rem; margin-bottom:0.45rem;">${neuer ? "Neuer Mitspieler" : "Ändern: " + esc(d.name || "")}</div>
+          <span class="label" style="font-size:0.75rem; color:#78716c;">Spieler</span>
+          <select class="sel" data-action="partner-draft" data-field="name" style="width:100%; margin-bottom:0.5rem; background:white; color:var(--ink); border:1px solid #d6d3d1;">
+            <option value="">– keiner –</option>
+            ${state.players.filter(pl => !isDoubleRoundPlayer(pl.name) && pl.name !== OWNER_PLAYER).map(pl =>
+              `<option value="${esc(pl.name)}" ${d.name === pl.name ? "selected" : ""}>${esc(pl.name)}</option>`).join("")}
+            ${d.name && !state.players.some(pl => pl.name === d.name) ? `<option value="${esc(d.name)}" selected>${esc(d.name)}</option>` : ""}
+          </select>
+          <span class="label" style="font-size:0.75rem; color:#78716c;">Sein Repository</span>
+          <input type="text" class="sel" id="partner-repo" data-draft="partner-repo" value="${esc(state.formDraft["partner-repo"] || d.repo || "")}" placeholder="z. B. Andreas-Scorecard" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%; margin-bottom:0.2rem; background:white; color:var(--ink); border:1px solid #d6d3d1;" />
+          <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.5rem;">Benutzername: <strong>${esc(cfg.owner || "–")}</strong>. Übertragen wird nur die Runde selbst – Bälle bleiben in dieser App, da sie sich auf deine Ball-Datenbank beziehen.</div>
+          <span class="label" style="font-size:0.75rem; color:#78716c;">Schlüssel für sein Repository</span>
+          <input type="password" class="sel" id="partner-token" data-draft="partner-token" value="${esc(state.formDraft["partner-token"] || d.token || "")}" placeholder="leer = dein eigener Schlüssel" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" style="width:100%; margin-bottom:0.2rem; background:white; color:var(--ink); border:1px solid #d6d3d1;" />
+          <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.5rem;">Nur nötig, wenn dein eigener Schlüssel auf sein Repository nicht schreiben darf.</div>
+          <span class="label" style="font-size:0.75rem; color:#78716c;">Adresse seiner App</span>
+          <input type="text" class="sel" id="partner-url" data-draft="partner-url" value="${esc(state.formDraft["partner-url"] || d.appUrl || "")}" placeholder="${esc(d.repo && cfg.owner ? `https://${cfg.owner}.github.io/${d.repo}/` : "https://…")}" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%; margin-bottom:0.2rem; background:white; color:var(--ink); border:1px solid #d6d3d1;" />
+          <div style="font-size:0.72rem; color:#a8a29e; margin-bottom:0.6rem;">Nur nötig, wenn seine App nicht unter der üblichen Adresse liegt.</div>
+          <div style="display:flex; gap:0.4rem;">
+            <button class="btn btn-primary" data-action="partner-save" style="flex:1;">Speichern</button>
+            <button class="btn btn-secondary" data-action="partner-cancel" style="flex:0; padding:0.5rem 0.8rem;">Abbrechen</button>
+          </div>
+          ${neuer ? "" : `<button data-action="partner-remove" data-id="${esc(d.id)}" style="background:none; border:none; color:#dc2626; font-size:0.76rem; text-decoration:underline; cursor:pointer; padding:0.5rem 0 0;">Mitspieler aus der Liste entfernen</button>`}
+        </div>`;
+      } else {
+        html += `<button class="btn btn-secondary btn-full" data-action="partner-new" style="font-size:0.82rem;">+ Mitspieler hinzufügen</button>`;
+      }
+      html += `${(() => {
           // Runden, die beim Speichern bewusst nicht weitergegeben wurden.
           // Der Knopf oben lässt sie aus - hier steht, wie viele das sind,
           // und hier lässt sich die Entscheidung auch wieder aufheben.
@@ -9677,7 +10516,7 @@ function renderSettingsView() {
           }));
           const n = gezaehlt.size || aus.size;
           return `<div style="margin-top:0.6rem; padding-top:0.6rem; border-top:1px solid #f0ede6;">
-            <div style="font-size:0.78rem; color:#78716c;">${n === 1 ? "Eine Runde ist" : n + " Runden sind"} von der Weitergabe ausgenommen – du hattest beim Speichern den Haken entfernt. „Fehlende Runden jetzt übertragen“ lässt sie aus.</div>
+            <div style="font-size:0.78rem; color:#78716c;">${n === 1 ? "Eine Runde ist" : n + " Runden sind"} von der Weitergabe ausgenommen – du hattest beim Speichern den Haken entfernt. „Fehlende Runden übertragen“ lässt sie aus.</div>
             <button data-action="mirror-clear-skipped" style="background:none; border:none; color:#78716c; font-size:0.76rem; text-decoration:underline; cursor:pointer; padding:0.35rem 0 0;">Ausnahme aufheben</button>
           </div>`;
         })()}
@@ -9686,6 +10525,65 @@ function renderSettingsView() {
     html += `</div>`;
   }
 
+
+  html += renderAppIconSettings();
+
+  // --- App weitergeben -------------------------------------------------
+  // Ein Link, der beim Öffnen eine eigene, leere Scorecard einrichtet: eigenes
+  // Repository, eigener Name, nur die Funktionen, die derjenige braucht.
+  {
+    const g = state.giveAway || {};
+    const cfg = loadGithubConfig() || {};
+    html += `<div class="collapsible-card">
+      <div class="collapsible-head" data-action="toggle-giveaway-section">
+        <h3>📤 App weitergeben${helpBtn("giveAway")}</h3>
+        <span class="collapsible-arrow ${state.collapsed.giveAway ? 'collapsed' : ''}">${ICONS.chevron(16)}</span>
+      </div>`;
+    if (!state.collapsed.giveAway) {
+      html += `<div class="collapsible-body">
+        <p style="font-size:0.8rem; color:#78716c; margin:0 0 0.75rem;">Erzeugt einen Link, mit dem jemand anders diese App als <strong>eigene, leere Scorecard</strong> bekommt. Seine Runden landen in seinem eigenen Repository – deine Daten sieht er nicht.</p>
+        <label class="field-label">Name des Spielers</label>
+        <input type="text" id="give-name" data-draft="give-name" value="${esc(state.formDraft["give-name"] || g.name || "")}" placeholder="z. B. Gerd" style="width:100%; margin-bottom:0.6rem;" />
+        <label class="field-label">Sein Repository</label>
+        <input type="text" id="give-repo" data-draft="give-repo" value="${esc(state.formDraft["give-repo"] || g.repo || "")}" placeholder="z. B. Gerd-Scorecard" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%; margin-bottom:0.2rem;" />
+        <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.6rem;">Das Repository muss es geben – leg es vorher auf GitHub an. Benutzername: <strong>${esc(cfg.owner || "–")}</strong></p>
+        <label class="field-label">Schlüssel für dieses Repository</label>
+        <input type="password" id="give-token" data-draft="give-token" value="${esc(state.formDraft["give-token"] || "")}" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" style="width:100%; margin-bottom:0.2rem;" />
+        <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.8rem;">Nimm einen eigenen Schlüssel, der <em>nur</em> auf dieses eine Repository schreiben darf – nicht deinen. Er steckt im Link, verschleiert, aber nicht sicher verschlossen.</p>
+
+        <div style="font-weight:600; font-size:0.85rem; margin:0.2rem 0 0.4rem;">Was soll er sehen?</div>
+        <p style="font-size:0.72rem; color:#a8a29e; margin:0 0 0.5rem;">Vorausgewählt ist eine schlanke Fassung: eintragen, Runden, Statistik. Alles Weitere kann er später selbst zuschalten.</p>`;
+      DASH_TILES.filter(t => !t.always).forEach(t => {
+        const an = !(g.hidden || giveAwayStandardHidden())[t.id];
+        html += `<button data-action="give-toggle-tile" data-id="${esc(t.id)}" style="display:flex; align-items:center; gap:0.5rem; width:100%; text-align:left; background:none; border:none; padding:0.25rem 0; cursor:pointer;">
+          <span style="width:1.2rem; height:1.2rem; border-radius:0.3rem; border:1.5px solid ${an ? "#2D6A4F" : "#d6d3d1"}; background:${an ? "#2D6A4F" : "white"}; color:white; font-size:0.75rem; line-height:1.1rem; text-align:center; flex-shrink:0;">${an ? "✓" : ""}</span>
+          <span style="font-size:0.83rem; color:${an ? "#44403c" : "#a8a29e"};">${esc(t.label)}</span>
+        </button>`;
+      });
+      html += `<div style="font-weight:600; font-size:0.85rem; margin:0.7rem 0 0.4rem;">Funktionen</div>`;
+      VIEW_FLAGS.forEach(f => {
+        const an = (g.flags || giveAwayStandardFlags())[f.id] !== false;
+        html += `<button data-action="give-toggle-flag" data-id="${esc(f.id)}" style="display:flex; align-items:center; gap:0.5rem; width:100%; text-align:left; background:none; border:none; padding:0.25rem 0; cursor:pointer;">
+          <span style="width:1.2rem; height:1.2rem; border-radius:0.3rem; border:1.5px solid ${an ? "#2D6A4F" : "#d6d3d1"}; background:${an ? "#2D6A4F" : "white"}; color:white; font-size:0.75rem; line-height:1.1rem; text-align:center; flex-shrink:0;">${an ? "✓" : ""}</span>
+          <span style="font-size:0.83rem; color:${an ? "#44403c" : "#a8a29e"};">${esc(f.label)}</span>
+        </button>`;
+      });
+      html += `<button class="btn btn-primary btn-full" data-action="give-make-link" style="margin-top:0.8rem;">Link erzeugen</button>`;
+      if (g.link) {
+        html += `<div style="margin-top:0.7rem; padding-top:0.7rem; border-top:1px solid #f0ede6;">
+          <div style="font-size:0.78rem; font-weight:600; color:#44403c; margin-bottom:0.35rem;">Link für ${esc(g.name || "ihn")}</div>
+          <textarea readonly id="give-link" style="width:100%; min-height:4.5rem; font-size:0.72rem; font-family:'SF Mono',Menlo,Consolas,monospace; word-break:break-all;">${esc(g.link)}</textarea>
+          <div style="display:flex; gap:0.4rem; margin-top:0.4rem;">
+            <button class="btn btn-secondary" data-action="give-share" style="flex:1; padding:0.4rem; font-size:0.82rem;">Teilen</button>
+            <button class="btn btn-secondary" data-action="give-copy" style="flex:1; padding:0.4rem; font-size:0.82rem;">Kopieren</button>
+          </div>
+          <p style="font-size:0.72rem; color:#a8a29e; margin:0.5rem 0 0;">Er öffnet den Link auf seinem Handy und legt die Seite auf den Home-Bildschirm. Fertig – er hat seine eigene Scorecard.</p>
+        </div>`;
+      }
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
   // --- Pricing per year ---
   const editYear = state.pricingEditYear || years[0];
   const prices = getPricesForYear(editYear);
@@ -9838,22 +10736,34 @@ function renderCostsView() {
         const isExpanded = state.collapsed[expandKey] === false;
         html += `<div style="padding:0.4rem 0; border-bottom:1px solid #f5f5f4;">
           <div style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;" data-action="toggle-gastro-month" data-month="${esc(month)}">
-            <div style="font-weight:600; font-size:0.88rem;">🍴 ${esc(monthLabel)}</div>
+            <div style="font-weight:600; font-size:0.88rem;">🍴 ${esc(monthLabel)}${(() => {
+              const offen = entries.filter(g => !g.done).length;
+              if (!entries.length) return "";
+              return offen === 0
+                ? ` <span style="font-size:0.7rem; font-weight:400; color:#2D6A4F;">· alles erledigt</span>`
+                : ` <span style="font-size:0.7rem; font-weight:400; color:#a8a29e;">· ${offen} offen</span>`;
+            })()}</div>
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <div class="font-mono" style="font-weight:700;">${monthTotal.toFixed(2).replace('.',',')} €</div>
               <span style="color:#a8a29e; font-size:0.75rem;">${isExpanded ? '▲' : '▼'}</span>
             </div>
           </div>
-          ${isExpanded ? entries.map(g => `<div style="display:flex; align-items:center; justify-content:space-between; padding:0.3rem 0 0.3rem 0.75rem; border-top:1px solid #f5f5f4; margin-top:0.25rem;">
-            <div>
-              <div style="font-size:0.82rem; font-weight:500;">${esc(g.name || "Gastronomie")}</div>
-              <div style="font-size:0.72rem; color:#a8a29e;">${formatDate(g.date)}</div>
+          ${isExpanded ? entries.map(g => {
+            const fertig = !!g.done;
+            return `<div style="display:flex; align-items:center; justify-content:space-between; padding:0.3rem 0 0.3rem 0.2rem; border-top:1px solid #f5f5f4; margin-top:0.25rem; ${fertig ? "opacity:0.55;" : ""}">
+            <div style="display:flex; align-items:center; gap:0.55rem; min-width:0;">
+              <button data-action="toggle-gastro-done" data-id="${esc(g.id)}" title="${fertig ? "Wieder als offen führen" : "Als erledigt abhaken"}"
+                style="width:1.3rem; height:1.3rem; flex-shrink:0; border-radius:0.35rem; border:1.5px solid ${fertig ? "#2D6A4F" : "#d6d3d1"}; background:${fertig ? "#2D6A4F" : "white"}; color:white; font-size:0.8rem; line-height:1.2rem; text-align:center; cursor:pointer; padding:0;">${fertig ? "✓" : ""}</button>
+              <div style="min-width:0;">
+                <div style="font-size:0.82rem; font-weight:500; ${fertig ? "text-decoration:line-through;" : ""}">${esc(g.name || "Gastronomie")}</div>
+                <div style="font-size:0.72rem; color:#a8a29e;">${formatDate(g.date)}</div>
+              </div>
             </div>
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <div class="font-mono" style="font-size:0.85rem; font-weight:600;">${parseDecimal(g.amount).toFixed(2).replace('.',',')} €</div>
               <button class="icon-btn icon-btn-danger" style="width:1.75rem;height:1.75rem;" data-action="delete-gastro" data-id="${esc(g.id)}">${ICONS.trash(15)}</button>
             </div>
-          </div>`).join('') : ''}
+          </div>`; }).join('') : ''}
         </div>`;
       });
     }
@@ -10401,7 +11311,9 @@ function attachHandlers() {
       // for the picker to be dismissed.
       el.addEventListener("change", () => handleAction(action, el, null, { silent: true }));
       el.addEventListener("blur", () => handleAction(action, el, null));
-    } else if (el.tagName === "INPUT" && (el.type === "text" || el.type === "number")) {
+    } else if (el.tagName === "INPUT" && (el.type === "text" || el.type === "number" || el.type === "password")) {
+      // Auch Schlüsselfelder gehören hierher: landeten sie im Klick-Zweig
+      // darunter, verhinderte dessen preventDefault das Hineintippen.
       el.addEventListener("change", () => handleAction(action, el, null));
     } else {
       el.addEventListener("click", (ev) => {
@@ -10516,10 +11428,13 @@ function handleAction(action, el, ev, opts) {
       if (state.viewPrefs.hidden[id]) delete state.viewPrefs.hidden[id];
       else state.viewPrefs.hidden[id] = true;
       persistViewPrefs();
-      // "Sichtbar" allein reicht bei Andreas nicht: ohne die Weitergabe auf
-      // diesem Gerät bleibt die Kachel weg, und genau das war unklar.
-      if (id === "andreas" && !state.viewPrefs.hidden[id] && !andreasConfigured()) {
-        showToast("Die Kachel erscheint erst, wenn die Weitergabe an Andreas auf diesem Gerät eingerichtet ist – weiter unten unter „Runden weitergeben“.");
+      // "Sichtbar" allein reicht bei einer Partner-Kachel nicht: ohne
+      // eingerichteten Zugang bleibt sie weg, und genau das war unklar.
+      if (String(id).startsWith("partner:") && !state.viewPrefs.hidden[id]) {
+        const pa = partnerById(String(id).slice(8));
+        if (pa && !partnerRepoConfig(pa)) {
+          showToast("Die Kachel erscheint erst, wenn der Zugang zu seinem Repository auf diesem Gerät eingerichtet ist – weiter unten unter „Mitspieler mit eigener App“.");
+        }
       }
       render();
       break;
@@ -10814,7 +11729,7 @@ function handleAction(action, el, ev, opts) {
       // Falls eine davon an Andreas weitergegeben war: drüben auch entfernen.
       (async () => {
         const zurueck = await unmirrorRoundsFromRepo(entfernteIds);
-        if (zurueck) { showToast(`Auch aus ${esc(state.mirrorConfig.playerName)}' App entfernt`); render(); }
+        if (zurueck) { showToast("Auch aus der App des Mitspielers entfernt"); render(); }
       })();
       if (wegAusgaben) showToast(wegAusgaben === 1 ? "Runde gelöscht – der Ausgeben-Eintrag dazu auch." : `Runde gelöscht – ${wegAusgaben} Ausgeben-Einträge dazu auch.`);
       render();
@@ -11368,25 +12283,168 @@ function handleAction(action, el, ev, opts) {
       render();
       break;
 
-    case "toggle-mirror-enabled":
-      state.mirrorConfig.enabled = !state.mirrorConfig.enabled;
-      persistMirrorConfig();
+    case "toggle-appicon-section":
+      state.collapsed.appIcon = !state.collapsed.appIcon;
       render();
       break;
 
-    case "andreas-url":
-      state.andreas.appUrl = el.value.trim();
-      persistAndreasInfo();
+    case "appicon-open":
+      state.collapsed.appIcon = false;
+      enterView("settings");
+      render();
+      setTimeout(() => {
+        const n = document.querySelector('[data-action="toggle-appicon-section"]');
+        if (n) n.scrollIntoView({ block: "center" });
+      }, 60);
       break;
 
-    case "mirror-field":
-      state.mirrorConfig[el.dataset.field] = el.value.trim();
-      persistMirrorConfig();
+    case "appicon-hint-off":
+      state.iconHinweisWeg = true;
+      try { localStorage.setItem("minigolf-symbol-hinweis", "weg"); } catch (e) {}
       render();
       break;
+
+    case "appicon-pick": {
+      const datei = el.files && el.files[0];
+      if (!datei) return;
+      showToast("Bild wird zugeschnitten …");
+      (async () => {
+        try {
+          const [klein, gross] = await Promise.all([fotoZuSymbol(datei, 180), fotoZuSymbol(datei, 512)]);
+          state.iconEntwurf = klein;
+          state.iconEntwurf512 = gross;
+          showToast("So sieht es aus – jetzt speichern");
+        } catch (e) {
+          showToast("Das Bild ließ sich nicht verwenden");
+        }
+        render();
+      })();
+      break;
+    }
+
+    case "appicon-save": {
+      const feld = document.getElementById("appicon-name");
+      const name = ((feld ? feld.value : state.formDraft["appicon-name"]) || "").trim();
+      const vorhanden = loadAppIcon();
+      const klein = state.iconEntwurf || (vorhanden && vorhanden.icon180);
+      const gross = state.iconEntwurf512 || (vorhanden && vorhanden.icon512);
+      if (!klein) { showToast("Erst ein Foto wählen."); return; }
+      const ok = persistAppIcon({ icon180: klein, icon512: gross || klein, name, at: Date.now() });
+      if (!ok) { showToast("Das Bild ist zu groß für den Speicher – nimm ein kleineres."); return; }
+      state.iconEntwurf = null;
+      state.iconEntwurf512 = null;
+      delete state.formDraft["appicon-name"];
+      persistFormDraft();
+      applyAppIcon();
+      showToast("Gespeichert – jetzt neu auf den Home-Bildschirm legen");
+      render();
+      break;
+    }
+
+    case "appicon-reset": {
+      state.iconEntwurf = null;
+      state.iconEntwurf512 = null;
+      persistAppIcon(null);
+      delete state.formDraft["appicon-name"];
+      persistFormDraft();
+      showToast("Zurück zum mitgelieferten Symbol – beim nächsten Hinzufügen sichtbar");
+      render();
+      break;
+    }
+
+    case "partner-new":
+      partnerDraftFelderLeeren();
+      state.partnerDraft = { name: "", repo: "", token: "", appUrl: "" };
+      render();
+      break;
+
+    case "partner-edit": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
+      partnerDraftFelderLeeren();
+      // Die Textfelder laufen über den Entwurfsspeicher, damit ein
+      // Neuzeichnen zwischendurch das Getippte nicht wegwirft.
+      state.formDraft["partner-repo"] = pa.repo || "";
+      state.formDraft["partner-token"] = pa.token || "";
+      state.formDraft["partner-url"] = pa.appUrl || "";
+      persistFormDraft();
+      state.partnerDraft = { id: pa.id, name: pa.name || "", repo: pa.repo || "",
+                             token: pa.token || "", appUrl: pa.appUrl || "" };
+      render();
+      break;
+    }
+
+    case "partner-draft":
+      if (!state.partnerDraft) return;
+      state.partnerDraft[el.dataset.field] = el.value.trim();
+      render();
+      break;
+
+    case "partner-cancel":
+      partnerDraftFelderLeeren();
+      state.partnerDraft = null;
+      render();
+      break;
+
+    case "partner-save": {
+      const d = state.partnerDraft;
+      if (!d) return;
+      const feld = id => {
+        const n = document.getElementById(id);
+        return ((n ? n.value : state.formDraft[id]) || "").trim();
+      };
+      d.repo = feld("partner-repo");
+      d.token = feld("partner-token");
+      d.appUrl = feld("partner-url");
+      if (!d.name) { showToast("Bitte den Spieler wählen."); return; }
+      if (!d.repo) { showToast("Bitte sein Repository eintragen."); return; }
+      const cfg = loadGithubConfig() || {};
+      if (d.repo === cfg.repo) { showToast("Das ist dein eigenes Repository – er braucht ein eigenes."); return; }
+      const doppelt = (state.partners || []).some(x => x.id !== d.id && x.name === d.name);
+      if (doppelt) { showToast(`${d.name} steht schon auf der Liste.`); return; }
+      const vorhanden = d.id ? partnerById(d.id) : null;
+      if (vorhanden) {
+        Object.assign(vorhanden, { name: d.name, repo: d.repo, token: d.token, appUrl: d.appUrl });
+      } else {
+        state.partners.push({ id: uid(), name: d.name, repo: d.repo, token: d.token,
+          path: "minigolf-daten.json", appUrl: d.appUrl, enabled: true,
+          lastActive: null, checkedAt: null, lastSha: null,
+          ownRounds: [], seenIds: [], messages: [], seenMsgIds: [] });
+      }
+      persistPartners();
+      partnerDraftFelderLeeren();
+      state.partnerDraft = null;
+      ensurePartnerTiles();
+      showToast("Gespeichert ✓");
+      render();
+      break;
+    }
+
+    case "partner-toggle": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
+      pa.enabled = pa.enabled === false;
+      persistPartners();
+      render();
+      break;
+    }
+
+    case "partner-remove": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
+      partnerDraftFelderLeeren();
+      // Nur aus meiner Liste - seine App und seine Daten bleiben, wo sie sind.
+      state.partners = state.partners.filter(x => x.id !== pa.id);
+      persistPartners();
+      state.partnerDraft = null;
+      ensurePartnerTiles();
+      showToast(`${pa.name} von der Liste entfernt`);
+      render();
+      break;
+    }
 
     case "mirror-catch-up":
-      mirrorAllMissingRounds();
+      mirrorAllMissingRounds(el.dataset.id || null);
       break;
 
     case "mirror-clear-skipped":
@@ -11431,10 +12489,14 @@ function handleAction(action, el, ev, opts) {
     // "Passt so": Die Werte, mit denen gerade gerechnet wird, werden für das
     // Jahr festgeschrieben. Danach steht es fest und die Frage kommt nicht
     // wieder - auch wenn es dieselben Zahlen sind wie die Grundwerte.
-    case "toggle-skip-mirror":
-      state.skipMirrorThisRound = !state.skipMirrorThisRound;
+    case "toggle-skip-mirror": {
+      const pid = el.dataset.id;
+      if (!state.skipMirrorThisRound || typeof state.skipMirrorThisRound !== "object") state.skipMirrorThisRound = {};
+      if (state.skipMirrorThisRound[pid]) delete state.skipMirrorThisRound[pid];
+      else state.skipMirrorThisRound[pid] = true;
       render();
       break;
+    }
 
     case "pricing-confirm": {
       const jahr = el.dataset.year;
@@ -11470,6 +12532,99 @@ function handleAction(action, el, ev, opts) {
       try { localStorage.setItem(PRICING_HINT_KEY, el.dataset.year); } catch(e) {}
       showToast("Alles klar – in der nächsten Saison frage ich wieder.");
       render();
+      break;
+
+    case "toggle-giveaway-section":
+      state.collapsed.giveAway = !state.collapsed.giveAway;
+      if (!state.collapsed.giveAway) giveAwayEntwurf();
+      render();
+      break;
+
+    case "give-toggle-tile": {
+      const g = giveAwayEntwurf();
+      const id = el.dataset.id;
+      if (g.hidden[id]) delete g.hidden[id]; else g.hidden[id] = true;
+      g.link = "";
+      render();
+      break;
+    }
+
+    case "give-toggle-flag": {
+      const g = giveAwayEntwurf();
+      const id = el.dataset.id;
+      g.flags[id] = g.flags[id] === false;
+      g.link = "";
+      render();
+      break;
+    }
+
+    case "give-make-link": {
+      const g = giveAwayEntwurf();
+      const cfg = loadGithubConfig();
+      if (!cfg || !cfg.owner) { showToast("Erst den eigenen GitHub-Zugang einrichten."); return; }
+      const name = (document.getElementById("give-name")?.value || "").trim();
+      const repo = (document.getElementById("give-repo")?.value || "").trim();
+      const token = (document.getElementById("give-token")?.value || "").trim();
+      if (!name) { showToast("Bitte den Namen eintragen."); return; }
+      if (!repo) { showToast("Bitte das Repository eintragen."); return; }
+      if (!token) { showToast("Bitte den Schlüssel für sein Repository eintragen."); return; }
+      if (repo === cfg.repo) { showToast("Das ist dein eigenes Repository – er braucht ein eigenes."); return; }
+      g.name = name; g.repo = repo;
+      g.link = einladungErzeugen({
+        o: cfg.owner,
+        r: repo,
+        t: token,
+        n: name,
+        b: OWNER_PLAYER,
+        h: Object.keys(g.hidden).filter(k => g.hidden[k]),
+        f: Object.keys(g.flags).filter(k => g.flags[k] === false),
+      });
+      // Der Schlüssel steckt jetzt im Link - er muss nicht zusätzlich als
+      // Entwurf auf dem Gerät liegenbleiben.
+      delete state.formDraft["give-token"];
+      persistFormDraft();
+      // Wer die App bekommt, steht ab jetzt auf meiner Partnerliste: eigene
+      // Kachel, Weitergabe seiner Runden, Nachrichtenfach. Den Schlüssel
+      // behalte ich hier, weil mein eigener auf sein Repository oft nicht
+      // schreiben darf.
+      {
+        const vorhanden = partnerByName(name);
+        if (vorhanden) {
+          Object.assign(vorhanden, { repo, token, enabled: true });
+        } else {
+          state.partners.push({ id: uid(), name, repo, token,
+            path: "minigolf-daten.json", appUrl: "", enabled: true,
+            lastActive: null, checkedAt: null, lastSha: null,
+            ownRounds: [], seenIds: [], messages: [], seenMsgIds: [] });
+        }
+        persistPartners();
+        ensurePartnerTiles();
+        // Spieler, die es bei mir noch nicht gibt, kommen dazu - sonst
+        // greift die Weitergabe später ins Leere.
+        if (!state.players.some(pl => pl.name === name)) {
+          state.players.push({ id: uid(), name, rounds: [] });
+          persist();
+        }
+      }
+      showToast(`Link erzeugt ✓ – ${name} steht jetzt auf deiner Mitspieler-Liste`);
+      render();
+      break;
+    }
+
+    case "give-share": {
+      const g = state.giveAway;
+      if (!g || !g.link) return;
+      const text = `Deine eigene Minigolf-Scorecard: ${g.link}`;
+      if (navigator.share) {
+        navigator.share({ title: "Minigolf Scorecard", text, url: g.link }).catch(() => {});
+      } else {
+        attemptCopy(g.link);
+      }
+      break;
+    }
+
+    case "give-copy":
+      if (state.giveAway && state.giveAway.link) attemptCopy(state.giveAway.link);
       break;
 
     case "toggle-pricing-section":
@@ -12038,6 +13193,19 @@ function handleAction(action, el, ev, opts) {
       break;
     }
 
+    // Erledigt heißt hier: abgerechnet, verbucht, abgehakt. Der Betrag zählt
+    // weiter zur Summe - es geht nur darum, den Überblick zu behalten.
+    case "toggle-gastro-done": {
+      const g = state.gastro.find(x => x.id === el.dataset.id);
+      if (!g) break;
+      g.done = !g.done;
+      g.updatedAt = Date.now();
+      persistGastro();
+      render();
+      githubAutoSync();
+      break;
+    }
+
     case "delete-gastro": {
       const id = el.dataset.id;
       openConfirm("Diesen Eintrag wirklich löschen?", "do-delete-gastro", { id });
@@ -12282,6 +13450,23 @@ function handleAction(action, el, ev, opts) {
       showToast("Eintrag gelöscht.");
       render();
       githubAutoSync();
+      break;
+    }
+
+    case "einladung-ablehnen":
+      state.einladungFrage = null;
+      showToast("Einladung nicht übernommen.");
+      render();
+      break;
+
+    case "einladung-annehmen": {
+      const d = state.einladungFrage;
+      if (!d) break;
+      state.einladungFrage = null;
+      einladungAnwenden(d);
+      showToast("Übernommen – die App lädt neu …");
+      render();
+      setTimeout(() => location.reload(), 700);
       break;
     }
 
@@ -12676,7 +13861,7 @@ function handleAction(action, el, ev, opts) {
       (async () => {
         const weg = await unmirrorRoundsFromRepo(ids);
         if (weg) {
-          await refreshAndreas({ force: true });
+          await refreshAllPartners({ force: true });
           showToast(weg === 1 ? "1 Runde drüben entfernt" : `${weg} Runden drüben entfernt`);
         } else {
           showToast("Drüben stand nichts mehr davon.");
@@ -12686,35 +13871,125 @@ function handleAction(action, el, ev, opts) {
       break;
     }
 
-    case "open-andreas":
-      state.showAndreas = true;
+    case "open-partner": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
+      state.showPartner = pa.id;
+      state.partnerTab = partnerUnreadMessages(pa) && !partnerNewCount(pa) ? "nachrichten" : "runden";
+      state.partnerTabGewaehlt = false;
       render();
       // Beim Öffnen gleich nachsehen, aber ohne darauf zu warten.
       (async () => {
-        state.andreasLoading = true; render();
-        await refreshAndreas({});
-        state.andreasLoading = false; render();
+        state.partnerLoading = true; render();
+        await refreshPartner(pa, {});
+        state.partnerLoading = false;
+        // Erst jetzt weiß die App, dass eine Nachricht wartet. Hat ich den
+        // Reiter noch nicht selbst gewechselt, springt sie darauf.
+        if (!state.partnerTabGewaehlt && state.showPartner === pa.id
+            && partnerUnreadMessages(pa) && !partnerNewCount(pa)) {
+          state.partnerTab = "nachrichten";
+        }
+        render();
       })();
       break;
+    }
 
-    case "close-andreas":
-      state.showAndreas = false;
+    case "close-partner":
+      state.showPartner = null;
       render();
       break;
 
-    case "andreas-refresh":
+    case "partner-tab": {
+      state.partnerTab = el.dataset.tab;
+      state.partnerTabGewaehlt = true;
+      const pa = partnerById(state.showPartner);
+      if (pa && state.partnerTab === "nachrichten") markPartnerMessagesSeen(pa);
+      render();
+      break;
+    }
+
+    case "partner-refresh": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
       (async () => {
-        state.andreasLoading = true; render();
-        await refreshAndreas({ manual: true, force: true });
-        state.andreasLoading = false; render();
+        state.partnerLoading = true; render();
+        await refreshPartner(pa, { manual: true, force: true });
+        state.partnerLoading = false; render();
       })();
       break;
+    }
 
-    case "andreas-seen":
-      state.andreas.seenIds = (state.andreas.ownRounds || []).map(r => r.id);
-      persistAndreasInfo();
-      state.showAndreas = false;   // abgehakt heisst erledigt - Fenster zu
+    case "partner-seen": {
+      const pa = partnerById(el.dataset.id);
+      if (pa) {
+        pa.seenIds = (pa.ownRounds || []).map(r => r.id);
+        markPartnerMessagesSeen(pa);
+        persistPartners();
+      }
+      state.showPartner = null;   // abgehakt heisst erledigt - Fenster zu
       render();
+      break;
+    }
+
+    case "partner-reply": {
+      const pa = partnerById(el.dataset.id);
+      if (!pa) return;
+      const feld = document.getElementById("partner-reply");
+      const text = (feld ? feld.value : "").trim();
+      if (!text) { showToast("Erst etwas schreiben."); return; }
+      (async () => {
+        state.partnerSending = true; render();
+        const ok = await sendPartnerMessage(pa, text);
+        state.partnerSending = false;
+        if (ok) {
+          delete state.formDraft["partner-reply-" + pa.id];
+          persistFormDraft();
+          showToast("Antwort gesendet ✓");
+        }
+        render();
+      })();
+      break;
+    }
+
+    // Aus einer Nachricht einen Wunsch machen - damit sie nicht im Faden
+    // untergeht, sondern auf der Liste steht, bis sie erledigt ist.
+    case "msg-to-wish": {
+      const pa = partnerById(state.showPartner);
+      const m = pa && (pa.messages || []).find(x => x.id === el.dataset.id);
+      if (!m) return;
+      const jetzt = Date.now();
+      state.wishes.unshift({ id: uid(), text: m.text, author: pa.name,
+                             createdAt: jetzt, updatedAt: jetzt, done: false });
+      persistWishes();
+      markPartnerMessagesSeen(pa);
+      showToast("Als Wunsch übernommen ✓");
+      render();
+      syncWishes({ silent: true });
+      break;
+    }
+
+    // --- weitergegebene App: Nachricht an den Besitzer ---
+    case "msg-send": {
+      const feld = document.getElementById("msg-text");
+      const text = (feld ? feld.value : "").trim();
+      if (!text) { showToast("Erst etwas schreiben."); return; }
+      state.messages.push({ id: uid(), from: OWNER_PLAYER, text, at: Date.now() });
+      persistMessages();
+      markMessagesSeen();
+      delete state.formDraft["msg-text"];
+      persistFormDraft();
+      if (feld) feld.value = "";
+      showToast("Wird gesendet …");
+      render();
+      syncMessages({ silent: true }).then(ok => {
+        showToast(ok ? "Nachricht gesendet ✓" : "Noch nicht gesendet – beim nächsten Abgleich");
+        renderIfIdle();
+      });
+      break;
+    }
+
+    case "msg-sync":
+      syncMessages({});
       break;
 
     case "open-season-review":
@@ -13141,8 +14416,9 @@ function handleAction(action, el, ev, opts) {
       // This round is done - if it came from a paused entry, retire that id so
       // the other device's copy doesn't reappear on the next merge.
       if (e.pauseId) { retirePauseId(e.pauseId); deletePausedRound(e.pauseId); }
-      const ueberspringeWeitergabe = !!state.skipMirrorThisRound;
-      state.skipMirrorThisRound = false;
+      const ausgenommenePartner = Object.keys(state.skipMirrorThisRound || {})
+        .filter(k => state.skipMirrorThisRound[k]);
+      state.skipMirrorThisRound = {};
       // reset entry state
       state.entry = {
         phase: "setup",
@@ -13171,13 +14447,26 @@ function handleAction(action, el, ev, opts) {
       persist();
       githubAutoSync(); // silent background sync
       // Hat der andere die Runde selbst eingetragen, darf meine nicht
-      // zusätzlich zu ihm wandern - sonst steht sie bei ihm doppelt.
-      if (!ueberspringeWeitergabe) mirrorRoundsToRepo(savedForMirror);
-      else {
-        // Dauerhaft vermerken, sonst holt "Fehlende Runden jetzt übertragen"
-        // die Runde später doch noch hinüber.
-        addMirrorSkipped(savedForMirror.map(x => x.round && x.round.id).filter(Boolean));
-        addSyncEntry("save", "Weitergabe für diese Runde übersprungen");
+      // zusätzlich zu ihm wandern - sonst steht sie bei ihm doppelt. Der
+      // Haken gilt je Partner: zwei Mitspieler, einer hat sie selbst drin.
+      {
+        const aus = new Set(ausgenommenePartner);
+        const empfaenger = activePartners().filter(pa => !aus.has(pa.id));
+        if (empfaenger.length) {
+          (async () => {
+            for (const pa of empfaenger) await mirrorRoundsToPartner(pa, savedForMirror);
+          })();
+        }
+        if (aus.size) {
+          // Je Partner vermerken, sonst holt "Fehlende Runden übertragen" die
+          // Runde später doch noch zu ihm hinüber.
+          const ids = savedForMirror.map(x => x.round && x.round.id).filter(Boolean);
+          ausgenommenePartner.forEach(pid => {
+            const pa = partnerById(pid);
+            if (pa) addMirrorSkipped(pa.name, ids);
+          });
+          addSyncEntry("save", `Weitergabe für diese Runde übersprungen (${aus.size})`);
+        }
       }
 
       // Only show the winner screen when more than one distinct PLAYER took part
@@ -13748,6 +15037,13 @@ document.addEventListener("touchmove", e => {
   if (e.scale && e.scale !== 1) e.preventDefault();
 }, { passive: false });
 
+// Kacheln für die Partner anlegen, bevor zum ersten Mal gezeichnet wird.
+ensurePartnerTiles();
+// Ein eigenes Symbol muss im Kopf der Seite stehen, bevor jemand die App auf
+// den Home-Bildschirm legt - also gleich jetzt.
+applyAppIcon();
+try { state.iconHinweisWeg = localStorage.getItem("minigolf-symbol-hinweis") === "weg"; } catch (e) {}
+
 render();
 
 // Auto-load balls on startup via raw GitHub URL, then mirror tournament-derived
@@ -13838,7 +15134,11 @@ async function pullFromGithub() {
     render();
     // Was macht Andreas? Eine kleine Abfrage, erst nach dem eigenen Abgleich -
     // sonst gelten seine Runden als "eigene", nur weil meine noch fehlen.
-    setTimeout(() => { refreshAndreas({}).then(ok => { if (ok) renderIfIdle(); }).catch(() => {}); }, 6000);
+    setTimeout(() => { refreshAllPartners({}).then(ok => { if (ok) renderIfIdle(); }).catch(() => {}); }, 6000);
+    // Eine weitergegebene App holt sich die Antworten des Besitzers.
+    if (istWeitergegebeneApp()) {
+      setTimeout(() => { syncMessages({ silent: true }).catch(() => {}); }, 7000);
+    }
     // Once a day, right after the data is known to be current.
     setTimeout(() => { runDailyBackup().catch(() => {}); }, 4000);
     // If a previous session ended with changes GitHub never accepted, retry
@@ -13904,6 +15204,55 @@ document.addEventListener("visibilitychange", () => {
   scheduleGithubSync(2000);
   render();
 })();
+
+// --- Einladung anwenden -------------------------------------------------
+// Jetzt sind alle Schlüssel und Vorgaben da. Ist das Gerät noch unbeschrieben,
+// wird die Einladung sofort übernommen und die App neu geladen - danach
+// startet sie als eigene, leere Scorecard. Steht hier schon etwas, wird
+// gefragt, statt etwas zu überschreiben.
+function einladungAnwenden(d) {
+  saveGithubConfig({ owner: d.o, repo: d.r, token: d.t, branch: "main", path: "minigolf-daten.json" });
+  try { localStorage.setItem(OWNER_KEY, d.n || "Spieler"); } catch (e) {}
+  // Wem gehört die App, aus der dieser Link kommt? Nur für die Anrede im
+  // Nachrichtenfenster - älteren Links fehlt der Name, dann bleibt es dabei.
+  try { if (d.b) localStorage.setItem(OWNER_NAME_KEY, d.b); } catch (e) {}
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([{ id: uid(), name: d.n || "Spieler", rounds: [] }]));
+  } catch (e) {}
+  const prefs = {
+    order: DASH_TILES.map(t => t.id),
+    statsOrder: STATS_SECTIONS.map(x => x.id),
+    playerOrder: "owner",
+    hidden: {}, flags: {},
+  };
+  (d.h || []).forEach(id => { prefs.hidden[id] = true; });
+  (d.f || []).forEach(id => { prefs.flags[id] = false; });
+  try { localStorage.setItem(VIEW_PREFS_KEY, JSON.stringify(prefs)); } catch (e) {}
+  try { localStorage.setItem("minigolf-eingerichtet-per-einladung", "1"); } catch (e) {}
+}
+function einladungBehandeln(d) {
+  if (!d) return;
+  const schonDa = githubConfigured() || (state.players && state.players.length > 0);
+  if (!schonDa) {
+    einladungAnwenden(d);
+    location.reload();
+  } else {
+    state.einladungFrage = d;
+    render();
+  }
+}
+if (__einladung) einladungBehandeln(__einladung);
+// Wird die Seite nicht neu geladen - etwa wenn der Link in der schon offenen
+// App geöffnet wird -, kommt nur eine Hash-Änderung an. Auch die zählt.
+window.addEventListener("hashchange", () => {
+  try {
+    const m = (location.hash || "").match(/einladung=([A-Za-z0-9\-_]+)/);
+    if (!m) return;
+    const d = einladungLesen(m[1]);
+    history.replaceState(null, "", location.pathname + location.search);
+    einladungBehandeln(d);
+  } catch (e) {}
+});
 
 state.changelogPending = pendingChangelog();
 // Both windows are decided here, and the redraw happens either way - setting
