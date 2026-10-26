@@ -111555,21 +111555,6 @@
         }
       ],
       "updatedAt": 1792931151201
-    },
-    {
-      "id": "13560uov",
-      "date": "2026-10-26",
-      "year": "2026",
-      "name": "Getränke",
-      "amount": 2,
-      "items": [
-        {
-          "cat": "Getränke",
-          "amount": 2,
-          "time": "04:24"
-        }
-      ],
-      "updatedAt": 1792985099449
     }
   ],
   "aceStreakSettings": {
@@ -111817,7 +111802,8 @@
       "mpdz4dsy",
       "0ja7q11o",
       "wq0d3x94",
-      "i6s4bq60"
+      "i6s4bq60",
+      "13560uov"
     ]
   }
 }
