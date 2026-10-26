@@ -5,7 +5,7 @@
   "orientation": "portrait",
   "background_color": "#F7F4ED",
   "theme_color": "#2D6A4F",
-  "start_url": "./index.html",
+  
   "icons": [
     {
       "src": "./icon.png",
