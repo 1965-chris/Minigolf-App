@@ -111555,6 +111555,21 @@
         }
       ],
       "updatedAt": 1792931151201
+    },
+    {
+      "id": "13560uov",
+      "date": "2026-10-26",
+      "year": "2026",
+      "name": "Getränke",
+      "amount": 2,
+      "items": [
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "04:24"
+        }
+      ],
+      "updatedAt": 1792985099449
     }
   ],
   "aceStreakSettings": {
@@ -111569,6 +111584,20 @@
   },
   "treats": [],
   "mirrorSkipped": [],
+  "mirrorSkipMap": {
+    "all": [],
+    "byPartner": {}
+  },
+  "partners": [
+    {
+      "id": "c8tetnsj",
+      "name": "Andreas",
+      "repo": "Andreas-Scorecard",
+      "path": "minigolf-daten.json",
+      "appUrl": "",
+      "enabled": true
+    }
+  ],
   "holeDefaultBalls": {
     "2024": [
       "065e3gmu",
