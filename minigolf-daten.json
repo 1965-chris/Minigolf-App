@@ -112099,20 +112099,24 @@
         {
           "cat": "Getränke",
           "amount": 2,
-          "time": "16:16"
+          "time": "16:16",
+          "paid": true
         },
         {
           "cat": "Getränke",
           "amount": 1.802,
-          "time": "16:16"
+          "time": "16:16",
+          "paid": true
         },
         {
           "cat": "Getränke",
           "amount": 2,
-          "time": "16:16"
+          "time": "16:16",
+          "paid": true
         }
       ],
-      "updatedAt": 1793114195350
+      "updatedAt": 1793122030894,
+      "done": true
     }
   ],
   "aceStreakSettings": {
