@@ -111955,7 +111955,7 @@
       "date": "2026-10-27",
       "year": "2026",
       "name": "Getränke",
-      "amount": 3.802,
+      "amount": 5.802,
       "items": [
         {
           "cat": "Getränke",
@@ -111966,9 +111966,14 @@
           "cat": "Getränke",
           "amount": 1.802,
           "time": "16:16"
+        },
+        {
+          "cat": "Getränke",
+          "amount": 2,
+          "time": "16:16"
         }
       ],
-      "updatedAt": 1793114183181
+      "updatedAt": 1793114195350
     }
   ],
   "aceStreakSettings": {
