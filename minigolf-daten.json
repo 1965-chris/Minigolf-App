@@ -5,6 +5,69 @@
       "name": "Christian",
       "rounds": [
         {
+          "date": "2026-10-29",
+          "year": "2026",
+          "groupId": "qwowadbl",
+          "time": "12:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "o3w0ymln",
+          "scores": [
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2,
+            4,
+            3,
+            1
+          ],
+          "seq": 0,
+          "runs": {
+            "2": "rueck",
+            "9": "rueck",
+            "11": "vor",
+            "12": "rueck",
+            "13": "vor",
+            "17": "vor"
+          },
+          "ballsByHole": [
+            "065e3gmu",
+            "ix4d3uey",
+            "tc7hza19",
+            "1gv8aex4",
+            "1vngy8w0",
+            "6uibvdb6",
+            "x32ummcu",
+            "xtikckii",
+            "hjsp1un4",
+            "fq6w76oa",
+            "vwtdywti",
+            "1vngy8w0",
+            "6jdq23bi",
+            "lvjwkt2c",
+            "w63zosuf",
+            "f21n5mzh",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-28",
           "year": "2026",
           "groupId": "a8sfkqw3",
@@ -76789,6 +76852,41 @@
       "name": "Gerd",
       "rounds": [
         {
+          "date": "2026-10-29",
+          "year": "2026",
+          "groupId": "qwowadbl",
+          "time": "12:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "sj2gnttp",
+          "scores": [
+            1,
+            3,
+            1,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            3,
+            1,
+            2,
+            1
+          ],
+          "seq": 2,
+          "orderTracked": true
+        },
+        {
           "date": "2026-10-28",
           "year": "2026",
           "groupId": "a8sfkqw3",
@@ -80843,6 +80941,61 @@
       "id": "p1",
       "name": "Birgit",
       "rounds": [
+        {
+          "date": "2026-10-29",
+          "year": "2026",
+          "groupId": "qwowadbl",
+          "time": "12:04",
+          "weather": [
+            "cloud"
+          ],
+          "temperature": "12",
+          "windSpeed": "7",
+          "precipProbability": "0",
+          "id": "t5grq8sr",
+          "scores": [
+            2,
+            3,
+            2,
+            3,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            6,
+            3,
+            1,
+            2
+          ],
+          "seq": 1,
+          "ballsByHole": [
+            "tc7hza19",
+            "tc7hza19",
+            "tc7hza19",
+            "6jdq23bi",
+            "tc7hza19",
+            "vwtdywti",
+            "tourn_j6wb1ykk",
+            "vwtdywti",
+            "tc7hza19",
+            "vwtdywti",
+            "vwtdywti",
+            "tc7hza19",
+            "f5j2vrqx",
+            "tc7hza19",
+            "f5j2vrqx",
+            "j0it62hd",
+            "kqri4khp",
+            "7ugiklv4"
+          ],
+          "orderTracked": true
+        },
         {
           "date": "2026-10-27",
           "year": "2026",
@@ -112566,28 +112719,7 @@
     "elevenLabsVoiceId": "VBhW9TV6mNHCxbcqSl17",
     "voiceName": "Anna"
   },
-  "treats": [
-    {
-      "id": "w1ng0xny",
-      "date": "2026-10-28",
-      "giverId": "gccblctp",
-      "giverName": "Gerd",
-      "reason": "4 Asse in Folge · Bahn 12",
-      "recipients": [
-        {
-          "id": "p2",
-          "name": "Christian",
-          "done": true
-        }
-      ],
-      "doneAt": "2026-10-28",
-      "updatedAt": 1793200222299,
-      "roundIds": [
-        "1ihja5ir",
-        "do4e6vfd"
-      ]
-    }
-  ],
+  "treats": [],
   "mirrorSkipped": [],
   "mirrorSkipMap": {
     "all": [],
