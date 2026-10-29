@@ -112860,7 +112860,114 @@
       "7ugiklv4"
     ]
   },
-  "pausedRounds": [],
+  "pausedRounds": [
+    {
+      "pauseId": "pnjkwidg",
+      "pausedAt": "2026-10-29T12:42:23.997Z",
+      "phase": "play",
+      "selectedIds": [
+        "gccblctp",
+        "p1",
+        "p2"
+      ],
+      "saveIds": [
+        "gccblctp",
+        "p1",
+        "p2"
+      ],
+      "date": "2026-10-29",
+      "time": "13:34",
+      "currentHole": 1,
+      "tournamentRound": 1,
+      "weatherKeys": [
+        "cloud"
+      ],
+      "temperature": "13",
+      "windSpeed": "6",
+      "precipProbability": "0",
+      "scoresByPlayer": {
+        "gccblctp": [
+          "2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "p1": [
+          "2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "p2": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "notesByPlayer": {
+        "gccblctp": {},
+        "p1": {},
+        "p2": {}
+      },
+      "starsByPlayer": {
+        "gccblctp": {},
+        "p1": {},
+        "p2": {}
+      },
+      "runByPlayer": {
+        "p2": {
+          "0": "rueck"
+        }
+      },
+      "joinedAtHole": {},
+      "holeOrder": [
+        0
+      ]
+    }
+  ],
   "retiredPauseIds": [
     "phhinvnv",
     "exnyqjtc",
