@@ -1,0 +1,33 @@
+{
+  "items": [],
+  "abos": [
+    {
+      "name": "Andreas",
+      "endpoint": "https://web.push.apple.com/QLbf1pzwuxoVKHXUsIkvcdxaivqvn0_xfN_tJ_Q8I6Emiw-E9bP60GL4lNsUi97KEHM8aqpxUuoaMu9JRal5MHdWtSJhvwYOp1JUecVsxwdijpeLjvVbQIo01HbBbRq1p0XDjgRPBWGCo42hC71-nI2pwaWremxZNVqp5w0aX_U",
+      "p256dh": "BEWLVKSiv_Zyx1gbSxFbhp3pw7fmUsl8vvc9YlkoCVg8AcxM2dk_D8FH2tEGgpLMhPr5Z6H8wFjkvZuw7Ct2xz8",
+      "auth": "w5xRO4r7hLjZhBbK9wVykg",
+      "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
+      "stand": 1795369490462
+    }
+  ],
+  "runde": [
+    {
+      "name": "Christian",
+      "owner": "1965-chris",
+      "repo": "Minigolf-App",
+      "branch": "main"
+    },
+    {
+      "name": "Andreas",
+      "owner": "1965-chris",
+      "repo": "Andreas-Scorecard",
+      "branch": "main"
+    },
+    {
+      "name": "Matthias",
+      "owner": "1965-chris",
+      "repo": "Matthias-Scorecard",
+      "branch": "main"
+    }
+  ]
+}
