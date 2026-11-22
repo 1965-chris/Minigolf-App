@@ -25,6 +25,14 @@
       "auth": "F2zQup48AiflyGlLOHZgBg",
       "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
       "stand": 1795375583406
+    },
+    {
+      "name": "Christian",
+      "endpoint": "https://web.push.apple.com/QErd5K5R0u-RMoJGLF-lU5w1oUqn5Knx0sIlmzqYKoXS1cl-HsiDGv5o5NDHmjbpr1rzjRWEU1gIdSdNA1mphRLHPyC_8WZEY3l__bNk3fEtYv84ITgc1kAf3bhmfTz1m1YJBHDAwZIyoiC-5yuM0pNdj4i8v1mSVq8GfAZ-_G8",
+      "p256dh": "BGK32Fd6Zp6IThph2knWmoU6NpuWTECbYQQxhEPfuBuFI0F48W538KFNjnfirRNYEJeb6m46LeTUngIN5vN__Lo",
+      "auth": "bAoLLAasSloIMfnG22CYpg",
+      "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
+      "stand": 1795376676166
     }
   ],
   "runde": [
