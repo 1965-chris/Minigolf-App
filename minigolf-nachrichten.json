@@ -8,6 +8,14 @@
       "auth": "w5xRO4r7hLjZhBbK9wVykg",
       "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
       "stand": 1795369490462
+    },
+    {
+      "name": "Christian",
+      "endpoint": "https://web.push.apple.com/QIaeDkhT4bjQJG-r170qHbwxdQ2C0YtGPr3bgQNM62AvGN1d5TdvgcSRvSc5_d4A_R5JKA0XEitOB2VyCIj81VbcNoT3Q2OqupYyO-m5mwnRgSOpRbtjj6DDRarfhyfdhJgTxoJefdyR-yREO-q0uOuZIngZRsDIy4-FF6PsOrA",
+      "p256dh": "BI74wnT3UHX9hZJFTXwoZaxoL2tAXBpgB5ya7ZZculnirX1YNtz3uqAisNdwfUsQ0JV5EFkYXvwd1uAepqZH8UE",
+      "auth": "tlW2o4ot55UQMMplcM9JGw",
+      "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
+      "stand": 1795375586176
     }
   ],
   "runde": [
@@ -29,5 +37,6 @@
       "repo": "Matthias-Scorecard",
       "branch": "main"
     }
-  ]
+  ],
+  "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8"
 }
