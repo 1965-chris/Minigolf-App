@@ -1,5 +1,6 @@
 {
   "items": [],
+  "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
   "abos": [
     {
       "name": "Andreas",
@@ -16,6 +17,14 @@
       "auth": "tlW2o4ot55UQMMplcM9JGw",
       "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
       "stand": 1795375586176
+    },
+    {
+      "name": "Andreas",
+      "endpoint": "https://web.push.apple.com/QK3m1izmZWXUn70gbt1xhgw76Trtsg7FYTKZBxvvA3frL5tK4BGpwD8qtHq44Qi7U1tA1qKfpM0yf1OvhgqEhiSMR23H_ka3kGjfbW4JEutEf1-z4vpjmCEWDlXMXjV61LorYlUX9neYa7Wuh318lyoA7fEixFHQxlyKHFJZpzM",
+      "p256dh": "BJK6Hb-VA33aZEnLEWAn1JYhocgv4PPF1Sb1RYM9V-GVo7d0bEsGcKc57aU3GoRgFGQDlcC5UjtQ4UBquiudImI",
+      "auth": "F2zQup48AiflyGlLOHZgBg",
+      "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8",
+      "stand": 1795375583406
     }
   ],
   "runde": [
@@ -37,6 +46,5 @@
       "repo": "Matthias-Scorecard",
       "branch": "main"
     }
-  ],
-  "schluessel": "BMtA76xf60a1_LR4TKNZSblFVdhfROW9vmhnGShx-LEZBhSo-k30VrLnSUjWqV0wNo-TGMm6s_3zi2ssnDgbGT8"
+  ]
 }
